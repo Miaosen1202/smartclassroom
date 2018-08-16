@@ -1,6 +1,9 @@
 <template>
   <div>
-    {{msg}}
+    <!--{{msg}}-->
+    <ul>
+      <li @click="goToFirst">Welcome to log in!</li>
+    </ul>
   </div>
 
 </template>
@@ -9,10 +12,14 @@
     export default {
         data() {
             return {
-              msg:"头部"
+             /* msg:"头部"*/
             }
         },
-        methods: {}
+        methods: {
+          goToFirst(){
+            this.$router.push({path:"/topright"});
+          },
+        }
     }
 </script>
 

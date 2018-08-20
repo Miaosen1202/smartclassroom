@@ -1,41 +1,58 @@
 <template>
   <div id="left">
-    <h1>LOGO</h1>
+    <img class="logo" src="../assets/images/u164.png" width="80%" alt="">
     <ul>
-      <li @click="goToFirst">Prepare a lesson</li>
-      <li @click="goToSecond">Manage all lessons</li>
-      <li @click="goToThird">Export lessons</li>
+      <li :class="{active : activeFlag == 'prepare'}" @click="goToFirst('prepare')">
+        <el-button type="text" @click="dialogVisible = true">
+        <img src="../assets/images/ui1.png"  alt="">
+        <p>Prepare a lesson</p>
+        </el-button>
+      </li>
+      <li :class="{active : activeFlag == 'second'}" @click="goToSecond('second')">
+        <img src="../assets/images/ui.png"  alt="">
+        <P>Manage all lessons</P>
+      </li>
+
     </ul>
+    <!--<span>
+      <el-button type="primary" @click="gotenching('teachingMaterials')">
+        123
+      </el-button>
+    </span>-->
   </div>
-
-
 </template>
 
 <script>
   export default{
     data(){
       return{
-        msg:"左部"
-
+        msg:"左部",
+        activeFlag:'prepare',
+        dialogVisible: false
       }
     },
     methods:{
-      goToFirst(){
-        this.$router.push({path:"/homePage/first"});
+      goToFirst(s){
+        this.activeFlag = s;
+        this.$router.push({path:"/homePage/prepare"});
       },
-      goToSecond(){
+      goToSecond(s){
+        this.activeFlag = s;
         this.$router.push({path:"/homePage/second"});
       },
-      goToThird(){
-        this.$router.push({path:"/homePage/third"});
-      }
+     /* gotenching(){
+        this.$router.push({path:"/homePage/teachingMaterials"});
+      }*/
     }
   }
 </script>
 
 <style scoped="">
   #left {
-    height: 80%;
+    height: 60%;
+  }
+  img {
+    padding-left: 10%;
   }
   ul {
     height: 100%;
@@ -44,11 +61,23 @@
     text-align: center;
     display: block;
     width: 100%;
-    height: 18%;
+    height: 24%;
     /*border: 1px solid #ccc;*/
     margin-bottom: 30%;
-    background-color: #1d4c9e;
+    cursor: pointer;
     color: #fff;
+    padding-top: 5%;
+    margin-top: 10%;
   }
+  ul li.active{
+    background-color: #1d4c9e;
+
+  }
+  .logo {
+    margin-bottom: 16%;
+  }
+p {
+  color: #fff;
+}
 
 </style>

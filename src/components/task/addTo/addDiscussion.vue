@@ -1,6 +1,7 @@
 <template>
   <div>
-    第三个路由页面
+    <p>添加讨论,第二个页面</p>
+    <p>There is no discussion yet.</p>
   </div>
 </template>
 

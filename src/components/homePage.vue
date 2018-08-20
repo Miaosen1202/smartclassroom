@@ -39,29 +39,32 @@ export default {
   #all{
     width:100%;
     height:100%;
+    background-color: #ccc;
   }
 .left{
-  width: 20%;
+  width: 18%;
   height: 100%;
   float: left;
   background-color: #2a58ab;
 }
 .right {
-  width: 80%;
+  width: 82%;
   height: 100%;
  /* background-color: blue;*/
   float: left;
 }
 .right-top{
   width: 100%;
-  height: 12%;
-  background-color: red;
+  height: 8%;
+  border: 1px solid #929292;
+  background-color: white;
 }
 .right-main{
   width: 98%;
-  height: 84%;
+  height: 86%;
   margin-top: 2%;
   margin-left: 2%;
-  background-color: yellow;
+  background-color: #fff;
+
 }
 </style>

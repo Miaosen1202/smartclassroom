@@ -25,10 +25,10 @@ export default {
   li{
     list-style:none
   }
-  img{
+  /*img{
     vertical-align:top;
     border:none
-  }
+  }*/
   #app {
     width: 100%;
     height:100%;

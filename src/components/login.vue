@@ -1,7 +1,8 @@
 <template>
   <div id="all">
   <div id="login">
-    <h5>WEIDONG SMART CLASSROOM</h5>
+    <p><img src="../assets/images/u2081.png" alt=""></p>
+    <!--<h5>WEIDONG SMART CLASSROOM</h5>-->
 
     <div class="account">
       <input class="form-control" type="text" placeholder="Account Name">
@@ -10,9 +11,15 @@
       <input class="form-control" type="password" placeholder="Password">
     </div>
       <span @click="goToLogin">Login</span>
-    <div class="admin">
+    <!--<div class="admin">
       <i data-toggle="tooltip" data-placement="top" title="Please contact the system administrator">Forget your password?</i>
-    </div>
+    </div>-->
+    <el-tooltip class="item admin"  effect="dark" content="Please contact the system administrator" placement="top" popper-class="test">
+      <el-button type="text">Forget your password?</el-button>
+    </el-tooltip>
+    <!--<el-tooltip :popper-class="toolTipClass" content="Please contact the system administrator" placement="top">
+      <el-button>Forget your password?</el-button>
+    </el-tooltip>-->
   </div>
   </div>
 </template>
@@ -22,7 +29,8 @@
   export default {
     data() {
       return {
-        msg: "登录界面"
+        msg: "登录界面",
+        toolTipClass:'page-login-toolTipClass'
       }
     },
     methods: {
@@ -46,7 +54,7 @@
     text-align: center;
     width: 20%;
     height: 30%;
-    margin: 10% auto;
+    margin: 6% auto;
     position: absolute;
     top: 0;
     left: 0;
@@ -97,5 +105,31 @@
     display: inline-block;
     padding-top: 6%;
   }
+ /* .is-dark {
+    background-color: pink !important;
+    color: #ff413a!important;
+  }
+  .page-login-toolTipClass{
+    background-color: #2992FF !important
+  }
+  .el-tooltip__popper.is-dark {
+    background-color: red !important;
+  }*/
+  .el-button {
+    padding: 0px !important;
+  }
+
+  .page-login-toolTipClass{
+    background-color: rgb(255,204,204) !important;
+    border-color:rgb(255,133,174) !important;
+    color:rgb(255,133,174) !important;
+  }
+  .el-tooltip__popper[x-placement^=top] .popper__arrow:after {
+    border-top-color: rgb(255,204,204);
+  }
+  .el-tooltip__popper[x-placement^=top] .popper__arrow {
+    border-top-color: rgb(255,204,204);
+  }
+
 </style>
 

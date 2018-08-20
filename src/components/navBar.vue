@@ -16,12 +16,13 @@
         methods: {
           goToHomePage(s){
             if(s == "导航一"){
-              this.$router.push({path:"/homePage"})
+              this.$router.push({path:"/homePage/prepare"})
 
             }else if(s == "导航二"){
+              this.$router.push({path:"/goTeach"})
 
             }else if(s == "导航三"){
-
+              this.$router.push({path:"/goTeach"})
             }
 
           }

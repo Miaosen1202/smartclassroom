@@ -4,7 +4,7 @@
       <h4>step 1:</h4>
       <p class="step">Give your new lesson a name</p>
       <div>
-        <input class="form-control step1" type="text" placeholder="please enter">
+        <input class="form-control step1" type="text" placeholder="please enter" v-model="lessonName">
       </div>
 
     </div>
@@ -12,15 +12,18 @@
       <h4>step 2:</h4>
       <p class="step">Add the new lesson to an existing course</p>
       <div class="step2">
-        <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-        <input class="form-control" type="text" id="firstinput2" placeholder="please select">
-        <el-button size="medium" class="list btn" type="text" @click="showCourseDialogVisible = true">List</el-button>
+        <el-radio v-model="submitCourseFlag" label="1">
+          <input class="form-control" type="text" id="firstinput2" placeholder="please select" v-model="existCourseName" readonly>
+        </el-radio>
+        <el-button size="medium" class="list btn" type="text" @click="showCourseDialog">List</el-button>
       </div>
-      <h4 class="or">step 2:</h4>
+      <!--<h4 class="or">step 2:</h4>-->
       <p class="red">or, create a new course here.</p>
       <div class="here">
-        <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1">
-        <input class="form-control" type="text" id="firstinput3" placeholder="please enter">
+        <el-radio v-model="submitCourseFlag" label="2">
+          <input class="form-control" type="text" id="firstinput3" placeholder="please enter" v-model="courseName">
+        </el-radio>
+        <!--<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1">-->
       </div>
     </div>
     <input type="submit" v-on:click="toggle()" class="list btn tj" value="submit">
@@ -40,9 +43,11 @@
       title="Select Course"
       :visible.sync="showCourseDialogVisible"
       width="30%">
-      <span>You have a lesson being edited, continue or quit?123</span>
+      <div v-for="existCourse in existCourseList">
+        <el-radio v-model="radio" :label="existCourse.id">{{existCourse.courseName}}</el-radio>
+      </div>
       <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary" @click="showCourseDialogVisible = false">OK</el-button>
+        <el-button size="medium" type="primary" @click="sure">OK</el-button>
         <el-button size="medium" @click="showCourseDialogVisible = false">Cancel</el-button>
       </span>
     </el-dialog>
@@ -51,25 +56,98 @@
 </template>
 
 <script>
+  import eventBus from '../../eventBus'
   export default {
     data() {
       return {
         showCourseDialogVisible:false,
-        dialogVisible: true
+        dialogVisible: true,
+        lessonName:"",
+        courseName:"",
+        existCourseName:"",
+        /*existCourseExampleList:[
+          {
+            id:1,
+            courseName:"课程名称1"
+          },
+          {
+            id:2,
+            courseName:"课程名称2"
+          }
+        ],*/
+        existCourseList: [],
+        radio:"",
+        submitCourseFlag:2,
+        lessonId:""
+
 
       }
     },
     //methods: {}
     methods: {
+      showCourseDialog(){
+        this.showCourseDialogVisible = true;
+        this.existCourseList = this.existCourseExampleList;
+        this.$http.get(`${process.env.NODE_ENV}/course/list`)
+          .then((res) => {
+            if(res.data.code == 200){
+              this.existCourseList = res.data.entity;
+
+            }
+
+          }).catch((err) => {
+          console.log(err);
+        });
+
+
+      },
+
+      sure(){
+        for(let i=0;i<this.existCourseList.length;i++){
+          if(this.existCourseList[i].id == this.radio){
+            this.existCourseName = this.existCourseList[i].courseName;
+            break;
+          }
+        }
+        this.showCourseDialogVisible = false;
+      },
+
       toggle:function(){
-        this.$router.push({path:"/homePage/course"});
+        var postParam = {
+          "lessonName": this.lessonName,
+          "courseName": this.courseName,
+          "courseId": this.radio
+        };
+
+        this.$http.post(`${process.env.NODE_ENV}/lesson/add`,postParam)
+          .then((res) => {
+          if(res.data.code == 200){
+            this.lessonId = res.data.entity;
+            debugger;
+            eventBus.$emit("toAdd",this.lessonId);
+            this.$router.push({path:"/homePage/course",query:{"lessonId":this.lessonId}});
+          }
+        }).catch((err) => {
+          console.log(err);
+        });
+
+      }
+
+    },
+    watch:{
+      submitCourseFlag(newV,oldV){
+        if(newV == 1){
+          this.courseName = "";
+        }else{
+          this.existCourseName = "";
+        }
       }
     }
 
   }
 </script>
 
-<style scoped="">
+<style scoped>
   /*@import "../../../static/bootstrap/css/bootstrap.css";
   @import "../../../static/bootstrap/css/bootstrap-theme.css";*/
   #first {
@@ -84,11 +162,11 @@
   }
 
   #firstinput2 {
-    width: 60% !important;
+    width: 94% !important;
   }
 
   #firstinput3 {
-    width: 62.2% !important;
+    width: 100% !important;
   }
 
   h4, p {
@@ -148,5 +226,18 @@
 
   .new {
     padding-top: 6%;
+  }
+  .el-dialog__body {
+    overflow: auto;
+    width: 100%;
+    height: 200px;
+  }
+  .el-dialog__header {
+    border-bottom: 1px solid #ccc;
+    width: 90%;
+    margin: 0 auto;
+  }
+  .el-radio {
+    width: 60%;
   }
 </style>

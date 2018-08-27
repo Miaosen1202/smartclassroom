@@ -1,9 +1,18 @@
 <template>
   <div id="all">
   <div id="navBar">
-    <div class="lesson" @click="goToHomePage('导航一')">Prepare a lesson</div>
-    <div class="teach" @click="goToHomePage('导航二')">导航二</div>
-    <div class="history" @click="goToHomePage('导航三')">导航三</div>
+    <div class="lesson" @click="goToHomePage('导航一')">
+      <img src="../assets/images/u177.png" alt="">
+       <p>Prepare a lesson</p>
+    </div>
+    <div class="teach" @click="goToHomePage('导航二')">
+      <img src="../assets/images/u178.png" alt="">
+      <p>导航二</p>
+    </div>
+    <div class="history" @click="goToHomePage('导航三')">
+      <img src="../assets/images/u177.png" alt="">
+     <p> 导航三</p>
+    </div>
   </div>
   </div>
 </template>
@@ -19,7 +28,7 @@
               this.$router.push({path:"/homePage/prepare"})
 
             }else if(s == "导航二"){
-              this.$router.push({path:"/goTeach"})
+              this.$router.push({path:"/StartTeachingMaterials"})
 
             }else if(s == "导航三"){
               this.$router.push({path:"/goTeach"})
@@ -48,11 +57,17 @@
     bottom: 0;
   }
   .lesson,.teach,.history {
-     margin:0 auto;
-     display: inline-block;
-     width: 30%;
-     height: 100%;
-     background-color: #d4deef;
-     cursor: pointer;
+    margin: 0 auto;
+    display: inline-block;
+    width: 28%;
+    height: 100%;
+    background-color: #d4deef;
+    cursor: pointer;
+    border-radius: 4%;
+    margin-left: 4%;
    }
+  img {
+    height: 73%;
+    margin-top: 4%;
+  }
 </style>

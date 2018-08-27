@@ -15,6 +15,8 @@ import addMaterials from '@/components/task/addTo/addMaterials'
 import addDiscussion from '@/components/task/addTo/addDiscussion'
 import addExercises from '@/components/task/addTo/addExercises'
 import addAssignment from '@/components/task/addTo/addAssignment'
+import StartTeachingMaterials from '@/components/StartTheClass/StartTeachingMaterials'
+
 
 
 Vue.use(Router)
@@ -86,7 +88,10 @@ export default new Router({
       path: '/goTeach',
       component: goTeach,
     },
-
+    {
+      path: '/StartTeachingMaterials',
+      component: StartTeachingMaterials,
+    },
 
   ]
 })

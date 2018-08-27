@@ -37,4 +37,7 @@
   .el-button--medium {
     padding: 1% 5%;
   }
+  input[type="file"] {
+    display: none!important;
+  }
 </style>

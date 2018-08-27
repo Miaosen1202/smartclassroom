@@ -1,7 +1,7 @@
 <template>
   <div class="teach">
     <p><img src="../../assets/images/u768.png" alt=""></p>
-    <p>There is no exercises yet.</p>
+    <p>There is no teaching materials yet.</p>
     <el-button size="medium" type="primary" @click="goToAddMaterials">
       <img src="../../assets/images/u60.png" alt="">
     </el-button>
@@ -15,7 +15,7 @@
     },
     methods: {
       goToAddMaterials(){
-        this.$router.push({path:"/homePage/course/addMaterials"});
+        this.$router.push({path:"/homePage/course/addMaterials",query:{"lessonId":this.lessonId}});
       }
     }
   }

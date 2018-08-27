@@ -7,7 +7,6 @@
 
       <div class="right-main">
         <div class="over">
-          第二个路由页面
           <p>Revise your course name and lesson name.</p>
           <el-collapse v-model="activeName" accordion>
             <!--手风琴加表格-->
@@ -144,14 +143,14 @@
   .right-top{
     width: 100%;
     height: 12%;
-    background-color: red;
+    /*background-color: red;*/
   }
   .right-main{
     width: 100%;
     height: 84%;
     /*margin-top: 2%;
     margin-left: 2%;*/
-    background-color: yellow;
+   /* background-color: yellow;*/
     overflow-x: hidden;
     overflow-y: auto;
     padding-left: 3%;

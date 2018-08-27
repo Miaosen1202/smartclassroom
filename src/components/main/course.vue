@@ -1,17 +1,23 @@
 <template>
   <div class="all">
     <div class="coursetop">
-      <p>Lesson : Our Solar System and Life’s Emergence
+        <!--Lesson : Our Solar System and Life’s Emergence  v-for="lessonId in existCourseList"{{lessonId.courseName}}-->
+      <p ><!--Emergence-->{{entity.lesson.lessonName}}
         <img src="../../assets/images/u475.png" alt="">
       </p>
       <p>
         <img src="../../assets/images/u434.png" alt="">
-        Course : Journey of the Universe: A Story for Our Times
+        {{entity.course.courseName}}
+        <!--Course : Journey of the Universe: A Story for Our Times-->
       </p>
-      <div class="anniu">
+
+      <el-tooltip class="item" effect="dark" content="Submit the lesson and you can find it in “Manage all lessons”" placement="bottom-end">
         <el-button size="small" type="warning">Submit</el-button>
+      </el-tooltip>
+      <el-tooltip class="item" effect="dark" content="Delete the lesson and all the data under this lesson." placement="bottom-start">
         <el-button size="small" type="primary">Delete</el-button>
-      </div>
+      </el-tooltip>
+
 
     </div>
     <div class="left">
@@ -38,6 +44,7 @@
         </li>
       </ul>
     </div>
+    <!--Delete the lesson and all the data under this lesson.-->
   </div>
 
 </template>
@@ -48,9 +55,18 @@
       return {
         tabPosition: 'right',
         activeFlag:'teaching',
-
+        existCourseList:"",
+        lessonId:this.$route.query.lessonId,
+        entity:{
+          lesson:{lessonName:""},
+          course:{courseName:""}
+        },//lesson和course
 
       }
+    },
+    mounted() {
+      this.getDetailByLessonId();
+      this.$router.push({path:"/homePage/course/teachingMaterials"});
     },
     methods: {
       showContent(s){
@@ -68,7 +84,29 @@
           this.$router.push({path:"/homePage/course/assigNment"});
         }
 
-      }
+      },
+      getDetailByLessonId:function(){
+        console.log("课时id"+this.lessonId);
+
+        this.$http.get(`${process.env.NODE_ENV}/lesson/detail/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if(res.data.code == 200){
+              this.entity = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+       /* this.$http.get(`${process.env.NODE_ENV}/lesson/detail/query?lessonId=57`)
+          .then((res) => {
+            if(res.data.code == 200){
+              this.entity = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });*/
+      },
+
+
     },
     components:{}
   }
@@ -145,6 +183,7 @@
     width: 60%;
   }
   .coursetop {
+    /*margin-top: 2%;*/
     border-bottom: 1px solid #ddd;
 
   }
@@ -160,6 +199,7 @@
   .el-button {
     float: right;
     margin-right: 3%;
+    margin-top: -2%;
   }
   span {
     display: inline-block;
@@ -167,5 +207,8 @@
   .anniu {
     height: 18%;
     line-height: 18%;
+  }
+  .el-tooltip__popper {
+    width: 10%;
   }
 </style>

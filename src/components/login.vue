@@ -5,12 +5,12 @@
     <!--<h5>WEIDONG SMART CLASSROOM</h5>-->
 
     <div class="account">
-      <input class="form-control" type="text" placeholder="Account Name">
+      <input class="form-control" type="text" placeholder="Account Name" v-model="userName" >
     </div>
     <div class="password">
-      <input class="form-control" type="password" placeholder="Password">
+      <input class="form-control" type="password" placeholder="Password" v-model="password">
     </div>
-      <span @click="goToLogin">Login</span>
+      <span  v-on:click="goToLogin()">Login</span> <!--@click="goToLogin"-->
     <!--<div class="admin">
       <i data-toggle="tooltip" data-placement="top" title="Please contact the system administrator">Forget your password?</i>
     </div>-->
@@ -29,17 +29,31 @@
   export default {
     data() {
       return {
-        msg: "登录界面",
-        toolTipClass:'page-login-toolTipClass'
+        /*msg: "登录界面",*/
+        toolTipClass: 'page-login-toolTipClass',
+        userName: "",
+        password: "",
+        entity:""
       }
     },
     methods: {
-      goToLogin() {
+      goToLogin: function () {
+        var login = {
+          "userName": this.userName,
+          "password": this.password,
+        };
+        this.$http.post(`${process.env.NODE_ENV}/login`, login)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.entity = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
         this.$router.push({path: "/navBar"});
       }
-    }
+      }
   }
-
 </script>
 <style scoped>
   /*@import "../../static/bootstrap/css/bootstrap.css";

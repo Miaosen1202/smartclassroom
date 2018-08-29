@@ -1,11 +1,6 @@
 <template>
   <div class="all">
-    <!--<p>添加课时,第一个页面</p>
-    <p>There is no teaching materials yet.</p>-->
-    <!--<el-button size="medium" type="primary">
-      <img src="../../../assets/images/u60.png" alt="">
-    </el-button>-->
-    <!--action="https://jsonplaceholder.typicode.com/posts/" :file-list="fileList3"-->
+    <el-scrollbar style="height: 100%">
     <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"> Select All
     </el-checkbox>
 
@@ -93,6 +88,7 @@
 
   </span>
     </el-dialog>
+    </el-scrollbar>
   </div>
 </template>
 
@@ -175,6 +171,7 @@
 
   .el-dialog {
     width: 40% !important;
+
   }
 
   .el-dialog__body {

@@ -1,74 +1,148 @@
 <template>
   <div class="all">
+    <el-scrollbar style="height: 100%">
     <!-- <p>添加讨论,第二个页面</p>
      <p>There is no discussion yet.</p>-->
-    <div class="create">
+    <div class="create" v-on:click="toggle()">
       <el-button size="small" type="primary">
         <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
         <p>Create an  <br> Assignment</p>
       </el-button>
     </div>
-    <div class="discussion">
+    <div class="discussion" v-show="isShow">
       <h5>Assignment 1</h5>
       <el-input
         type="textarea"
         autosize
         placeholder="Put in your discussion theme and further detais here"
-        v-model="textarea2">
+        v-model="assignmentName">
       </el-input>
       <!-- <div style="margin: 20px 0;"></div>-->
 
       <el-upload
         class="upload-demo"
-        action="https://jsonplaceholder.typicode.com/posts/"
+        :action="action"
+        :before-remove="beforeRemove"
+        :on-remove="removeFile"
         :on-change="handleChange"
+        :on-success="handleSuccess"
+        :with-credentials="true"
         :file-list="fileList3">
         <el-button size="mini" type="primary">
           <img src="../../../assets/images/u166.png" alt="">
         </el-button>
-        <!--<div class="tips">Add Attachments</div>-->
-        <div slot="tip" class="el-upload__tip">Add Attachments<!--只能上传jpg/png文件，且不超过500kb--></div>
+        <div slot="tip" class="el-upload__tip">Add Attachments</div>
       </el-upload>
 
       <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary">Save</el-button>
+        <el-button style="margin-top: 2%;" size="medium" type="primary" v-on:click="sure()">Save</el-button>
         <el-button size="medium" >Cancel</el-button>
       </span>
     </div>
 
-    <div class="have">
-      <h5>Assignment 2</h5>
+    <div class="have" v-for="(assignment,index) in assignmentList" :key="index">
+      <h5>Assignment {{assignment.sort}}</h5>
       <el-button type="text"  icon="el-icon-delete">
       </el-button>
       <el-button type="text" icon="el-icon-edit">
       </el-button>
-
-      <ul>
-        <li>Our Solar System and Life’s .docx</li>
-        <li>Emergence.jpg</li>
+      <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{assignment.assignmentName}}</p>
+      <ul style="padding-left: 2%">
+        <li v-for="(attachment,ind) in assignment.attachments" :key="ind">{{attachment.fileName}}</li>
       </ul>
     </div>
-
+    </el-scrollbar>
   </div>
 </template>
 
 <script>
+  import eventBus from '../../../eventBus'
   export default {
     data() {
       return {
-        textarea2: '',
-        fileList3: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }, {
-          name: 'food2.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }]
-      };
+        isShow:true,
+        assignmentName: '',
+        fileList3: [],
+        action: process.env.NODE_ENV + '/file/upload',
+        removedFileName:"",
+        fileEntity: {},
+        boName: '',
+        loading: true,
+        lessonId:this.$route.query.lessonId,
+        assignmentId:'',
+        attachments: [],
+        assignmentList:[],
+      }
+    },
+    mounted(){
+      this.getAssignmentListByLessonId();
     },
     methods: {
+      toggle:function(){
+        this.isShow = !this.isShow;
+      },
+      beforeRemove(file,fileList){
+        this.removedFileName = file.name;
+      },
+      removeFile(file,fileList){
+        console.log(fileList);
+        /*this.attachments.forEach((e)=>{
+          if(e.fileName == this.removedFileName){
+
+          }
+
+        })*/
+        for(let i=0;i<this.attachments.length;i++){
+          if(this.attachments[i].fileName == this.removedFileName){
+            this.attachments.splice(i,1);
+            break;
+          }
+        }
+      },
       handleChange(file, fileList) {
-        this.fileList3 = fileList.slice(-3);
+        this.fileList3 = fileList;
+      },
+      handleSuccess(res, file) {
+        console.log(res);
+        if (res.code == 200) {
+          this.fileEntity = res.entity;
+          this.attachments.push(
+            {
+              fileLocalPath: this.fileEntity.fileTmpName,
+              fileName: this.fileEntity.fileOriginName
+            });
+        }
+      },
+      sure: function () {
+        var assignment = {
+          lessonId: this.lessonId,
+          assignmentName: this.assignmentName,
+          attachments: this.attachments
+        };
+
+        this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.assignmentId = res.data.entity;
+              console.log("assignmentId："+this.assignmentId);
+              this.showAttachments = JSON.parse(JSON.stringify(this.attachments));
+              this.getAssignmentListByLessonId();
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
+      getAssignmentListByLessonId(){
+        this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/list?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.assignmentList = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
       }
     }
   }

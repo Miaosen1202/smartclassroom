@@ -77,7 +77,7 @@
         ],*/
         existCourseList: [],
         radio:"",
-        submitCourseFlag:2,
+        submitCourseFlag:"2",
         lessonId:""
 
 
@@ -123,13 +123,12 @@
           .then((res) => {
           if(res.data.code == 200){
             this.lessonId = res.data.entity;
-            debugger;
-            eventBus.$emit("toAdd",this.lessonId);
             this.$router.push({path:"/homePage/course",query:{"lessonId":this.lessonId}});
           }
         }).catch((err) => {
           console.log(err);
         });
+
 
       }
 

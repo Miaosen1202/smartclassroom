@@ -4,6 +4,7 @@
 
     </div>
     <div class="main">
+      <el-scrollbar style="height: 100%">
       <el-tabs type="card">
         <el-tab-pane label="Teaching Materials(0)">
           <p>Lesson：Our Solar System and Life’s Emergence</p>
@@ -19,6 +20,7 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="Discussion(0)">
+          <p>Lesson：Our Solar System and Life’s Emergence</p>
           <div class="have">
             <h5>Discussion 1</h5>
             <p>Which of the planets of the solar system looks brightest on the earth</p>
@@ -41,7 +43,54 @@
           </div>
         </el-tab-pane>
         <el-tab-pane label="Exercises(0)">
-          <div>3</div>
+
+          <p>Lesson：Our Solar System and Life’s Emergence</p>
+          <div class="exercise">
+
+            <div class="leftexerc" style="height: 350px">
+              <el-scrollbar style="height: 100%">
+              <h3 style="display:inline-block; border-bottom: 2px solid #999">Exercises1</h3>
+              <p>Which of the planets of the solar system looks brightest on the earth</p>
+              <h4>A</h4>
+              <h4>B</h4>
+              <h4>C</h4>
+              <div style="cursor: pointer" v-on:click="toggle()">
+                <i class="el-icon-arrow-down"></i>
+                <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
+              </div>
+
+              <div v-show="isShow">
+                <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer</i>
+                <h4>A</h4>
+                <i style="font-weight: 700;color: #5cb85c">Explanation</i>
+                <p>Venus is the brightest planet in the world.
+                  Its brightness is -3.3 to -4.4. It is 14 times brighter
+                  than the famous Sirius, the
+                </p>
+                <p>Venus is the brightest planet in the world.
+                  Its brightness is -3.3 to -4.4. It is 14 times brighter
+                  than the famous Sirius, the
+                </p>
+                <p>Venus is the brightest planet in the world.
+                  Its brightness is -3.3 to -4.4. It is 14 times brighter
+                  than the famous Sirius, the
+                </p>
+                <p>Venus is the brightest planet in the world.
+                  Its brightness is -3.3 to -4.4. It is 14 times brighter
+                  than the famous Sirius, the
+                </p>
+              </div>
+              </el-scrollbar>
+            </div>
+            <div class="rightexerc">
+              <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
+            </div>
+            <div class="rightexerc" :style="{width: '30%', height: '30%'}">
+              <div id="bmyChart"></div>
+            </div>
+
+          </div>
+
         </el-tab-pane>
         <el-tab-pane label="Assignment(0)">
           <div class="have">
@@ -53,21 +102,123 @@
             </ul>
           </div>
         </el-tab-pane>
+        <el-tab-pane style="margin-left: 2%">
+          <span slot="label">
+            <img src="../../assets/images/u273.png" alt="">
+          </span>
+        </el-tab-pane>
       </el-tabs>
+      </el-scrollbar>
     </div>
   </div>
 </template>
 
 <script>
+  /*require('echarts-wordcloud');*/
+  // 引入基本模板
+  let echarts = require('echarts/lib/echarts')
+  // 引入柱状图组件
+  require('echarts/lib/chart/bar')
+  require('echarts/lib/chart/pie')
+  // 引入提示框和title组件
+  require('echarts/lib/component/tooltip')
+  require('echarts/lib/component/title')
     export default {
         data() {
             return {
               checked: true,
               isShow:false,
               checkAll: false,
+              checked1:'',
+              checked2:'',
+              isIndeterminate:'',
+              handleCheckedCitiesChange:'',
+              msg: ''
             }
         },
+      mounted () {
+        this.drawLine();
+        this.bdrawLine();
+      },
         methods: {
+          drawLine() {
+            // 基于准备好的dom，初始化echarts实例
+            let myChart = this.$echarts.init(document.getElementById('myChart'))
+            // 绘制图表
+            myChart.setOption({
+              title: { text: 'Responses  14/16' },
+              tooltip: {},
+              xAxis: {
+                data: ["A", "B", "C", "D",]
+              },
+              yAxis: {},
+              series: [{
+                name: '数量',
+                type: 'bar',
+                data: [5, 20, 36, 10],
+                itemStyle: {
+                  normal:{
+                    //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
+                    color: function (params){
+                      var colorList = ['rgb(164,205,238)','rgb(42,170,227)','rgb(25,46,94)','rgb(195,229,235)'];
+                      return colorList[params.dataIndex];
+                    }
+                  },
+                  //鼠标悬停时：
+                  emphasis: {
+                    shadowBlur: 10,
+                    shadowOffsetX: 0,
+                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+                  }
+                },
+              }]
+            });
+            window.onresize = myChart.resize
+          },
+          bdrawLine() {
+            // 基于准备好的dom，初始化echarts实例
+            let bmyChart = this.$echarts.init(document.getElementById('bmyChart'))
+            // 绘制图表
+              bmyChart.option({
+              title : {
+                text: 'Responses  14/16',
+                x:'center'
+              },
+              tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+              },
+              legend: {
+                orient: 'vertical',
+                left: 'left',
+                data: ['Right','wrong',]
+              },
+              series : [
+                {
+                  name: '对错占比',
+                  type: 'pie',
+                  radius : '55%',
+                  center: ['50%', '60%'],
+                  data:[
+                    {value:14, name:'Right'},
+                    {value:16, name:'wrong'},
+
+                  ],
+                  itemStyle: {
+                    emphasis: {
+                      shadowBlur: 10,
+                      shadowOffsetX: 0,
+                      shadowColor: 'rgba(0, 0, 0, 0.5)'
+                    }
+                  }
+                }
+              ]
+            });
+            if (option && typeof option === "object") {
+              bmyChart.setOption(option, true);
+            }
+          },
+
           toggle:function(){
             this.isShow = !this.isShow;
           },
@@ -75,7 +226,8 @@
             this.checkedCities = val ? cityOptions : [];
             this.isIndeterminate = false;
           },
-        }
+        },
+
     }
 </script>
 
@@ -91,6 +243,8 @@
   .main {
     width: 80%;
     margin:2% auto;
+    height: 80%;
+    overflow: auto;
   }
   .list {
     border: 1px solid #ccc;
@@ -144,4 +298,31 @@
     color: #0066CC;
     font-size: 12px;
   }
+  .el-scrollbar__wrap {
+    overflow-x: hidden;
+  }
+  .exercise {
+    border: 1px solid #ccc;
+    width: 84%;
+    height: 100%;
+    margin-top: 2%;
+    display: inline-block;
+  }
+  .leftexerc {
+    display: inline-block;
+    border: 1px solid #ccc;
+    width: 60%;
+    height: 100%;
+    float: left;
+    padding-left: 2%;
+    overflow: auto;
+  }
+.rightexerc {
+  display: inline-block;
+  margin-top: 2%;
+  width: 40%;
+  height: 60%;
+  padding-left: 2%;
+  float: left;
+}
 </style>

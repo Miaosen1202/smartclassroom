@@ -11,11 +11,13 @@
 <script>
     export default {
         data() {
-            return {}
+            return {
+              lessonId:this.$route.query.lessonId,
+            }
         },
         methods: {
           goToAddAssignment(){
-            this.$router.push({path:"/homePage/course/addAssignment"});
+            this.$router.push({path:"/homePage/course/addAssignment",query:{"lessonId":this.lessonId}});
           }
         }
     }

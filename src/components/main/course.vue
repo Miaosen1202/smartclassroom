@@ -61,7 +61,6 @@
           lesson:{lessonName:""},
           course:{courseName:""}
         },//lesson和course
-
       }
     },
     mounted() {
@@ -72,16 +71,16 @@
       showContent(s){
         if(s == "teaching"){
           this.activeFlag = s;
-          this.$router.push({path:"/homePage/course/teachingMaterials"});
+          this.$router.push({path:"/homePage/course/teachingMaterials",query:{lessonId:this.lessonId}});
         }else if(s == "discussion"){
           this.activeFlag = s;
-          this.$router.push({path:"/homePage/course/disCussion"});
+          this.$router.push({path:"/homePage/course/disCussion",query:{lessonId:this.lessonId}});
         }else if(s == "exercises"){
           this.activeFlag = s;
-          this.$router.push({path:"/homePage/course/exerCises"});
+          this.$router.push({path:"/homePage/course/exerCises",query:{lessonId:this.lessonId}});
         }else if(s == "assignment"){
           this.activeFlag = s;
-          this.$router.push({path:"/homePage/course/assigNment"});
+          this.$router.push({path:"/homePage/course/assigNment",query:{lessonId:this.lessonId}});
         }
 
       },

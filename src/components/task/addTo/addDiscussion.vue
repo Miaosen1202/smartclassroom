@@ -160,7 +160,7 @@
   }
 </script>
 
-<style scoped="">
+<style scoped>
   .all {
     width: 98%;
     height: 100%;

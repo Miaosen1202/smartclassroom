@@ -13,7 +13,8 @@
       <p class="step">Add the new lesson to an existing course</p>
       <div class="step2">
         <el-radio v-model="submitCourseFlag" label="1">
-          <input class="form-control" type="text" id="firstinput2" placeholder="please select" v-model="existCourseName" readonly>
+          <input class="form-control" type="text" id="firstinput2" placeholder="please select" v-model="existCourseName"
+                 readonly>
         </el-radio>
         <el-button size="medium" class="list btn" type="text" @click="showCourseDialog">List</el-button>
       </div>
@@ -57,14 +58,15 @@
 
 <script>
   import eventBus from '../../eventBus'
+
   export default {
     data() {
       return {
-        showCourseDialogVisible:false,
+        showCourseDialogVisible: false,
         dialogVisible: true,
-        lessonName:"",
-        courseName:"",
-        existCourseName:"",
+        lessonName: "",
+        courseName: "",
+        existCourseName: "",
         /*existCourseExampleList:[
           {
             id:1,
@@ -76,21 +78,21 @@
           }
         ],*/
         existCourseList: [],
-        radio:"",
-        submitCourseFlag:"2",
-        lessonId:""
+        radio: "",
+        submitCourseFlag: "2",
+        lessonId: ""
 
 
       }
     },
     //methods: {}
     methods: {
-      showCourseDialog(){
+      showCourseDialog() {
         this.showCourseDialogVisible = true;
         this.existCourseList = this.existCourseExampleList;
         this.$http.get(`${process.env.NODE_ENV}/course/list`)
           .then((res) => {
-            if(res.data.code == 200){
+            if (res.data.code == 200) {
               this.existCourseList = res.data.entity;
 
             }
@@ -102,9 +104,9 @@
 
       },
 
-      sure(){
-        for(let i=0;i<this.existCourseList.length;i++){
-          if(this.existCourseList[i].id == this.radio){
+      sure() {
+        for (let i = 0; i < this.existCourseList.length; i++) {
+          if (this.existCourseList[i].id == this.radio) {
             this.existCourseName = this.existCourseList[i].courseName;
             break;
           }
@@ -112,20 +114,20 @@
         this.showCourseDialogVisible = false;
       },
 
-      toggle:function(){
+      toggle: function () {
         var postParam = {
           "lessonName": this.lessonName,
           "courseName": this.courseName,
           "courseId": this.radio
         };
 
-        this.$http.post(`${process.env.NODE_ENV}/lesson/add`,postParam)
+        this.$http.post(`${process.env.NODE_ENV}/lesson/add`, postParam)
           .then((res) => {
-          if(res.data.code == 200){
-            this.lessonId = res.data.entity;
-            this.$router.push({path:"/homePage/course",query:{"lessonId":this.lessonId}});
-          }
-        }).catch((err) => {
+            if (res.data.code == 200) {
+              this.lessonId = res.data.entity;
+              this.$router.push({path: "/homePage/course", query: {"lessonId": this.lessonId}});
+            }
+          }).catch((err) => {
           console.log(err);
         });
 
@@ -133,11 +135,11 @@
       }
 
     },
-    watch:{
-      submitCourseFlag(newV,oldV){
-        if(newV == 1){
+    watch: {
+      submitCourseFlag(newV, oldV) {
+        if (newV == 1) {
           this.courseName = "";
-        }else{
+        } else {
           this.existCourseName = "";
         }
       }
@@ -147,8 +149,6 @@
 </script>
 
 <style scoped>
-  /*@import "../../../static/bootstrap/css/bootstrap.css";
-  @import "../../../static/bootstrap/css/bootstrap-theme.css";*/
   #first {
     width: 80%;
     margin-left: 6%;
@@ -197,9 +197,9 @@
     margin-left: 3%;
   }
 
- /* .el-button {
-    padding: 1% 0px !important;
-  }*/
+  /* .el-button {
+     padding: 1% 0px !important;
+   }*/
 
   .list {
     display: inline-block;
@@ -226,16 +226,19 @@
   .new {
     padding-top: 6%;
   }
+
   .el-dialog__body {
     overflow: auto;
     width: 100%;
     height: 200px;
   }
+
   .el-dialog__header {
     border-bottom: 1px solid #ccc;
     width: 90%;
     margin: 0 auto;
   }
+
   .el-radio {
     width: 60%;
   }

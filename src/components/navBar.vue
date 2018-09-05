@@ -7,11 +7,11 @@
     </div>
     <div class="teach" @click="goToHomePage('导航二')">
       <img src="../assets/images/u178.png" alt="">
-      <p>导航二</p>
+      <p>Go Teach</p>
     </div>
     <div class="history" @click="goToHomePage('导航三')">
       <img src="../assets/images/u177.png" alt="">
-     <p> 导航三</p>
+     <p>View history</p>
     </div>
   </div>
   </div>
@@ -28,10 +28,10 @@
               this.$router.push({path:"/homePage/prepare"})
 
             }else if(s == "导航二"){
-              this.$router.push({path:"/StartTeachingMaterials"})
+              this.$router.push({path:"/goTeach"})
 
             }else if(s == "导航三"){
-              this.$router.push({path:"/goTeach"})
+              this.$router.push({path:"/ViewHistory"})
             }
 
           }

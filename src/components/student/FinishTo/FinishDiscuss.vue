@@ -1,24 +1,88 @@
 <template>
   <div class="all">
-    <el-scrollbar style="height: 100%">
-      <!-- <p>添加讨论,第二个页面</p>
-       <p>There is no discussion yet.</p>-->
-      <div class="create" v-on:click="toggle()">
+      <el-scrollbar style="height: 100%">
+        <div style="float: right;margin-top:1%;margin-right:4%">
+          <el-button style="background-color: rgba(111, 111, 183,1);" type="success" icon="el-icon-arrow-left" circle></el-button>
+          <h4 style="display: inline-block">1/4</h4>
+          <el-button style="background-color: rgba(111, 111, 183,1)" type="success" icon="el-icon-arrow-right" circle></el-button>
+        </div>
+      <el-button  v-on:click="toggle()" style="margin: 1% 0px 0px 1%;background-color:  rgba(111, 111, 183,1);color: white;font-weight: 700">Reply</el-button>
+      <div class="have">
+        <h5>Discussion</h5>
+        <el-button type="text" icon="el-icon-delete">
+        </el-button>
+        <el-button type="text" icon="el-icon-edit">
+
+        </el-button>
+        <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">12121212</p>
+        <ul style="padding-left: 2%">
+          <li >name <i class="el-icon-download" style="cursor: pointer;"></i></li>
+        </ul>
+      </div>
+
+      <div v-show="isShow">
+      <div style="margin: 2% 0px">
+        <!--<div class="create" >
+          <el-button size="small" type="primary">
+            <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
+            <p>Create a <br> Discussion</p>
+          </el-button>
+        </div>-->
+        <div class="discussion">
+          <h5 style="font-weight: 700" >Reply</h5>
+          <!--v-model="lessonName"-->
+          <!--输入框输入内容-->
+          <el-input
+            type="textarea"
+            autosize
+            placeholder="请输入内容"
+            v-model="assignmentName">
+          </el-input>
+
+          <!--上传文件-->
+          <el-upload
+            class="upload-demo"
+            :action="action"
+            :before-remove="beforeRemove"
+            :on-remove="removeFile"
+            :on-change="handleChange"
+            :on-success="handleSuccess"
+            :with-credentials="true"
+            :file-list="fileList3">
+            <el-button size="mini" type="primary" style="background-color: rgba(111, 111, 183,1);">
+              <img src="../../../assets/images/u166.png" alt="">
+            </el-button>
+
+            <div slot="tip" class="el-upload__tip">Add Attachments</div>
+          </el-upload>
+
+          <!--按钮-->
+          <span slot="footer" class="dialog-footer">
+        <el-button style="margin-top: 2%;background-color: #4cae4c" size="medium" type="primary" v-on:click="sure()">submit</el-button>
+        <el-button size="medium">Cancel</el-button>
+      </span>
+        </div>
+      </div>
+      <div>
+    <div style="margin: 2% 0px">
+      <!--<div class="create" >
         <el-button size="small" type="primary">
           <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-          <p>Create an  <br> Assignment</p>
+          <p>Create a <br> Discussion</p>
         </el-button>
-      </div>
-      <div class="discussion" v-show="isShow">
-        <h5>Assignment 1</h5>
+      </div>-->
+      <div class="discussion">
+        <h5 style="font-weight: 700">Reply</h5>
+        <!--v-model="lessonName"-->
+        <!--输入框输入内容-->
         <el-input
           type="textarea"
           autosize
-          placeholder="Put in your discussion theme and further detais here"
+          placeholder="请输入内容"
           v-model="assignmentName">
         </el-input>
-        <!-- <div style="margin: 20px 0;"></div>-->
 
+        <!--上传文件-->
         <el-upload
           class="upload-demo"
           :action="action"
@@ -28,36 +92,27 @@
           :on-success="handleSuccess"
           :with-credentials="true"
           :file-list="fileList3">
-          <el-button size="mini" type="primary">
+          <el-button size="mini" type="primary" style="background-color: rgba(111, 111, 183,1);">
             <img src="../../../assets/images/u166.png" alt="">
           </el-button>
+
           <div slot="tip" class="el-upload__tip">Add Attachments</div>
         </el-upload>
 
+        <!--按钮-->
         <span slot="footer" class="dialog-footer">
-        <el-button style="margin-top: 2%;" size="medium" type="primary" v-on:click="sure()">Save</el-button>
+        <el-button style="margin-top: 2%;background-color: #4cae4c" size="medium" type="primary" v-on:click="sure()">submit</el-button>
         <el-button size="medium">Cancel</el-button>
       </span>
       </div>
-
-      <div class="have" v-for="(assignment,index) in assignmentList" :key="index">
-        <h5>Assignment {{assignment.sort}}</h5>
-        <el-button type="text" icon="el-icon-delete">
-        </el-button>
-        <el-button type="text" icon="el-icon-edit">
-        </el-button>
-        <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{assignment.assignmentName}}</p>
-        <ul style="padding-left: 2%">
-          <li v-for="(attachment,ind) in assignment.attachments" :key="ind">{{attachment.fileName}}</li>
-        </ul>
+    </div>
       </div>
-    </el-scrollbar>
-  </div>
+      </div>
+      </el-scrollbar>
+    </div>
 </template>
 
 <script>
-  import eventBus from '../../../eventBus'
-
   export default {
     data() {
       return {
@@ -150,14 +205,16 @@
 </script>
 
 <style scoped="">
+
   .all {
+    margin:0px 2%;
     width: 98%;
-    height: 100%;
+    height: 84%;
   }
 
   p {
     display: inline-block;
-    padding-top: 2%;
+    padding-top: 1%;
     margin: 0px;
   }
 
@@ -175,6 +232,7 @@
     padding-left: 2%;
     padding-bottom: 2%;
     background-color: #f9f9f9;
+    border-radius: 4px;
   }
 
   .el-textarea {
@@ -196,29 +254,28 @@
     color: #0066CC !important;
   }
 
+
   .have {
     border: 1px solid #ccc;
     width: 96%;
     padding-left: 2%;
     margin-top: 2%;
+    border-radius: 4px;
   }
 
   .have ul li {
     color: #0066CC;
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .have h5 {
     display: inline-block;
     border-bottom: 2px solid #999;
+    font-weight: 700;
   }
 
   .have .el-button {
     float: right;
     padding-right: 2%;
-  }
-
-  .el-icon-delete:before {
-    color: red !important;
   }
 </style>

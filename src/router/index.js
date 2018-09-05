@@ -16,7 +16,17 @@ import addDiscussion from '@/components/task/addTo/addDiscussion'
 import addExercises from '@/components/task/addTo/addExercises'
 import addAssignment from '@/components/task/addTo/addAssignment'
 import StartTeachingMaterials from '@/components/StartTheClass/StartTeachingMaterials'
-
+import ViewHistory from '@/components/ViewHistory'
+import LearningHomework from '@/components/LearningHomework'
+/*import studentLeft from '@/components/student/studentLeft'*/
+import LearningMaterials from '@/components/student/LearningMaterials'
+import LetDiscuss from '@/components/student/LetDiscuss'
+import TakeExercises from '@/components/student/TakeExercises'
+import MyAssignment from '@/components/student/MyAssignment'
+import FinishMaterials from '@/components/student/FinishTo/FinishMaterials'
+import FinishDiscuss from '@/components/student/FinishTo/FinishDiscuss'
+import FinishExercise from '@/components/student/FinishTo/FinishExercise'
+import FinishAssignment from '@/components/student/FinishTo/FinishAssignment'
 
 
 Vue.use(Router)
@@ -34,24 +44,24 @@ export default new Router({
     {
       path: '/homePage',
       component: homePage,
-      children:[
+      children: [
         {
           path: 'course',
           component: course,
-          children:[
+          children: [
             {
-              path :'teachingMaterials',
+              path: 'teachingMaterials',
               component: teachingMaterials,
             },
             {
-              path :'disCussion',
+              path: 'disCussion',
               component: disCussion,
-            },{
-              path :'exerCises',
+            }, {
+              path: 'exerCises',
               component: exerCises,
             },
             {
-              path :'assigNment',
+              path: 'assigNment',
               component: assigNment,
             },
             {
@@ -92,6 +102,48 @@ export default new Router({
       path: '/StartTeachingMaterials',
       component: StartTeachingMaterials,
     },
+    {
+      path: '/ViewHistory',
+      component: ViewHistory,
+    },
+    {
+      path: '/LearningHomework',
+      component: LearningHomework,
+      children: [
 
+        {
+          path: 'LearningMaterials',
+          component: LearningMaterials,
+        },
+        {
+          path: 'LetDiscuss',
+          component: LetDiscuss,
+        },
+        {
+          path: 'TakeExercises',
+          component: TakeExercises,
+        },
+        {
+          path: 'MyAssignment',
+          component: MyAssignment,
+        },
+        {
+          path: 'FinishMaterials',
+          component: FinishMaterials,
+        },
+        {
+          path: 'FinishDiscuss',
+          component: FinishDiscuss,
+        },
+        {
+          path: 'FinishExercise',
+          component: FinishExercise,
+        },
+        {
+          path: 'FinishAssignment',
+          component: FinishAssignment,
+        },
+      ]
+    },
   ]
 })

@@ -2,6 +2,7 @@
   <div id="goTeach">
     <div class="teachtop">
       <p>Welcome Matthew !</p>
+      <span @click="dialogFormVisible = true" class="password" >Modify Password</span>
       <p style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">
       </p>
@@ -74,8 +75,43 @@
             </div>
           </div>
         </div>
+        <div class="lessonhistory">
+          <div class="have">
+            <h5>Course：Journey of the Universe: A Story for Our Times1 </h5>
+            <div class="lesson">
+              <div v-for="existCourse in existCourseList">
+                <p v-model="radio" :label="existCourse.id">{{existCourse.courseName}}</p>
+              </div>
+
+            </div>
+            <div class="lesson">
+              <p>Which of the planets of the solar system looks brightest on the earth</p>
+
+            </div>
+            <div class="lesson">
+              <p>Which of the planets of the solar system looks brightest on the earth</p>
+
+            </div>
+          </div>
+        </div>
       </div>
+
     </el-scrollbar>
+   <!-- <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>-->
+
+    <el-dialog title="Modify Password" :visible.sync="dialogFormVisible" style="width: 50%;height: 100%">
+      <p>Password</p>
+      <el-input type="password" v-model="input" placeholder="Please enter"></el-input>
+      <p style="color: #009900">New Password</p>
+      <el-input type="password" v-model="input2" placeholder="Please enter"></el-input>
+      <p style="color: #009900">Confirm Password</p>
+      <el-input type="password" v-model="input3" placeholder="Please enter"></el-input>
+
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false">Submit</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -85,6 +121,19 @@
       return {
         isShow: true,
         existCourseList: [],
+        input:'',
+        input2:'',
+        input3:'',
+        dialogFormVisible: false,
+        form: {
+          name: '',
+          region: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: '',
+        },
+        formLabelWidth: '100px'
       }
     },
     methods: {
@@ -114,7 +163,8 @@
     width: 100%;
     height: 8%;
     font-family: 'Arial Normal', 'Arial';
-    background-color: rgb(215, 215, 215);
+    /*background-color: rgb(215, 215, 215);*/
+    background-color: rgba(248, 248, 248, 1);
     position: fixed;
     z-index: 99999;
   }
@@ -175,4 +225,17 @@
 .lesson:hover {
   background-color: rgb(255, 245, 198);
 }
+  .password {
+     margin-left: 1%;
+     color: #0066CC;
+     cursor: pointer;
+   }
+  .password:hover{
+    border-bottom: 1px solid #0066cc;
+  }
+  .el-dialog__body {
+    padding: 2% 10%;
+    color: #606266;
+    font-size: 14px;
+  }
 </style>

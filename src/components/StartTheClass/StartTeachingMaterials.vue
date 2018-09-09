@@ -103,36 +103,104 @@
               <div class="rightexerc">
                 <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
               </div>
-              <div class="rightexerc" :style="{width: '300px', height: '300px'}">
+              <!--<div class="rightexerc" :style="{width: '300px', height: '300px'}">
                 <div id="bmyChart"></div>
-              </div>
+              </div>-->
 
             </div>
+            <div>
 
+            </div>
           </el-tab-pane>
           <el-tab-pane label="Assignment(0)">
-            <h5>Lesson：Our Solar System and Life’s Emergence</h5>
-            <div class="have">
-              <h5>Assignment 1</h5>
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-              <ul>
-                <li>Our Solar System and Life’s .docx</li>
-                <li>Emergence.jpg</li>
-              </ul>
-            </div>
-            <div class="have">
-              <h5>Assignment 1</h5>
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-              <ul>
-                <li>Our Solar System and Life’s .docx</li>
-                <li>Emergence.jpg</li>
-              </ul>
+            <div>
+              <h5>Lesson：Our Solar System and Life’s Emergence</h5>
+              <div class="have">
+                <h5>Assignment 1</h5>
+                <p>Which of the planets of the solar system looks brightest on the earth</p>
+                <ul>
+                  <li>Our Solar System and Life’s .docx</li>
+                  <li>Emergence.jpg</li>
+                </ul>
+              </div>
+              <div class="have">
+                <h5>Assignment 1</h5>
+                <p>Which of the planets of the solar system looks brightest on the earth</p>
+                <ul>
+                  <li>Our Solar System and Life’s .docx</li>
+                  <li>Emergence.jpg</li>
+                </ul>
+              </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane style="margin-left: 2%">
+          <el-tab-pane>
           <span slot="label">
             <img src="../../assets/images/u273.png" alt="">
           </span>
+            <p>Lesson：Our Solar System and Life’s Emergence</p>
+            <div class="exercise" style="width: 100%;margin-right: 2%">
+              <div class="leftexerc" style="height: 350px">
+                <el-scrollbar style="height: 100%">
+                  <h6 style="display:inline-block; border-bottom: 2px solid #999">Exercises1</h6>
+                  <div style="padding-left:2%; border-bottom: 1px solid #ccc">
+                    <img src="../../assets/images/u558.png" alt="">
+                    <p style="display:inline-block">Which of the planets of the solar</p>
+                  </div>
+                </el-scrollbar>
+              </div>
+
+              <!--<div class="rightexerc" :style="{width: '300px', height: '300px'}">
+                <div id="bmyChart"></div>
+              </div>-->
+              <div>
+                <p style="display: inline-block;padding-left: 2%">Statistics  Responses </p>
+                <h3 style="color: #880000;display: inline-block">14</h3>/<span>16</span>
+                <!--<span class="el-icon-arrow-left"></span>-->
+                <el-button style="margin-left: 8%" type="primary" icon="el-icon-caret-left" circle></el-button>
+                <el-button type="primary" icon="el-icon-caret-right" circle></el-button>
+              </div>
+              <div style="float: left;width: 38%;height: 300px;margin: 1% 0%">
+                <el-scrollbar style="height: 100%">
+                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%;">
+                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                    <p>
+                      <img src="../../assets/images/u558.png" alt="">
+                      than the famous Sirius, the</p>
+                  </div>
+                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
+                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                    <p>
+                      <img src="../../assets/images/u558.png" alt="">
+                      than the famous Sirius, the</p>
+                  </div>
+                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
+                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                    <p>
+                      <img src="../../assets/images/u558.png" alt="">
+                      than the famous Sirius, the</p>
+                  </div>
+                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
+                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                    <p>
+                      <img src="../../assets/images/u558.png" alt="">
+                      than the famous Sirius, the
+                    </p>
+                  </div>
+                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
+                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                    <p>
+                      <img src="../../assets/images/u558.png" alt="">
+                      than the famous Sirius, the
+                    </p>
+                  </div>
+                </el-scrollbar>
+              </div>
+            </div>
           </el-tab-pane>
         </el-tabs>
       </el-scrollbar>
@@ -281,6 +349,7 @@
     width: 84%;
     border-radius: 2%;
     padding: 1% 2%;
+    border-radius: 4px;
 
   }
 
@@ -350,20 +419,25 @@
 
   .exercise {
     border: 1px solid #ccc;
-    width: 84%;
+    width: 100%;
     height: 100%;
     margin-top: 2%;
     display: inline-block;
+    border-radius: 4px;
   }
 
   .leftexerc {
     display: inline-block;
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;*/
+
     width: 60%;
     height: 100%;
     float: left;
     padding-left: 2%;
     overflow: auto;
+    padding-right: 2%;
+    border-right: 2px solid #ccc;
+    margin-top: 2%;
   }
 
   .rightexerc {

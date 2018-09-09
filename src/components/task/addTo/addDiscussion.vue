@@ -94,9 +94,7 @@
         console.log(fileList);
         /*this.attachments.forEach((e)=>{
           if(e.fileName == this.removedFileName){
-
           }
-
         })*/
         for(let i=0;i<this.attachments.length;i++){
           if(this.attachments[i].fileName == this.removedFileName){
@@ -133,6 +131,7 @@
         this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
           .then((res) => {
             if (res.data.code == 200) {
+              debugger;
               this.discussionId = res.data.entity;
               console.log("discussionId："+this.discussionId);
               this.showAttachments = JSON.parse(JSON.stringify(this.attachments));
@@ -149,6 +148,7 @@
         this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {
+              debugger;
               this.discussionList = res.data.entity;
             }
           }).catch((err) => {

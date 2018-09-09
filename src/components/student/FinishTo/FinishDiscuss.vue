@@ -1,10 +1,10 @@
 <template>
   <div class="all">
       <el-scrollbar style="height: 100%">
-        <div style="float: right;margin-top:1%;margin-right:4%">
-          <el-button style="background-color: rgba(111, 111, 183,1);" type="success" icon="el-icon-arrow-left" circle></el-button>
+        <div class="elbtn">
+          <el-button type="success" icon="el-icon-arrow-left" circle></el-button>
           <h4 style="display: inline-block">1/4</h4>
-          <el-button style="background-color: rgba(111, 111, 183,1)" type="success" icon="el-icon-arrow-right" circle></el-button>
+          <el-button  type="success" icon="el-icon-arrow-right" circle></el-button>
         </div>
       <el-button  v-on:click="toggle()" style="margin: 1% 0px 0px 1%;background-color:  rgba(111, 111, 183,1);color: white;font-weight: 700">Reply</el-button>
       <div class="have">
@@ -277,5 +277,17 @@
   .have .el-button {
     float: right;
     padding-right: 2%;
+  }
+  .elbtn {
+    float: right;
+    margin-top:1%;
+    margin-right:4%;
+  }
+  .elbtn .el-button {
+    background-color: rgb(157, 157, 238);
+    border: none;
+  }
+  .elbtn .el-button:active {
+    background-color: rgba(111, 111, 183,1)
   }
 </style>

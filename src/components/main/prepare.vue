@@ -1,5 +1,5 @@
 <template>
-  <div id="first">
+  <div id="prepare">
     <div>
       <h4>step 1:</h4>
       <p class="step">Give your new lesson a name</p>
@@ -43,17 +43,20 @@
     <el-dialog
       title="Select Course"
       :visible.sync="showCourseDialogVisible"
-      width="30%">
+      width="30%"
+      height="200px"
+       >
+      <el-scrollbar style="height: 100%">
       <div v-for="existCourse in existCourseList">
         <el-radio v-model="radio" :label="existCourse.id">{{existCourse.courseName}}</el-radio>
       </div>
+      </el-scrollbar>
       <span slot="footer" class="dialog-footer">
         <el-button size="medium" type="primary" @click="sure">OK</el-button>
         <el-button size="medium" @click="showCourseDialogVisible = false">Cancel</el-button>
       </span>
     </el-dialog>
   </div>
-
 </template>
 
 <script>
@@ -81,8 +84,6 @@
         radio: "",
         submitCourseFlag: "2",
         lessonId: ""
-
-
       }
     },
     //methods: {}
@@ -149,7 +150,7 @@
 </script>
 
 <style scoped>
-  #first {
+  #prepare {
     width: 80%;
     margin-left: 6%;
     padding-top: 4%;

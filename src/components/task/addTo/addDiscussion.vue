@@ -6,7 +6,7 @@
     <div class="create" v-on:click="toggle()">
       <el-button size="small" type="primary">
         <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-        <p>Create a <br> Discussion</p>
+        <p>Create a Discussion</p>
       </el-button>
     </div>
     <div class="discussion" v-show="isShow">
@@ -46,9 +46,9 @@
 
     <div class="have" v-for="(discussion,index) in discussionList" :key="index">
       <h5>Discussion {{discussion.sort}}</h5>
-      <el-button type="text" icon="el-icon-delete">
+      <el-button v-on:click="dlout()" type="text" icon="el-icon-delete"><!--错误符号-->
       </el-button>
-      <el-button type="text" icon="el-icon-edit">
+      <el-button v-on:click="wrong()" type="text" icon="el-icon-edit">
 
       </el-button>
       <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
@@ -77,7 +77,7 @@
         lessonId:this.$route.query.lessonId,
         discussionId: "",
         attachments: [],
-        discussionList:[]//课堂列表
+        discussionList:[],//课堂列表
       };
     },
     mounted(){
@@ -96,6 +96,7 @@
           if(e.fileName == this.removedFileName){
           }
         })*/
+
         for(let i=0;i<this.attachments.length;i++){
           if(this.attachments[i].fileName == this.removedFileName){
             this.attachments.splice(i,1);
@@ -131,9 +132,8 @@
         this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
           .then((res) => {
             if (res.data.code == 200) {
-              debugger;
               this.discussionId = res.data.entity;
-              console.log("discussionId："+this.discussionId);
+              console.log("discussionId:"+this.discussionId);
               this.showAttachments = JSON.parse(JSON.stringify(this.attachments));
               this.getDiscussionListByLessonId();
             }
@@ -148,13 +148,47 @@
         this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {
-              debugger;
+
               this.discussionList = res.data.entity;
             }
           }).catch((err) => {
           console.log(err);
         });
 
+      },
+      /*ceshi http://localhost:8080/#/homePage/course/addDiscussion?lessonId=46*/
+      wrong:function () {
+        var discussion = {
+          id:220,
+          lessonId: this.lessonId,
+          discussContent: this.discussContent,
+          attachments: this.attachments,
+          /*id: this.attachments.id*/
+        };
+        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/modify`, discussion)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.discussionId = res.data.entity;
+              console.log("discussionId:"+this.discussionId);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      dlout:function () {
+        var discussion = {
+          discussionId:[],
+
+        };
+        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/deletes`, discussion)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.discussionId = res.data.entity;
+              console.log("discussionId:"+this.discussionId);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
       }
     }
   }
@@ -183,7 +217,6 @@
   .create {
     margin: 2% 0px;
   }
-
   .discussion {
     border: 1px solid #ccc;
     width: 96%;

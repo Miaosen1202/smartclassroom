@@ -42,9 +42,9 @@
 
       <div class="have" v-for="(assignment,index) in assignmentList" :key="index">
         <h5>Assignment {{assignment.sort}}</h5>
-        <el-button type="text" icon="el-icon-delete">
+        <el-button v-on:click="deleteAssignment(assignment.id)" type="text" icon="el-icon-delete">
         </el-button>
-        <el-button type="text" icon="el-icon-edit">
+        <el-button v-on:click="wrong()" type="text" icon="el-icon-edit">
         </el-button>
         <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{assignment.assignmentName}}</p>
         <ul style="padding-left: 2%">
@@ -70,7 +70,7 @@
         boName: '',
         loading: true,
         lessonId: this.$route.query.lessonId,
-        assignmentId: '',
+       /* assignmentId: '',*/
         attachments: [],
         assignmentList: [],
       }
@@ -124,9 +124,8 @@
         this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
           .then((res) => {
             if (res.data.code == 200) {
-              this.assignmentId = res.data.entity;
-              console.log("assignmentId：" + this.assignmentId);
-              this.showAttachments = JSON.parse(JSON.stringify(this.attachments));
+              this.assignmentName = "",
+              this.fileList3 = [];
               this.getAssignmentListByLessonId();
             }
           }).catch((err) => {
@@ -144,6 +143,37 @@
           console.log(err);
         });
 
+      },
+      deleteAssignment:function (id) {
+       /* var assignment = [this.assignmentId];*/
+
+        this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/deletes`, [id])
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.getAssignmentListByLessonId();
+             /* this.assignmentId = res.data.entity;
+              console.log("assignmentId:" + this.assignmentId);*/
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      wrong:function () {
+        var assignment = {
+          lessonId: this.lessonId,
+          assignmentName: this.assignmentName,
+          attachments: this.attachments
+        };
+
+        this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/modify`, assignment)
+          .then((res) => {
+            if (res.data.code == 200) {
+             /* this.assignmentId = res.entity;
+              console.log("assignmentId:" + this.assignmentId);*/
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
       }
     }
   }

@@ -31,7 +31,7 @@
               this.$router.push({path:"/goTeach"})
 
             }else if(s == "导航三"){
-              this.$router.push({path:"/ViewHistory"})
+              this.$router.push({path:"/LearningHomework"})
             }
 
           }

@@ -6,7 +6,7 @@
       <div class="order">
         <el-button size="small" type="primary">
           <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align: middle"></p>
-          <p>Create a Discussion</p>
+          <p>Create a Exercises</p>
         </el-button>
         <!--<el-button type="warning">Order</el-button>-->
         <el-button size="medium" class="list btn" type="warning" @click="showExercisesDialog">Order</el-button>
@@ -79,14 +79,15 @@
         <el-button size="medium">Cancel</el-button>
       </span>
       </div>
-      <div class="have">
-        <h5>Discussion 1</h5>
-        <span>Single-choice</span>
+      <div class="have" v-for="(exercises,index) in existExercisesList" :key="index">
+        <h5>Exercises {{exercises.sort}}</h5>
+        <span v-show="exercises.questionType == '1'">Single-choice</span>
+        <span v-show="exercises.questionType == '2'">Multiple-choice</span>
         <el-button type="text" icon="el-icon-delete">
         </el-button>
         <el-button type="text" icon="el-icon-edit">
         </el-button>
-
+          <p>{{exercises.questionTitle}}</p>
         <ul>
           <li>Which of the planets of the solar system looks brightest on the earth</li>
           <!-- <li>Emergence.jpg</li>-->
@@ -125,6 +126,7 @@
         questionType: 1,
         lessonId: this.$route.query.lessonId,
         existExercisesList: [],
+        exercisesList:[],
         codeObjList: [
           {id: 0, name: "A"},
           {id: 1, name: "B"},
@@ -214,10 +216,12 @@
 
         this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/add`, exercises)
           .then((res) => {
+
             if (res.data.code == 200) {
-              this.exercisesId = res.data.entity;
+              debugger;
+              /*this.exercisesId = res.data.entity;*/
               console.log("exercisesId：" + this.exercisesId);
-              this.showExercises = JSON.parse(JSON.stringify(this.attachments));
+              /*this.showExercises = JSON.parse(JSON.stringify(this.attachments));*/
               this.getAssignmentListByLessonId();
             }
           }).catch((err) => {
@@ -225,9 +229,10 @@
         });
 
       },
-      //课堂讨论列表
-      /* getAssignmentListByLessonId(){
-         this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list?lessonId=${this.lessonId}`)
+      //选择题列表
+       getAssignmentListByLessonId(){
+        debugger;
+         this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
            .then((res) => {
              if (res.data.code == 200) {
                this.existExercisesList = res.data.entity;
@@ -235,7 +240,7 @@
            }).catch((err) => {
            console.log(err);
          });
-       }*/
+       }
     }
   }
 </script>

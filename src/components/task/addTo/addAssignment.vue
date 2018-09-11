@@ -124,8 +124,10 @@
         this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
           .then((res) => {
             if (res.data.code == 200) {
+              debugger;
               this.assignmentName = "",
-              this.fileList3 = [];
+                /*this.attachments =[];*/
+                /*this.fileList3 = [];*/
               this.getAssignmentListByLessonId();
             }
           }).catch((err) => {
@@ -142,6 +144,9 @@
           }).catch((err) => {
           console.log(err);
         });
+
+
+
 
       },
       deleteAssignment:function (id) {

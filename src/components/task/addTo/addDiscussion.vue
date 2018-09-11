@@ -6,7 +6,7 @@
     <div class="create" v-on:click="toggle()">
       <el-button size="small" type="primary">
         <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-        <p>Create a Discussion</p>
+        <p>Create a <br> Discussion</p>
       </el-button>
     </div>
     <div class="discussion" v-show="isShow">
@@ -16,7 +16,7 @@
       <el-input
         type="textarea"
         autosize
-        placeholder="请输入内容"
+        placeholder="Enter discussion content here."
         v-model="discussContent">
       </el-input>
 
@@ -46,7 +46,7 @@
 
     <div class="have" v-for="(discussion,index) in discussionList" :key="index">
       <h5>Discussion {{discussion.sort}}</h5>
-      <el-button v-on:click="dlout()" type="text" icon="el-icon-delete"><!--错误符号-->
+      <el-button v-on:click="deleteDiscussion(discussion.id)" type="text" icon="el-icon-delete"><!--错误符号-->
       </el-button>
       <el-button v-on:click="wrong()" type="text" icon="el-icon-edit">
 
@@ -132,9 +132,11 @@
         this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
           .then((res) => {
             if (res.data.code == 200) {
-              this.discussionId = res.data.entity;
-              console.log("discussionId:"+this.discussionId);
-              this.showAttachments = JSON.parse(JSON.stringify(this.attachments));
+              this.discussContent = "",
+                /*this.fileList3 = [];*/
+              /*this.discussionId = res.data.entity;
+              console.log("discussionId:"+this.discussionId);*/
+              /*this.showAttachments = JSON.parse(JSON.stringify(this.attachments));*/
               this.getDiscussionListByLessonId();
             }
           }).catch((err) => {
@@ -175,16 +177,13 @@
           console.log(err);
         });
       },
-      dlout:function () {
-        var discussion = {
-          discussionId:[],
-
-        };
-        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/deletes`, discussion)
+      deleteDiscussion:function (id) {
+        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/deletes`,[id])
           .then((res) => {
             if (res.data.code == 200) {
-              this.discussionId = res.data.entity;
-              console.log("discussionId:"+this.discussionId);
+              /*this.discussionId = res.data.entity;
+              console.log("discussionId:"+this.discussionId);*/
+              this.getDiscussionListByLessonId();
             }
           }).catch((err) => {
           console.log(err);

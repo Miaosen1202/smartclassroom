@@ -83,15 +83,18 @@
         <h5>Exercises {{exercises.sort}}</h5>
         <span v-show="exercises.questionType == '1'">Single-choice</span>
         <span v-show="exercises.questionType == '2'">Multiple-choice</span>
-        <el-button type="text" icon="el-icon-delete">
+        <el-button v-on:click="deleteExercises(exercises.id)" type="text" icon="el-icon-delete">
         </el-button>
         <el-button type="text" icon="el-icon-edit">
         </el-button>
-          <p>{{exercises.questionTitle}}</p>
-        <ul>
-          <li>Which of the planets of the solar system looks brightest on the earth</li>
-          <!-- <li>Emergence.jpg</li>-->
+          <div style="word-wrap: break-word; word-break: normal;width: 90%">{{exercises.questionTitle}}</div>
+        <ul v-for="(Choicelist,index) in options" :key="index">
+          <li style="color: #000"><P style="padding-right: 2%">{{Choicelist.answerCode}}</P><span>{{Choicelist.answerContent}}</span></li>
         </ul>
+          <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Answer</p>
+        <div>A</div>
+        <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Explanation</p>
+        <p style="word-wrap: break-word; word-break: normal;width: 90% ">{{exercises.analysis}}</p>
       </div>
       <el-dialog
         title="Select Course"
@@ -218,7 +221,7 @@
           .then((res) => {
 
             if (res.data.code == 200) {
-              debugger;
+              /*debugger;*/
               /*this.exercisesId = res.data.entity;*/
               console.log("exercisesId：" + this.exercisesId);
               /*this.showExercises = JSON.parse(JSON.stringify(this.attachments));*/
@@ -231,7 +234,7 @@
       },
       //选择题列表
        getAssignmentListByLessonId(){
-        debugger;
+       /* debugger;*/
          this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
            .then((res) => {
              if (res.data.code == 200) {
@@ -240,7 +243,18 @@
            }).catch((err) => {
            console.log(err);
          });
-       }
+       },
+      /*删除选项中的列表*/
+      deleteExercises:function (id) {
+        this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/deletes`,[id])
+          .then((res)=>{
+          if (res.data.code == 200){
+            this.getAssignmentListByLessonId();
+          }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
     }
   }
 </script>

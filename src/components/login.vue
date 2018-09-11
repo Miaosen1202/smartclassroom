@@ -1,26 +1,62 @@
 <template>
   <div id="all">
-  <div id="login">
-    <p><img src="../assets/images/u2081.png" alt=""></p>
-    <!--<h5>WEIDONG SMART CLASSROOM</h5>-->
+    <div id="login">
+      <p><img src="../assets/images/u2081.png" alt=""></p>
+      <!--<h5>WEIDONG SMART CLASSROOM</h5>-->
 
-    <div class="account">
-      <input class="form-control" type="text" placeholder="Account Name" v-model="userName" >
+      <!--<div class="account">
+        <input class="form-control" type="text" placeholder="Account Name" v-model="userName" >
+      </div>
+      <div class="password">
+        <input class="form-control" type="password" placeholder="Password" v-model="password">
+      </div>
+        <span  v-on:click="goToLogin()">Login</span> &lt;!&ndash;@click="goToLogin"&ndash;&gt;-->
+      <div>
+        <el-tabs v-model="activeName" @tab-click="handleClick">
+          <el-tab-pane label="teacher" name="first">
+            <div class="account">
+              <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
+            </div>
+            <div class="password">
+              <input class="form-control" type="password" placeholder="Password" v-model="password">
+            </div>
+            <span v-on:click="goToLogin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
+            <el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"
+                        placement="top" popper-class="test">
+              <el-button type="text">Forget your password?</el-button>
+            </el-tooltip>
+          </el-tab-pane>
+          <el-tab-pane label="配置管理" name="second">
+            <div class="account">
+              <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
+            </div>
+            <div class="password">
+              <input class="form-control" type="password" placeholder="Password" v-model="password">
+            </div>
+            <div class="password">
+              <input class="form-control" type="password" placeholder="Password" v-model="lessonCode">
+            </div>
+            <span v-on:click="studentslogin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
+            <el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"
+                        placement="top" popper-class="test">
+              <el-button type="text">Forget your password?</el-button>
+            </el-tooltip>
+          </el-tab-pane>
+          <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+        </el-tabs>
+      </div>
+
+
+      <!--<div class="admin">
+        <i data-toggle="tooltip" data-placement="top" title="Please contact the system administrator">Forget your password?</i>
+      </div>-->
+      <!--<el-tooltip class="item admin"  effect="dark" content="Please contact the system administrator" placement="top" popper-class="test">
+        <el-button type="text">Forget your password?</el-button>
+      </el-tooltip>-->
+      <!--<el-tooltip :popper-class="toolTipClass" content="Please contact the system administrator" placement="top">
+        <el-button>Forget your password?</el-button>
+      </el-tooltip>-->
     </div>
-    <div class="password">
-      <input class="form-control" type="password" placeholder="Password" v-model="password">
-    </div>
-      <span  v-on:click="goToLogin()">Login</span> <!--@click="goToLogin"-->
-    <!--<div class="admin">
-      <i data-toggle="tooltip" data-placement="top" title="Please contact the system administrator">Forget your password?</i>
-    </div>-->
-    <el-tooltip class="item admin"  effect="dark" content="Please contact the system administrator" placement="top" popper-class="test">
-      <el-button type="text">Forget your password?</el-button>
-    </el-tooltip>
-    <!--<el-tooltip :popper-class="toolTipClass" content="Please contact the system administrator" placement="top">
-      <el-button>Forget your password?</el-button>
-    </el-tooltip>-->
-  </div>
   </div>
 </template>
 
@@ -29,14 +65,18 @@
   export default {
     data() {
       return {
-        /*msg: "登录界面",*/
+        activeName: 'first',
         toolTipClass: 'page-login-toolTipClass',
         userName: "",
         password: "",
-        entity:""
+        lessonCode:'',
+        entity: ""
       }
     },
     methods: {
+      handleClick(tab, event) {
+        console.log(tab, event);
+      },
       goToLogin: function () {
         var login = {
           "userName": this.userName,
@@ -46,13 +86,30 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.entity = res.data.entity;
+              this.$router.push({path: "/navBar"});
             }
           }).catch((err) => {
           console.log(err);
         });
-        this.$router.push({path: "/navBar"});
+
+      },
+      studentslogin:function () {
+        var login = {
+          "userName": this.userName,
+          "password": this.password,
+          "lessonCode":this.lessonCode
+        };
+        this.$http.post(`${process.env.NODE_ENV}/login`, login)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.entity = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+        this.$router.push({path: "/LearningHomework"});
       }
-      }
+    }
   }
 </script>
 <style scoped>
@@ -68,7 +125,7 @@
     text-align: center;
     width: 20%;
     height: 30%;
-    margin: 6% auto;
+    margin: 2% auto;
     position: absolute;
     top: 0;
     left: 0;
@@ -76,6 +133,7 @@
     bottom: 0;
     color: #fff;
   }
+
   span {
     display: inline-block;
     border: 1px solid #212785;
@@ -85,22 +143,25 @@
     padding-top: 1%;
     cursor: pointer;
   }
+
   i {
     font-style: normal;
     cursor: pointer;
     font-size: 12px;
   }
+
   input::-webkit-input-placeholder {
     color: #ffffff;
     font-size: 12px;
     text-align: left;
   }
+
   input {
     display: block;
     width: 100%;
     font-size: 14px;
     line-height: 1.42857;
-    color:#fff;
+    color: #fff;
     background-color: rgba(177, 177, 177, 0.8);
     background-image: none;
     box-shadow: rgba(255, 255, 255, 0.07) 0px 1px 1px inset;
@@ -111,38 +172,43 @@
     border-image: initial;
     border-radius: 4px;
   }
-  .account,.password {
+
+  .account, .password {
     text-align: center;
     padding: 4% 0px;
   }
+
   .admin {
     display: inline-block;
     padding-top: 6%;
   }
- /* .is-dark {
-    background-color: pink !important;
-    color: #ff413a!important;
-  }
-  .page-login-toolTipClass{
-    background-color: #2992FF !important
-  }
-  .el-tooltip__popper.is-dark {
-    background-color: red !important;
-  }*/
+
+  /* .is-dark {
+     background-color: pink !important;
+     color: #ff413a!important;
+   }
+   .page-login-toolTipClass{
+     background-color: #2992FF !important
+   }
+   .el-tooltip__popper.is-dark {
+     background-color: red !important;
+   }*/
   .el-button {
     padding: 0px !important;
   }
 
-  .page-login-toolTipClass{
-    background-color: rgb(255,204,204) !important;
-    border-color:rgb(255,133,174) !important;
-    color:rgb(255,133,174) !important;
+  .page-login-toolTipClass {
+    background-color: rgb(255, 204, 204) !important;
+    border-color: rgb(255, 133, 174) !important;
+    color: rgb(255, 133, 174) !important;
   }
+
   .el-tooltip__popper[x-placement^=top] .popper__arrow:after {
-    border-top-color: rgb(255,204,204);
+    border-top-color: rgb(255, 204, 204);
   }
+
   .el-tooltip__popper[x-placement^=top] .popper__arrow {
-    border-top-color: rgb(255,204,204);
+    border-top-color: rgb(255, 204, 204);
   }
 
 </style>

@@ -6,6 +6,7 @@
       <p v-on:click="backlogin" style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">
       </p>
+     <!-- <p v-for="(student,index) in studentsid" :key="index">{{entity.student}}</p>-->
     </div>
     <el-scrollbar style="height: 100%">
       <div class="teachmain">
@@ -14,23 +15,23 @@
           Please choose a lesson.
         </p>
         <div class="lessonteach">
-          <div class="have" v-for="(cours,index) in entitylist" :key="index">
-            <div v-on:click="toggle()" style="cursor: pointer;display: inline-block">
+          <div class="have" v-for="(course,index) in courselist" :key="index">
+            <div v-on:click="toggle(course.id)" style="cursor: pointer;display: inline-block">
               <i class="el-icon-arrow-down"></i>
               <img src="../assets/images/u1212.png" alt="">
               <!--<h5 >Course：Journey of the Universe: A Story for Our Times1 </h5>-->
-              <h5>{{cours.courseName}}</h5>
+              <h5>{{course.courseName}}</h5>
             </div>
-            <h5 v-on:click="deleteDiscussion(cours.id)" class="el-icon-delete"
+            <h5 v-on:click="deletecours(course.id)" class="el-icon-delete"
                 style="color: red;cursor: pointer;float: right;margin-right: 1%"></h5>
-            <div v-show="isShow">
-              <div class="lesson" v-for="(lessonss,index) in lessonlist" :key="index">
+            <div v-show="isShow && (clickedCourseId == course.id)">
+              <div class="lesson" v-for="(lesson,index) in lessonlist" :key="index">
                 <div v-on:click="lessonhistory()" style="cursor: pointer;display: inline-block">
                   <img src="../assets/images/u16.png" alt="">
                 </div>
-                <p v-on:click="gotoclass()">{{lessonss.lessonName}}</p>
-                <span style="float: right">{{lessonss.createTime}}
-                  <i class="el-icon-delete" style="color: red;cursor: pointer"></i>
+                <p v-on:click="goTeaching(lesson.id)">{{lesson.lessonName}}</p>
+                <span style="float: right">{{lesson.createTime}}
+                  <i v-on:click="deletelesson(lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
                 </span>
                 <p style="float: right;cursor: pointer;padding-right: 20%">开始上课</p>
 
@@ -129,14 +130,18 @@
 </template>
 
 <script>
+  import eventBus from '../eventBus'
   export default {
     data() {
       return {
         courseName: '',
         isShow: true,
+        clickedCourseId:"",
+        lessonId:this.$route.query.lessonId,
         existCourseList: [],
-        entitylist: [],
+        courselist: [],
         lessonlist: [],
+        lessonCode:'',
         input: '',
         input2: '',
         input3: '',
@@ -153,28 +158,28 @@
       }
     },
     mounted() {
-      this.courselist();
-      this.goTeach();
+      this.getCourselist();
     },
     methods: {
-      toggle: function () {
+      toggle: function (id) {
         this.isShow = !this.isShow;
+        this.clickedCourseId = id;
+        this.getLessonListByCourseId(id);
 
       },
-      courselist() {
+      getCourselist() {
         this.$http.get(`${process.env.NODE_ENV}/course/list`)
           .then((res) => {
             if (res.data.code == 200) {
-              this.entitylist = res.data.entity;
-
+              this.courselist = res.data.entity;
             }
 
           }).catch((err) => {
           console.log(err);
         });
       },
-      goTeach() {
-        this.$http.get(`${process.env.NODE_ENV}/lesson/list`)
+      getLessonListByCourseId(id) {
+        this.$http.get(`${process.env.NODE_ENV}/lesson/list?courseId=${id}`)
           .then((res) => {
             if (res.data.code == 200) {
               this.lessonlist = res.data.entity;
@@ -185,16 +190,30 @@
           console.log(err);
         });
       },
-      gotoclass() {
-        this.$router.push({path: "/StartTeachingMaterials"});
+      goTeaching (id) {
+        var classs = {
+          lessonId:id,
+        };
+        this.$http.post(`${process.env.NODE_ENV}/teaching/start/edit`,classs)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.lessonCode = res.data.entity;
+              this.$router.push({path: "/StartTeachingMaterials",query:{lessonCode:this.lessonCode}});
+            }
+
+          }).catch((err) => {
+          console.log(err);
+        });
+
       },
       backlogin() {
         this.$router.push({path: "/"});
       },
-      deleteDiscussion: function (id) {
+      deletecours: function (id) {
         this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
           .then((res) => {
             if (res.data.code == 200) {
+              new Date(lessonss.createTime);
               /*this.discussionId = res.data.entity;
               console.log("discussionId:"+this.discussionId);*/
               this.courselist();
@@ -202,7 +221,19 @@
           }).catch((err) => {
           console.log(err);
         });
-      }
+      },
+      deletelesson: function (id) {
+        this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [id])
+          .then((res) => {
+            if (res.data.code == 200) {
+              /*this.discussionId = res.data.entity;
+              console.log("discussionId:"+this.discussionId);*/
+              this.goTeach();
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
     }
   }
 </script>

@@ -17,7 +17,9 @@
 <script>
   export default {
     data() {
-      return {}
+      return {
+        lessonId:this.$route.query.lessonId
+      }
     },
     methods: {
       goToAddMaterials(){

@@ -13,7 +13,7 @@
         <span  v-on:click="goToLogin()">Login</span> &lt;!&ndash;@click="goToLogin"&ndash;&gt;-->
       <div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="teacher" name="first">
+          <el-tab-pane label="TEACHER" name="first">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
@@ -26,7 +26,7 @@
               <el-button type="text">Forget your password?</el-button>
             </el-tooltip>
           </el-tab-pane>
-          <el-tab-pane label="students" name="second">
+          <el-tab-pane label="STUDENT" name="second">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
@@ -102,11 +102,12 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.entity = res.data.entity;
+              this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId}});
             }
           }).catch((err) => {
           console.log(err);
         });
-        this.$router.push({path: "/LearningHomework/LearningMaterials"});
+
       }
     }
   }

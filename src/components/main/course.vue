@@ -86,7 +86,7 @@
         }
       },
       getDetailByLessonId: function () {
-        console.log("课时id" + this.lessonId);
+        /*console.log("课时id" + this.lessonId);*/
         this.$http.get(`${process.env.NODE_ENV}/lesson/detail/query?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {

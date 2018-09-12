@@ -33,7 +33,7 @@
           </el-radio>-->
           <el-radio v-model="selectItem" :label="option.answerCode" style="display: inline-block;width: 90%;">
             {{option.answerCode}}
-            <el-input v-model="option.answerContent" placeholder="Please enter请输入内容"
+            <el-input v-model="option.answerContent" placeholder="Please enter"
                       style="width: 60%;display: inline-block"></el-input>
             <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
           </el-radio>
@@ -44,7 +44,7 @@
             <el-button type="text" icon="el-icon-delete"></el-button>
           </el-radio>-->
           <el-checkbox v-model="option.isCorrect" style="display: inline-block;width: 90%;">{{option.answerCode}}
-            <el-input v-model="option.answerContent" placeholder="Please enter请输入内容"
+            <el-input v-model="option.answerContent" placeholder="Please enter"
                       style="width: 100%;display: inline-block"></el-input>
             <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
           </el-checkbox>
@@ -88,13 +88,13 @@
         <el-button type="text" icon="el-icon-edit">
         </el-button>
           <div style="word-wrap: break-word; word-break: normal;width: 90%">{{exercises.questionTitle}}</div>
-        <ul v-for="(Choicelist,index) in options" :key="index">
-          <li style="color: #000"><P style="padding-right: 2%">{{Choicelist.answerCode}}</P><span>{{Choicelist.answerContent}}</span></li>
+       <!-- <ul v-for="(option,index) in options" :key="index">
+          <li style="color: #000"><P style="padding-right: 2%">{{option.answerCode}}</P><span>{{option.answerContent}}</span></li>
         </ul>
           <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Answer</p>
-        <div>A</div>
-        <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Explanation</p>
-        <p style="word-wrap: break-word; word-break: normal;width: 90% ">{{exercises.analysis}}</p>
+        <div>A</div>-->
+        <!--<p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Explanation</p>
+        <p style="word-wrap: break-word; word-break: normal;width: 90% ">{{exercises.analysis}}</p>-->
       </div>
       <el-dialog
         title="Select Course"
@@ -206,7 +206,6 @@
               e.isCorrect = 0;
             }
           })
-
         }
         var exercises = {
           lessonId: this.lessonId,
@@ -221,8 +220,17 @@
           .then((res) => {
 
             if (res.data.code == 200) {
-              /*debugger;*/
-              /*this.exercisesId = res.data.entity;*/
+              this.questionType = 1;
+              this.questionTitle= "";
+              this.options= [
+                {
+                  answerContent: "",
+                  isCorrect: true,
+                  answerCode: "A"
+                }
+              ];
+              this.analysis="";
+
               console.log("exercisesId：" + this.exercisesId);
               /*this.showExercises = JSON.parse(JSON.stringify(this.attachments));*/
               this.getAssignmentListByLessonId();
@@ -232,6 +240,7 @@
         });
 
       },
+
       //选择题列表
        getAssignmentListByLessonId(){
        /* debugger;*/

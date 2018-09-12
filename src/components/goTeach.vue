@@ -2,8 +2,8 @@
   <div id="goTeach">
     <div class="teachtop">
       <p>Welcome Matthew !</p>
-      <span @click="dialogFormVisible = true" class="password" >Modify Password</span>
-      <p style="float: right;padding-right: 2%;cursor: pointer">
+      <span @click="dialogFormVisible = true" class="password">Modify Password</span>
+      <p v-on:click="backlogin" style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">
       </p>
     </div>
@@ -14,23 +14,36 @@
           Please choose a lesson.
         </p>
         <div class="lessonteach">
-          <div class="have">
+          <div class="have" v-for="(cours,index) in entitylist" :key="index">
             <div v-on:click="toggle()" style="cursor: pointer;display: inline-block">
               <i class="el-icon-arrow-down"></i>
               <img src="../assets/images/u1212.png" alt="">
-              <h5 >Course：Journey of the Universe: A Story for Our Times1 </h5>
+              <!--<h5 >Course：Journey of the Universe: A Story for Our Times1 </h5>-->
+              <h5>{{cours.courseName}}</h5>
             </div>
-            <h5 class="el-icon-delete" style="color: red;cursor: pointer;float: right;margin-right: 1%"></h5>
+            <h5 v-on:click="deleteDiscussion(cours.id)" class="el-icon-delete"
+                style="color: red;cursor: pointer;float: right;margin-right: 1%"></h5>
             <div v-show="isShow">
-              <div class="lesson" >
+              <div class="lesson" v-for="(lessonss,index) in lessonlist" :key="index">
                 <div v-on:click="lessonhistory()" style="cursor: pointer;display: inline-block">
                   <img src="../assets/images/u16.png" alt="">
                 </div>
-                <p>Which of the planets of the solar system looks brightest on the earth</p>
-                <span style="float: right">12:00 30/08/2018
+                <p v-on:click="gotoclass()">{{lessonss.lessonName}}</p>
+                <span style="float: right">{{lessonss.createTime}}
                   <i class="el-icon-delete" style="color: red;cursor: pointer"></i>
                 </span>
-                <p style="float: right;cursor: pointer;padding-right: 18%">开始上课</p>
+                <p style="float: right;cursor: pointer;padding-right: 20%">开始上课</p>
+
+
+                <!--<ul>
+                  <li>
+                    <span style="float: right">12:00 30/08/2018
+                  <i class="el-icon-delete" style="color: red;cursor: pointer"></i>
+                </span>
+                    {{lessonss.lessonName}}
+                    <p style="float: right;cursor: pointer;padding-right: 18%">开始上课</p>
+                  </li>
+                </ul>-->
               </div>
               <div class="lesson">
                 <div>
@@ -56,7 +69,7 @@
             </div>
           </div>
         </div>
-        <div class="lessonhistory">
+        <!--<div class="lessonhistory">
           <div class="have">
             <h5>Course：Journey of the Universe: A Story for Our Times1 </h5>
             <div class="lesson">
@@ -93,11 +106,11 @@
 
             </div>
           </div>
-        </div>
+        </div>-->
       </div>
 
     </el-scrollbar>
-   <!-- <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>-->
+    <!-- <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>-->
 
     <el-dialog title="Modify Password" :visible.sync="dialogFormVisible" style="width: 50%;height: 100%">
       <p>Password</p>
@@ -119,11 +132,14 @@
   export default {
     data() {
       return {
+        courseName: '',
         isShow: true,
         existCourseList: [],
-        input:'',
-        input2:'',
-        input3:'',
+        entitylist: [],
+        lessonlist: [],
+        input: '',
+        input2: '',
+        input3: '',
         dialogFormVisible: false,
         form: {
           name: '',
@@ -136,16 +152,53 @@
         formLabelWidth: '100px'
       }
     },
+    mounted() {
+      this.courselist();
+      this.goTeach();
+    },
     methods: {
       toggle: function () {
         this.isShow = !this.isShow;
+
+      },
+      courselist() {
         this.$http.get(`${process.env.NODE_ENV}/course/list`)
           .then((res) => {
             if (res.data.code == 200) {
-              this.existCourseList = res.data.entity;
+              this.entitylist = res.data.entity;
 
             }
 
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      goTeach() {
+        this.$http.get(`${process.env.NODE_ENV}/lesson/list`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.lessonlist = res.data.entity;
+
+            }
+
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      gotoclass() {
+        this.$router.push({path: "/StartTeachingMaterials"});
+      },
+      backlogin() {
+        this.$router.push({path: "/"});
+      },
+      deleteDiscussion: function (id) {
+        this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
+          .then((res) => {
+            if (res.data.code == 200) {
+              /*this.discussionId = res.data.entity;
+              console.log("discussionId:"+this.discussionId);*/
+              this.courselist();
+            }
           }).catch((err) => {
           console.log(err);
         });
@@ -159,6 +212,7 @@
     width: 100%;
     height: 100%;
   }
+
   .teachtop {
     width: 100%;
     height: 8%;
@@ -168,20 +222,23 @@
     position: fixed;
     z-index: 99999;
   }
-  .teachtop p{
+
+  .teachtop p {
     display: inline-block;
     padding-top: 1%;
     padding-left: 2%;
 
   }
+
   .teachmain {
     width: 80%;
     height: 100%;
-    margin:0 auto;
+    margin: 0 auto;
     overflow: auto;
     padding-top: 4%;
 
   }
+
   .have {
     border: 1px solid #ccc;
     width: 100%;
@@ -203,6 +260,7 @@
     display: inline-block;
     font-weight: 700;
   }
+
   .lesson {
     border: 1px solid #ccc;
     width: 100%;
@@ -214,25 +272,31 @@
     border-radius: 4px;
     box-shadow: none;
   }
+
   p {
     display: inline-block;
-    margin:0px;
+    margin: 0px;
     cursor: pointer;
   }
+
   span {
     display: inline-block;
   }
-.lesson:hover {
-  background-color: rgb(255, 245, 198);
-}
+
+  .lesson:hover {
+    background-color: rgb(255, 245, 198);
+  }
+
   .password {
-     margin-left: 1%;
-     color: #0066CC;
-     cursor: pointer;
-   }
-  .password:hover{
+    margin-left: 1%;
+    color: #0066CC;
+    cursor: pointer;
+  }
+
+  .password:hover {
     border-bottom: 1px solid #0066cc;
   }
+
   .el-dialog__body {
     padding: 2% 10%;
     color: #606266;

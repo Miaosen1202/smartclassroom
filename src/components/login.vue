@@ -26,7 +26,7 @@
               <el-button type="text">Forget your password?</el-button>
             </el-tooltip>
           </el-tab-pane>
-          <el-tab-pane label="配置管理" name="second">
+          <el-tab-pane label="students" name="second">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
@@ -45,7 +45,6 @@
           <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
         </el-tabs>
       </div>
-
 
       <!--<div class="admin">
         <i data-toggle="tooltip" data-placement="top" title="Please contact the system administrator">Forget your password?</i>
@@ -107,7 +106,7 @@
           }).catch((err) => {
           console.log(err);
         });
-        this.$router.push({path: "/LearningHomework"});
+        this.$router.push({path: "/LearningHomework/LearningMaterials"});
       }
     }
   }

@@ -119,6 +119,7 @@
               fileName: this.fileEntity.fileOriginName
             });
 
+
         }
 
       },
@@ -133,7 +134,8 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.discussContent = "",
-                /*this.fileList3 = [];*/
+              this.fileList3 = [];
+              this.attachments = [];
               /*this.discussionId = res.data.entity;
               console.log("discussionId:"+this.discussionId);*/
               /*this.showAttachments = JSON.parse(JSON.stringify(this.attachments));*/
@@ -159,7 +161,7 @@
 
       },
       /*ceshi http://localhost:8080/#/homePage/course/addDiscussion?lessonId=46*/
-      wrong:function () {
+      wrong:function (id) {
         var discussion = {
           id:220,
           lessonId: this.lessonId,
@@ -167,7 +169,7 @@
           attachments: this.attachments,
           /*id: this.attachments.id*/
         };
-        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/modify`, discussion)
+        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/modify`, discussion,[id])
           .then((res) => {
             if (res.data.code == 200) {
               this.discussionId = res.data.entity;
@@ -177,6 +179,7 @@
           console.log(err);
         });
       },
+      /*删除列表*/
       deleteDiscussion:function (id) {
         this.$http.post(`${process.env.NODE_ENV}/classDiscuss/deletes`,[id])
           .then((res) => {
@@ -212,7 +215,6 @@
   .el-button--small {
     padding: 0px 3%;
   }
-
   .create {
     margin: 2% 0px;
   }
@@ -242,19 +244,16 @@
   .el-upload-list__item-name {
     color: #0066CC !important;
   }
-
   .have {
     border: 1px solid #ccc;
     width: 96%;
     padding-left: 2%;
     margin-top: 2%;
   }
-
   .have ul li {
     color: #0066CC;
     font-size: 12px;
   }
-
   .have h5 {
     display: inline-block;
     border-bottom: 2px solid #999;
@@ -265,7 +264,6 @@
     float: right;
     padding-right: 2%;
   }
-
   .el-icon-delete:before {
     color: red !important;
   }

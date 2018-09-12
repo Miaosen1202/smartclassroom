@@ -1,6 +1,9 @@
 <template>
   <div id="start">
     <div class="top">
+      <div v-on:click="goback()">
+        <img src="../../assets/images/pclogo.png" alt="" width="100" height="50" style="cursor: pointer">
+      </div>
 
     </div>
     <div class="main">
@@ -321,7 +324,10 @@
         this.checkedCities = val ? cityOptions : [];
         this.isIndeterminate = false;
       },
-    },
+      goback(){
+        this.$router.push({path: "/navBar"});
+      },
+    }
 
   }
 </script>
@@ -334,7 +340,8 @@
 
   .top {
     height: 10%;
-    background-color: #0066CC;
+   /* background-color: #0066CC;*/
+    background-color:  rgba(248, 248, 248, 1);;
   }
 
   .main {

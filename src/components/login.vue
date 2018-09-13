@@ -102,7 +102,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.entity = res.data.entity;
-              this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId}});
+              this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
             }
           }).catch((err) => {
           console.log(err);

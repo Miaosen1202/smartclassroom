@@ -3,21 +3,22 @@
 
     <div class="over">
       <p>Revise your course name and lesson name.</p>
-      <el-collapse v-for="course in courseList" :key="course.id" v-model="activeName" accordion class="course-item">
-        <el-collapse-item title=" " name="1">
+      <el-collapse v-model="activeName" accordion class="course-item" @change="courseCollapseChange">
+        <el-collapse-item v-for="course in courseList"
+                          :title="course.courseName" :name="course.id"  :key="course.id" >
           <template slot="title">
             <img src="../../assets/images/u1212.png" alt="">
-            <span class="course-name" :data-course-id="course.id"  @click="getLessonList">{{ course.courseName }}</span>
+            <span class="course-name" :data-course-id="course.id">{{ course.courseName }}</span>
             <i class="header-icon el-icon-info"></i>
           </template>
 
-          <el-table v-show="false"
+          <el-table v-show="true"
+            :show-header="false"
             :data="tableData"
             :data-course-id="course.id"
             class="lesson-items"
             style="width: 90%">
-            <el-table-column
-              width="600">
+            <el-table-column width="600">
               <template slot-scope="scope">
                 <!--<i class="el-icon-time"></i>-->
                 <img src="../../assets/images/u1442.png" alt="">
@@ -58,6 +59,20 @@
           this.getCourseList();
         },
         methods: {
+          courseCollapseChange: function(courseId) {
+            if (typeof courseId !== "undefined") {
+              this.$http.get(`${process.env.NODE_ENV}/lesson/list?status=1&courseId=` + courseId)
+                .then((res) => {
+                  if (res.data.code == 200) {
+                    this.tableData = res.data.entity;
+                  } else {
+                    alert(res.data.message);
+                  }
+                }).catch((err) => {
+                  console.log(err);
+                });
+            }
+          },
           getCourseList: function() {
             this.$http.get(`${process.env.NODE_ENV}/course/list?status=1`)
               .then((res) => {
@@ -68,27 +83,6 @@
               }).catch((err) => {
                 console.log(err);
               });
-          },
-          getLessonList(event) {
-            $(".lesson-items").hide();
-
-            var courseId = event.target.getAttribute("data-course-id");
-            this.$http.get(`${process.env.NODE_ENV}/lesson/list?status=1&courseId=` + courseId)
-                          .then((res) => {
-                            console.log("lesson list", res.data);
-
-                            if (res.data.code == 200) {
-                              this.tableData = res.data.entity;
-                            } else {
-                              alert(res.data.message);
-                            }
-                            console.log(event.target);
-
-                            console.log($(event.target).parent(".course-item").find(".lesson-items")[0]);
-                            $(event.target).closest(".course-item").find(".lesson-items").show();
-                          }).catch((err) => {
-                            console.log(err);
-                          });
           },
           handleEdit(index, row) {
             console.log("edit lesson, id=", row.id);

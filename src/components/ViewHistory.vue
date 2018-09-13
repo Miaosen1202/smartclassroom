@@ -90,36 +90,30 @@
     <!--:header-cell-style="{background:'#ccc',color:'#fff'}"-->
     <div class="all">
       <el-table
-        :data="tableData"
+        :data="teacherTeachingHistoryRecords"
         style="width: 100%;"
-        border
+        stripe
         :default-sort="{prop: 'date', order: 'descending'}"
        >
-        <el-table-column
-          prop="date"
-          label="time"
-          sortable
-          width="180"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="lesson"
-          label="lesson"
-          sortable
-          width="180"
-        >
-        </el-table-column>
-        <el-table-column
-          prop="name"
-          label="name"
-          width="180">
-        </el-table-column>
-        <el-table-column
-          prop="course"
-          label="course"
-          :formatter="formatter">
+        <el-table-column prop="lessonName" label="Lesson" width="180"></el-table-column>
+        <el-table-column prop="courseName" label="Course" width="180"></el-table-column>
+        <el-table-column prop="teacherName" label="教师" width="180"></el-table-column>
+        <el-table-column prop="time" label="上课时间" :formatter="formatter"></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          </template>
         </el-table-column>
       </el-table>
+
+      <el-pagination
+        :page-size="pageSize"
+        :page-count="5"
+        :current-page="pageIndex"
+        layout="prev, pager, next"
+        :total="recordNumber"
+        @current-change="loadTeacherTeachingHistory">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -128,56 +122,52 @@
   export default {
     data() {
       return {
-        /*isShow: false,
-        lessonmain:true,*/
-        tableData: [{
-          date: '2016-05-02 -2017-5-12',
-          lesson: 'lesson1',
-          name: 'admin',
-          course: '高等数据一期',
-
-        }, {
-          date: '2018-05-04',
-          lesson: 'lesson2',
-          name: 'admin',
-          course: '高等数据二期'
-        }, {
-          date: '2014-05-01',
-          lesson: 'lesson3',
-          name: 'admin',
-          course: '高等数据三期'
-        }, {
-          date: '2013-05-05',
-          lesson: 'lesson6',
-          name: 'admin',
-          course: '高等数据三期'
-        },{
-          date: '2011-05-06',
-          lesson: 'lesson7',
-          name: 'admin',
-          course: '高等数据三期'
-        },{
-          date: '2019-05-07',
-          lesson: 'lesson8',
-          name: 'admin',
-          course: '高等数据三期'
-        },{
-          date: '2016-05-03',
-          lesson: 'lesson4',
-          name: 'damin',
-          course: '高等数据四期'
-        }]
+        pageSize: 5,
+        pageIndex: 1,
+        recordNumber: 0,
+        teacherTeachingHistoryRecords: []
       }
     },
+    mounted() {
+      this.loadTeacherTeachingHistory(this.pageIndex);
+    },
     methods: {
-      /* toggle: function () {
-         this.isShow = !this.isShow;
-       },
-       lessonhistory:function () {
-         this.lessonmain = !this.lessonmain;
-       },*/
-      formatter(row, column) {
-        return row.course;
+      formatter: function (row, column, cellVal, index) {
+        return new Date(row.startTime).toLocaleString() + " - " + new Date(row.endTime).toLocaleString();
+      },
+      loadTeacherTeachingHistory: function (pageIndex) {
+        var param = {
+          pageIndex: pageIndex,
+          pageSize: this.pageSize,
+          status: 2
+        };
+        this.$http.get(`${process.env.NODE_ENV}/teacherClassRecord/pageList`, {params: param})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.teacherTeachingHistoryRecords = res.data.entity.list;
+              this.pageIndex = res.data.entity.pageIndex;
+              this.recordNumber = res.data.entity.total;
+            } else {
+              alert(res.data.message);
+            }
+          }).catch((err) => {
+            alert(err);
+          });
+      },
+      handleDelete: function (index, row) {
+        console.log("handle delete, index=" + index, row)
+        this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, [row.id])
+          .then((res) => {
+            if (res.data.code == 200) {
+              console.log("delete teacher teaching record success, id=", row.id);
+              teacherTeachingHistoryRecords.splice(index, 1);
+            } else {
+              alert(res.data.message);
+            }
+          }).catch((err) => {
+            console.error("delete error", err);
+            alert(err);
+          });
       }
     }
   }

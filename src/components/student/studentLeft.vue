@@ -37,9 +37,14 @@
     props:{
       lessonId:{
         default:function(){
-          return 0;
+          return [];
         },
-      }
+      },
+      lessonCode:{
+        default:function(){
+          return "";
+        },
+      },
     },
     data(){
       return{
@@ -55,7 +60,7 @@
       },
       goToSecond(s){
         this.activeFlag = s;
-        this.$router.push({path:"/LearningHomework/LetDiscuss",query:{lessonId:this.lessonId}});
+        this.$router.push({path:"/LearningHomework/LetDiscuss",query:{lessonId:this.lessonId,lessonCode:this.lessonCode}});
       },
       goToThird(s){
         this.activeFlag = s;

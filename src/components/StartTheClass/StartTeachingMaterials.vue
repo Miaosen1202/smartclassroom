@@ -235,6 +235,7 @@
         checked2: '',
         isIndeterminate: '',
         handleCheckedCitiesChange: '',
+        discussionList:[],
         msg: ''
       }
     },

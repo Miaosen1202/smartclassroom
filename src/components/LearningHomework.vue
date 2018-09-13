@@ -7,7 +7,7 @@
       <p style="float: right;padding-right: 3%;cursor: pointer"><img src="../assets/images/u4.png" alt=""></p>
     </div>
     <div class="left">
-      <left :lessonId="lessonId"></left>
+      <left :lessonId="lessonId" :lessonCode="lessonCode"></left>
   </div>
     <div class="right">
       <div class="right-main">
@@ -33,9 +33,11 @@
   import left from './student/studentLeft.vue'
   export default {
     name: 'homePage',
+
     data () {
       return {
         lessonId: this.$route.query.lessonId,
+        lessonCode: this.$route.query.lessonCode,
         entity: {
           lesson: {lessonName: ""},
           course: {courseName: ""}

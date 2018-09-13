@@ -19,7 +19,7 @@
         </el-button>
         <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
         <ul style="padding-left: 2%">
-          <li v-for="(attachment,ind) in discussion.attachments" :key="ind" @click="downFile(attachment.fileLocalPath)">
+          <li v-for="(attachment,ind) in discussion.attachments" :key="ind" @click="downFile(attachment.fileUrl)">
             {{attachment.fileName}}
             <i class="el-icon-download" style="cursor: pointer;"></i>
           </li>
@@ -50,7 +50,7 @@
               type="textarea"
               autosize
               placeholder="请输入内容"
-              v-model="discussionList">
+              v-model="discussContent">
             </el-input>
 
             <!--上传文件-->
@@ -96,6 +96,17 @@
           </div>
         </div>
       </div>
+      <div class="block">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="currentPage4"
+          :page-sizes="1"
+          :page-size="100"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="10">
+        </el-pagination>
+      </div>
     </el-scrollbar>
   </div>
 </template>
@@ -105,7 +116,7 @@
     data() {
       return {
         isShow: true,
-        assignmentName: '',
+       /* assignmentName: '',*/
         fileList3: [],
         action: process.env.NODE_ENV + '/file/upload',
         removedFileName: "",
@@ -113,8 +124,12 @@
         boName: '',
         loading: true,
         lessonId: this.$route.query.lessonId,
+        lessonCode:this.$route.query.lessonCode,
         attachments: [],
+        discussContent: '',
         discussionList:[],
+        currentPage4: 4
+
       }
     },
     mounted() {
@@ -158,15 +173,19 @@
       },
       sure: function () {
         var discussion = {
-          lessonId: this.lessonId,
-          discussContent: this.discussContent,
-          attachments: this.attachments
+          questionId: 118,
+          answerContent: this.discussContent,
+          attachments: this.attachments,
+          questionType:5,
+          isSubmit:0,
+          lessonCode:this.lessonCode,
+
         };
 
-        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
+        this.$http.post(`${process.env.NODE_ENV}/questionAnswer/submit/edit`, discussion)
           .then((res) => {
             if (res.data.code == 200) {
-              this.discussionList = res.data.entity;
+              this.discussContent = res.data.entity;
               this.getDiscussionListByLessonId();
             }
           }).catch((err) => {
@@ -178,19 +197,23 @@
         this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {
-              debugger;
-
+              /*debugger;*/
               this.discussionList = res.data.entity;
             }
           }).catch((err) => {
           console.log(err);
         });
-
       },
-
       //下载discussion文件
       downFile(filePath){
-        window.open(`${process.env.NODE_ENV}/classDiscuss/${filePath}`);
+        /*window.open(`${process.env.NODE_ENV}/http://localhost:8088/${filePath}`);*/
+        window.open(`${process.env.NODE_ENV}${filePath}`);
+      },
+      handleSizeChange(val) {
+        console.log(`每页 ${val} 条`);
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
       }
     }
   }

@@ -64,7 +64,7 @@
       },
       goToThird(s){
         this.activeFlag = s;
-         this.$router.push({path:"/LearningHomework/TakeExercises",query:{lessonId:this.lessonId}});
+         this.$router.push({path:"/LearningHomework/TakeExercises",query:{lessonId:this.lessonId,lessonCode:this.lessonCode}});
        },
       goToFive(s){
         this.activeFlag = s;

@@ -85,9 +85,9 @@
                 <p>Create a <br> Discussion</p>
               </el-button>
             </div>-->
-            <div class="discussion">
-              <P>Alexander</P>
-              <P>123456</P>
+            <div class="discussion" v-for="(submithistory,index) in submitHistoryList" :key="index">
+              <P>{{submithistory.answerContent}}</P>
+              <!--<P>{{discussion.answerContent}}</P>-->
               <ul>
                 <li>123.jpg</li>
               </ul>
@@ -96,7 +96,7 @@
           </div>
         </div>
       </div>
-      <div class="block">
+      <!--<div class="block">
         <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -106,7 +106,7 @@
           layout="total, sizes, prev, pager, next, jumper"
           :total="10">
         </el-pagination>
-      </div>
+      </div>-->
     </el-scrollbar>
   </div>
 </template>
@@ -128,12 +128,14 @@
         attachments: [],
         discussContent: '',
         discussionList:[],
-        currentPage4: 4
-
+        submitHistoryList:[],
+        questionAnswerRecordVos:[],
+        /*currentPage4: 4*/
       }
     },
     mounted() {
       this.getDiscussionListByLessonId();
+      this.getsubmitHistoryLessonId();
     },
     methods: {
       toggle: function () {
@@ -209,12 +211,29 @@
         /*window.open(`${process.env.NODE_ENV}/http://localhost:8088/${filePath}`);*/
         window.open(`${process.env.NODE_ENV}${filePath}`);
       },
-      handleSizeChange(val) {
+      /*handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
-      }
+      }*/
+      getsubmitHistoryLessonId(){
+        var submitHistory = {
+          questionId: 118,
+          questionType:5,
+          lessonCode:this.lessonCode,
+
+        };
+        this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`,submitHistory)
+          .then((res) => {
+            if (res.data.code == 200) {
+              /*debugger;*/
+              this.submitHistoryList = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
     }
   }
 </script>

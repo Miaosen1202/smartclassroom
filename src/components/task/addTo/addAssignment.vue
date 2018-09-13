@@ -124,7 +124,6 @@
         this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
           .then((res) => {
             if (res.data.code == 200) {
-              debugger;
               this.assignmentName = "";
                 this.attachments =[];
                 this.fileList3 = [];

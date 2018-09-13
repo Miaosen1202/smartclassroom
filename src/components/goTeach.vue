@@ -216,7 +216,8 @@
               new Date(lessonss.createTime);
               /*this.discussionId = res.data.entity;
               console.log("discussionId:"+this.discussionId);*/
-              this.courselist();
+              /*this.courselist();*/
+              this.getCourselist();
             }
           }).catch((err) => {
           console.log(err);
@@ -229,6 +230,7 @@
               /*this.discussionId = res.data.entity;
               console.log("discussionId:"+this.discussionId);*/
               this.goTeach();
+
             }
           }).catch((err) => {
           console.log(err);

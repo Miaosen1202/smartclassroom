@@ -101,6 +101,7 @@
         <el-table-column prop="time" label="上课时间" :formatter="formatter"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
+            <el-button size="mini" @click="goPrepare(scope.$index, scope.row)">进入</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -133,7 +134,29 @@
     },
     methods: {
       formatter: function (row, column, cellVal, index) {
-        return new Date(row.startTime).toLocaleString() + " - " + new Date(row.endTime).toLocaleString();
+        var st = new Date(row.startTime);
+        var et = new Date(row.endTime);
+
+        return this.formatDateTime(st);
+      },
+      formatDateTime: function(date) {
+        var month = '' + (date.getMonth() + 1);
+        var day = '' + date.getDate();
+        var year = date.getFullYear();
+        var hour = '' + date.getHours();
+        var min = '' + date.getMinutes();
+        var sec = '' + date.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        if (hour.length < 2) hour = '0' + hour;
+        min = min.length < 2 ? ('0' + min) : min;
+        sec = sec.length < 2 ? ('0' + sec) : sec;
+
+        return [year, month, day].join('-') + " " + [hour, min, sec].join(":");
+      },
+      goPrepare: function(index, row) {
+        this.$router.push({path: "/homePage/course", query: {"lessonId": row.lessonId}});
       },
       loadTeacherTeachingHistory: function (pageIndex) {
         var param = {
@@ -159,8 +182,7 @@
         this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, [row.id])
           .then((res) => {
             if (res.data.code == 200) {
-              console.log("delete teacher teaching record success, id=", row.id);
-              teacherTeachingHistoryRecords.splice(index, 1);
+              this.loadTeacherTeachingHistory(this.pageIndex);
             } else {
               alert(res.data.message);
             }

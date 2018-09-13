@@ -34,6 +34,13 @@
 
 <script>
   export default{
+    props:{
+      lessonId:{
+        default:function(){
+          return 0;
+        },
+      }
+    },
     data(){
       return{
         msg:"左部",
@@ -44,19 +51,19 @@
     methods:{
       goToFirst(s){
         this.activeFlag = s;
-        this.$router.push({path:"/LearningHomework/LearningMaterials"});
+        this.$router.push({path:"/LearningHomework/LearningMaterials",query:{lessonId:this.lessonId}});
       },
       goToSecond(s){
         this.activeFlag = s;
-        this.$router.push({path:"/LearningHomework/LetDiscuss"});
+        this.$router.push({path:"/LearningHomework/LetDiscuss",query:{lessonId:this.lessonId}});
       },
       goToThird(s){
         this.activeFlag = s;
-         this.$router.push({path:"/LearningHomework/TakeExercises"});
+         this.$router.push({path:"/LearningHomework/TakeExercises",query:{lessonId:this.lessonId}});
        },
       goToFive(s){
         this.activeFlag = s;
-        this.$router.push({path:"/LearningHomework/MyAssignment"});
+        this.$router.push({path:"/LearningHomework/MyAssignment",query:{lessonId:this.lessonId}});
       }
     }
   }

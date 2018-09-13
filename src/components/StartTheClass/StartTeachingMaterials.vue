@@ -1,6 +1,10 @@
 <template>
   <div id="start">
     <div class="top">
+      <div v-on:click="goback()" style="display: inline-block">
+        <img src="../../assets/images/pclogo.png" alt="" width="100" height="50" style="cursor: pointer">
+      </div>
+      <span>{{lessonCode}} </span>
 
     </div>
     <div class="main">
@@ -23,12 +27,12 @@
           </el-tab-pane>
           <el-tab-pane label="Discussion(0)">
             <p>Lesson：Our Solar System and Life’s Emergence</p>
-            <div class="have">
-              <h5>Discussion 1</h5>
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
+            <div class="have" v-for="(discussion,index) in discussionList" :key="index">
+              <h5>Discussion {{discussion.sort}}</h5>
+              <p>{{discussion.discussContent}}</p>
               <ul>
                 <li>Our Solar System and Life’s .docx</li>
-                <li>Emergence.jpg</li>
+                <li>v-for="(attachment,ind) in discussion.attachments" :key="ind">{{attachment.fileName}}</li>
               </ul>
               <div class="news" v-on:click="toggle()">
                 <img src="../../assets/images/u2503.png" alt="">
@@ -209,6 +213,7 @@
 </template>
 
 <script>
+  import eventBus from '../../eventBus'
   /*require('echarts-wordcloud');*/
   // 引入基本模板
   let echarts = require('echarts/lib/echarts')
@@ -221,6 +226,8 @@
   export default {
     data() {
       return {
+        lessonCode:this.$route.query.lessonCode,
+        lessonId:this.$route.query.lessonId,
         checked: true,
         isShow: false,
         checkAll: false,
@@ -234,6 +241,7 @@
     mounted() {
       this.drawLine();
       this.bdrawLine();
+      this.getDiscussionListByLessonId();
     },
     methods: {
       drawLine() {
@@ -321,7 +329,23 @@
         this.checkedCities = val ? cityOptions : [];
         this.isIndeterminate = false;
       },
-    },
+      goback(){
+        this.$router.push({path: "/navBar"});
+      },
+      getDiscussionListByLessonId(){
+        debugger;
+        this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+
+              this.discussionList = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
+    }
 
   }
 </script>
@@ -334,7 +358,8 @@
 
   .top {
     height: 10%;
-    background-color: #0066CC;
+   /* background-color: #0066CC;*/
+    background-color:  rgba(248, 248, 248, 1);;
   }
 
   .main {

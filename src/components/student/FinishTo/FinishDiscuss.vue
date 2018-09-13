@@ -1,115 +1,103 @@
 <template>
   <div class="all">
-      <el-scrollbar style="height: 100%">
-        <div class="elbtn">
-          <el-button type="success" icon="el-icon-arrow-left" circle></el-button>
-          <h4 style="display: inline-block">1/4</h4>
-          <el-button  type="success" icon="el-icon-arrow-right" circle></el-button>
-        </div>
-      <el-button  v-on:click="toggle()" style="margin: 1% 0px 0px 1%;background-color:  rgba(111, 111, 183,1);color: white;font-weight: 700">Reply</el-button>
-      <div class="have">
-        <h5>Discussion</h5>
+    <el-scrollbar style="height: 100%">
+      <div class="elbtn">
+        <el-button type="success" icon="el-icon-arrow-left" circle></el-button>
+        <h4 style="display: inline-block">1/4</h4>
+        <el-button type="success" icon="el-icon-arrow-right" circle></el-button>
+      </div>
+      <el-button v-on:click="toggle()"
+                 style="margin: 1% 0px 0px 1%;background-color:  rgba(111, 111, 183,1);color: white;font-weight: 700">
+        Reply
+      </el-button>
+      <div class="have" v-for="(discussion,index) in discussionList" :key="index">
+        <h5>Discussion {{discussion.sort}}</h5>
         <el-button type="text" icon="el-icon-delete">
         </el-button>
         <el-button type="text" icon="el-icon-edit">
 
         </el-button>
-        <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">12121212</p>
+        <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
         <ul style="padding-left: 2%">
-          <li >name <i class="el-icon-download" style="cursor: pointer;"></i></li>
+          <li v-for="(attachment,ind) in discussion.attachments" :key="ind" @click="downFile(attachment.fileLocalPath)">
+            {{attachment.fileName}}
+            <i class="el-icon-download" style="cursor: pointer;"></i>
+          </li>
         </ul>
       </div>
+      <!--<div class="have">
+        <h5>Discussion </h5>
+        <el-button type="text" icon="el-icon-delete">
+        </el-button>
+        <el-button type="text" icon="el-icon-edit">
 
+        </el-button>
+      </div>
+-->
       <div v-show="isShow">
-      <div style="margin: 2% 0px">
-        <!--<div class="create" >
-          <el-button size="small" type="primary">
-            <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-            <p>Create a <br> Discussion</p>
-          </el-button>
-        </div>-->
-        <div class="discussion">
-          <h5 style="font-weight: 700" >Reply</h5>
-          <!--v-model="lessonName"-->
-          <!--输入框输入内容-->
-          <el-input
-            type="textarea"
-            autosize
-            placeholder="请输入内容"
-            v-model="assignmentName">
-          </el-input>
-
-          <!--上传文件-->
-          <el-upload
-            class="upload-demo"
-            :action="action"
-            :before-remove="beforeRemove"
-            :on-remove="removeFile"
-            :on-change="handleChange"
-            :on-success="handleSuccess"
-            :with-credentials="true"
-            :file-list="fileList3">
-            <el-button size="mini" type="primary" style="background-color: rgba(111, 111, 183,1);">
-              <img src="../../../assets/images/u166.png" alt="">
+        <div style="margin: 2% 0px">
+          <!--<div class="create" >
+            <el-button size="small" type="primary">
+              <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
+              <p>Create a <br> Discussion</p>
             </el-button>
+          </div>-->
+          <div class="discussion">
+            <h5 style="font-weight: 700">Reply</h5>
+            <!--v-model="lessonName"-->
+            <!--输入框输入内容-->
+            <el-input
+              type="textarea"
+              autosize
+              placeholder="请输入内容"
+              v-model="discussionList">
+            </el-input>
 
-            <div slot="tip" class="el-upload__tip">Add Attachments</div>
-          </el-upload>
+            <!--上传文件-->
+            <el-upload
+              class="upload-demo"
+              :action="action"
+              :before-remove="beforeRemove"
+              :on-remove="removeFile"
+              :on-change="handleChange"
+              :on-success="handleSuccess"
+              :with-credentials="true"
+              :file-list="fileList3">
+              <el-button size="mini" type="primary" style="background-color: rgba(111, 111, 183,1);">
+                <img src="../../../assets/images/u166.png" alt="">
+              </el-button>
 
-          <!--按钮-->
-          <span slot="footer" class="dialog-footer">
+              <div slot="tip" class="el-upload__tip">Add Attachments</div>
+            </el-upload>
+
+            <!--按钮-->
+            <span slot="footer" class="dialog-footer">
         <el-button style="margin-top: 2%;background-color: #4cae4c" size="medium" type="primary" v-on:click="sure()">submit</el-button>
         <el-button size="medium">Cancel</el-button>
       </span>
+          </div>
+        </div>
+        <div>
+          <div style="margin: 2% 0px">
+            <!--<div class="create" >
+              <el-button size="small" type="primary">
+                <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
+                <p>Create a <br> Discussion</p>
+              </el-button>
+            </div>-->
+            <div class="discussion">
+              <P>Alexander</P>
+              <P>123456</P>
+              <ul>
+                <li>123.jpg</li>
+              </ul>
+              <!--上传文件-->
+            </div>
+          </div>
         </div>
       </div>
-      <div>
-    <div style="margin: 2% 0px">
-      <!--<div class="create" >
-        <el-button size="small" type="primary">
-          <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-          <p>Create a <br> Discussion</p>
-        </el-button>
-      </div>-->
-      <div class="discussion">
-        <h5 style="font-weight: 700">Reply</h5>
-        <!--v-model="lessonName"-->
-        <!--输入框输入内容-->
-        <el-input
-          type="textarea"
-          autosize
-          placeholder="请输入内容"
-          v-model="assignmentName">
-        </el-input>
-
-        <!--上传文件-->
-        <el-upload
-          class="upload-demo"
-          :action="action"
-          :before-remove="beforeRemove"
-          :on-remove="removeFile"
-          :on-change="handleChange"
-          :on-success="handleSuccess"
-          :with-credentials="true"
-          :file-list="fileList3">
-          <el-button size="mini" type="primary" style="background-color: rgba(111, 111, 183,1);">
-            <img src="../../../assets/images/u166.png" alt="">
-          </el-button>
-
-          <div slot="tip" class="el-upload__tip">Add Attachments</div>
-        </el-upload>
-
-        <!--按钮-->
-        <span slot="footer" class="dialog-footer">
-        <el-button style="margin-top: 2%;background-color: #4cae4c" size="medium" type="primary" v-on:click="sure()">submit</el-button>
-        <el-button size="medium">Cancel</el-button>
-      </span>
-      </div>
-    </div>
-      </div>
-      </div>
-      </el-scrollbar>
-    </div>
+    </el-scrollbar>
+  </div>
 </template>
 
 <script>
@@ -125,13 +113,12 @@
         boName: '',
         loading: true,
         lessonId: this.$route.query.lessonId,
-        assignmentId: '',
         attachments: [],
-        assignmentList: [],
+        discussionList:[],
       }
     },
     mounted() {
-      this.getAssignmentListByLessonId();
+      this.getDiscussionListByLessonId();
     },
     methods: {
       toggle: function () {
@@ -170,35 +157,40 @@
         }
       },
       sure: function () {
-        var assignment = {
+        var discussion = {
           lessonId: this.lessonId,
-          assignmentName: this.assignmentName,
+          discussContent: this.discussContent,
           attachments: this.attachments
         };
 
-        this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
+        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
           .then((res) => {
             if (res.data.code == 200) {
-              this.assignmentId = res.data.entity;
-              console.log("assignmentId：" + this.assignmentId);
-              this.showAttachments = JSON.parse(JSON.stringify(this.attachments));
-              this.getAssignmentListByLessonId();
+              this.discussionList = res.data.entity;
+              this.getDiscussionListByLessonId();
             }
           }).catch((err) => {
           console.log(err);
         });
 
       },
-      getAssignmentListByLessonId() {
-        this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/list?lessonId=${this.lessonId}`)
+      getDiscussionListByLessonId(){
+        this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {
-              this.assignmentList = res.data.entity;
+              debugger;
+
+              this.discussionList = res.data.entity;
             }
           }).catch((err) => {
           console.log(err);
         });
 
+      },
+
+      //下载discussion文件
+      downFile(filePath){
+        window.open(`${process.env.NODE_ENV}/classDiscuss/${filePath}`);
       }
     }
   }
@@ -207,7 +199,7 @@
 <style scoped="">
 
   .all {
-    margin:0px 2%;
+    margin: 0px 2%;
     width: 98%;
     height: 84%;
   }
@@ -230,7 +222,7 @@
     border: 1px solid #ccc;
     width: 96%;
     padding-left: 2%;
-    padding-bottom: 2%;
+    /*padding-bottom: 2%;*/
     background-color: #f9f9f9;
     border-radius: 4px;
   }
@@ -253,7 +245,6 @@
   .el-upload-list__item-name {
     color: #0066CC !important;
   }
-
 
   .have {
     border: 1px solid #ccc;
@@ -278,16 +269,19 @@
     float: right;
     padding-right: 2%;
   }
+
   .elbtn {
     float: right;
-    margin-top:1%;
-    margin-right:4%;
+    margin-top: 1%;
+    margin-right: 4%;
   }
+
   .elbtn .el-button {
     background-color: rgb(157, 157, 238);
     border: none;
   }
+
   .elbtn .el-button:active {
-    background-color: rgba(111, 111, 183,1)
+    background-color: rgba(111, 111, 183, 1)
   }
 </style>

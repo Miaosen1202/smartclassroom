@@ -125,9 +125,9 @@
           .then((res) => {
             if (res.data.code == 200) {
               debugger;
-              this.assignmentName = "",
-                /*this.attachments =[];*/
-                /*this.fileList3 = [];*/
+              this.assignmentName = "";
+                this.attachments =[];
+                this.fileList3 = [];
               this.getAssignmentListByLessonId();
             }
           }).catch((err) => {
@@ -144,8 +144,6 @@
           }).catch((err) => {
           console.log(err);
         });
-
-
 
 
       },
@@ -173,8 +171,7 @@
         this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/modify`, assignment)
           .then((res) => {
             if (res.data.code == 200) {
-             /* this.assignmentId = res.entity;
-              console.log("assignmentId:" + this.assignmentId);*/
+
             }
           }).catch((err) => {
           console.log(err);

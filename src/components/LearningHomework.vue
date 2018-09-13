@@ -7,19 +7,19 @@
       <p style="float: right;padding-right: 3%;cursor: pointer"><img src="../assets/images/u4.png" alt=""></p>
     </div>
     <div class="left">
-      <left></left>
-    </div>
+      <left :lessonId="lessonId"></left>
+  </div>
     <div class="right">
       <div class="right-main">
         <div class="coursetop">
           <!--Lesson : Our Solar System and Life’s Emergence  v-for="lessonId in existCourseList"{{lessonId.courseName}}-->
-          <p>qqqqqqqqqqqqqqqqq<!--Emergence--><!--{{entity.lesson.lessonName}}-->
+          <p>{{entity.lesson.lessonName}}<!--Emergence--><!--{{entity.lesson.lessonName}}-->
             <img src="../assets/images/u475.png" alt="">
           </p>
           <p>
             <img src="../assets/images/u434.png" alt="">
-            <!--{{entity.course.courseName}}-->
-            Course : Journey of the Universe: A Story for Our Times
+            {{entity.course.courseName}}
+           <!-- Course : Journey of the Universe: A Story for Our Times-->
           </p>
         </div>
         <router-view></router-view>
@@ -29,16 +29,33 @@
 </template>
 
 <script>
+  import eventBus from '../eventBus'
   import left from './student/studentLeft.vue'
   export default {
     name: 'homePage',
     data () {
       return {
-        msg: '欢迎'
+        lessonId: this.$route.query.lessonId,
+        entity: {
+          lesson: {lessonName: ""},
+          course: {courseName: ""}
+        },
       }
     },
+    mounted() {
+      this.getDetailByLessonId();
+    },
     methods:{
-
+      getDetailByLessonId: function () {
+        this.$http.get(`${process.env.NODE_ENV}/lesson/detail/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.entity = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
     },
     components:{
       left,

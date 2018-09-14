@@ -12,11 +12,7 @@
       </el-button>
       <div class="have" v-for="(discussion,index) in discussionList" :key="index">
         <h5>Discussion {{discussion.sort}}</h5>
-        <el-button type="text" icon="el-icon-delete">
-        </el-button>
-        <el-button type="text" icon="el-icon-edit">
 
-        </el-button>
         <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
         <ul style="padding-left: 2%">
           <li v-for="(attachment,ind) in discussion.attachments" :key="ind" @click="downFile(attachment.fileUrl)">
@@ -175,7 +171,7 @@
       },
       sure: function () {
         var discussion = {
-          questionId: 118,
+          questionId: 31,
           answerContent: this.discussContent,
           attachments: this.attachments,
           questionType:5,
@@ -219,7 +215,7 @@
       }*/
       getsubmitHistoryLessonId(){
         var submitHistory = {
-          questionId: 118,
+          questionId: 31,
           questionType:5,
           lessonCode:this.lessonCode,
 
@@ -227,7 +223,6 @@
         this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`,submitHistory)
           .then((res) => {
             if (res.data.code == 200) {
-              /*debugger;*/
               this.submitHistoryList = res.data.entity;
             }
           }).catch((err) => {

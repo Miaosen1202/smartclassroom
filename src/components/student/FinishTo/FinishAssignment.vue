@@ -11,14 +11,10 @@
 
         <div class="have" v-for="(assignment,index) in assignmentList" :key="index">
           <h5>Assignment {{assignment.sort}}</h5>
-          <el-button type="text" icon="el-icon-delete">
-          </el-button>
-          <el-button type="text" icon="el-icon-edit">
 
-          </el-button>
           <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{assignment.assignmentName}}</p>
           <ul style="padding-left: 2%">
-            <li v-for="(attachment,ind) in discussion.attachments" :key="ind" @click="downFile(attachment.fileUrl)">
+            <li v-for="(attachment,ind) in assignment.attachments" :key="ind" @click="downFile(attachment.fileUrl)">
               {{attachment.fileName}}
               <i class="el-icon-download" style="cursor: pointer;"></i>
             </li>

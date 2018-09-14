@@ -2,7 +2,7 @@
   <div id="viewhistory">
     <div class="historytop">
       <p>Welcome Matthew !</p>
-      <p style="float: right;padding-right: 2%;cursor: pointer">
+      <p v-on:click="goback()" style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">
       </p>
     </div>
@@ -190,7 +190,10 @@
             console.error("delete error", err);
             alert(err);
           });
-      }
+      },
+      goback: function() {
+        this.$router.push({path: "/navBar"});
+      },
     }
   }
 </script>

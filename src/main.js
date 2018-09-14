@@ -9,7 +9,6 @@ import axios from 'axios'
 import echarts from 'echarts'
 
 
-
 Vue.prototype.$echarts = echarts
 
 Vue.config.productionTip = false

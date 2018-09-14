@@ -7,10 +7,6 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 import echarts from 'echarts'
-<<<<<<< HEAD
-=======
-
->>>>>>> 0f435524cc5931e0ab4dcc17699e3a99d1b77e4b
 
 
 Vue.prototype.$echarts = echarts

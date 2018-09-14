@@ -18,7 +18,6 @@
           v-model="assignmentName">
         </el-input>
         <!-- <div style="margin: 20px 0;"></div>-->
-
         <el-upload
           class="upload-demo"
           :action="action"
@@ -115,6 +114,9 @@
         }
       },
       sure: function () {
+
+
+
         var assignment = {
           lessonId: this.lessonId,
           assignmentName: this.assignmentName,

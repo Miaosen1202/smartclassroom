@@ -297,4 +297,20 @@
     border: none;
     color: white;
   }
+
+  .teach {
+    text-align: center;
+    margin-top: 4%;
+  }
+  .teach p:first-child {
+    color: #ccc;
+    margin-bottom: 3%;
+  }
+  .teach p:nth-child(2) {
+    color: #999;
+    margin-bottom: 3%;
+  }
+  .el-button--medium {
+    padding: 1% 5%;
+  }
 </style>

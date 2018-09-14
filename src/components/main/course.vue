@@ -19,33 +19,33 @@
                   placement="bottom-start">
         <el-button size="small" type="primary">Delete</el-button>
       </el-tooltip>
-
-
     </div>
+
     <div class="left">
       <router-view></router-view>
     </div>
+
     <div class="right">
       <ul>
         <li :class="{active : activeFlag == 'teaching'}" @click="showContent('teaching')">
-
           <p><img src="../../assets/images/u1138.png" alt=""></p>
-          <p>Teaching Materials(0)</p>
+          <p>Teaching Materials({{materialNumber}})</p>
         </li>
         <li :class="{active : activeFlag == 'discussion'}" @click="showContent('discussion')">
           <p><img src="../../assets/images/u1144.png" alt=""></p>
-          <p>Discussion(0)</p>
+          <p>Discussion({{discussNumber}})</p>
         </li>
         <li :class="{active : activeFlag == 'exercises'}" @click="showContent('exercises')">
           <p><img src="../../assets/images/u1158.png" alt=""></p>
-          <p>Exercises(0)</p>
+          <p>Exercises({{exercisesNumber}})</p>
         </li>
         <li :class="{active : activeFlag == 'assignment'}" @click="showContent('assignment')">
           <p><img src="../../assets/images/u1171.png" alt=""></p>
-          <p>Assignment(0)</p>
+          <p>Assignment({{assignmentNumber}})</p>
         </li>
       </ul>
     </div>
+
     <!--Delete the lesson and all the data under this lesson.-->
   </div>
 
@@ -59,6 +59,10 @@
         activeFlag: 'teaching',
         existCourseList: "",
         lessonId: this.$route.query.lessonId,
+        materialNumber: 0,
+        discussNumber: 0,
+        exercisesNumber: 0,
+        assignmentNumber: 0,
         entity: {
           lesson: {lessonName: ""},
           course: {courseName: ""}
@@ -67,13 +71,15 @@
     },
     mounted() {
       this.getDetailByLessonId();
-      this.$router.push({path: "/homePage/course/teachingMaterials"});
+      // this.$router.push({path: "/homePage/course/teachingMaterials", query: {"lessonId": this.lessonId}});
+      this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": this.lessonId}});
     },
     methods: {
       showContent(s) {
         if (s == "teaching") {
           this.activeFlag = s;
-          this.$router.push({path: "/homePage/course/teachingMaterials", query: {lessonId: this.lessonId}});
+          // this.$router.push({path: "/homePage/course/teachingMaterials", query: {lessonId: this.lessonId}});
+          this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": this.lessonId}});
         } else if (s == "discussion") {
           this.activeFlag = s;
           this.$router.push({path: "/homePage/course/disCussion", query: {lessonId: this.lessonId}});

@@ -30,84 +30,36 @@
                   <img src="../assets/images/u16.png" alt="">
                 </div>
                 <p v-on:click="goTeaching(lesson.id)">{{lesson.lessonName}}</p>
-                <span style="float: right">{{lesson.createTime}}
+                <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
                   <i v-on:click="deletelesson(lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
                 </span>
                 <p style="float: right;cursor: pointer;padding-right: 20%">开始上课</p>
 
+              </div>
+              <!--<div class="lesson">-->
+                <!--<div>-->
+                  <!--<img src="../assets/images/u16.png" alt="">-->
+                  <!--<p>Which of the planets of the solar system looks brightest on the earth</p>-->
+                  <!--<span style="float: right">12:00 30/08/2018-->
+                    <!--<i class="el-icon-delete" style="color: red;cursor: pointer"></i>-->
+                  <!--</span>-->
+                  <!--<p style="float: right;cursor: pointer;padding-right: 18%">进入课堂</p>-->
+                <!--</div>-->
 
-                <!--<ul>
-                  <li>
-                    <span style="float: right">12:00 30/08/2018
-                  <i class="el-icon-delete" style="color: red;cursor: pointer"></i>
-                </span>
-                    {{lessonss.lessonName}}
-                    <p style="float: right;cursor: pointer;padding-right: 18%">开始上课</p>
-                  </li>
-                </ul>-->
-              </div>
-              <div class="lesson">
-                <div>
-                  <img src="../assets/images/u16.png" alt="">
-                  <p>Which of the planets of the solar system looks brightest on the earth</p>
-                  <span style="float: right">12:00 30/08/2018
-                    <i class="el-icon-delete" style="color: red;cursor: pointer"></i>
-                  </span>
-                  <p style="float: right;cursor: pointer;padding-right: 18%">进入课堂</p>
-                </div>
-
-              </div>
-              <div class="lesson">
-                <div>
-                  <img src="../assets/images/u16.png" alt="">
-                  <p>Lesson：Heat source of nine planets3</p>
-                  <span style="float: right">12:00 30/08/2018
-                    <i class="el-icon-delete" style="color: red;cursor: pointer"></i>
-                  </span>
-                  <p style="float: right;cursor: pointer;padding-right: 18%">查看历史</p>
-                </div>
-              </div>
+              <!--</div>-->
+              <!--<div class="lesson">-->
+                <!--<div>-->
+                  <!--<img src="../assets/images/u16.png" alt="">-->
+                  <!--<p>Lesson：Heat source of nine planets3</p>-->
+                  <!--<span style="float: right">12:00 30/08/2018-->
+                    <!--<i class="el-icon-delete" style="color: red;cursor: pointer"></i>-->
+                  <!--</span>-->
+                  <!--<p style="float: right;cursor: pointer;padding-right: 18%">查看历史</p>-->
+                <!--</div>-->
+              <!--</div>-->
             </div>
           </div>
         </div>
-        <!--<div class="lessonhistory">
-          <div class="have">
-            <h5>Course：Journey of the Universe: A Story for Our Times1 </h5>
-            <div class="lesson">
-              <div v-for="existCourse in existCourseList">
-                <p v-model="radio" :label="existCourse.id">{{existCourse.courseName}}</p>
-              </div>
-
-            </div>
-            <div class="lesson">
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-
-            </div>
-            <div class="lesson">
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-
-            </div>
-          </div>
-        </div>
-        <div class="lessonhistory">
-          <div class="have">
-            <h5>Course：Journey of the Universe: A Story for Our Times1 </h5>
-            <div class="lesson">
-              <div v-for="existCourse in existCourseList">
-                <p v-model="radio" :label="existCourse.id">{{existCourse.courseName}}</p>
-              </div>
-
-            </div>
-            <div class="lesson">
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-
-            </div>
-            <div class="lesson">
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-
-            </div>
-          </div>
-        </div>-->
       </div>
 
     </el-scrollbar>
@@ -167,6 +119,23 @@
         this.getLessonListByCourseId(id);
 
       },
+      dateTimeformat: function(d) {
+        var date = new Date(d);
+        var month = '' + (date.getMonth() + 1);
+        var day = '' + date.getDate();
+        var year = date.getFullYear();
+        var hour = '' + date.getHours();
+        var min = '' + date.getMinutes();
+        var sec = '' + date.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        if (hour.length < 2) hour = '0' + hour;
+        min = min.length < 2 ? ('0' + min) : min;
+        sec = sec.length < 2 ? ('0' + sec) : sec;
+
+        return [year, month, day].join('-') + " " + [hour, min, sec].join(":");
+      },
       getCourselist() {
         this.$http.get(`${process.env.NODE_ENV}/course/list`)
           .then((res) => {
@@ -198,7 +167,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.lessonCode = res.data.entity;
-              this.$router.push({path: "/StartTeachingMaterials",query:{lessonCode:this.lessonCode}});
+              this.$router.push({path: "/StartTeachingMaterials",query:{lessonId: id, lessonCode: this.lessonCode}});
             }
 
           }).catch((err) => {
@@ -216,7 +185,8 @@
               new Date(lessonss.createTime);
               /*this.discussionId = res.data.entity;
               console.log("discussionId:"+this.discussionId);*/
-              this.courselist();
+              /*this.courselist();*/
+              this.getCourselist();
             }
           }).catch((err) => {
           console.log(err);
@@ -229,6 +199,7 @@
               /*this.discussionId = res.data.entity;
               console.log("discussionId:"+this.discussionId);*/
               this.goTeach();
+
             }
           }).catch((err) => {
           console.log(err);

@@ -34,7 +34,7 @@
               <input class="form-control" type="password" placeholder="Password" v-model="password">
             </div>
             <div class="password">
-              <input class="form-control" type="password" placeholder="Password" v-model="lessonCode">
+              <input class="form-control" type="password" placeholder="lessonCode" v-model="lessonCode">
             </div>
             <span v-on:click="studentslogin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
             <el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"

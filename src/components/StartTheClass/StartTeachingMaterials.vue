@@ -9,64 +9,63 @@
     </div>
     <div class="main">
       <el-scrollbar style="height: 100%">
-        <el-tabs type="card">
-          <el-tab-pane label="Teaching Materials(0)">
-            <p>Lesson：Our Solar System and Life’s Emergence</p>
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选
-            </el-checkbox>
-            <div class="list">
-              <el-checkbox v-model="checked" @change="handleCheckedCitiesChange">Our Solar System and Life’s .docx
-              </el-checkbox>
-            </div>
-            <div class="list">
-              <el-checkbox v-model="checked1">Our Solar System and Life’s .docx</el-checkbox>
-            </div>
-            <div class="list">
-              <el-checkbox v-model="checked2">Our Solar System and Life’s .docx</el-checkbox>
-            </div>
+        <el-tabs type="card" activeName="materialTab" @tab-click="tabChange">
+
+          <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
+            <p>Lesson： {{ lessonName }}</p>
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+            <el-checkbox-group v-model="checkedMaterialList">
+              <div class="list" v-for="material in materialList">
+                <el-checkbox :label="material" >
+                  <a :href="material.materialUrl">{{material.materialName}}</a>
+                </el-checkbox>
+              </div>
+            </el-checkbox-group>
           </el-tab-pane>
-          <el-tab-pane label="Discussion(0)">
-            <p>Lesson：Our Solar System and Life’s Emergence</p>
+
+          <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'">
+            <p>Lesson： {{ lessonName }}</p>
             <div class="have" v-for="(discussion,index) in discussionList" :key="index">
               <h5>Discussion {{discussion.sort}}</h5>
               <p>{{discussion.discussContent}}</p>
               <ul>
-                <li>Our Solar System and Life’s .docx</li>
-                <li>v-for="(attachment,ind) in discussion.attachments" :key="ind">{{attachment.fileName}}</li>
+                <li v-for="atth in discussion.attachments">
+                  <a :href="atth.fileUrl">{{atth.fileName}}</a>
+                </li>
               </ul>
+
               <div class="news" v-on:click="toggle()">
                 <img src="../../assets/images/u2503.png" alt="">
-                <span>2</span>
-                <el-badge :value="2" :max="10" class="item">
-                  <el-badg>
-                    <img src="../../assets/images/u2503.png" alt="">
-                  </el-badg>
-                </el-badge>
+                <span class="discuss-answer-number"></span>
+                <!--<el-badge :value="2" :max="10" class="item">-->
+                  <!--<el-badg>-->
+                    <!--<img src="../../assets/images/u2503.png" alt="">-->
+                  <!--</el-badg>-->
+                <!--</el-badge>-->
               </div>
             </div>
-            <div class="newslesson" v-show="isShow"><!--messageDisplay-->
-              <div class="leftcolor">
-                <span style="color: #999;display: inline-block">Alexander [201102099011]</span>
-                <span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>
-                <p>System looks brightest on the earth System looks brightest on the earth</p>
-                <ul>
-                  <li>Our Solar System and Life’s .docx</li>
-                </ul>
-              </div>
-              <div class="leftcolor">
-                <span style="color: #999;display: inline-block">Alexander [201102099011]</span>
-                <span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>
-                <p>System looks brightest on the earth System looks brightest on the earth</p>
-                <ul>
-                  <li>Our Solar System and Life’s .docx</li>
-                </ul>
-              </div>
+            <!--<div class="newslesson" v-show="isShow">&lt;!&ndash;messageDisplay&ndash;&gt;-->
+              <!--<div class="leftcolor">-->
+                <!--<span style="color: #999;display: inline-block">Alexander [201102099011]</span>-->
+                <!--<span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>-->
+                <!--<p>System looks brightest on the earth System looks brightest on the earth</p>-->
+                <!--<ul>-->
+                  <!--<li>Our Solar System and Life’s .docx</li>-->
+                <!--</ul>-->
+              <!--</div>-->
+              <!--<div class="leftcolor">-->
+                <!--<span style="color: #999;display: inline-block">Alexander [201102099011]</span>-->
+                <!--<span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>-->
+                <!--<p>System looks brightest on the earth System looks brightest on the earth</p>-->
+                <!--<ul>-->
+                  <!--<li>Our Solar System and Life’s .docx</li>-->
+                <!--</ul>-->
+              <!--</div>-->
 
-            </div>
+            <!--</div>-->
           </el-tab-pane>
-          <el-tab-pane label="Exercises(0)">
-
-            <p>Lesson：Our Solar System and Life’s Emergence</p>
+          <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'">
+            <p>Lesson： {{ lessonName }}</p>
             <div class="exercise">
 
               <div class="leftexerc" style="height: 350px">
@@ -93,14 +92,6 @@
                       Its brightness is -3.3 to -4.4. It is 14 times brighter
                       than the famous Sirius, the
                     </p>
-                    <p>Venus is the brightest planet in the world.
-                      Its brightness is -3.3 to -4.4. It is 14 times brighter
-                      than the famous Sirius, the
-                    </p>
-                    <p>Venus is the brightest planet in the world.
-                      Its brightness is -3.3 to -4.4. It is 14 times brighter
-                      than the famous Sirius, the
-                    </p>
                   </div>
                 </el-scrollbar>
               </div>
@@ -116,23 +107,16 @@
 
             </div>
           </el-tab-pane>
-          <el-tab-pane label="Assignment(0)">
+          <el-tab-pane name="assignmentTab" :label="'Assignment(' + assignmentNumber + ')'">
             <div>
-              <h5>Lesson：Our Solar System and Life’s Emergence</h5>
-              <div class="have">
-                <h5>Assignment 1</h5>
-                <p>Which of the planets of the solar system looks brightest on the earth</p>
+              <h5>Lesson： {{ lessonName }}</h5>
+              <div class="have" v-for="assignment in assignmentList">
+                <h5>Assignment {{assignment.sort}}</h5>
+                <p>{{assignment.assignmentName}}</p>
                 <ul>
-                  <li>Our Solar System and Life’s .docx</li>
-                  <li>Emergence.jpg</li>
-                </ul>
-              </div>
-              <div class="have">
-                <h5>Assignment 1</h5>
-                <p>Which of the planets of the solar system looks brightest on the earth</p>
-                <ul>
-                  <li>Our Solar System and Life’s .docx</li>
-                  <li>Emergence.jpg</li>
+                  <li v-for="atth in assignment.attachments">
+                    <a :href="atth.fileUrl">{{atth.fileName}}</a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -226,6 +210,16 @@
   export default {
     data() {
       return {
+        checkedMaterialList: [],
+        materialNumber: 0,
+        materialList: [],
+        discussNumber: 0,
+        discussList: [],
+        execisesNumber: 0,
+        execisesList: [],
+        assignmentNumber: 0,
+        assignmentList: [],
+        lessonName: "",
         lessonCode:this.$route.query.lessonCode,
         lessonId:this.$route.query.lessonId,
         checked: true,
@@ -233,16 +227,17 @@
         checkAll: false,
         checked1: '',
         checked2: '',
-        isIndeterminate: '',
+        isIndeterminate: false,
         handleCheckedCitiesChange: '',
-        discussionList:[],
+        discussionList: [],
         msg: ''
       }
     },
     mounted() {
-      this.drawLine();
-      this.bdrawLine();
-      this.getDiscussionListByLessonId();
+      // this.drawLine();
+      // this.bdrawLine();
+      this.getMaterialList();
+      this.getLessonDetail();
     },
     methods: {
       drawLine() {
@@ -323,29 +318,82 @@
         }
       },
 
+      getLessonDetail: function() {
+        this.$http.get(`${process.env.NODE_ENV}/lesson/detail/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.lessonName = res.data.entity.lesson.lessonName;
+            } else {
+              alert(res.data.message);
+            }
+          }).catch((err) => {
+            alert(err);
+          });
+      },
+      getMaterialList: function() {
+        this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/list`, {params: {status: 1, lessonId: this.lessonId}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.materialList = res.data.entity;
+              this.materialNumber = res.data.entity.length;
+            } else {
+              alert(res.data.message);
+            }
+          }).catch((err) => {
+            alert(err);
+          });
+      },
+      getDiscussionList: function() {
+        this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list`, {params: {status: 1, lessonId: this.lessonId}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.discussionList = res.data.entity;
+              this.discussNumber = res.data.entity.length;
+            } else {
+              alert(res.data.message);
+            }
+          }).catch((err) => {
+            alert(err);
+          });
+      },
+      getExercisesList: function() {
+
+      },
+      getAssignmentList: function() {
+        this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/list`, {params: {status: 1, lessonId: this.lessonId}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.assignmentList = res.data.entity;
+              this.assignmentNumber = res.data.entity.length;
+            } else {
+              alert(res.data.message);
+            }
+          }).catch((err) => {
+            alert(err);
+          });
+      },
       toggle: function () {
         this.isShow = !this.isShow;
       },
-      handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
+      tabChange: function(tab) {
+        if (tab.name == "materialTab") {
+          this.getMaterialList();
+        } else if (tab.name == "discussTab") {
+          this.getDiscussionList();
+        } else if (tab.name == "exercisesTab") {
+          this.getExercisesList();
+        } else if (tab.name == "assignmentTab") {
+          this.getAssignmentList();
+        }
+      },
+      handleCheckAllChange: function(val) {
+        this.checkedMaterialList = val ? this.materialList : [];
         this.isIndeterminate = false;
       },
-      goback(){
+      goback: function() {
         this.$router.push({path: "/navBar"});
       },
-      getDiscussionListByLessonId(){
-        debugger;
-        this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list?lessonId=${this.lessonId}`)
-          .then((res) => {
-            if (res.data.code == 200) {
 
-              this.discussionList = res.data.entity;
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
-
-      },
     }
 
   }

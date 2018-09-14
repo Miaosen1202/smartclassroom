@@ -7,17 +7,22 @@
         <h4 style="display: inline-block">1/4</h4>
         <el-button type="success" icon="el-icon-arrow-right" circle></el-button>
       </div>
-      <div class="have">
-        <h5>Exercises1</h5>
-        <p class="pexer">Which of the planets of the solar system looks brightest on the earth</p>
-        <ul style="padding-left: 2%">
-          <li >
+      <div class="have" v-for="(exercises,index) in existExercisesList">
+        <h5 style="display: inline-block">Exercises {{exercises.sort}}</h5>
+        <span v-show="exercises.questionType == '1'">Single-choice</span>
+        <span v-show="exercises.questionType == '2'">Multiple-choice</span>
+        <p class="pexer">{{exercises.questionTitle}}</p>
+        <!--<ul style="padding-left: 2%" v-for="(option,index) in options" :key="index">
+          <li>
             <el-radio v-model="radio" label="1">
-              <span>A</span>
-              <span style="padding-left: 2%">Solar system Which of the planets of the solar</span>
+              <span style="padding-right: 2%">{{option.answerCode}}</span>
+              <span style="padding-left: 2%">{{option.answerContent}}</span>
             </el-radio>
-          </li>
-          <li >
+          </li>-->
+        <ul v-for="(option,index) in options" :key="index">
+          <li style="color: #000"><P style="padding-right: 2%">{{option.answerCode}}</P><span>{{option.answerContent}}</span></li>
+        </ul>
+          <!--<li >
             <el-radio v-model="radio" label="2">
               <span>B</span>
               <span style="padding-left: 2%">Solar system Which of the planets of the solar</span>
@@ -35,7 +40,7 @@
               <span style="padding-left: 2%">Solar system Which of the planets of the solar</span>
             </el-radio>
           </li>
-        </ul>
+        </ul>-->
 
       </div>
       <div class="submitt" v-on:click="toggle()">
@@ -60,11 +65,30 @@
             return {
               radio: '1',
               isShow: false,
+              existExercisesList:[],
+              options:[],
+              lessonId: this.$route.query.lessonId,
             }
         },
+      mounted() {
+        this.getAssignmentListByLessonId();
+      },
         methods: {
           toggle: function () {
             this.isShow = !this.isShow;
+          },
+          //选择题列表
+          getAssignmentListByLessonId(){
+             debugger;
+            this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
+              .then((res) => {
+                if (res.data.code == 200) {
+                  this.existExercisesList = res.data.entity;
+                  this.options = res.data.entity;
+                }
+              }).catch((err) => {
+              console.log(err);
+            });
           },
         }
     }

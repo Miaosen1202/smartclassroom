@@ -1,21 +1,55 @@
 <template>
   <div class="teach">
-    <p><img src="../../assets/images/u768.png" alt=""></p>
-    <p>There is no teaching materials yet.</p>
-    <el-button size="medium" type="primary" @click="goToAddMaterials">
-      <img src="../../assets/images/u60.png" alt="">
-    </el-button>
+    <div class="no-material" v-show="materialEmpty">
+      <p><img src="../../assets/images/u768.png" alt=""></p>
+      <p>There is no teaching materials yet.</p>
+      <el-button size="medium" type="primary" @click="goToAddMaterials">
+        <img src="../../assets/images/u60.png" alt="">
+      </el-button>
+    </div>
+    <!--<div class="material-items" v-show="materialEmpty == false">-->
+      <!--<el-checkbox-group v-model="checkedMaterialList">-->
+        <!--<div class="list" v-for="material in materialList">-->
+          <!--<el-checkbox :label="material" >-->
+            <!--<a :href="material.materialUrl">{{material.materialName}}</a>-->
+          <!--</el-checkbox>-->
+        <!--</div>-->
+      <!--</el-checkbox-group>-->
+    <!--</div>-->
   </div>
 </template>
 
 <script>
   export default {
     data() {
-      return {}
+      return {
+        checkedMaterialList: [],
+        materialList: [],
+        lessonId: this.$route.query.lessonId,
+        materialEmpty: true,
+        materialNumber: 0
+      }
+    },
+    mounted() {
+      this.getMaterialList();
     },
     methods: {
-      goToAddMaterials(){
+      goToAddMaterials: function() {
         this.$router.push({path:"/homePage/course/addMaterials",query:{"lessonId":this.lessonId}});
+      },
+      getMaterialList: function () {
+        this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/list`, {params: {status: 1, lessonId: this.lessonId}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.materialEmpty = res.data.entity.length == 0;
+              this.materialNumber = res.data.entity.length;
+              this.materialList = res.data.entity;
+            } else {
+              alert(res.data.message);
+            }
+          }).catch((err) => {
+            alert(err);
+          });
       }
     }
   }

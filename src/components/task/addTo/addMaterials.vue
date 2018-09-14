@@ -1,105 +1,95 @@
 <template>
-  <div class="all">
-    <el-scrollbar style="height: 100%">
-    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange"> Select All
-    </el-checkbox>
 
-    <div class="check">
-      <el-button size="small" type="primary">
-        <img src="../../../assets/images/u60.png" alt="">
-        More
-      </el-button>
-      <el-button size="small" type="primary" @click="dialogVisible = true">
-        <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">
-        Copy To
-      </el-button>
-      <el-button size="small" type="primary">
-        <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">
-        Delete
-      </el-button>
+  <div style="height: 100%">
+    <div class="teach" v-show="!showUpload" >
+      <div class="no-material">
+        <p><img src="../../../assets/images/u768.png" alt=""></p>
+        <p>There is no teaching materials yet.</p>
+        <el-button size="medium" type="primary" @click="goToAddMaterials">
+          <img src="../../../assets/images/u60.png" alt="">
+        </el-button>
+      </div>
     </div>
 
-    <el-upload
-      class="upload-demo"
-      :action="UploadUrl()"
-      :on-change="handleChange"
-    >
-      <el-button size="small" type="primary" @click="addshowUplond">
-        <img src="../../../assets/images/u60.png" alt="">
-        Uplond
-      </el-button>
+    <div class="material-panel all" v-show="showUpload">
+      <el-scrollbar >
 
-      <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
-    </el-upload>
-    <div style="margin: 15px 0;"></div>
-    <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-      <div v-for="city in cities">
-        <el-checkbox :label="city" :key="city">{{city}}</el-checkbox>
-      </div>
-    </el-checkbox-group>
-    <!--消息提示框-->
-    <el-dialog
-      title="Select a Lesson"
-      :visible.sync="dialogVisible"
-      width="30%">
+        <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
+                     @change="handleCheckAllChange">全选</el-checkbox>
 
-      <div>
-        <el-collapse accordion>
-          <el-collapse-item>
-            <template slot="title">
-              一致性 Consistency<i class="header-icon el-icon-info"></i>
-            </template>
-            <div>
-              <el-radio v-model="radio" label="1">备选项</el-radio>
-            </div>
-          </el-collapse-item>
-          <el-collapse-item title="反馈 Feedback">
-            <div>
-              <el-radio v-model="radio" label="2">备选项</el-radio>
-            </div>
-            <div>
-              <el-radio v-model="radio" label="2">备选项</el-radio>
-            </div>
-            <div>
-              <el-radio v-model="radio" label="2">备选项</el-radio>
-            </div>
-            <div>
-              <el-radio v-model="radio" label="2">备选项</el-radio>
-            </div>
-            <div>
-              <el-radio v-model="radio" label="2">备选项</el-radio>
-            </div>
-          </el-collapse-item>
-          <el-collapse-item title="效率 Efficiency">
-            <div>
-              <el-radio v-model="radio" label="3">备选项</el-radio>
-            </div>
-          </el-collapse-item>
-          <el-collapse-item title="可控 Controllability">
-            <div>
-              <el-radio v-model="radio" label="4">备选项</el-radio>
-            </div>
-          </el-collapse-item>
-        </el-collapse>
-      </div>
-      <span slot="footer" class="dialog-footer">
+        <div class="check">
+          <el-button size="small" type="primary">
+            <img src="../../../assets/images/u60.png" alt="">More
+          </el-button>
+          <el-button size="small" type="primary" @click="dialogVisible = true">
+            <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">
+            Copy To
+          </el-button>
+          <el-button size="small" type="primary" @click="handleMaterialRemove">
+            <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">
+            Delete
+          </el-button>
+        </div>
+
+        <el-upload
+          class="material-upload"
+          name="file"
+          with-credentials
+          :show-file-list="showUploadFileList"
+          :action="UploadUrl()"
+          :on-change="handleChange"
+          :on-success="handleFileUploadSuccess"
+        >
+          <el-button size="small" type="primary" @click="addshowUplond">
+            <img src="../../../assets/images/u60.png" alt="">
+            Upload
+          </el-button>
+
+          <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
+        </el-upload>
+        <div style="margin: 15px 0;"></div>
+        <!--<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">-->
+        <!--<div v-for="city in cities">-->
+        <!--<el-checkbox :label="city" :key="city">{{city}}</el-checkbox>-->
+        <!--</div>-->
+        <!--</el-checkbox-group>-->
+        <el-checkbox-group v-model="checkedMaterialList">
+          <div class="list" v-for="material in materialList">
+            <el-checkbox :label="material" >
+              <a :href="material.materialUrl">{{material.materialName}}</a>
+            </el-checkbox>
+          </div>
+        </el-checkbox-group>
+
+        <!-- 拷贝课时资料 -->
+        <el-dialog
+          id="copyToDialog"
+          title="Select a Lesson"
+          :visible.sync="dialogVisible"
+          :open="copyMaterialDialogOpen"
+          width="30%">
+
+          <div>
+            <el-collapse accordion>
+              <el-collapse-item v-for="course in courseList" :title="course.courseName">
+                <div>
+                  <el-radio v-for="les in lessonList" v-model="radio" label="2">{{les.lessonName}}</el-radio>
+                </div>
+              </el-collapse-item>
+            </el-collapse>
+          </div>
+          <span slot="footer" class="dialog-footer">
        <el-button type="primary" @click="dialogVisible = false">OK</el-button>
        <el-button @click="dialogVisible = false">Cancel</el-button>
+      </span>
+        </el-dialog>
+      </el-scrollbar>
+    </div>
 
-  </span>
-    </el-dialog>
-    </el-scrollbar>
   </div>
 </template>
 
 <script>
-  const cityOptions = [
-    'food.jpeg', 'materialName', 'food1.jpg', 'food2.jpeg',
-    'food.jpeg', 'materialName', 'food1.jpg', 'food2.jpeg',
-    'food.jpeg', 'materialName', 'food1.jpg', 'food2.jpeg',
-    'food.jpeg', 'materialName', 'food1.jpg', 'food2.jpeg',
-    'food.jpeg', 'materialName', 'food1.jpg', 'food2.jpeg'
-  ];
   export default {
     data() {
       return {
@@ -107,27 +97,97 @@
         dialogVisible: false,
         materialName: "",
         fromWhere: "",
-        /*fileList3: [{
-          name: 'food.jpeg',
-          url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-        }, {
-          /!*name: 'materialName',*!/
-          url: 'fromWhere'
-        }],*/
-
+        showUploadFileList: false,
         checkAll: false,
-        checkedCities: ['food.jpeg',],
-        cities: cityOptions,
-        isIndeterminate: true
-
+        isIndeterminate: false,
+        checkedMaterialList: [],
+        materialList: [],
+        lessonId: this.$route.query.lessonId,
+        showUpload: false,
+        courseList: [],
+        lessonList: []
       };
     },
+    mounted() {
+      this.getMaterialList();
+    },
     methods: {
+      goToAddMaterials: function() {
+        this.showUpload = true;
+      },
       UploadUrl: function () {
-        return "/lessonMaterial/add";
+        return `${process.env.NODE_ENV}/file/upload`;
+      },
+      handleFileUploadSuccess: function(resp, file, fileList) {
+        if (resp.code == 200) {
+          var newMaterial = {
+            lessonId: this.lessonId,
+            materialName: resp.entity.fileOriginName,
+            fromWhere: 1,
+            localPath: resp.entity.fileTmpName,
+            isShare: 0
+          };
+          this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/add`, newMaterial)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/get?data=${res.data.entity}`)
+                  .then((res) => {
+                    if (res.data.code == 200) {
+                      this.materialList.push(res.data.entity);
+                    } else {
+                      alert(res.data.message);
+                    }
+                  })
+              } else {
+                alert(res.data.message);
+              }
+            }).catch((err) => {
+              alert(err);
+          });
+        } else {
+          alert("Upload file error: " + resp.message);
+        }
       },
       handleChange(file, fileList) {
-        this.fileList3 = fileList.slice(-3);
+        console.log("upload change", file, fileList)
+      },
+      handleMaterialRemove: function() {
+        var deleteMaterialIds = [];
+        this.checkedMaterialList.forEach(function(m) {
+          deleteMaterialIds.push(m.id);
+        });
+
+        if (deleteMaterialIds.length == 0) {
+          this.$message.error("请先选择课时资料");
+          return;
+        }
+        this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/deletes`, deleteMaterialIds)
+          .then((res) => {
+            if (res.data.code == 200) {
+              var delIdCache = {};
+              JSON.parse(res.data.entity).forEach(function (id) {
+                delIdCache[id] = true;
+              });
+
+              console.log("delete success, deletedIds:", delIdCache);
+              for (var i = this.checkedMaterialList.length - 1; i >= 0; i--) {
+                if (delIdCache[this.checkedMaterialList[i].id]) {
+                  this.checkedMaterialList.splice(i, 1);
+                }
+              }
+              for (var i = this.materialList.length - 1; i >= 0; i--) {
+                if (delIdCache[this.materialList[i].id]) {
+                  this.materialList.splice(i, 1);
+                }
+              }
+
+              this.showUpload = this.materialList.length > 0;
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+            this.$message.error(err);
+        });
       },
       addshowUplond() {
         var addUplond = {
@@ -149,16 +209,39 @@
 
 
       },
+      getMaterialList: function () {
+        this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/list`, {params: {status: 1, lessonId: this.lessonId}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.materialList = res.data.entity;
+              this.showUpload = this.materialList.length > 0;
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+            this.$message.error(err);
+        });
+      },
       handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
+        this.checkedMaterialList = val ? this.materialList : [];
         this.isIndeterminate = false;
       },
-      handleCheckedCitiesChange(value) {
-        let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      copyMaterialDialogOpen: function () {
+        if (this.checkedMaterialList.length == 0) {
+          this.$message.error("请先选择课时资料");
+          return;
+        }
+        this.$http.get(`${process.env.NODE_ENV}/course/list`, {params: {status: 1, deleteStatus: 1}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.courseList = res.data.entity;
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+            this.$message.error(err);
+        });
       }
-
     }
   }
 </script>
@@ -189,7 +272,7 @@
     padding-left: 2%;
   }
 
-  .upload-demo {
+  .material-upload {
     display: inline-block;
   }
 

@@ -1,7 +1,10 @@
 <template>
   <div id="goTeach">
     <div class="teachtop">
-      <p>Welcome Matthew !</p>
+      <div v-on:click="goback()" style="display: inline-block">
+        <img src="../assets/images/pclogo.png" alt="" width="100" height="50" style="cursor: pointer;vertical-align: middle">
+      </div>
+      <p style="cursor: pointer" v-on:click="goback()">Welcome Matthew !</p>
       <span @click="dialogFormVisible = true" class="password">Modify Password</span>
       <p v-on:click="backlogin" style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">
@@ -36,34 +39,13 @@
                 <p style="float: right;cursor: pointer;padding-right: 20%">开始上课</p>
 
               </div>
-              <!--<div class="lesson">-->
-                <!--<div>-->
-                  <!--<img src="../assets/images/u16.png" alt="">-->
-                  <!--<p>Which of the planets of the solar system looks brightest on the earth</p>-->
-                  <!--<span style="float: right">12:00 30/08/2018-->
-                    <!--<i class="el-icon-delete" style="color: red;cursor: pointer"></i>-->
-                  <!--</span>-->
-                  <!--<p style="float: right;cursor: pointer;padding-right: 18%">进入课堂</p>-->
-                <!--</div>-->
 
-              <!--</div>-->
-              <!--<div class="lesson">-->
-                <!--<div>-->
-                  <!--<img src="../assets/images/u16.png" alt="">-->
-                  <!--<p>Lesson：Heat source of nine planets3</p>-->
-                  <!--<span style="float: right">12:00 30/08/2018-->
-                    <!--<i class="el-icon-delete" style="color: red;cursor: pointer"></i>-->
-                  <!--</span>-->
-                  <!--<p style="float: right;cursor: pointer;padding-right: 18%">查看历史</p>-->
-                <!--</div>-->
-              <!--</div>-->
             </div>
           </div>
         </div>
       </div>
 
     </el-scrollbar>
-    <!-- <el-button type="text" @click="dialogFormVisible = true">打开嵌套表单的 Dialog</el-button>-->
 
     <el-dialog title="Modify Password" :visible.sync="dialogFormVisible" style="width: 50%;height: 100%">
       <p>Password</p>
@@ -204,6 +186,9 @@
           }).catch((err) => {
           console.log(err);
         });
+      },
+      goback: function() {
+        this.$router.push({path: "/navBar"});
       },
     }
   }

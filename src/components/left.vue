@@ -1,6 +1,7 @@
 <template>
   <div id="left">
-    <img class="logo" src="../assets/images/u164.png" width="80%" alt="">
+    <img style="cursor: pointer" v-on:click="goback()" class="logo"
+         src="../assets/images/u164.png" width="80%" alt="">
     <ul>
       <li :class="{active : activeFlag == 'prepare'}" @click="goToFirst('prepare')">
         <el-button type="text" @click="dialogVisible = true">
@@ -39,6 +40,9 @@
       goToSecond(s){
         this.activeFlag = s;
         this.$router.push({path:"/homePage/second"});
+      },
+      goback: function() {
+        this.$router.push({path: "/navBar"});
       },
      /* gotenching(){
         this.$router.push({path:"/homePage/teachingMaterials"});

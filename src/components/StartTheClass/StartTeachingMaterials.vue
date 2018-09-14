@@ -2,10 +2,15 @@
   <div id="start">
     <div class="top">
       <div v-on:click="goback()" style="display: inline-block">
-        <img src="../../assets/images/pclogo.png" alt="" width="100" height="50" style="cursor: pointer">
+        <img src="../../assets/images/pclogo.png" alt="" width="100" height="50"
+             style="cursor: pointer;vertical-align: initial;">
       </div>
-      <span>{{lessonCode}} </span>
-
+      <div style="margin: 0 auto;color: #2c6cae;cursor: pointer;display: inline-block;padding-left: 34%">
+        Class Code :{{lessonCode}}
+      </div>
+      <p v-on:click="goback()" style="float: right;padding-right: 2%;cursor: pointer;padding-top: 2%">
+        <img src="../../assets/images/u118.png" alt="">
+      </p>
     </div>
     <div class="main">
       <el-scrollbar style="height: 100%">
@@ -13,10 +18,11 @@
 
           <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选
+            </el-checkbox>
             <el-checkbox-group v-model="checkedMaterialList">
               <div class="list" v-for="material in materialList">
-                <el-checkbox :label="material" >
+                <el-checkbox :label="material">
                   <a :href="material.materialUrl">{{material.materialName}}</a>
                 </el-checkbox>
               </div>
@@ -38,31 +44,31 @@
                 <img src="../../assets/images/u2503.png" alt="">
                 <span class="discuss-answer-number"></span>
                 <!--<el-badge :value="2" :max="10" class="item">-->
-                  <!--<el-badg>-->
-                    <!--<img src="../../assets/images/u2503.png" alt="">-->
-                  <!--</el-badg>-->
+                <!--<el-badg>-->
+                <!--<img src="../../assets/images/u2503.png" alt="">-->
+                <!--</el-badg>-->
                 <!--</el-badge>-->
               </div>
             </div>
-            <!--<div class="newslesson" v-show="isShow">&lt;!&ndash;messageDisplay&ndash;&gt;-->
-              <!--<div class="leftcolor">-->
-                <!--<span style="color: #999;display: inline-block">Alexander [201102099011]</span>-->
-                <!--<span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>-->
-                <!--<p>System looks brightest on the earth System looks brightest on the earth</p>-->
-                <!--<ul>-->
-                  <!--<li>Our Solar System and Life’s .docx</li>-->
-                <!--</ul>-->
-              <!--</div>-->
-              <!--<div class="leftcolor">-->
-                <!--<span style="color: #999;display: inline-block">Alexander [201102099011]</span>-->
-                <!--<span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>-->
-                <!--<p>System looks brightest on the earth System looks brightest on the earth</p>-->
-                <!--<ul>-->
-                  <!--<li>Our Solar System and Life’s .docx</li>-->
-                <!--</ul>-->
-              <!--</div>-->
+            <div class="newslesson" v-show="isShow"><!--messageDisplay-->
+              <div class="leftcolor">
+                <span style="color: #999;display: inline-block">Alexander [201102099011]</span>
+                <span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>
+                <p>System looks brightest on the earth System looks brightest on the earth</p>
+                <ul>
+                  <li>Our Solar System and Life’s .docx</li>
+                </ul>
+              </div>
+              <div class="leftcolor">
+                <span style="color: #999;display: inline-block">Alexander [201102099011]</span>
+                <span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>
+                <p>System looks brightest on the earth System looks brightest on the earth</p>
+                <ul>
+                  <li>Our Solar System and Life’s .docx</li>
+                </ul>
+              </div>
 
-            <!--</div>-->
+            </div>
           </el-tab-pane>
           <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
@@ -70,23 +76,31 @@
 
               <div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
-                  <h3 style="display:inline-block; border-bottom: 2px solid #999">Exercises1</h3>
-                  <p>Which of the planets of the solar system looks brightest on the earth</p>
-                  <h4>A</h4>
-                  <h4>B</h4>
-                  <h4>C</h4>
-                  <div style="cursor: pointer" v-on:click="toggle()">
-                    <i class="el-icon-arrow-down"></i>
-                    <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
+                  <div v-for="(exercises,index) in existExercisesList">
+                    <h4 style="display:inline-block; border-bottom: 2px solid #999">Exercises {{exercises.sort}}</h4>
+                    <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
+                          v-show="exercises.questionType == '1'">Single-choice</span>
+                    <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
+                          v-show="exercises.questionType == '2'">Multiple-choice</span>
+                    <p>{{exercises.questionTitle}}</p>
+                    <ul v-for="(option,index) in options" :key="index">
+                      <li><h4 style="display: inline-block">{{option.answerCode}}</h4><span>{{option.answerContent}}</span></li>
+                    </ul>
+                    <!--<h4>A</h4>
+                    <h4>B</h4>
+                    <h4>C</h4>-->
+                    <div style="cursor: pointer" v-on:click="toggle()">
+                      <i class="el-icon-arrow-down"></i>
+                      <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
+                    </div>
                   </div>
-
                   <div v-show="isShow">
                     <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer</i>
                     <h4>A</h4>
                     <i style="font-weight: 700;color: #5cb85c">Explanation</i>
                     <p>Venus is the brightest planet in the world.
                       Its brightness is -3.3 to -4.4. It is 14 times brighter
-                      than the famous Sirius, the
+                      than the famous Sirius,
                     </p>
                     <p>Venus is the brightest planet in the world.
                       Its brightness is -3.3 to -4.4. It is 14 times brighter
@@ -125,7 +139,7 @@
           <span slot="label">
             <img src="../../assets/images/u273.png" alt="">
           </span>
-            <p>Lesson：Our Solar System and Life’s Emergence</p>
+            <p>Lesson： {{ lessonName }}</p>
             <div class="exercise" style="width: 100%;margin-right: 2%">
               <div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
@@ -220,8 +234,8 @@
         assignmentNumber: 0,
         assignmentList: [],
         lessonName: "",
-        lessonCode:this.$route.query.lessonCode,
-        lessonId:this.$route.query.lessonId,
+        lessonCode: this.$route.query.lessonCode,
+        lessonId: this.$route.query.lessonId,
         checked: true,
         isShow: false,
         checkAll: false,
@@ -230,14 +244,22 @@
         isIndeterminate: false,
         handleCheckedCitiesChange: '',
         discussionList: [],
+        existExercisesList: [],
+        options: [
+          /*{
+            answerCode:'',
+            answerContent:'',
+          }*/
+        ],
         msg: ''
       }
     },
     mounted() {
-      // this.drawLine();
-      // this.bdrawLine();
+      this.drawLine();
+      /*this.bdrawLine();*/
       this.getMaterialList();
       this.getLessonDetail();
+      this.getAssignmentListByLessonId();
     },
     methods: {
       drawLine() {
@@ -245,16 +267,16 @@
         let myChart = this.$echarts.init(document.getElementById('myChart'))
         // 绘制图表
         myChart.setOption({
-          title: {text: 'Responses  14/16'},
+          title: {text: 'Responses  14/50'},
           tooltip: {},
           xAxis: {
-            data: ["A", "B", "C", "D",]
+            data: ["A", "B", "C", "D","E","F"]
           },
           yAxis: {},
           series: [{
             name: '数量',
             type: 'bar',
-            data: [5, 20, 36, 10],
+            data: [5, 14, 10, 10,5,6],
             itemStyle: {
               normal: {
                 //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
@@ -318,7 +340,7 @@
         }
       },
 
-      getLessonDetail: function() {
+      getLessonDetail: function () {
         this.$http.get(`${process.env.NODE_ENV}/lesson/detail/query?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {
@@ -327,10 +349,10 @@
               alert(res.data.message);
             }
           }).catch((err) => {
-            alert(err);
-          });
+          alert(err);
+        });
       },
-      getMaterialList: function() {
+      getMaterialList: function () {
         this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/list`, {params: {status: 1, lessonId: this.lessonId}})
           .then((res) => {
             if (res.data.code == 200) {
@@ -340,10 +362,10 @@
               alert(res.data.message);
             }
           }).catch((err) => {
-            alert(err);
-          });
+          alert(err);
+        });
       },
-      getDiscussionList: function() {
+      getDiscussionList: function () {
         this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list`, {params: {status: 1, lessonId: this.lessonId}})
           .then((res) => {
             if (res.data.code == 200) {
@@ -353,13 +375,13 @@
               alert(res.data.message);
             }
           }).catch((err) => {
-            alert(err);
-          });
+          alert(err);
+        });
       },
-      getExercisesList: function() {
+      getExercisesList: function () {
 
       },
-      getAssignmentList: function() {
+      getAssignmentList: function () {
         this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/list`, {params: {status: 1, lessonId: this.lessonId}})
           .then((res) => {
             if (res.data.code == 200) {
@@ -369,13 +391,13 @@
               alert(res.data.message);
             }
           }).catch((err) => {
-            alert(err);
-          });
+          alert(err);
+        });
       },
       toggle: function () {
         this.isShow = !this.isShow;
       },
-      tabChange: function(tab) {
+      tabChange: function (tab) {
         if (tab.name == "materialTab") {
           this.getMaterialList();
         } else if (tab.name == "discussTab") {
@@ -386,12 +408,24 @@
           this.getAssignmentList();
         }
       },
-      handleCheckAllChange: function(val) {
+      handleCheckAllChange: function (val) {
         this.checkedMaterialList = val ? this.materialList : [];
         this.isIndeterminate = false;
       },
-      goback: function() {
+      goback: function () {
         this.$router.push({path: "/navBar"});
+      },
+      //选择题列表
+      getAssignmentListByLessonId() {
+        this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.existExercisesList = res.data.entity;
+              /* this.options = res.data.options;*/
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
       },
 
     }
@@ -407,8 +441,8 @@
 
   .top {
     height: 10%;
-   /* background-color: #0066CC;*/
-    background-color:  rgba(248, 248, 248, 1);;
+    /* background-color: #0066CC;*/
+    background-color: rgba(248, 248, 248, 1);;
   }
 
   .main {

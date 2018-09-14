@@ -3,7 +3,7 @@
     <div class="teach">
 
       <p style="padding-top: 10%"><img @click="goToAddMaterials" src="../../assets/images/u768.png" alt=""></p>
-      <p>There is no teaching materials yet.</p>
+      <p>There is no exercises here.</p>
 
       <!--<el-button size="medium" type="primary" @click="goToAddMaterials">
         <img src="../../assets/images/u60.png" alt="">

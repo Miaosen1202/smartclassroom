@@ -37,7 +37,7 @@
     data () {
       return {
         lessonId: this.$route.query.lessonId,
-        lessonCode: this.$route.query.lessonCode,
+        lessonCode:this.$route.query.lessonCode,
         entity: {
           lesson: {lessonName: ""},
           course: {courseName: ""}

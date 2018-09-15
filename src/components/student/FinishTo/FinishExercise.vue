@@ -3,66 +3,36 @@
     <el-scrollbar style="height: 100%">
     <div class="Exercises">
       <div class="elbtn">
-        <el-button type="success" icon="el-icon-arrow-left" circle></el-button>
-        <h4 style="display: inline-block">1/4</h4>
-        <el-button type="success" icon="el-icon-arrow-right" circle></el-button>
-        <!--分页-->
-        <el-pagination
-          :page-size="pageSize"
-          :page-count="1"
-          :current-page="pageIndex"
-          layout="prev, pager, next"
-          :total="recordNumber"
-          @current-change="loadFinishexercise">
-        </el-pagination>
-
+        <el-button type="success" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
+        <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
+        <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
       </div>
       <div class="have" v-for="(exercises,index) in existExercisesList">
         <h5 style="display: inline-block">Exercises {{exercises.sort}}</h5>
         <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '1'">Single-choice</span>
         <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '2'">Multiple-choice</span>
         <p class="pexer">{{exercises.questionTitle}}</p>
-        <ul style="padding-left: 2%" v-for="(option,index) in options" :key="index">
+        <ul style="padding-left: 2%" v-for="(option,index) in exercises.options" :key="index">
           <li>
-            <el-radio v-model="radio" label="1">
-              <span style="padding-right: 2%">{{option.answerCode}}</span>
+            <el-radio v-model="selectedAnswerCode" :label="option.answerCode">
+              <span style="padding-right: 2%" >{{option.answerCode}}</span>
               <span style="padding-left: 2%">{{option.answerContent}}</span>
             </el-radio>
           </li>
         </ul>
-        <!--<ul v-for="(option,index) in options" :key="index">
-          <li style="color: #000"><P style="padding-right: 2%">{{option.answerCode}}</P><span>{{option.answerContent}}</span></li>
-        </ul>-->
-          <!--<li >
-            <el-radio v-model="radio" label="2">
-              <span>B</span>
-              <span style="padding-left: 2%">Solar system Which of the planets of the solar</span>
-            </el-radio>
-          </li>
-          <li >
-            <el-radio v-model="radio" label="3">
-              <span>C</span>
-              <span style="padding-left: 2%">Solar system Which of the planets of the solar</span>
-            </el-radio>
-          </li>
-          <li >
-            <el-radio v-model="radio" label="4">
-              <span>D</span>
-              <span style="padding-left: 2%">Solar system Which of the planets of the solar</span>
-            </el-radio>
-          </li>
-        </ul>-->
+
       </div>
-      <div class="submitt" v-on:click="toggle()">
-        <el-button style="margin: 2%;" type="success" round>Submit</el-button>
+      <div class="submitt">
+        <el-button style="margin: 2%;" type="success" round @click="submitQuestionAnswer(existExercisesList[0])">Submit</el-button>
       </div>
-      <div class="answer" v-show="isShow">
-        <p>Correct Answer ：<span> A</span></p>
-        <p>Your Answer ：<span style="color: red"> C</span></p>
+      <div class="answer" v-show="isSubmit == 0">
+        <div v-for="(option,index) in existExercisesList[0].options" :key="index">
+          <p v-show="option.isCorrect == 1">Correct Answer ：<span>{{option.answerCode}}</span></p>
+        </div>
+        <p>Your Answer ：<span style="color: red">{{selectedAnswerCode}}</span></p>
         <P>Explanation</P>
         <span  style="width: 60%;display: inline-block">
-          <!--{{exercises.analysis}}-->
-          Venus is the brightest planet in the world. Its brightness is -3.3 to -4.4. It is 14 times brighter than the famous Sirius, the brightest star in the sun except for the sun. It is also brighter than other planets in the solar system, such as Mars and Jupiter.
+          {{existExercisesList[0].analysis}}
         </span>
       </div>
     </div>
@@ -74,56 +44,99 @@
     export default {
         data() {
             return {
-              pageSize:3,
-              radio: '1',
-              pageIndex: 1,
               isShow: false,
               existExercisesList:[],
-              options: [],
-              recordNumber: 0,
+              selectedAnswerCode:"",
               lessonId: this.$route.query.lessonId,
+              lessonCode:this.$route.query.lessonCode,
+              pageSize:1,//页大小
+              currentPage:1,//当前页
+              pages: 0,//总页数
+              total:0,//总条数
+              isSubmit:1
             }
         },
       mounted() {
-        this.getAssignmentListByLessonId();
         this.loadFinishexercise();
       },
         methods: {
           toggle: function () {
             this.isShow = !this.isShow;
           },
-          //选择题列表
-          getAssignmentListByLessonId(){
-            this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
+          loadFinishexercise:function () {
+            var param = {
+              lessonId:this.lessonId,
+              pageIndex: this.currentPage,
+              pageSize: this.pageSize
+            };
+            this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/pageList`, {params:param})
               .then((res) => {
                 if (res.data.code == 200) {
-                  this.existExercisesList = res.data.entity;
-                 /* this.options = res.data.options;*/
+                  this.existExercisesList = res.data.entity.list;
+                  debugger;
+                  this.total = res.data.entity.total;
+                  this.currentPage = res.data.entity.pageIndex;
+                  this.pages = (res.data.entity.total)%(res.data.entity.pageSize) == 0 ?
+                    (res.data.entity.total)/(res.data.entity.pageSize) :
+                    (res.data.entity.total)/(res.data.entity.pageSize)+1;
+                  this.pageSize = res.data.entity.pageSize;
                 }
               }).catch((err) => {
               console.log(err);
             });
           },
-          loadFinishexercise:function (pageIndex) {
-            var Panging = {
-              pageIndex: pageIndex,
-              pageSize: this.pageSize,
-              status: 2,
-              lessonId:this.lessonId
-            };
-            this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/pageList`, {Panging: Panging})
+          //向下翻页
+          toNextPage(){
+            this.currentPage = this.currentPage+1;
+            if(this.currentPage > this.pages){
+              this.$message({
+                message: 'sorry,this is the last page!',
+                type: 'warning'
+              });
+              this.currentPage--;
+            }else if(this.currentPage <= this.pages){
+              this.loadFinishexercise();
+            }
+
+          },
+          //向上翻页
+          goBack(){
+            this.currentPage = this.currentPage-1;
+            if(this.currentPage == 0){
+              this.$message({
+                message: 'sorry,this is the first page!',
+                type: 'warning'
+              });
+              this.currentPage++;
+            }else{
+              this.loadFinishexercise();
+            }
+
+          },
+          //提交问题答案
+          submitQuestionAnswer(exercises){
+            var queryParam = {
+              questionId:exercises.id,
+              questionType:exercises.questionType,
+              answerContent:this.selectedAnswerCode,
+              lessonCode:this.lessonCode,
+              isSubmit:this.isSubmit
+            }
+
+            this.$http.post(`${process.env.NODE_ENV}/questionAnswer/submit/edit`,queryParam )
               .then((res) => {
                 if (res.data.code == 200) {
-                  this.existExercisesList = res.data.entity;
-                  this.pageIndex = res.data.entity.pageIndex;
-                  this.recordNumber = res.data.entity.total;
-                } else {
-                  alert(res.data.message);
+                  this.isSubmit = 0;
+                  this.$message({
+                    message: 'Congratulations on your successful submission!',
+                    type: 'success'
+                  });
                 }
               }).catch((err) => {
               console.log(err);
             });
           }
+
         }
     }
 </script>

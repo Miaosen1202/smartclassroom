@@ -11,7 +11,8 @@
         <!--<el-button type="warning">Order</el-button>-->
         <el-button size="medium" class="list btn" type="warning" @click="showExercisesDialog">Order</el-button>
       </div>
-      <div class="exercises">
+      <!--新增exercises开始-->
+      <div class="exercises" v-show="showAdd">
         <h5>Exercises1</h5>
 
         <el-radio-group v-model="questionType">
@@ -27,10 +28,6 @@
         </el-input>
         <!--选择题-->
         <div v-for="(option,index) in options" :key="index" v-if="questionType == 1">
-          <!--<el-radio v-model="radio" label="1" style="display: inline-block;width: 90%;">A
-            <el-input v-model="input" placeholder="Please enter请输入内容1" style="width: 60%;display: inline-block"></el-input>
-            <el-button type="text" icon="el-icon-delete"></el-button>
-          </el-radio>-->
           <el-radio v-model="selectItem" :label="option.answerCode" style="display: inline-block;width: 90%;">
             {{option.answerCode}}
             <el-input v-model="option.answerContent" placeholder="Please enter"
@@ -39,10 +36,6 @@
           </el-radio>
         </div>
         <div v-for="(option,index) in options" :key="index" v-if="questionType == 2" style="width: 100%">
-          <!--<el-radio v-model="radio" label="1" style="display: inline-block;width: 90%;">A
-            <el-input v-model="input" placeholder="Please enter请输入内容1" style="width: 60%;display: inline-block"></el-input>
-            <el-button type="text" icon="el-icon-delete"></el-button>
-          </el-radio>-->
           <el-checkbox v-model="option.isCorrect" style="display: inline-block;width: 90%;">{{option.answerCode}}
             <el-input v-model="option.answerContent" placeholder="Please enter"
                       style="width: 100%;display: inline-block"></el-input>
@@ -57,11 +50,6 @@
             <p style="color: #ff6699;padding-left: 2%">
               <i class="el-icon-warning"></i>
               Please set the answer for your question.</p>
-            <!--<el-alert
-              title="请为您的题设置答案。"
-              type="warning"
-              show-icon style="color: #ff6699">
-            </el-alert>-->
           </div>
 
         </div>
@@ -79,22 +67,85 @@
         <el-button size="medium">Cancel</el-button>
       </span>
       </div>
+      <!--新增exercises结束-->
+
+      <!--修改exercises开始-->
+      <div class="exercises" v-show="!showAdd">
+        <h5>Exercises {{exerciseEntity.sort}}</h5>
+
+        <el-radio-group v-model="exerciseEntity.questionType">
+          <el-radio :label="'1'">Single-choice</el-radio>
+          <el-radio :label="'2'">Multiple-choice</el-radio>
+          <el-radio :label="'3'">Other</el-radio>
+        </el-radio-group>
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="Type question stem here..."
+          v-model="exerciseEntity.questionTitle" style="width: 70%;display: block;margin-bottom: 2%">
+        </el-input>
+        <!--选择题-->
+        <div v-for="(option,index) in exerciseEntity.options" :key="index" v-if="exerciseEntity.questionType == 1">
+          <el-radio v-model="selectEditItem" :label="option.answerCode" style="display: inline-block;width: 90%;">
+            {{option.answerCode}}
+            <el-input v-model="option.answerContent" placeholder="Please enter"
+                      style="width: 60%;display: inline-block"></el-input>
+            <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
+          </el-radio>
+        </div>
+        <div v-for="(option,index) in exerciseEntity.options" :key="index" v-if="exerciseEntity.questionType == 2" style="width: 100%">
+          <el-checkbox v-model="option.isCorrect" style="display: inline-block;width: 90%;">{{option.answerCode}}
+            <el-input v-model="option.answerContent" placeholder="Please enter"
+                      style="width: 100%;display: inline-block"></el-input>
+            <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
+          </el-checkbox>
+        </div>
+
+
+        <div class="option">
+          <el-button size="mini" style="display: inline-block" @click="addSelectItems">+0ptions</el-button>
+          <div style="display: inline-block;width: 50%">
+            <p style="color: #ff6699;padding-left: 2%">
+              <i class="el-icon-warning"></i>
+              Please set the answer for your question.</p>
+          </div>
+
+        </div>
+        <div style="margin-top: 2%">
+          <i style="color: #5daf34;font-weight: 700;">Explanation</i>
+        </div>
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="Explanation"
+          v-model="exerciseEntity.analysis" style="width: 70%;display: block;margin-top: 2%">
+        </el-input>
+        <span slot="footer" class="dialog-footer">
+        <el-button size="medium" type="primary" style="margin-top: 2%" v-on:click="edit()">Save</el-button>
+        <el-button size="medium">Cancel</el-button>
+      </span>
+      </div>
+      <!--修改exercises结束-->
+
       <div class="have" v-for="(exercises,index) in existExercisesList" :key="index">
         <h5>Exercises {{exercises.sort}}</h5>
         <span v-show="exercises.questionType == '1'">Single-choice</span>
         <span v-show="exercises.questionType == '2'">Multiple-choice</span>
         <el-button v-on:click="deleteExercises(exercises.id)" type="text" icon="el-icon-delete">
         </el-button>
-        <el-button type="text" icon="el-icon-edit">
+        <el-button type="text" icon="el-icon-edit" @click="getExecisesDetail(exercises.id)">
         </el-button>
           <div style="word-wrap: break-word; word-break: normal;width: 90%">{{exercises.questionTitle}}</div>
-       <!-- <ul v-for="(option,index) in options" :key="index">
-          <li style="color: #000"><P style="padding-right: 2%">{{option.answerCode}}</P><span>{{option.answerContent}}</span></li>
+        <ul v-for="(option,index) in exercises.options">
+          <li style="color: #000" :key="index"><P style="padding-right: 2%">{{option.answerCode}}</P><span>{{option.answerContent}}</span></li>
         </ul>
-          <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Answer</p>
-        <div>A</div>-->
-        <!--<p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Explanation</p>
-        <p style="word-wrap: break-word; word-break: normal;width: 90% ">{{exercises.analysis}}</p>-->
+          <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic;display: inline-block">Answer :</p>
+        <div v-for="(option,index) in exercises.options">
+          <div v-if="option.isCorrect == 1">{{option.answerCode}}</div>
+        </div>
+
+        <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Explanation :</p>
+        <p style="word-wrap: break-word; word-break: normal;width: 90% ">{{exercises.analysis}}</p>
       </div>
       <el-dialog
         title="Select Course"
@@ -146,24 +197,50 @@
             isCorrect: true,
             answerCode: "A"
           }
-        ]
+        ],
+        showAdd:true,
+        exerciseEntity:{},
+        selectEditItem:""
       };
+    },
+    mounted(){
+      this.getAssignmentListByLessonId();
     },
     methods: {
       addSelectItems() {
-        let answerCode = this.getCodeNameById(this.options.length);
-        this.options.push({
-          answerContent: "",
-          isCorrect: false,
-          answerCode: answerCode
-        })
+        if(this.showAdd == true){
+          let answerCode = this.getCodeNameById(this.options.length);
+          this.options.push({
+            answerContent: "",
+            isCorrect: false,
+            answerCode: answerCode
+          })
+        }else{
+          let answerCode = this.getCodeNameById(this.exerciseEntity.options.length);
+          this.exerciseEntity.options.push({
+            answerContent: "",
+            isCorrect: false,
+            answerCode: answerCode
+          })
+        }
+
+
       },
       deleteSelectItems(ind) {
-        this.options.splice(ind, 1);
-        console.log(this.options);
-        this.options.forEach((e, i) => {
-          e.answerCode = this.getCodeNameById(i);
-        })
+        if(this.showAdd == true){
+          this.options.splice(ind, 1);
+          console.log(this.options);
+          this.options.forEach((e, i) => {
+            e.answerCode = this.getCodeNameById(i);
+          })
+        }else{
+          this.exerciseEntity.options.splice(ind, 1);
+          console.log(this.exerciseEntity.options);
+          this.exerciseEntity.options.forEach((e, i) => {
+            e.answerCode = this.getCodeNameById(i);
+          })
+        }
+
       },
       getCodeNameById(id) {
         for (let i = 0; i < this.codeObjList.length; i++) {
@@ -232,7 +309,6 @@
               this.analysis="";
 
               console.log("exercisesId：" + this.exercisesId);
-              /*this.showExercises = JSON.parse(JSON.stringify(this.attachments));*/
               this.getAssignmentListByLessonId();
             }
           }).catch((err) => {
@@ -243,7 +319,6 @@
 
       //选择题列表
        getAssignmentListByLessonId(){
-       /* debugger;*/
          this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
            .then((res) => {
              if (res.data.code == 200) {
@@ -264,6 +339,87 @@
           console.log(err);
         });
       },
+      /*获取选择题详情*/
+      getExecisesDetail(id){
+        this.showAdd = false;
+        this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/get`,{params:{data:id}})
+          .then((res)=>{
+            if (res.data.code == 200){
+              res.data.entity.options.forEach((e) => {
+                if(e.isCorrect == 1){
+                  this.selectEditItem = e.answerCode;
+                  e.isCorrect = true;
+                }else{
+                  e.isCorrect = false;
+                }
+
+              })
+
+              this.exerciseEntity = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+
+      /*选择题修改*/
+      edit(){
+        var queryOptions = JSON.parse(JSON.stringify(this.exerciseEntity.options));
+        if (this.exerciseEntity.questionType == 1) {//单选
+
+          queryOptions.forEach((e) => {
+            if (this.selectEditItem == e.answerCode) {//若选中,isCorrect设置为1
+              e.isCorrect = 1;
+            } else {
+              e.isCorrect = 0;
+            }
+          })
+
+        } else if (this.exerciseEntity.questionType == 2) {//多选
+
+          queryOptions.forEach((e) => {
+            if (e.isCorrect == true) {
+              e.isCorrect = 1;
+            } else {
+              e.isCorrect = 0;
+            }
+          })
+        }
+        var exercises = {
+          id:this.exerciseEntity.id,
+          lessonId: this.exerciseEntity.lessonId,
+          questionTitle: this.exerciseEntity.questionTitle,
+          questionType: this.exerciseEntity.questionType,
+          analysis: this.analysis,
+          options: queryOptions
+        };
+        console.log(exercises);
+
+        this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/modify`, exercises)
+          .then((res) => {
+
+            if (res.data.code == 200) {
+              this.showAdd = true;
+              this.questionType = 1;
+              this.questionTitle= "";
+              this.options= [
+                {
+                  answerContent: "",
+                  isCorrect: true,
+                  answerCode: "A"
+                }
+              ];
+              this.analysis="";
+
+              console.log("exercisesId：" + this.exercisesId);
+              this.getAssignmentListByLessonId();
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      }
+
     }
   }
 </script>

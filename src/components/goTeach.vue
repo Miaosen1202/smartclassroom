@@ -34,7 +34,7 @@
                 </div>
                 <p v-on:click="goTeaching(lesson.id)">{{lesson.lessonName}}</p>
                 <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
-                  <i v-on:click="deletelesson(lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
+                  <i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
                 </span>
                 <p style="float: right;cursor: pointer;padding-right: 20%">开始上课</p>
 
@@ -69,7 +69,7 @@
     data() {
       return {
         courseName: '',
-        isShow: true,
+        isShow: false,
         clickedCourseId:"",
         lessonId:this.$route.query.lessonId,
         existCourseList: [],
@@ -130,6 +130,7 @@
         });
       },
       getLessonListByCourseId(id) {
+        debugger;
         this.$http.get(`${process.env.NODE_ENV}/lesson/list?courseId=${id}`)
           .then((res) => {
             if (res.data.code == 200) {
@@ -164,23 +165,28 @@
         this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
           .then((res) => {
             if (res.data.code == 200) {
-              new Date(lessonss.createTime);
-              /*this.discussionId = res.data.entity;
-              console.log("discussionId:"+this.discussionId);*/
-              /*this.courselist();*/
+              debugger;
+              this.$message({
+                message: 'Congratulations on your successful deletion!',
+                type: 'success'
+              });
               this.getCourselist();
             }
           }).catch((err) => {
           console.log(err);
         });
       },
-      deletelesson: function (id) {
-        this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [id])
+      deletelesson: function (courseId,lessonId) {
+        this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [lessonId])
           .then((res) => {
             if (res.data.code == 200) {
               /*this.discussionId = res.data.entity;
               console.log("discussionId:"+this.discussionId);*/
-              this.goTeach();
+              this.$message({
+                message: 'Congratulations on your successful deletion!',
+                type: 'success'
+              });
+              this.getLessonListByCourseId(courseId);
 
             }
           }).catch((err) => {
@@ -207,7 +213,7 @@
     /*background-color: rgb(215, 215, 215);*/
     background-color: rgba(248, 248, 248, 1);
     position: fixed;
-    z-index: 99999;
+    z-index: 1;
   }
 
   .teachtop p {

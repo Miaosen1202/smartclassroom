@@ -17,12 +17,13 @@
   export default {
     data() {
       return {
-        lessonId:this.$route.query.lessonId
+        lessonId:this.$route.query.lessonId,
+        lessonCode:this.$route.query.lessonCode
       }
     },
     methods: {
       goToAddMaterials(){
-        this.$router.push({path:"/LearningHomework/FinishAssignment",query:{"lessonId":this.lessonId}});
+        this.$router.push({path:"/LearningHomework/FinishAssignment",query:{"lessonId":this.lessonId,"lessonCode":this.lessonCode}});
       }
     }
   }

@@ -82,7 +82,8 @@
           this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": this.lessonId}});
         } else if (s == "discussion") {
           this.activeFlag = s;
-          this.$router.push({path: "/homePage/course/disCussion", query: {lessonId: this.lessonId}});
+          // this.$router.push({path: "/homePage/course/disCussion", query: {lessonId: this.lessonId}});
+          this.$router.push({path:"/homePage/course/addDiscussion", query: {"lessonId": this.lessonId}});
         } else if (s == "exercises") {
           this.activeFlag = s;
           this.$router.push({path: "/homePage/course/exerCises", query: {lessonId: this.lessonId}});

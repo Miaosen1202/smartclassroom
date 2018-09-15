@@ -18,12 +18,13 @@
   export default {
     data() {
       return {
-        lessonId:this.$route.query.lessonId
+        lessonId:this.$route.query.lessonId,
+        lessonCode:this.$route.query.lessonCode
       }
     },
     methods: {
       goToAddMaterials(){
-        this.$router.push({path:"/LearningHomework/FinishMaterials",query:{"lessonId":this.lessonId}});
+        this.$router.push({path:"/LearningHomework/FinishMaterials",query:{"lessonId":this.lessonId,"lessonCode":this.lessonCode}});
       }
     }
   }

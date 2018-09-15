@@ -18,10 +18,10 @@
                      @change="handleCheckAllChange">全选</el-checkbox>
 
         <div class="check">
-          <el-button size="small" type="primary">
-            <img src="../../../assets/images/u60.png" alt="">More
-          </el-button>
-          <el-button size="small" type="primary" @click="dialogVisible = true">
+          <!--<el-button size="small" type="primary" @click="goViewMaterialBank">-->
+            <!--<img src="../../../assets/images/u60.png" alt="">More-->
+          <!--</el-button>-->
+          <el-button size="small" type="primary" @click="copyToClike">
             <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">
             Copy To
           </el-button>
@@ -62,25 +62,29 @@
         </el-checkbox-group>
 
         <!-- 拷贝课时资料 -->
-        <el-dialog
+        <el-dialog ref="copyToDialog"
           id="copyToDialog"
           title="Select a Lesson"
-          :visible.sync="dialogVisible"
-          :open="copyMaterialDialogOpen"
+          :visible.sync="copyToDialogVisible"
+          @open="copyMaterialDialogOpen"
           width="30%">
 
           <div>
-            <el-collapse accordion>
-             <!-- <el-collapse-item v-for="course in courseList" :title="course.courseName">
-                <div>
-                  <el-radio v-for="les in lessonList" v-model="radio" label="2" >{{les.lessonName}}</el-radio>
-                </div>
-              </el-collapse-item>-->
+            <el-collapse accordion v-model="activeName" @change="courseCollapseChange">
+              <el-collapse-item v-for="course in courseList"
+                                :title="course.courseName"
+                                :name="course.id"
+                                :key="course.id"
+                                >
+                <el-radio class="lesson-item" v-for="les in lessonList" v-model="copyToLessonRadio" :label="les.id" >
+                  {{les.lessonName}}
+                </el-radio>
+              </el-collapse-item>
             </el-collapse>
           </div>
           <span slot="footer" class="dialog-footer">
-       <el-button type="primary" @click="dialogVisible = false">OK</el-button>
-       <el-button @click="dialogVisible = false">Cancel</el-button>
+       <el-button type="primary" @click="copyMaterialToLesson">OK</el-button>
+       <el-button @click="copyToDialogVisible = false">Cancel</el-button>
       </span>
         </el-dialog>
       </el-scrollbar>
@@ -94,7 +98,7 @@
     data() {
       return {
         radio: '1',
-        dialogVisible: false,
+        copyToDialogVisible: false,
         materialName: "",
         fromWhere: "",
         showUploadFileList: false,
@@ -105,7 +109,9 @@
         lessonId: this.$route.query.lessonId,
         showUpload: false,
         courseList: [],
-        lessonList: []
+        lessonList: [],
+        activeName: '0',
+        copyToLessonRadio: undefined,
       };
     },
     mounted() {
@@ -226,11 +232,14 @@
         this.checkedMaterialList = val ? this.materialList : [];
         this.isIndeterminate = false;
       },
-      copyMaterialDialogOpen: function () {
+      copyToClike: function() {
         if (this.checkedMaterialList.length == 0) {
           this.$message.error("请先选择课时资料");
           return;
         }
+        this.copyToDialogVisible = true;
+      },
+      copyMaterialDialogOpen: function () {
         this.$http.get(`${process.env.NODE_ENV}/course/list`, {params: {status: 1, deleteStatus: 1}})
           .then((res) => {
             if (res.data.code == 200) {
@@ -241,6 +250,63 @@
           }).catch((err) => {
             this.$message.error(err);
         });
+      },
+      courseCollapseChange: function(courseId) {
+        if (typeof courseId == "undefined") {
+          return;
+        }
+        this.$http.get(`${process.env.NODE_ENV}/lesson/list?status=1&courseId=` + courseId)
+          .then((res) => {
+            if (res.data.code == 200) {
+              var arr = res.data.entity;
+              for (var i = 0; i < arr.length; i++) {
+                if (arr[i].id == this.lessonId) {
+                  arr.splice(i, 1);
+                  break;
+                }
+              }
+              this.lessonList = arr;
+            } else {
+              alert(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      copyMaterialToLesson: function () {
+        if (typeof this.copyToLessonRadio == "undefined") {
+          this.$message.error("Please select a lesson");
+          return;
+        }
+        if (this.checkedMaterialList.length == 0) {
+          this.$message.error("Please select material");
+          return;
+        }
+
+        var checkedMaterialIds = [];
+        this.checkedMaterialList.forEach(function (m) {
+          checkedMaterialIds.push(m.id);
+        });
+
+        var param = {
+          targetLessonId: this.copyToLessonRadio,
+          lessonMaterialIds: checkedMaterialIds
+        };
+        this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/copyTo/edit`, param)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.copyToDialogVisible = false;
+              this.$message.info("Copy Success");
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+            this.$message.error(err);
+        });
+      },
+      goViewMaterialBank: function () {
+        // todo
+        console.log("go view material bank");
       }
     }
   }
@@ -250,6 +316,10 @@
   .all {
     margin-top: 2%;
     width: 99.4%;
+  }
+
+  .material-panel {
+    height: 100%;
   }
 
   .el-dialog {
@@ -296,5 +366,31 @@
     background-color: rgb(116, 116, 116);
     border: none;
     color: white;
+  }
+
+  .teach {
+    text-align: center;
+    margin-top: 4%;
+  }
+  .teach p:first-child {
+    color: #ccc;
+    margin-bottom: 3%;
+  }
+  .teach p:nth-child(2) {
+    color: #999;
+    margin-bottom: 3%;
+  }
+  .el-button--medium {
+    padding: 1% 5%;
+  }
+
+  .lesson-item {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .lesson-item.el-radio {
+    margin: 10px;
+    margin-left: 30px;
   }
 </style>

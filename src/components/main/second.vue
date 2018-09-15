@@ -3,9 +3,9 @@
 
     <div class="over">
       <p>Revise your course name and lesson name.</p>
-      <el-collapse v-model="activeName" accordion class="course-item" @change="courseCollapseChange">
+      <el-collapse accordion class="course-item" @change="courseCollapseChange">
         <el-collapse-item v-for="course in courseList"
-                          :title="course.courseName" :name="course.id"  :key="course.id" >
+                          :title="course.courseName" :name="course.id" :key="course.id" >
           <template slot="title">
             <img src="../../assets/images/u1212.png" alt="">
             <span class="course-name" :data-course-id="course.id">{{ course.courseName }}</span>
@@ -51,7 +51,6 @@
             return {
               courseList:[],
               lessonList: [],
-              activeName: '0',
               tableData: []
             }
         },
@@ -86,7 +85,7 @@
           },
           handleEdit(index, row) {
             console.log("edit lesson, id=", row.id);
-            this.$router.push({path: "/homePage/prepare", query: {"lessonId": row.id}});
+            this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": row.id}});
           },
           handleDelete(index, row) {
             this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [row.id])

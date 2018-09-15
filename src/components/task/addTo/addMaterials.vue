@@ -18,9 +18,9 @@
                      @change="handleCheckAllChange">全选</el-checkbox>
 
         <div class="check">
-          <el-button size="small" type="primary" @click="goViewMaterialBank">
-            <img src="../../../assets/images/u60.png" alt="">More
-          </el-button>
+          <!--<el-button size="small" type="primary" @click="goViewMaterialBank">-->
+            <!--<img src="../../../assets/images/u60.png" alt="">More-->
+          <!--</el-button>-->
           <el-button size="small" type="primary" @click="copyToClike">
             <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">
             Copy To

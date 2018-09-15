@@ -22,11 +22,12 @@
             </el-checkbox>
             <el-checkbox-group v-model="checkedMaterialList">
               <div class="list" v-for="material in materialList">
-                <el-checkbox :label="material">
+                <el-checkbox :label="material" :disabled="material.isShare == 1">
                   <a :href="material.materialUrl">{{material.materialName}}</a>
                 </el-checkbox>
               </div>
             </el-checkbox-group>
+            <el-button @click="shareMaterial">Send To</el-button>
           </el-tab-pane>
 
           <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'">
@@ -40,7 +41,7 @@
                 </li>
               </ul>
 
-              <div class="news" v-on:click="toggle()">
+              <div class="news" v-on:click="getDiscussAnswer(discussion.id)">
                 <img src="../../assets/images/u2503.png" alt="">
                 <span class="discuss-answer-number"></span>
                 <!--<el-badge :value="2" :max="10" class="item">-->
@@ -50,25 +51,19 @@
                 <!--</el-badge>-->
               </div>
             </div>
-            <div class="newslesson" v-show="isShow"><!--messageDisplay-->
-              <div class="leftcolor">
-                <span style="color: #999;display: inline-block">Alexander [201102099011]</span>
-                <span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>
-                <p>System looks brightest on the earth System looks brightest on the earth</p>
+            <div class="newslesson" v-show="discussAnswerIsShow"><!--messageDisplay-->
+              <div class="leftcolor" v-for="discussAnswer in discussAnswers">
+                <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
+                <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
+                <p>{{ discussAnswer.answerContent }}</p>
                 <ul>
-                  <li>Our Solar System and Life’s .docx</li>
+                  <li v-for="atth in discussAnswer.attachments">
+                    <a :href="getFileDownloadPath(atth.fileUrl)">{{ atth.fileName }}</a>
+                  </li>
                 </ul>
               </div>
-              <div class="leftcolor">
-                <span style="color: #999;display: inline-block">Alexander [201102099011]</span>
-                <span style="float: right;color: #999;padding-right: 2%">12:00:36  25/08/2018</span>
-                <p>System looks brightest on the earth System looks brightest on the earth</p>
-                <ul>
-                  <li>Our Solar System and Life’s .docx</li>
-                </ul>
-              </div>
-
             </div>
+
           </el-tab-pane>
           <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
@@ -224,6 +219,7 @@
   export default {
     data() {
       return {
+        discussAnswers: [],
         checkedMaterialList: [],
         materialNumber: 0,
         materialList: [],
@@ -238,6 +234,7 @@
         lessonId: this.$route.query.lessonId,
         checked: true,
         isShow: false,
+        discussAnswerIsShow: false,
         checkAll: false,
         checked1: '',
         checked2: '',
@@ -339,7 +336,27 @@
           bmyChart.setOption(option, true);
         }
       },
+      getFileDownloadPath: function(fileUrl) {
+        console.log(process.env.NODE_ENV + fileUrl)
+        return process.env.NODE_ENV + fileUrl;
+      },
+      formatDateTime: function(d) {
+        var date = new Date(d);
+        var month = '' + (date.getMonth() + 1);
+        var day = '' + date.getDate();
+        var year = date.getFullYear();
+        var hour = '' + date.getHours();
+        var min = '' + date.getMinutes();
+        var sec = '' + date.getSeconds();
 
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        if (hour.length < 2) hour = '0' + hour;
+        min = min.length < 2 ? ('0' + min) : min;
+        sec = sec.length < 2 ? ('0' + sec) : sec;
+
+        return [year, month, day].join('-') + " " + [hour, min, sec].join(":");
+      },
       getLessonDetail: function () {
         this.$http.get(`${process.env.NODE_ENV}/lesson/detail/query?lessonId=${this.lessonId}`)
           .then((res) => {
@@ -397,6 +414,28 @@
       toggle: function () {
         this.isShow = !this.isShow;
       },
+      getDiscussAnswer: function(questionId) {
+        this.discussAnswerIsShow = !this.discussAnswerIsShow;
+        if (this.discussAnswerIsShow) {
+          let param = {
+            params: {
+              questionId: questionId,
+              questionType: 5,
+              lessonCode: this.lessonCode
+            }
+          };
+          this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.discussAnswers = res.data.entity.questionAnswerRecordVos;
+              } else {
+                this.$message.error(res.data.message);
+              }
+            }).catch((err) => {
+              this.$message.error(err);
+          })
+        }
+      },
       tabChange: function (tab) {
         if (tab.name == "materialTab") {
           this.getMaterialList();
@@ -427,7 +466,34 @@
           console.log(err);
         });
       },
+      shareMaterial: function () {
+        if (this.checkedMaterialList.length == 0) {
+          this.$message.error("Please select material to share");
+          return;
+        }
 
+        let shareMaterialIds = [];
+        this.checkedMaterialList.forEach(function (m) {
+          console.log(m);
+          shareMaterialIds.push(m.id);
+        });
+        let param = {
+          ids: shareMaterialIds,
+          isShare: 1
+        };
+        this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/shareStatus/edit`, param)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.$message.info("Share material success");
+              // this.checkedMaterialList = [];
+              this.getMaterialList();
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+            this.$message.error(err);
+        })
+      },
     }
 
   }

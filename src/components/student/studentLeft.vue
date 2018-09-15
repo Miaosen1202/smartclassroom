@@ -37,7 +37,7 @@
     props:{
       lessonId:{
         default:function(){
-          return [];
+          return 0;
         },
       },
       lessonCode:{
@@ -56,19 +56,20 @@
     methods:{
       goToFirst(s){
         this.activeFlag = s;
-        this.$router.push({path:"/LearningHomework/LearningMaterials",query:{lessonId:this.lessonId}});
+        this.$router.push({path:"/LearningHomework/LearningMaterials",query:{lessonId:this.lessonId,lessonCode:this.lessonCode}});
       },
       goToSecond(s){
         this.activeFlag = s;
         this.$router.push({path:"/LearningHomework/LetDiscuss",query:{lessonId:this.lessonId,lessonCode:this.lessonCode}});
       },
       goToThird(s){
+        debugger;
         this.activeFlag = s;
          this.$router.push({path:"/LearningHomework/TakeExercises",query:{lessonId:this.lessonId,lessonCode:this.lessonCode}});
        },
       goToFive(s){
         this.activeFlag = s;
-        this.$router.push({path:"/LearningHomework/MyAssignment",query:{lessonId:this.lessonId}});
+        this.$router.push({path:"/LearningHomework/MyAssignment",query:{lessonId:this.lessonId,lessonCode:this.lessonCode}});
       }
     }
   }

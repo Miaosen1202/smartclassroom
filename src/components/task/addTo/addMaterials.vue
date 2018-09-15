@@ -76,7 +76,7 @@
                                 :name="course.id"
                                 :key="course.id"
                                 >
-                <el-radio class="lesson-item" v-for="les in lessonList" v-model="copyToLessonRadio" :label="les.id" >
+                <el-radio class="lesson-item" v-for="les in lessonList" v-model="copyToLessonRadio" :label="les.id" :key="les.id">
                   {{les.lessonName}}
                 </el-radio>
               </el-collapse-item>

@@ -70,13 +70,13 @@
           width="30%">
 
           <div>
-            <el-collapse accordion>
+          <!--  <el-collapse accordion>
               <el-collapse-item v-for="course in courseList" :title="course.courseName">
                 <div>
-                  <el-radio v-for="les in lessonList" v-model="radio" label="2">{{les.lessonName}}</el-radio>
+                  <el-radio v-for="les in lessonList" v-model="radio" :key="index" label="2">{{les.lessonName}}</el-radio>
                 </div>
               </el-collapse-item>
-            </el-collapse>
+            </el-collapse>-->
           </div>
           <span slot="footer" class="dialog-footer">
        <el-button type="primary" @click="dialogVisible = false">OK</el-button>

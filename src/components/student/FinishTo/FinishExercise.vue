@@ -26,13 +26,13 @@
         <el-button style="margin: 2%;" type="success" round @click="submitQuestionAnswer(existExercisesList[0])">Submit</el-button>
       </div>
       <div class="answer" v-show="isSubmit == 0">
-        <div v-for="(option,index) in existExercisesList[0].options" :key="index">
+        <div v-for="(option,index) in exercises.options" :key="index">
           <p v-show="option.isCorrect == 1">Correct Answer ：<span>{{option.answerCode}}</span></p>
         </div>
         <p>Your Answer ：<span style="color: red">{{selectedAnswerCode}}</span></p>
         <P>Explanation</P>
         <span  style="width: 60%;display: inline-block">
-          {{existExercisesList[0].analysis}}
+          {{exercises.analysis}}
         </span>
       </div>
     </div>
@@ -53,7 +53,8 @@
               currentPage:1,//当前页
               pages: 0,//总页数
               total:0,//总条数
-              isSubmit:1
+              isSubmit:1,
+              exercises:{},
             }
         },
       mounted() {
@@ -73,7 +74,6 @@
               .then((res) => {
                 if (res.data.code == 200) {
                   this.existExercisesList = res.data.entity.list;
-                  debugger;
                   this.total = res.data.entity.total;
                   this.currentPage = res.data.entity.pageIndex;
                   this.pages = (res.data.entity.total)%(res.data.entity.pageSize) == 0 ?
@@ -95,6 +95,8 @@
               });
               this.currentPage--;
             }else if(this.currentPage <= this.pages){
+              this.selectedAnswerCode = "";
+              this.isSubmit = 1;
               this.loadFinishexercise();
             }
 
@@ -109,6 +111,8 @@
               });
               this.currentPage++;
             }else{
+              this.selectedAnswerCode = "";
+              this.isSubmit = 1;
               this.loadFinishexercise();
             }
 
@@ -125,13 +129,20 @@
 
             this.$http.post(`${process.env.NODE_ENV}/questionAnswer/submit/edit`,queryParam )
               .then((res) => {
-                if (res.data.code == 200) {
+                this.isSubmit = 0;
+                this.exercises = exercises;
+                this.$message({
+                  message: 'Congratulations on your successful submission!',
+                  type: 'success'
+                });
+               /* if (res.data.code == 200) {
                   this.isSubmit = 0;
+                  this.exercises = exercises;
                   this.$message({
                     message: 'Congratulations on your successful submission!',
                     type: 'success'
                   });
-                }
+                }*/
               }).catch((err) => {
               console.log(err);
             });

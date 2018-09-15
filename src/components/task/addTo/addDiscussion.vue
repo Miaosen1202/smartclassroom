@@ -1,62 +1,69 @@
 <template>
-  <div class="all">
-    <el-scrollbar style="height: 100%">
-    <!-- <p>添加讨论,第二个页面</p>
-     <p>There is no discussion yet.</p>-->
-    <div class="create" v-on:click="toggle()">
-      <el-button size="small" type="primary">
-        <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-        <p>Create a <br> Discussion</p>
+  <div style="height: 100%">
+    <div class="no-discuss discussion" v-show="!showDiscussListPanel">
+      <p><img src="../../../assets/images/u674.png" alt=""></p>
+      <p>There is no discussion yet.</p>
+      <el-button size="medium" type="primary" @click="goToAddDiscussion">
+        <img src="../../../assets/images/u60.png" alt="">
       </el-button>
     </div>
-    <div class="discussion" v-show="isShow">
-      <h5>Discussion 1</h5>
-      <!--v-model="lessonName"-->
-      <!--输入框输入内容-->
-      <el-input
-        type="textarea"
-        autosize
-        placeholder="Enter discussion content here."
-        v-model="discussContent">
-      </el-input>
 
-      <!--上传文件-->
-      <el-upload
-        class="upload-demo"
-        :action="action"
-        :before-remove="beforeRemove"
-        :on-remove="removeFile"
-        :on-change="handleChange"
-        :on-success="handleSuccess"
-        :with-credentials="true"
-        :file-list="fileList3">
-        <el-button size="mini" type="primary">
-          <img src="../../../assets/images/u166.png" alt="">
-        </el-button>
+    <div class="discuss-panel" style="height: 100%" v-show="showDiscussListPanel">
+      <el-scrollbar style="height: 100%">
 
-        <div slot="tip" class="el-upload__tip">Add Attachments</div>
-      </el-upload>
+        <div class="create" v-on:click="createPanelToggle()">
+          <el-button size="small" type="primary">
+            <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
+            <p>Create a Discussion</p>
+          </el-button>
+        </div>
+        <div class="discussion" v-show="createPanelShow">
+          <h5>New Discussion</h5>
+          <!--v-model="lessonName"-->
+          <!--输入框输入内容-->
+          <el-input
+            type="textarea"
+            autosize
+            placeholder="Enter discussion content here."
+            v-model="discussContent">
+          </el-input>
 
-      <!--按钮-->
-      <span slot="footer" class="dialog-footer">
-        <el-button style="margin-top: 2%;" size="medium" type="primary" v-on:click="sure()">Save</el-button>
-        <el-button size="medium">Cancel</el-button>
-      </span>
+          <!--上传文件-->
+          <el-upload
+            class="upload-demo"
+            :action="action"
+            :before-remove="beforeRemove"
+            :on-remove="removeFile"
+            :on-change="handleChange"
+            :on-success="handleSuccess"
+            :with-credentials="true"
+            :file-list="fileList3">
+            <el-button size="mini" type="primary">
+              <img src="../../../assets/images/u166.png" alt="">
+            </el-button>
+            <div slot="tip" class="el-upload__tip">Add Attachments</div>
+          </el-upload>
+
+          <!--按钮-->
+          <span slot="footer" class="dialog-footer">
+            <el-button style="margin-top: 2%;" size="medium" type="primary" v-on:click="sure()">Save</el-button>
+            <el-button size="medium" @click="cancelCreateDiscuss">Cancel</el-button>
+          </span>
+        </div>
+
+        <div class="have" v-for="(discussion,index) in discussionList" :key="index">
+          <h5>Discussion {{discussion.sort}}</h5>
+          <el-button v-on:click="deleteDiscussion(discussion.id)" type="text" icon="el-icon-delete"><!--错误符号-->
+          </el-button>
+          <el-button v-on:click="goEditDiscuss(discussion.id, index)" type="text" icon="el-icon-edit">
+          </el-button>
+          <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
+          <ul style="padding-left: 2%">
+            <li v-for="(attachment,ind) in discussion.attachments" :key="ind">{{attachment.fileName}}</li>
+          </ul>
+        </div>
+      </el-scrollbar>
     </div>
-
-    <div class="have" v-for="(discussion,index) in discussionList" :key="index">
-      <h5>Discussion {{discussion.sort}}</h5>
-      <el-button v-on:click="deleteDiscussion(discussion.id)" type="text" icon="el-icon-delete"><!--错误符号-->
-      </el-button>
-      <el-button v-on:click="wrong()" type="text" icon="el-icon-edit">
-
-      </el-button>
-      <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
-      <ul style="padding-left: 2%">
-        <li v-for="(attachment,ind) in discussion.attachments" :key="ind">{{attachment.fileName}}</li>
-      </ul>
-    </div>
-    </el-scrollbar>
   </div>
 </template>
 
@@ -66,7 +73,8 @@
   export default {
     data() {
       return {
-        isShow:true,
+        showDiscussListPanel: false,
+        createPanelShow: false,
         discussContent: '',
         fileList3: [],
         action: process.env.NODE_ENV + '/file/upload',
@@ -78,14 +86,26 @@
         discussionId: "",
         attachments: [],
         discussionList:[],//课堂列表
+        editDiscussId: undefined,
       };
     },
     mounted(){
       this.getDiscussionListByLessonId();
     },
     methods: {
-      toggle:function(){
-        this.isShow = !this.isShow;
+      cancelCreateDiscuss: function() {
+        this.createPanelShow = false;
+        this.discussContent = "",
+        this.fileList3 = [];
+        this.attachments = [];
+        this.editDiscussId = undefined;
+      },
+      goToAddDiscussion: function() {
+        this.showDiscussListPanel = true;
+        this.createPanelShow = true;
+      },
+      createPanelToggle: function(){
+        this.createPanelShow = !this.createPanelShow;
       },
       beforeRemove(file,fileList){
         this.removedFileName = file.name;
@@ -118,10 +138,7 @@
               fileLocalPath: this.fileEntity.fileTmpName,
               fileName: this.fileEntity.fileOriginName
             });
-
-
         }
-
       },
       sure: function () {
         var discussion = {
@@ -130,21 +147,40 @@
           attachments: this.attachments
         };
 
-        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.discussContent = "",
-              this.fileList3 = [];
-              this.attachments = [];
-              /*this.discussionId = res.data.entity;
-              console.log("discussionId:"+this.discussionId);*/
-              /*this.showAttachments = JSON.parse(JSON.stringify(this.attachments));*/
-              this.getDiscussionListByLessonId();
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
-
+        if (typeof this.editDiscussId == "undefined") {
+          this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.discussContent = "",
+                  this.fileList3 = [];
+                this.attachments = [];
+                /*this.discussionId = res.data.entity;
+                console.log("discussionId:"+this.discussionId);*/
+                /*this.showAttachments = JSON.parse(JSON.stringify(this.attachments));*/
+                this.getDiscussionListByLessonId();
+                this.createPanelShow = false;
+              }
+            }).catch((err) => {
+            console.log(err);
+          });
+        } else {
+          discussion["id"] = this.editDiscussId;
+          this.$http.post(`${process.env.NODE_ENV}/classDiscuss/modify`, discussion)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.discussContent = "";
+                this.fileList3 = [];
+                this.attachments = [];
+                this.getDiscussionListByLessonId();
+                this.editDiscussId = undefined;
+                this.createPanelShow = false;
+              } else {
+                this.$message.error(res.data.message);
+              }
+            }).catch((err) => {
+              this.$message.error(err)
+          });
+        }
       },
 
       //课堂讨论列表
@@ -154,30 +190,30 @@
             if (res.data.code == 200) {
 
               this.discussionList = res.data.entity;
+              this.showDiscussListPanel = this.discussionList.length > 0;
+              this.createPanelShow = this.discussionList.length == 0;
             }
           }).catch((err) => {
           console.log(err);
         });
 
       },
-      /*ceshi http://localhost:8080/#/homePage/course/addDiscussion?lessonId=46*/
-      wrong:function (id) {
-        var discussion = {
-          id:220,
-          lessonId: this.lessonId,
-          discussContent: this.discussContent,
-          attachments: this.attachments,
-          /*id: this.attachments.id*/
-        };
-        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/modify`, discussion,[id])
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.discussionId = res.data.entity;
-              console.log("discussionId:"+this.discussionId);
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
+      goEditDiscuss: function (id, index) {
+        let editDiscuss = this.discussionList[index];
+        console.log("go edit, id=" + id + ", index=" + index, editDiscuss);
+
+        this.createPanelShow = true;
+        this.editDiscussId = editDiscuss.id;
+        this.discussContent = editDiscuss.discussContent;
+        this.attachments = editDiscuss.attachments || [];
+
+        this.fileList3 = [];
+        for (let i = 0; i < this.attachments.length; i++) {
+          this.fileList3.push({
+            name: this.attachments[i].fileName,
+            url: this.attachments[i].fileUrl
+          })
+        }
       },
       /*删除列表*/
       deleteDiscussion:function (id) {
@@ -266,5 +302,20 @@
   }
   .el-icon-delete:before {
     color: red !important;
+  }
+  .no-discuss {
+    text-align: center;
+    margin-top: 4%;
+  }
+  .no-discuss p:first-child {
+    color: #ccc;
+    margin-bottom: 3%;
+  }
+  .no-discuss p:nth-child(2) {
+    color: #999;
+    margin-bottom: 3%;
+  }
+  .no-discuss .el-button--medium {
+    padding: 1% 5%;
   }
 </style>

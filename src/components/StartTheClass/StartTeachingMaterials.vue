@@ -12,6 +12,10 @@
         <img src="../../assets/images/u118.png" alt="">
       </p>
     </div>
+    <!--下课按钮-->
+    <div class="right">
+      <el-button style="float: right;top: 50%;" type="primary" round>下课</el-button>
+    </div>
     <div class="main">
       <el-scrollbar style="height: 100%">
         <el-tabs type="card" activeName="materialTab" @tab-click="tabChange">
@@ -23,7 +27,7 @@
             <el-checkbox-group v-model="checkedMaterialList">
               <div class="list" v-for="material in materialList">
                 <el-checkbox :label="material" :disabled="material.isShare == 1">
-                  <a :href="material.materialUrl">{{material.materialName}}</a>
+                  <a :href="material.materialUrl" :download="material.materialName">{{material.materialName}}</a>
                 </el-checkbox>
               </div>
             </el-checkbox-group>
@@ -32,38 +36,36 @@
 
           <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
-            <div class="have" v-for="(discussion,index) in discussionList" :key="index">
+            <div  v-for="(discussion, index) in discussionList" :key="discussion.id">
+              <div class="have">
               <h5>Discussion {{discussion.sort}}</h5>
               <p>{{discussion.discussContent}}</p>
               <ul>
                 <li v-for="atth in discussion.attachments">
-                  <a :href="atth.fileUrl">{{atth.fileName}}</a>
+                  <a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>
                 </li>
               </ul>
 
               <div class="news" v-on:click="getDiscussAnswer(discussion.id)">
                 <img src="../../assets/images/u2503.png" alt="">
                 <span class="discuss-answer-number"></span>
-                <!--<el-badge :value="2" :max="10" class="item">-->
-                <!--<el-badg>-->
-                <!--<img src="../../assets/images/u2503.png" alt="">-->
-                <!--</el-badg>-->
-                <!--</el-badge>-->
+              </div>
+              </div>
+              <div>
+                <div class="discussion-answer-items" :data-id="discussion.id" v-show="false"><!--messageDisplay-->
+                  <div class="leftcolor" v-for="discussAnswer in discussAnswers">
+                    <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
+                    <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
+                    <p>{{ discussAnswer.answerContent }}</p>
+                    <ul>
+                      <li v-for="atth in discussAnswer.attachments">
+                        <a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
-            <div class="newslesson" v-show="discussAnswerIsShow"><!--messageDisplay-->
-              <div class="leftcolor" v-for="discussAnswer in discussAnswers">
-                <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
-                <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
-                <p>{{ discussAnswer.answerContent }}</p>
-                <ul>
-                  <li v-for="atth in discussAnswer.attachments">
-                    <a :href="getFileDownloadPath(atth.fileUrl)">{{ atth.fileName }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
           </el-tab-pane>
           <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
@@ -71,6 +73,11 @@
 
               <div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
+                  <div class="elbtn" style="float: right;padding-right: 2%">
+                    <el-button type="success" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
+                    <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
+                    <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
+                  </div>
                   <div v-for="(exercises,index) in existExercisesList">
                     <h4 style="display:inline-block; border-bottom: 2px solid #999">Exercises {{exercises.sort}}</h4>
                     <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
@@ -78,30 +85,31 @@
                     <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
                           v-show="exercises.questionType == '2'">Multiple-choice</span>
                     <p>{{exercises.questionTitle}}</p>
-                    <ul v-for="(option,index) in options" :key="index">
-                      <li><h4 style="display: inline-block">{{option.answerCode}}</h4><span>{{option.answerContent}}</span></li>
+                    <ul v-for="(option,index) in exercises.options" :key="index">
+                      <li><h4 style="display: inline-block">{{option.answerCode}}</h4>
+                        <span>{{option.answerContent}}</span></li>
                     </ul>
-                    <!--<h4>A</h4>
-                    <h4>B</h4>
-                    <h4>C</h4>-->
+
                     <div style="cursor: pointer" v-on:click="toggle()">
                       <i class="el-icon-arrow-down"></i>
                       <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
                     </div>
+                    <div v-show="isShow">
+                      <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer</i>
+                      <div v-for="(option,index) in exercises.options">
+                        <h4 v-if="option.isCorrect == 1">{{option.answerCode}}</h4>
+                      </div>
+
+                      <i style="font-weight: 700;color: #5cb85c">Explanation</i>
+                      <p>{{exercises.analysis}}
+                      </p>
+                      <!--<p>Venus is the brightest planet in the world.
+                        Its brightness is -3.3 to -4.4. It is 14 times brighter
+                        than the famous Sirius, the
+                      </p>-->
+                    </div>
                   </div>
-                  <div v-show="isShow">
-                    <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer</i>
-                    <h4>A</h4>
-                    <i style="font-weight: 700;color: #5cb85c">Explanation</i>
-                    <p>Venus is the brightest planet in the world.
-                      Its brightness is -3.3 to -4.4. It is 14 times brighter
-                      than the famous Sirius,
-                    </p>
-                    <p>Venus is the brightest planet in the world.
-                      Its brightness is -3.3 to -4.4. It is 14 times brighter
-                      than the famous Sirius, the
-                    </p>
-                  </div>
+
                 </el-scrollbar>
               </div>
               <div class="rightexerc">
@@ -124,7 +132,7 @@
                 <p>{{assignment.assignmentName}}</p>
                 <ul>
                   <li v-for="atth in assignment.attachments">
-                    <a :href="atth.fileUrl">{{atth.fileName}}</a>
+                    <a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>
                   </li>
                 </ul>
               </div>
@@ -132,11 +140,11 @@
           </el-tab-pane>
           <el-tab-pane>
           <span slot="label">
-            <img src="../../assets/images/u273.png" alt="">
+            <img v-on:click="goback()" src="../../assets/images/u273.png" alt="">
           </span>
             <p>Lesson： {{ lessonName }}</p>
             <div class="exercise" style="width: 100%;margin-right: 2%">
-              <div class="leftexerc" style="height: 350px">
+              <!--<div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
                   <h6 style="display:inline-block; border-bottom: 2px solid #999">Exercises1</h6>
                   <div style="padding-left:2%; border-bottom: 1px solid #ccc">
@@ -144,20 +152,20 @@
                     <p style="display:inline-block">Which of the planets of the solar</p>
                   </div>
                 </el-scrollbar>
-              </div>
+              </div>-->
 
               <!--<div class="rightexerc" :style="{width: '300px', height: '300px'}">
                 <div id="bmyChart"></div>
               </div>-->
               <div>
-                <p style="display: inline-block;padding-left: 2%">Statistics  Responses </p>
+                <p style="display: inline-block;padding-left: 2%">Statistics Responses </p>
                 <h3 style="color: #880000;display: inline-block">14</h3>/<span>16</span>
                 <!--<span class="el-icon-arrow-left"></span>-->
                 <el-button style="margin-left: 8%" type="primary" icon="el-icon-caret-left" circle></el-button>
                 <el-button type="primary" icon="el-icon-caret-right" circle></el-button>
               </div>
               <div style="float: left;width: 38%;height: 300px;margin: 1% 0%">
-                <el-scrollbar style="height: 100%">
+                <!--<el-scrollbar style="height: 100%">
                   <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%;">
                     <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
                     <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
@@ -195,7 +203,7 @@
                       than the famous Sirius, the
                     </p>
                   </div>
-                </el-scrollbar>
+                </el-scrollbar>-->
               </div>
             </div>
           </el-tab-pane>
@@ -248,10 +256,16 @@
             answerContent:'',
           }*/
         ],
+        pageSize:1,//页大小
+        currentPage:1,//当前页
+        pages: 0,//总页数
+        total:0,//总条数
+        isSubmit:1,
         msg: ''
       }
     },
     mounted() {
+      this.loadFinishexercise();
       this.drawLine();
       /*this.bdrawLine();*/
       this.getMaterialList();
@@ -267,13 +281,13 @@
           title: {text: 'Responses  14/50'},
           tooltip: {},
           xAxis: {
-            data: ["A", "B", "C", "D","E","F"]
+            data: ["A", "B", "C", "D", "E", "F"]
           },
           yAxis: {},
           series: [{
             name: '数量',
             type: 'bar',
-            data: [5, 14, 10, 10,5,6],
+            data: [5, 14, 10, 10, 5, 6],
             itemStyle: {
               normal: {
                 //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
@@ -336,11 +350,11 @@
           bmyChart.setOption(option, true);
         }
       },
-      getFileDownloadPath: function(fileUrl) {
+      getFileDownloadPath: function (fileUrl) {
         console.log(process.env.NODE_ENV + fileUrl)
         return process.env.NODE_ENV + fileUrl;
       },
-      formatDateTime: function(d) {
+      formatDateTime: function (d) {
         var date = new Date(d);
         var month = '' + (date.getMonth() + 1);
         var day = '' + date.getDate();
@@ -414,27 +428,34 @@
       toggle: function () {
         this.isShow = !this.isShow;
       },
-      getDiscussAnswer: function(questionId) {
-        this.discussAnswerIsShow = !this.discussAnswerIsShow;
-        if (this.discussAnswerIsShow) {
-          let param = {
-            params: {
-              questionId: questionId,
-              questionType: 5,
-              lessonCode: this.lessonCode
-            }
-          };
-          this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
-            .then((res) => {
-              if (res.data.code == 200) {
-                this.discussAnswers = res.data.entity.questionAnswerRecordVos;
-              } else {
-                this.$message.error(res.data.message);
-              }
-            }).catch((err) => {
-              this.$message.error(err);
-          })
+      getDiscussAnswer: function (questionId) {
+        if (document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display !== "none") {
+          return;
+        } else {
+          let disAnswerItems = document.querySelectorAll(".discussion-answer-items") || [];
+          disAnswerItems.forEach(function (d) {
+            d.style.display = "none";
+          });
         }
+
+        let param = {
+          params: {
+            questionId: questionId,
+            questionType: 5,
+            lessonCode: this.lessonCode
+          }
+        };
+        this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
+          .then((res) => {
+            if (res.data.code == 200) {
+              document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "";
+              this.discussAnswers = res.data.entity.questionAnswerRecordVos;
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        })
       },
       tabChange: function (tab) {
         if (tab.name == "materialTab") {
@@ -455,17 +476,17 @@
         this.$router.push({path: "/navBar"});
       },
       //选择题列表
-      getAssignmentListByLessonId() {
+      /*getAssignmentListByLessonId() {
         this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {
               this.existExercisesList = res.data.entity;
-              /* this.options = res.data.options;*/
+              /!* this.options = res.data.options;*!/
             }
           }).catch((err) => {
           console.log(err);
         });
-      },
+      },*/
       shareMaterial: function () {
         if (this.checkedMaterialList.length == 0) {
           this.$message.error("Please select material to share");
@@ -491,8 +512,63 @@
               this.$message.error(res.data.message);
             }
           }).catch((err) => {
-            this.$message.error(err);
+          this.$message.error(err);
         })
+      },
+
+
+      loadFinishexercise:function () {
+        var param = {
+          lessonId:this.lessonId,
+          pageIndex: this.currentPage,
+          pageSize: this.pageSize
+        };
+        this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/pageList`, {params:param})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.existExercisesList = res.data.entity.list;
+              this.total = res.data.entity.total;
+              this.currentPage = res.data.entity.pageIndex;
+              this.pages = (res.data.entity.total)%(res.data.entity.pageSize) == 0 ?
+                (res.data.entity.total)/(res.data.entity.pageSize) :
+                (res.data.entity.total)/(res.data.entity.pageSize)+1;
+              this.pageSize = res.data.entity.pageSize;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      //向下翻页
+      toNextPage(){
+        this.currentPage = this.currentPage+1;
+        if(this.currentPage > this.pages){
+          this.$message({
+            message: 'sorry,this is the last page!',
+            type: 'warning'
+          });
+          this.currentPage--;
+        }else if(this.currentPage <= this.pages){
+          this.selectedAnswerCode = "";
+          this.isSubmit = 1;
+          this.loadFinishexercise();
+        }
+
+      },
+      //向上翻页
+      goBack(){
+        this.currentPage = this.currentPage-1;
+        if(this.currentPage == 0){
+          this.$message({
+            message: 'sorry,this is the first page!',
+            type: 'warning'
+          });
+          this.currentPage++;
+        }else{
+          this.selectedAnswerCode = "";
+          this.isSubmit = 1;
+          this.loadFinishexercise();
+        }
+
       },
     }
 
@@ -559,25 +635,25 @@
     /*padding-right: 2%;*/
   }
 
-  .newslesson {
+  .discussion-answer-items {
     border: 1px solid #ccc;
     width: 84%;
     padding-left: 6%;
     position: relative;
     border-top: none;
-    padding-top: 2%;
+    padding-top: 1%;
   }
 
-  .newslesson p {
+  .discussion-answer-items p {
     margin-top: 1%;
 
   }
 
-  .newslesson span {
+  .discussion-answer-items span {
     margin-top: 1%;
   }
 
-  .newslesson ul li {
+  .discussion-answer-items ul li {
     color: #0066CC;
     font-size: 12px;
   }

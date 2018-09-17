@@ -2,11 +2,11 @@
   <div class="all">
     <el-scrollbar style="height: 100%">
       <div class="elbtn">
-        <el-button type="success" icon="el-icon-arrow-left" circle></el-button>
-        <h4 style="display: inline-block">1/4</h4>
-        <el-button type="success" icon="el-icon-arrow-right" circle></el-button>
+        <el-button type="success" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
+        <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
+        <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
       </div>
-      <el-button v-on:click="toggle()"
+      <el-button v-on:click="toggle(exercises)"
                  style="margin: 1% 0px 0px 1%;background-color:  rgba(111, 111, 183,1);color: white;font-weight: 700">
         Reply
       </el-button>
@@ -21,23 +21,9 @@
           </li>
         </ul>
       </div>
-      <!--<div class="have">
-        <h5>Discussion </h5>
-        <el-button type="text" icon="el-icon-delete">
-        </el-button>
-        <el-button type="text" icon="el-icon-edit">
 
-        </el-button>
-      </div>
--->
       <div v-show="isShow">
         <div style="margin: 2% 0px">
-          <!--<div class="create" >
-            <el-button size="small" type="primary">
-              <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-              <p>Create a <br> Discussion</p>
-            </el-button>
-          </div>-->
           <div class="discussion">
             <h5 style="font-weight: 700">Reply</h5>
             <!--v-model="lessonName"-->
@@ -46,7 +32,7 @@
               type="textarea"
               autosize
               placeholder="请输入内容"
-              v-model="discussContent">
+              v-model="selectedAnswerCode">
             </el-input>
 
             <!--上传文件-->
@@ -68,41 +54,23 @@
 
             <!--按钮-->
             <span slot="footer" class="dialog-footer">
-        <el-button style="margin-top: 2%;background-color: #4cae4c" size="medium" type="primary" v-on:click="sure()">submit</el-button>
+        <el-button style="margin-top: 2%;background-color: #4cae4c" size="medium" type="primary" @click="submitQuestionAnswer(discussionList[0])">submit</el-button>
         <el-button size="medium">Cancel</el-button>
       </span>
           </div>
         </div>
+      </div>
         <div>
-          <div style="margin: 2% 0px">
-            <!--<div class="create" >
-              <el-button size="small" type="primary">
-                <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-                <p>Create a <br> Discussion</p>
-              </el-button>
-            </div>-->
-            <div class="discussion" v-for="(submithistory,index) in submitHistoryList" :key="index">
-              <P>{{submithistory.answerContent}}</P>
-              <!--<P>{{discussion.answerContent}}</P>-->
-              <ul>
-                <li>123.jpg</li>
+          <div style="margin: 2% 0px" v-show="isSubmit == 0">
+            <div class="discussion" v-for="(subdiscussion,index) in submitHistoryList" :key="index">
+              <P>{{subdiscussion.answerContent}}</P>
+              <ul v-for="(attachment,ind) in subdiscussion.attachments" :key="ind">
+                <li >{{attachment.fileName}}</li>
               </ul>
               <!--上传文件-->
             </div>
           </div>
         </div>
-      </div>
-      <!--<div class="block">
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage4"
-          :page-sizes="1"
-          :page-size="100"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="10">
-        </el-pagination>
-      </div>-->
     </el-scrollbar>
   </div>
 </template>
@@ -126,12 +94,21 @@
         discussionList:[],
         submitHistoryList:[],
         questionAnswerRecordVos:[],
-        /*currentPage4: 4*/
+        selectedAnswerCode:"",
+        pageSize:1,//页大小
+        currentPage:1,//当前页
+        pages: 0,//总页数
+        total:0,//总条数
+        isSubmit:1,
+        exercises:{},
       }
     },
     mounted() {
-      this.getDiscussionListByLessonId();
+
+      this.loadFinishexercise();
       this.getsubmitHistoryLessonId();
+      //this.getDiscussionListByLessonId();
+
     },
     methods: {
       toggle: function () {
@@ -169,61 +146,123 @@
             });
         }
       },
-      sure: function () {
-        var discussion = {
-          questionId: 31,
-          answerContent: this.discussContent,
-          attachments: this.attachments,
-          questionType:5,
-          isSubmit:0,
-          lessonCode:this.lessonCode,
 
-        };
-
-        this.$http.post(`${process.env.NODE_ENV}/questionAnswer/submit/edit`, discussion)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.discussContent = res.data.entity;
-              this.getDiscussionListByLessonId();
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
-
-      },
-      getDiscussionListByLessonId(){
+    /*  getDiscussionListByLessonId(){
         this.$http.get(`${process.env.NODE_ENV}/classDiscuss/list?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {
-              /*debugger;*/
+              /!*debugger;*!/
               this.discussionList = res.data.entity;
             }
           }).catch((err) => {
           console.log(err);
         });
-      },
+      },*/
       //下载discussion文件
       downFile(filePath){
         /*window.open(`${process.env.NODE_ENV}/http://localhost:8088/${filePath}`);*/
         window.open(`${process.env.NODE_ENV}${filePath}`);
       },
-      /*handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
-      }*/
-      getsubmitHistoryLessonId(){
-        var submitHistory = {
-          questionId: 31,
-          questionType:5,
-          lessonCode:this.lessonCode,
 
+
+      loadFinishexercise:function () {
+        var param = {
+          lessonId:this.lessonId,
+          pageIndex: this.currentPage,
+          pageSize: this.pageSize
         };
-        this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`,submitHistory)
+        this.$http.get(`${process.env.NODE_ENV}/classDiscuss/pageList`, {params:param})
           .then((res) => {
             if (res.data.code == 200) {
-              this.submitHistoryList = res.data.entity;
+              this.discussionList = res.data.entity.list;
+              this.total = res.data.entity.total;
+              this.currentPage = res.data.entity.pageIndex;
+              this.pages = (res.data.entity.total)%(res.data.entity.pageSize) == 0 ?
+                (res.data.entity.total)/(res.data.entity.pageSize) :
+                (res.data.entity.total)/(res.data.entity.pageSize)+1;
+              this.pageSize = res.data.entity.pageSize;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      //向下翻页
+      toNextPage(){
+        this.currentPage = this.currentPage+1;
+        if(this.currentPage > this.pages){
+          this.$message({
+            message: 'sorry,this is the last page!',
+            type: 'warning'
+          });
+          this.currentPage--;
+        }else if(this.currentPage <= this.pages){
+          this.selectedAnswerCode = "";
+          this.isSubmit = 1;
+          this.loadFinishexercise();
+        }
+
+      },
+      //向上翻页
+      goBack(){
+        this.currentPage = this.currentPage-1;
+        if(this.currentPage == 0){
+          this.$message({
+            message: 'sorry,this is the first page!',
+            type: 'warning'
+          });
+          this.currentPage++;
+        }else{
+          this.selectedAnswerCode = "";
+          this.isSubmit = 1;
+          this.loadFinishexercise();
+        }
+
+      },
+      //提交问题答案
+      submitQuestionAnswer(exercises){
+        var queryParam = {
+          questionId:exercises.id,
+          /*questionType:exercises.questionType,*/
+          questionType:5,
+          answerContent:this.selectedAnswerCode,
+          lessonCode:this.lessonCode,
+          isSubmit:this.isSubmit,
+          attachments: this.attachments,
+        }
+
+        this.$http.post(`${process.env.NODE_ENV}/questionAnswer/submit/edit`,queryParam )
+          .then((res) => {
+            this.isSubmit = 0;
+            this.exercises = exercises;
+            this.$message({
+              message: 'Congratulations on your successful submission!',
+              type: 'success'
+            });
+
+            /* if (res.data.code == 200) {
+               this.isSubmit = 0;
+               this.exercises = exercises;
+               this.$message({
+                 message: 'Congratulations on your successful submission!',
+                 type: 'success'
+               });
+             }*/
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      /*答题记录查询*/
+      getsubmitHistoryLessonId(){
+        debugger;
+        var submitHistoryr = {
+          questionId: subdiscussion.id,
+          questionType:5,
+          lessonCode:this.lessonCode,
+        };
+        this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`,submitHistoryr)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.submitHistoryList = res.entity;
             }
           }).catch((err) => {
           console.log(err);

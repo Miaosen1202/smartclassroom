@@ -48,7 +48,7 @@
           <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
         </el-upload>
         <div style="margin: 15px 0;"></div>
-        <!--<el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">-->
+        <!--<el-checkbox-group v-model="checkedMaterials" @change="handleCheckedCitiesChange">-->
         <!--<div v-for="city in cities">-->
         <!--<el-checkbox :label="city" :key="city">{{city}}</el-checkbox>-->
         <!--</div>-->
@@ -56,7 +56,7 @@
         <el-checkbox-group v-model="checkedMaterialList">
           <div class="list" v-for="material in materialList">
             <el-checkbox :label="material" >
-              <a :href="material.materialUrl">{{material.materialName}}</a>
+              <a :href="material.materialUrl" :download="material.materialName">{{material.materialName}}</a>
             </el-checkbox>
           </div>
         </el-checkbox-group>

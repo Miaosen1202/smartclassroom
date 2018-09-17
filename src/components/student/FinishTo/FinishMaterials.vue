@@ -1,53 +1,61 @@
 <template>
   <div class="all">
     <el-scrollbar style="height: 100%">
-    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Select All</el-checkbox>
-    <div style="display: inline-block">
-      <el-button type="primary" style="background-color: rgba(111, 111, 183, 1)">Download Now</el-button>
-    </div>
-    <el-checkbox-group v-model="checkedCities" @change="handleCheckedCitiesChange">
-      <el-checkbox v-for="city in cities" :label="city" :key="city" style="display: block;padding-top: 2%">
-        <img src="../../../assets/images/u558.png" alt="">
-        {{city}}</el-checkbox>
-    </el-checkbox-group>
+      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Select All
+      </el-checkbox>
+      <div style="display: inline-block">
+        <el-button type="primary" style="background-color: rgba(111, 111, 183, 1)">Download Now</el-button>
+      </div>
+      <el-checkbox-group v-model="checkedMaterials" @change="handleCheckedCitiesChange">
+        <el-checkbox v-for="material in materialList" :key="index" :label="material"
+                     style="display: block;padding-top: 2%">
+          <!--<img src="../../../assets/images/u558.png" alt="">-->
+          <a :href="material.materialUrl" :download="material.materialName">{{ material.materialName }}</a>
+        </el-checkbox>
+      </el-checkbox-group>
     </el-scrollbar>
   </div>
 </template>
 
 <script>
-  const cityOptions = [
-  'Our Solar System and Life’s .docx',
-    'Emergence.jpg',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'Our Solar System and Life’s Emergence  Our Solar System Emergence.docx',
-    'System and Life’s Emergence  Our Solar System and Life’s Emergence.avi'
-  ];
   export default {
     data() {
       return {
         checkAll: false,
-        checkedCities: [],
-        cities: cityOptions,
-        isIndeterminate: true
+        checkedMaterials: [],
+        materialList: [],
+        isIndeterminate: true,
+        lessonId: this.$route.query.lessonId
       }
     },
+
+    mounted: function () {
+      this.getMaterialList();
+    },
+
     methods: {
       handleCheckAllChange(val) {
-        this.checkedCities = val ? cityOptions : [];
+        this.checkedMaterials = val ? cityOptions : [];
         this.isIndeterminate = false;
       },
+
       handleCheckedCitiesChange(value) {
         let checkedCount = value.length;
         this.checkAll = checkedCount === this.cities.length;
         this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+      },
+
+      getMaterialList: function (id) {
+        this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/list`, {params: {status: 1, lessonId: this.lessonId}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.materialList = res.data.entity;
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        })
       }
     }
   }
@@ -55,7 +63,7 @@
 
 <style scoped="">
   .all {
-    margin:0px 2%;
+    margin: 0px 2%;
     width: 97%;
     height: 84%;
 

@@ -36,7 +36,7 @@
                 <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
                   <i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
                 </span>
-                <p style="float: right;cursor: pointer;padding-right: 20%">开始上课</p>
+                <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">开始上课</p>
 
               </div>
 
@@ -130,7 +130,6 @@
         });
       },
       getLessonListByCourseId(id) {
-        debugger;
         this.$http.get(`${process.env.NODE_ENV}/lesson/list?courseId=${id}`)
           .then((res) => {
             if (res.data.code == 200) {

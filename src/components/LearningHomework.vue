@@ -4,7 +4,7 @@
       <p style="color: white;font-weight: 700">
         Welcome Matthew !
       </p>
-      <p style="float: right;padding-right: 3%;cursor: pointer"><img src="../assets/images/u4.png" alt=""></p>
+      <p style="float: right;padding-right: 3%;cursor: pointer"><img v-on:click="goback()" src="../assets/images/u4.png" alt=""></p>
     </div>
     <div class="left">
       <left :lessonId="lessonId" :lessonCode="lessonCode"></left>
@@ -57,6 +57,9 @@
           }).catch((err) => {
           console.log(err);
         });
+      },
+      goback: function () {
+        this.$router.push({path: "/"});
       },
     },
     components:{

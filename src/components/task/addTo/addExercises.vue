@@ -18,7 +18,7 @@
         <el-radio-group v-model="questionType">
           <el-radio :label="1">Single-choice</el-radio>
           <el-radio :label="2">Multiple-choice</el-radio>
-          <el-radio :label="3">Other</el-radio>
+          <!--<el-radio :label="3">Other</el-radio>-->
         </el-radio-group>
         <el-input
           type="textarea"
@@ -76,7 +76,7 @@
         <el-radio-group v-model="exerciseEntity.questionType">
           <el-radio :label="'1'">Single-choice</el-radio>
           <el-radio :label="'2'">Multiple-choice</el-radio>
-          <el-radio :label="'3'">Other</el-radio>
+          <!--<el-radio :label="'3'">Other</el-radio>-->
         </el-radio-group>
         <el-input
           type="textarea"
@@ -148,11 +148,11 @@
         <p style="word-wrap: break-word; word-break: normal;width: 90% ">{{exercises.analysis}}</p>
       </div>
       <el-dialog
-        title="Select Course"
+        title="Order"
         :visible.sync="showExercisesDialogVisible"
         width="30%">
         <div v-for="existExercises in existExercisesList">
-          <el-radio v-model="radio" :label="existExercises.id">{{existExercises.courseName}}</el-radio>
+          <el-radio v-model="radio" :label="existExercises.id">{{existExercises.questionTitle}}</el-radio>
         </div>
         <span slot="footer" class="dialog-footer">
         <el-button size="medium" type="primary" @click="sure">OK</el-button>

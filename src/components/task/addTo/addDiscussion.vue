@@ -1,6 +1,6 @@
 <template>
   <div style="height: 100%">
-    <div class="no-discuss discussion" v-show="!showDiscussListPanel">
+    <div class="no-discuss" v-show="!showDiscussListPanel">
       <p><img src="../../../assets/images/u674.png" alt=""></p>
       <p>There is no discussion yet.</p>
       <el-button size="medium" type="primary" @click="goToAddDiscussion">

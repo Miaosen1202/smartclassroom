@@ -2,7 +2,7 @@
   <div style="height: 100%;">
     <div class="no-record assignment" v-show="!showAssignmentListPanel">
       <p><img src="../../../assets/images/u1046.png" width="140" height="139" alt=""></p>
-      <p>There is no assignment yet</p>
+      <p style="display: block;padding-top: 0px">There is no assignment yet</p>
       <el-button size="medium" type="primary" @click="goToAddAssignment">
         <img src="../../../assets/images/u60.png" alt="">
       </el-button>
@@ -314,6 +314,24 @@
     padding: 1% 5%;
   }
   .no-record input[type="file"] {
+    display: none!important;
+  }
+  .assignment {
+    text-align: center;
+    margin-top: 4%;
+  }
+  .assignment p:first-child {
+    color: #ccc;
+    margin-bottom: 3%;
+  }
+  .assignment p:nth-child(2) {
+    color: #999;
+    margin-bottom: 3%;
+  }
+  .el-button--medium {
+    padding: 1% 5%;
+  }
+  input[type="file"] {
     display: none!important;
   }
 </style>

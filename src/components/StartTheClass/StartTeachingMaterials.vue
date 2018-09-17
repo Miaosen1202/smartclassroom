@@ -31,7 +31,7 @@
                 </el-checkbox>
               </div>
             </el-checkbox-group>
-            <el-button  @click="shareMaterial">Send To</el-button>
+            <el-button style="background-color: #5daf34;color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
           </el-tab-pane>
 
           <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'">

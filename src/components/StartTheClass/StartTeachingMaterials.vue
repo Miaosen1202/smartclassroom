@@ -23,7 +23,7 @@
             <el-checkbox-group v-model="checkedMaterialList">
               <div class="list" v-for="material in materialList">
                 <el-checkbox :label="material" :disabled="material.isShare == 1">
-                  <a :href="material.materialUrl">{{material.materialName}}</a>
+                  <a :href="material.materialUrl" :download="material.materialName">{{material.materialName}}</a>
                 </el-checkbox>
               </div>
             </el-checkbox-group>
@@ -32,38 +32,33 @@
 
           <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
-            <div class="have" v-for="(discussion,index) in discussionList" :key="index">
+            <div class="have" v-for="(discussion, index) in discussionList" :key="discussion.id">
               <h5>Discussion {{discussion.sort}}</h5>
               <p>{{discussion.discussContent}}</p>
               <ul>
                 <li v-for="atth in discussion.attachments">
-                  <a :href="atth.fileUrl">{{atth.fileName}}</a>
+                  <a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>
                 </li>
               </ul>
 
               <div class="news" v-on:click="getDiscussAnswer(discussion.id)">
                 <img src="../../assets/images/u2503.png" alt="">
                 <span class="discuss-answer-number"></span>
-                <!--<el-badge :value="2" :max="10" class="item">-->
-                <!--<el-badg>-->
-                <!--<img src="../../assets/images/u2503.png" alt="">-->
-                <!--</el-badg>-->
-                <!--</el-badge>-->
               </div>
-            </div>
-            <div class="newslesson" v-show="discussAnswerIsShow"><!--messageDisplay-->
-              <div class="leftcolor" v-for="discussAnswer in discussAnswers">
-                <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
-                <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
-                <p>{{ discussAnswer.answerContent }}</p>
-                <ul>
-                  <li v-for="atth in discussAnswer.attachments">
-                    <a :href="getFileDownloadPath(atth.fileUrl)">{{ atth.fileName }}</a>
-                  </li>
-                </ul>
-              </div>
-            </div>
 
+              <div class="discussion-answer-items" :data-id="discussion.id" v-show="false"><!--messageDisplay-->
+                <div class="leftcolor" v-for="discussAnswer in discussAnswers">
+                  <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
+                  <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
+                  <p>{{ discussAnswer.answerContent }}</p>
+                  <ul>
+                    <li v-for="atth in discussAnswer.attachments">
+                      <a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </el-tab-pane>
           <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
@@ -124,7 +119,7 @@
                 <p>{{assignment.assignmentName}}</p>
                 <ul>
                   <li v-for="atth in assignment.attachments">
-                    <a :href="atth.fileUrl">{{atth.fileName}}</a>
+                    <a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>
                   </li>
                 </ul>
               </div>
@@ -415,26 +410,33 @@
         this.isShow = !this.isShow;
       },
       getDiscussAnswer: function(questionId) {
-        this.discussAnswerIsShow = !this.discussAnswerIsShow;
-        if (this.discussAnswerIsShow) {
-          let param = {
-            params: {
-              questionId: questionId,
-              questionType: 5,
-              lessonCode: this.lessonCode
-            }
-          };
-          this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
-            .then((res) => {
-              if (res.data.code == 200) {
-                this.discussAnswers = res.data.entity.questionAnswerRecordVos;
-              } else {
-                this.$message.error(res.data.message);
-              }
-            }).catch((err) => {
-              this.$message.error(err);
-          })
+        if (document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display !== "none") {
+          return;
+        } else {
+          let disAnswerItems = document.querySelectorAll(".discussion-answer-items") || [];
+          disAnswerItems.forEach(function (d) {
+            d.style.display = "none";
+          });
         }
+
+        let param = {
+          params: {
+            questionId: questionId,
+            questionType: 5,
+            lessonCode: this.lessonCode
+          }
+        };
+        this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
+          .then((res) => {
+            if (res.data.code == 200) {
+              document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "";
+              this.discussAnswers = res.data.entity.questionAnswerRecordVos;
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        })
       },
       tabChange: function (tab) {
         if (tab.name == "materialTab") {
@@ -559,7 +561,7 @@
     /*padding-right: 2%;*/
   }
 
-  .newslesson {
+  .discussion-answer-items {
     border: 1px solid #ccc;
     width: 84%;
     padding-left: 6%;
@@ -568,16 +570,16 @@
     padding-top: 2%;
   }
 
-  .newslesson p {
+  .discussion-answer-items p {
     margin-top: 1%;
 
   }
 
-  .newslesson span {
+  .discussion-answer-items span {
     margin-top: 1%;
   }
 
-  .newslesson ul li {
+  .discussion-answer-items ul li {
     color: #0066CC;
     font-size: 12px;
   }

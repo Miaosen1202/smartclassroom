@@ -1,8 +1,8 @@
 <template>
   <div>
-    <div class="teach">
+    <div class="teach" @click="goToAddMaterials">
 
-      <p style="padding-top: 10%"><img @click="goToAddMaterials" src="../../assets/images/u1046.png" width="140" height="139" alt=""></p>
+      <p style="padding-top: 10%"><img  src="../../assets/images/u1046.png" width="140" height="139" alt=""></p>
       <p>There is no assignment here.</p>
 
       <!--<el-button size="medium" type="primary" @click="goToAddMaterials">

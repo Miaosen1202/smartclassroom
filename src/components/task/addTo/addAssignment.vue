@@ -114,9 +114,6 @@
         }
       },
       sure: function () {
-
-
-
         var assignment = {
           lessonId: this.lessonId,
           assignmentName: this.assignmentName,

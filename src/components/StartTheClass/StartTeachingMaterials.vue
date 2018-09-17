@@ -12,6 +12,10 @@
         <img src="../../assets/images/u118.png" alt="">
       </p>
     </div>
+    <!--下课按钮-->
+    <div class="right">
+      <el-button style="float: right;top: 50%;" type="primary" round>下课</el-button>
+    </div>
     <div class="main">
       <el-scrollbar style="height: 100%">
         <el-tabs type="card" activeName="materialTab" @tab-click="tabChange">
@@ -132,11 +136,11 @@
           </el-tab-pane>
           <el-tab-pane>
           <span slot="label">
-            <img src="../../assets/images/u273.png" alt="">
+            <img v-on:click="goback()" src="../../assets/images/u273.png" alt="">
           </span>
             <p>Lesson： {{ lessonName }}</p>
             <div class="exercise" style="width: 100%;margin-right: 2%">
-              <div class="leftexerc" style="height: 350px">
+              <!--<div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
                   <h6 style="display:inline-block; border-bottom: 2px solid #999">Exercises1</h6>
                   <div style="padding-left:2%; border-bottom: 1px solid #ccc">
@@ -144,7 +148,7 @@
                     <p style="display:inline-block">Which of the planets of the solar</p>
                   </div>
                 </el-scrollbar>
-              </div>
+              </div>-->
 
               <!--<div class="rightexerc" :style="{width: '300px', height: '300px'}">
                 <div id="bmyChart"></div>
@@ -157,7 +161,7 @@
                 <el-button type="primary" icon="el-icon-caret-right" circle></el-button>
               </div>
               <div style="float: left;width: 38%;height: 300px;margin: 1% 0%">
-                <el-scrollbar style="height: 100%">
+                <!--<el-scrollbar style="height: 100%">
                   <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%;">
                     <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
                     <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
@@ -195,7 +199,7 @@
                       than the famous Sirius, the
                     </p>
                   </div>
-                </el-scrollbar>
+                </el-scrollbar>-->
               </div>
             </div>
           </el-tab-pane>

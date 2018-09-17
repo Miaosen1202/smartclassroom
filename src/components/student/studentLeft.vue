@@ -63,7 +63,6 @@
         this.$router.push({path:"/LearningHomework/LetDiscuss",query:{lessonId:this.lessonId,lessonCode:this.lessonCode}});
       },
       goToThird(s){
-        debugger;
         this.activeFlag = s;
          this.$router.push({path:"/LearningHomework/TakeExercises",query:{lessonId:this.lessonId,lessonCode:this.lessonCode}});
        },

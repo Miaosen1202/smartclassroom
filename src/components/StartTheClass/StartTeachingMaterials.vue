@@ -31,7 +31,7 @@
                 </el-checkbox>
               </div>
             </el-checkbox-group>
-            <el-button @click="shareMaterial">Send To</el-button>
+            <el-button  @click="shareMaterial">Send To</el-button>
           </el-tab-pane>
 
           <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'">
@@ -70,7 +70,6 @@
           <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
             <div class="exercise">
-
               <div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
                   <div class="elbtn" style="float: right;padding-right: 2%">
@@ -86,7 +85,7 @@
                           v-show="exercises.questionType == '2'">Multiple-choice</span>
                     <p>{{exercises.questionTitle}}</p>
                     <ul v-for="(option,index) in exercises.options" :key="index">
-                      <li><h4 style="display: inline-block">{{option.answerCode}}</h4>
+                      <li><h4 style="display: inline-block">{{option.answerCode}}:</h4>
                         <span>{{option.answerContent}}</span></li>
                     </ul>
 
@@ -95,18 +94,13 @@
                       <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
                     </div>
                     <div v-show="isShow">
-                      <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer</i>
+                      <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer :</i>
                       <div v-for="(option,index) in exercises.options">
                         <h4 v-if="option.isCorrect == 1">{{option.answerCode}}</h4>
                       </div>
-
-                      <i style="font-weight: 700;color: #5cb85c">Explanation</i>
+                      <i style="font-weight: 700;color: #5cb85c">Explanation :</i>
                       <p>{{exercises.analysis}}
                       </p>
-                      <!--<p>Venus is the brightest planet in the world.
-                        Its brightness is -3.3 to -4.4. It is 14 times brighter
-                        than the famous Sirius, the
-                      </p>-->
                     </div>
                   </div>
 
@@ -270,7 +264,7 @@
       /*this.bdrawLine();*/
       this.getMaterialList();
       this.getLessonDetail();
-      this.getAssignmentListByLessonId();
+     /* this.getAssignmentListByLessonId();*/
     },
     methods: {
       drawLine() {
@@ -516,6 +510,7 @@
         })
       },
 
+      //选择题分页
 
       loadFinishexercise:function () {
         var param = {

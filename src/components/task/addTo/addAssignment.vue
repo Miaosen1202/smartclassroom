@@ -1,56 +1,63 @@
 <template>
-  <div class="all">
-    <el-scrollbar style="height: 100%">
-      <!-- <p>添加讨论,第二个页面</p>
-       <p>There is no discussion yet.</p>-->
-      <div class="create" v-on:click="toggle()">
-        <el-button size="small" type="primary">
-          <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-          <p>Create an  <br> Assignment</p>
-        </el-button>
-      </div>
-      <div class="discussion" v-show="isShow">
-        <h5>Assignment 1</h5>
-        <el-input
-          type="textarea"
-          autosize
-          placeholder="Put in your discussion theme and further detais here"
-          v-model="assignmentName">
-        </el-input>
-        <!-- <div style="margin: 20px 0;"></div>-->
-        <el-upload
-          class="upload-demo"
-          :action="action"
-          :before-remove="beforeRemove"
-          :on-remove="removeFile"
-          :on-change="handleChange"
-          :on-success="handleSuccess"
-          :with-credentials="true"
-          :file-list="fileList3">
-          <el-button size="mini" type="primary">
-            <img src="../../../assets/images/u166.png" alt="">
+  <div style="height: 100%;">
+    <div class="no-record assignment" v-show="!showAssignmentListPanel">
+      <p><img src="../../../assets/images/u1046.png" width="140" height="139" alt=""></p>
+      <p>There is no assignment yet</p>
+      <el-button size="medium" type="primary" @click="goToAddAssignment">
+        <img src="../../../assets/images/u60.png" alt="">
+      </el-button>
+    </div>
+    <div class="all assignment-panel" v-show="showAssignmentListPanel">
+      <el-scrollbar style="height: 100%">
+        <div class="create" v-on:click="createPanelToggle()">
+          <el-button size="small" type="primary">
+            <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
+            <p>Create an Assignment</p>
           </el-button>
-          <div slot="tip" class="el-upload__tip">Add Attachments</div>
-        </el-upload>
+        </div>
+        <div class="discussion" v-show="createPanelShow">
+          <h5>New Assignment</h5>
+          <el-input
+            type="textarea"
+            autosize
+            placeholder="Put in your discussion theme and further detais here"
+            v-model="assignmentName">
+          </el-input>
+          <!-- <div style="margin: 20px 0;"></div>-->
+          <el-upload
+            class="upload-demo"
+            :action="action"
+            :before-remove="beforeRemove"
+            :on-remove="removeFile"
+            :on-change="handleChange"
+            :on-success="handleSuccess"
+            :with-credentials="true"
+            :file-list="attachmentFileList">
+            <el-button size="mini" type="primary">
+              <img src="../../../assets/images/u166.png" alt="">
+            </el-button>
+            <div slot="tip" class="el-upload__tip">Add Attachments</div>
+          </el-upload>
 
-        <span slot="footer" class="dialog-footer">
-        <el-button style="margin-top: 2%;" size="medium" type="primary" v-on:click="sure()">Save</el-button>
-        <el-button size="medium">Cancel</el-button>
+          <span slot="footer" class="dialog-footer">
+        <el-button style="margin-top: 2%;" size="medium" type="primary" v-on:click="addOrUpdateAssignment()">Save</el-button>
+        <el-button size="medium" @click="cancelAddOrUpdate">Cancel</el-button>
       </span>
-      </div>
+        </div>
 
-      <div class="have" v-for="(assignment,index) in assignmentList" :key="index">
-        <h5>Assignment {{assignment.sort}}</h5>
-        <el-button v-on:click="deleteAssignment(assignment.id)" type="text" icon="el-icon-delete">
-        </el-button>
-        <el-button v-on:click="wrong()" type="text" icon="el-icon-edit">
-        </el-button>
-        <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{assignment.assignmentName}}</p>
-        <ul style="padding-left: 2%">
-          <li v-for="(attachment,ind) in assignment.attachments" :key="ind">{{attachment.fileName}}</li>
-        </ul>
-      </div>
-    </el-scrollbar>
+        <div class="have" v-for="(assignment,index) in assignmentList" :key="index">
+          <h5>Assignment {{assignment.sort}}</h5>
+          <el-button v-on:click="deleteAssignment(assignment.id, index)" type="text" icon="el-icon-delete">
+          </el-button>
+          <el-button v-on:click="goEditAssignment(assignment.id, index)" type="text" icon="el-icon-edit">
+          </el-button>
+          <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{assignment.assignmentName}}</p>
+          <ul style="padding-left: 2%">
+            <li v-for="(attachment,ind) in assignment.attachments" :key="ind">{{attachment.fileName}}</li>
+          </ul>
+        </div>
+      </el-scrollbar>
+    </div>
   </div>
 </template>
 
@@ -60,9 +67,11 @@
   export default {
     data() {
       return {
+        showAssignmentListPanel: false,
+        createPanelShow: false,
         isShow: true,
         assignmentName: '',
-        fileList3: [],
+        attachmentFileList: [],
         action: process.env.NODE_ENV + '/file/upload',
         removedFileName: "",
         fileEntity: {},
@@ -72,14 +81,20 @@
        /* assignmentId: '',*/
         attachments: [],
         assignmentList: [],
+        editAssignmentId: undefined,
       }
     },
     mounted() {
       this.getAssignmentListByLessonId();
     },
     methods: {
-      toggle: function () {
-        this.isShow = !this.isShow;
+      createPanelToggle: function () {
+        // this.isShow = !this.isShow;
+        this.createPanelShow = !this.createPanelShow;
+      },
+      goToAddAssignment: function() {
+        this.createPanelShow = true;
+        this.showAssignmentListPanel = true;
       },
       beforeRemove(file, fileList) {
         this.removedFileName = file.name;
@@ -100,7 +115,7 @@
         }
       },
       handleChange(file, fileList) {
-        this.fileList3 = fileList;
+        this.attachmentFileList = fileList;
       },
       handleSuccess(res, file) {
         console.log(res);
@@ -113,67 +128,98 @@
             });
         }
       },
-      sure: function () {
-        var assignment = {
+
+      cancelAddOrUpdate: function() {
+        this.createPanelShow = false;
+        this.assignmentName = "";
+        this.attachments = [];
+        this.attachmentFileList = [];
+        this.editAssignmentId = undefined;
+        this.showAssignmentListPanel = this.assignmentList.length > 0;
+      },
+
+      addOrUpdateAssignment: function () {
+        let assignment = {
           lessonId: this.lessonId,
           assignmentName: this.assignmentName,
           attachments: this.attachments
         };
 
-        this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.assignmentName = "";
+        if (this.editAssignmentId === undefined) {
+          this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.assignmentName = "";
                 this.attachments =[];
-                this.fileList3 = [];
-              this.getAssignmentListByLessonId();
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
+                this.attachmentFileList = [];
+                this.createPanelShow = false;
+                this.getAssignmentListByLessonId();
+              }
+            }).catch((err) => {
+            this.$message.error(err);
+          });
+        } else {
+          assignment["id"] = this.editAssignmentId;
+          this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/modify`, assignment)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.assignmentName = "";
+                this.attachments =[];
+                this.attachmentFileList = [];
+                this.createPanelShow = false;
+                this.editAssignmentId = undefined;
+                this.getAssignmentListByLessonId();
+              }
+            }).catch((err) => {
+            this.$message.error(err);
+          });
+        }
 
       },
+
       getAssignmentListByLessonId() {
         this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/list?lessonId=${this.lessonId}`)
           .then((res) => {
             if (res.data.code == 200) {
               this.assignmentList = res.data.entity;
+              this.showAssignmentListPanel = this.assignmentList.length > 0;
+              this.createPanelShow = this.assignmentList.length == 0;
             }
           }).catch((err) => {
-          console.log(err);
+            this.$message.error(err);
         });
 
 
       },
-      deleteAssignment:function (id) {
-       /* var assignment = [this.assignmentId];*/
+
+      deleteAssignment:function (id, index) {
 
         this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/deletes`, [id])
           .then((res) => {
             if (res.data.code == 200) {
               this.getAssignmentListByLessonId();
-             /* this.assignmentId = res.data.entity;
-              console.log("assignmentId:" + this.assignmentId);*/
+            } else {
+              this.$message.error(res.data.message);
             }
           }).catch((err) => {
-          console.log(err);
+            this.$message.error(err);
         });
       },
-      wrong:function () {
-        var assignment = {
-          lessonId: this.lessonId,
-          assignmentName: this.assignmentName,
-          attachments: this.attachments
-        };
 
-        this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/modify`, assignment)
-          .then((res) => {
-            if (res.data.code == 200) {
+      goEditAssignment: function (id, index) {
+        let editAssignment = this.assignmentList[index];
 
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
+        this.createPanelShow = true;
+        this.editAssignmentId = editAssignment.id;
+        this.assignmentName = editAssignment.assignmentName;
+        this.attachments = editAssignment.attachments || [];
+        this.attachmentFileList = [];
+        for (let i = 0; i < this.attachments.length; i++) {
+          this.attachmentFileList.push({
+            name: this.attachments[i].fileName,
+            url: this.attachments[i].fileUrl
+          });
+        }
       }
     }
   }
@@ -250,5 +296,24 @@
 
   .el-icon-delete:before {
     color: red !important;
+  }
+
+  .no-record.assignment {
+    text-align: center;
+    margin-top: 4%;
+  }
+  .no-record.assignment p:first-child {
+    color: #ccc;
+    margin-bottom: 3%;
+  }
+  .no-record.assignment p:nth-child(2) {
+    color: #999;
+    margin-bottom: 3%;
+  }
+  .no-record .el-button--medium {
+    padding: 1% 5%;
+  }
+  .no-record input[type="file"] {
+    display: none!important;
   }
 </style>

@@ -83,13 +83,14 @@
         } else if (s == "discussion") {
           this.activeFlag = s;
           // this.$router.push({path: "/homePage/course/disCussion", query: {lessonId: this.lessonId}});
-          this.$router.push({path:"/homePage/course/addDiscussion", query: {"lessonId": this.lessonId}});
+          this.$router.push({path: "/homePage/course/addDiscussion", query: {"lessonId": this.lessonId}});
         } else if (s == "exercises") {
           this.activeFlag = s;
           this.$router.push({path: "/homePage/course/exerCises", query: {lessonId: this.lessonId}});
         } else if (s == "assignment") {
           this.activeFlag = s;
-          this.$router.push({path: "/homePage/course/assigNment", query: {lessonId: this.lessonId}});
+          // this.$router.push({path: "/homePage/course/assigNment", query: {lessonId: this.lessonId}});
+          this.$router.push({path: "/homePage/course/addAssignment", query: {"lessonId": this.lessonId}})
         }
       },
       getDetailByLessonId: function () {
@@ -125,20 +126,25 @@
     padding-left: 3%;
     background-color: #fff;
   }
+
   .auto p {
     padding-left: 40%;
   }
+
   .auto .print {
     padding-left: 44%;
   }
+
   .auto .el-button {
     margin-left: 46%;
   }
+
   .left {
     width: 80%;
     height: 80%;
     float: left;
   }
+
   .right {
     width: 16%;
     height: 80%;
@@ -148,10 +154,12 @@
     right: 0px;
     border-left: 1px solid #ccc;
   }
+
   .right ul {
     width: 100%;
     height: 100%;
   }
+
   .right ul li {
     cursor: pointer;
     border: 1px solid #ccc;
@@ -164,6 +172,7 @@
     background-color: rgba(242, 242, 242, 1);
     /* box-shadow:10px 10px 5px #888888;*/
   }
+
   ul li.active {
     /* background-color: #1d4c9e;*/
     border-left: 4px solid rgba(0, 204, 0, 1);

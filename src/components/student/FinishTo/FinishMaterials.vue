@@ -7,7 +7,8 @@
         <el-button type="primary" style="background-color: rgba(111, 111, 183, 1)">Download Now</el-button>
       </div>
       <el-checkbox-group v-model="checkedMaterials" @change="handleCheckedCitiesChange">
-        <el-checkbox v-for="material in materialList" :label="material" style="display: block;padding-top: 2%">
+        <el-checkbox v-for="material in materialList" :key="index" :label="material"
+                     style="display: block;padding-top: 2%">
           <!--<img src="../../../assets/images/u558.png" alt="">-->
           <a :href="material.materialUrl" :download="material.materialName">{{ material.materialName }}</a>
         </el-checkbox>

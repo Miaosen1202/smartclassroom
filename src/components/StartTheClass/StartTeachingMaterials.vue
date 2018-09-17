@@ -31,7 +31,7 @@
                 </el-checkbox>
               </div>
             </el-checkbox-group>
-            <el-button style="background-color: #5daf34;color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
+            <el-button style="background-color: rgba(0, 204, 0, 1);color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
           </el-tab-pane>
 
           <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'">
@@ -112,7 +112,6 @@
               <!--<div class="rightexerc" :style="{width: '300px', height: '300px'}">
                 <div id="bmyChart"></div>
               </div>-->
-
             </div>
             <div>
 

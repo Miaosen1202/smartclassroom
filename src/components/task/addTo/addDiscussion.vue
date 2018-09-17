@@ -99,6 +99,7 @@
         this.fileList3 = [];
         this.attachments = [];
         this.editDiscussId = undefined;
+        this.showDiscussListPanel = this.discussionList.length > 0;
       },
       goToAddDiscussion: function() {
         this.showDiscussListPanel = true;

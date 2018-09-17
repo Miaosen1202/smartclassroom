@@ -15,6 +15,18 @@
               lessonId:this.$route.query.lessonId,
             }
         },
+
+        mounted() {
+          this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/pageList`, {params: {
+              lessonId: this.lessonId,
+              pageSize: 1
+            }}).then((res) => {
+              if (res.data.code == 200 && res.data.entity.total > 0) {
+                this.goToAddExercises();
+              }
+          })
+        },
+
         methods: {
           goToAddExercises(){
             this.$router.push({path:"/homePage/course/addExercises",query:{"lessonId":this.lessonId}});

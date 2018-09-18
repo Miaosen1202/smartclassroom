@@ -14,7 +14,7 @@
     </div>
     <!--下课按钮-->
     <div class="right">
-      <el-button style="float: right;top: 50%;" type="primary" round>下课</el-button>
+      <el-button style="float: right;top: 50%;" type="primary" round @click="takeAbreak">下课</el-button>
     </div>
     <div class="main">
       <el-scrollbar style="height: 100%">
@@ -563,6 +563,22 @@
           this.loadFinishexercise();
         }
 
+      },
+      takeAbreak:function () {
+        var abreak = {
+          lessonCode:this.lessonCode,
+        }
+        this.$http.post(`${process.env.NODE_ENV}/teaching/end/edit`,abreak)
+          .then((res)=>{
+            if (res.data.code == 200){
+              this.$message({
+                message: 'Class is over!',
+                type: 'success'
+              });
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
       },
     }
 

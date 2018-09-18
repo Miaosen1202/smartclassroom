@@ -27,6 +27,8 @@ import FinishMaterials from '@/components/student/FinishTo/FinishMaterials'
 import FinishDiscuss from '@/components/student/FinishTo/FinishDiscuss'
 import FinishExercise from '@/components/student/FinishTo/FinishExercise'
 import FinishAssignment from '@/components/student/FinishTo/FinishAssignment'
+import admin from '@/components/admin'
+
 
 
 Vue.use(Router)
@@ -144,6 +146,10 @@ export default new Router({
           component: FinishAssignment,
         },
       ]
+    },
+    {
+      path: '/admin',
+      component: admin,
     },
   ]
 })

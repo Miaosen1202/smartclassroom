@@ -14,12 +14,24 @@
         <p class="pexer">{{exercises.questionTitle}}</p>
         <ul style="padding-left: 2%" v-for="(option,index) in exercises.options" :key="index">
           <li>
-            <el-radio v-model="selectedAnswerCode" :label="option.answerCode">
+            <el-radio v-model="selectedAnswerCode" :label="option.answerCode" v-show="exercises.questionType == '1'">
               <span style="padding-right: 2%" >{{option.answerCode}}</span>
               <span style="padding-left: 2%">{{option.answerContent}}</span>
             </el-radio>
+            <el-checkbox v-model="selectedMultiAnswerCode" :label="option.answerCode" v-show="exercises.questionType == '2'">
+              <span style="padding-right: 2%" >{{option.answerCode}}</span>
+              <span style="padding-left: 2%">{{option.answerContent}}</span>
+            </el-checkbox>
+
           </li>
         </ul>
+       <!-- <el-checkbox-group
+          v-model="selectedMultiAnswerCode" v-show="exercises.questionType == '2'">
+          <el-checkbox v-for="(option,index) in exercises.options" :label="option.answerCode" :key="index">
+            <span style="padding-right: 2%" >{{option.answerCode}}</span>
+            <span style="padding-left: 2%">{{option.answerContent}}</span>
+          </el-checkbox>
+        </el-checkbox-group>-->
 
       </div>
       <div class="submitt">
@@ -29,7 +41,8 @@
         <div v-for="(option,index) in exercises.options" :key="index">
           <p v-show="option.isCorrect == 1">Correct Answer ：<span>{{option.answerCode}}</span></p>
         </div>
-        <p>Your Answer ：<span style="color: red">{{selectedAnswerCode}}</span></p>
+        <p v-show="questionType == '1'">Your Answer ：<span style="color: red">{{selectedAnswerCode}}</span></p>
+        <p v-show="questionType == '2'">Your Answer ：<span style="color: red">{{selectedMultiAnswerCode.join(',')}}</span></p>
         <P>Explanation</P>
         <span  style="width: 60%;display: inline-block">
           {{exercises.analysis}}
@@ -47,6 +60,7 @@
               isShow: false,
               existExercisesList:[],
               selectedAnswerCode:"",
+              selectedMultiAnswerCode:[],
               lessonId: this.$route.query.lessonId,
               lessonCode:this.$route.query.lessonCode,
               pageSize:1,//页大小
@@ -55,6 +69,7 @@
               total:0,//总条数
               isSubmit:1,
               exercises:{},
+              questionType:'1'
             }
         },
       mounted() {
@@ -119,10 +134,11 @@
           },
           //提交问题答案
           submitQuestionAnswer(exercises){
+            this.questionType = exercises.questionType;
             var queryParam = {
               questionId:exercises.id,
               questionType:exercises.questionType,
-              answerContent:this.selectedAnswerCode,
+              answerContent:exercises.questionType == '1'? this.selectedAnswerCode : this.selectedMultiAnswerCode.join(","),
               lessonCode:this.lessonCode,
               isSubmit:this.isSubmit
             }

@@ -62,9 +62,9 @@
       </div>
         <div>
           <div style="margin: 2% 0px" v-show="isSubmit == 0">
-            <div class="discussion" v-for="(subdiscussion,index) in submitHistoryList" :key="index">
-              <P>{{subdiscussion.answerContent}}</P>
-              <ul v-for="(attachment,ind) in subdiscussion.attachments" :key="ind">
+            <div class="discussion" v-for="(discussion,index) in discussionList" :key="index">
+              <P>{{discussion.answerContent}}</P>
+              <ul v-for="(attachment,ind) in discussion.attachments" :key="ind">
                 <li >{{attachment.fileName}}</li>
               </ul>
               <!--上传文件-->

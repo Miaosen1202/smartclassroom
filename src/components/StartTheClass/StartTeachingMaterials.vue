@@ -6,23 +6,54 @@
              style="cursor: pointer;vertical-align: initial;">
       </div>
       <div style="margin: 0 auto;color: #2c6cae;cursor: pointer;display: inline-block;padding-left: 34%">
-        Class Code :{{lessonCode}}
+        <!--Class Code :{{lessonCode}}-->
+        <el-button type="text" @click="centerDialogVisible = true">Class Code :{{lessonCode}}</el-button>
       </div>
+
+      <!--提示弹框-->
+      <el-dialog
+        title="This is Class Code :"
+        :visible.sync="centerDialogVisible"
+        width="30%"
+        center>
+        <h1 style="text-align: center;">{{lessonCode}}</h1>
+        <span slot="footer" class="dialog-footer">
+    <el-button @click="centerDialogVisible = false">
+      <!--<img src="../../assets/images/u231.png" alt="">-->
+      Close
+    </el-button>
+    <!--<el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>-->
+  </span>
+      </el-dialog>
+
+
+
       <p v-on:click="goback()" style="float: right;padding-right: 2%;cursor: pointer;padding-top: 2%">
         <img src="../../assets/images/u118.png" alt="">
       </p>
     </div>
     <!--下课按钮-->
-    <div class="right">
-      <el-button style="float: right;top: 50%;" type="primary" round @click="takeAbreak">下课</el-button>
+    <div class="right" style="width: 10%;float: right;margin-top: 1%">
+
+     <div class="view" @click="gobackLesson()" >
+       <img src="../../assets/images/u2378.png" alt="">
+       View my lessons
+      <!-- <el-button style="float: right;top: 50%;" type="primary" round @click="gobackLesson()">View my lessons</el-button>-->
+     </div>
+      <div class="view" @click="takeAbreak">
+        <img src="../../assets/images/u2326.png" alt="">
+        End the class
+       <!-- <el-button style="float: right;top: 50%;" type="primary" round @click="takeAbreak">End the class</el-button>-->
+      </div>
     </div>
+
     <div class="main">
       <el-scrollbar style="height: 100%">
         <el-tabs type="card" activeName="materialTab" @tab-click="tabChange">
 
           <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选
+            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
             </el-checkbox>
             <el-checkbox-group v-model="checkedMaterialList">
               <div class="list" v-for="material in materialList">
@@ -45,7 +76,6 @@
                   <a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>
                 </li>
               </ul>
-
               <div class="news" v-on:click="getDiscussAnswer(discussion.id)">
                 <img src="../../assets/images/u2503.png" alt="">
                 <span class="discuss-answer-number"></span>
@@ -220,6 +250,7 @@
   export default {
     data() {
       return {
+        centerDialogVisible: true,
         discussAnswers: [],
         checkedMaterialList: [],
         materialNumber: 0,
@@ -468,6 +499,9 @@
       goback: function () {
         this.$router.push({path: "/navBar"});
       },
+      gobackLesson:function (){
+        this.$router.push({path: "/goTeach"});
+      },
       //选择题列表
       /*getAssignmentListByLessonId() {
         this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
@@ -708,5 +742,19 @@
     padding-left: 2%;
     float: left;
   }
-
+.view {
+  margin-top: 1%;
+  border: 1px solid #ccc;
+  display:inline-block;
+  float: right;
+  padding: 2%;
+  background-color: #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 76%;
+}
+  .view:active {
+    background-color: #8c8c8c;
+    cursor: pointer;
+  }
 </style>

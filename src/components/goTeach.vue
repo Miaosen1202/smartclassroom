@@ -207,9 +207,12 @@
              /* this.oldpasswordlist = res.data.entity;*/
 
               this.$message({
-                message: 'Congratulations on your successful deletion!',
+                message: 'Password modification succeeded!',
                 type: 'success'
               });
+              this.oldPassword="",
+              this.newPassword="",
+              this.dialogFormVisible= false;
             }
           }).catch((err) => {
           console.log(err);

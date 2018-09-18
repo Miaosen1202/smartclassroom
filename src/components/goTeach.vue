@@ -2,7 +2,7 @@
   <div id="goTeach">
     <div class="teachtop">
       <div v-on:click="goback()" style="display: inline-block">
-        <img src="../assets/images/pclogo.png" alt="" width="100" height="50" style="cursor: pointer;vertical-align: middle">
+        <img src="../../static/images/pclogo.png" alt="" width="100" height="50" style="cursor: pointer;vertical-align: middle">
       </div>
       <p style="cursor: pointer" v-on:click="goback()">Welcome Matthew !</p>
       <span @click="dialogFormVisible = true" class="password">Modify Password</span>
@@ -77,9 +77,12 @@
         courselist: [],
         lessonlist: [],
         lessonCode:'',
-        input: '',
+        oldPassword:'',
+        newPassword:'',
+
+       /* input: '',
         input2: '',
-        input3: '',
+        input3: '',*/
         oldpasswordlist:[],
         dialogFormVisible: false,
         form: {

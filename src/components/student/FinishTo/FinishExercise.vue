@@ -39,7 +39,7 @@
       </div>
       <div class="answer" v-show="isSubmit == 0">
         <div v-for="(option,index) in exercises.options" :key="index">
-          <p v-show="option.isCorrect == 1">Correct Answer ：<span>{{option.answerCode}}</span></p>
+         <p v-show="option.isCorrect == 1">Correct Answer ：<span>{{option.answerCode}}</span></p>
         </div>
         <p v-show="questionType == '1'">Your Answer ：<span style="color: red">{{selectedAnswerCode}}</span></p>
         <p v-show="questionType == '2'">Your Answer ：<span style="color: red">{{selectedMultiAnswerCode.join(',')}}</span></p>

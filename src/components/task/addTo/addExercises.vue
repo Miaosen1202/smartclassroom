@@ -299,6 +299,7 @@
             if (res.data.code == 200) {
               this.questionType = 1;
               this.questionTitle= "";
+              this.analysis="";
               this.options= [
                 {
                   answerContent: "",
@@ -306,7 +307,7 @@
                   answerCode: "A"
                 }
               ];
-              this.analysis="";
+
 
               console.log("exercisesId：" + this.exercisesId);
               this.getAssignmentListByLessonId();
@@ -390,7 +391,7 @@
           lessonId: this.exerciseEntity.lessonId,
           questionTitle: this.exerciseEntity.questionTitle,
           questionType: this.exerciseEntity.questionType,
-          analysis: this.analysis,
+          analysis: this.exerciseEntity.analysis,
           options: queryOptions
         };
         console.log(exercises);

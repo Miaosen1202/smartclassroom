@@ -36,7 +36,7 @@
                 <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
                   <i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
                 </span>
-                <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">开始上课</p>
+                <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">Start the class</p>
 
               </div>
 
@@ -48,17 +48,18 @@
     </el-scrollbar>
 
     <el-dialog title="Modify Password" :visible.sync="dialogFormVisible" style="width: 50%;height: 100%">
-      <p>Password</p>
-      <el-input type="password" v-model="input" placeholder="Please enter"></el-input>
+     <!-- <div v-for="(password,index) in oldpasswordlist" :key="index">-->
+      <p>oldPassword</p>
+      <el-input type="password" v-model="oldPassword" placeholder="Please enter"></el-input>
       <p style="color: #009900">New Password</p>
-      <el-input type="password" v-model="input2" placeholder="Please enter"></el-input>
+      <el-input type="password" v-model="newPassword" placeholder="Please enter"></el-input>
       <p style="color: #009900">Confirm Password</p>
-      <el-input type="password" v-model="input3" placeholder="Please enter"></el-input>
-
+      <el-input type="password" v-model="newPassword" placeholder="Please enter"></el-input>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">Submit</el-button>
+        <el-button type="primary" @click="updatepassword">Submit</el-button>
       </div>
+      <!--</div>-->
     </el-dialog>
   </div>
 </template>
@@ -79,6 +80,7 @@
         input: '',
         input2: '',
         input3: '',
+        oldpasswordlist:[],
         dialogFormVisible: false,
         form: {
           name: '',
@@ -164,7 +166,6 @@
         this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
           .then((res) => {
             if (res.data.code == 200) {
-              debugger;
               this.$message({
                 message: 'Congratulations on your successful deletion!',
                 type: 'success'
@@ -194,6 +195,25 @@
       },
       goback: function() {
         this.$router.push({path: "/navBar"});
+      },
+      updatepassword: function () {
+        var oldpassword = {
+          oldPassword:this.oldPassword,
+          newPassword:this.newPassword,
+        };
+        this.$http.post(`${process.env.NODE_ENV}/user/updatePassword/edit`,oldpassword)
+          .then((res) => {
+            if (res.data.code == 200) {
+             /* this.oldpasswordlist = res.data.entity;*/
+
+              this.$message({
+                message: 'Congratulations on your successful deletion!',
+                type: 'success'
+              });
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
       },
     }
   }

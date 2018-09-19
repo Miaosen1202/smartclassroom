@@ -48,7 +48,7 @@
         <el-table-column
           prop="updateTime"
           label="更新"
-          width="160">
+          >
           <template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
         <el-table-column

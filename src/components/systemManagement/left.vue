@@ -1,19 +1,35 @@
 <template>
   <div id="left">
     <img style="cursor: pointer" v-on:click="goback()" class="logo"
-         src="../../assets/images/u164.png" width="80%" alt="">
+         src="../../../static/images/pc1.png" width="100%" height="40%" alt="">
+    <div>
+      <img src="../../../static/images/pc2.png" width="16.5%" alt="" style="position: absolute;top: 15%;left: -2px">
+    </div>
+
     <ul>
-      <li :class="{active : activeFlag == 'prepare'}" @click="goToFirst('prepare')">
+      <li :class="{active : activeFlag == 'teacherManagement'}" @click="goToteacherManagement('teacherManagement')">
         <el-button type="text" @click="dialogVisible = true">
-          <img src="../../assets/images/ui1.png"  alt="">
+
           <p>Prepare a lesson</p>
         </el-button>
       </li>
-      <li :class="{active : activeFlag == 'second'}" @click="goToSecond('second')">
-        <img src="../../assets/images/ui.png"  alt="">
+      <li :class="{active : activeFlag == 'studentManagement'}" @click="goTostudentManagement('studentManagement')">
+
         <P>Manage all lessons</P>
       </li>
+      <li :class="{active : activeFlag == 'resourceManagement'}" @click="goToresourceManagement('resourceManagement')">
 
+        <P>Manage all lessons</P>
+      </li><li :class="{active : activeFlag == 'curriculumRecovery'}" @click="goTocurriculumRecovery('curriculumRecovery')">
+
+      <P>Manage all lessons</P>
+    </li><li :class="{active : activeFlag == 'configurationManagement'}" @click="goToconfigurationManagement('configurationManagement')">
+
+      <P>Manage all lessons</P>
+    </li><li :class="{active : activeFlag == 'opinionManagement'}" @click="goToopinionManagement('opinionManagement')">
+
+      <P>Manage all lessons</P>
+    </li>
     </ul>
     <!--<span>
       <el-button type="primary" @click="gotenching('teachingMaterials')">
@@ -33,20 +49,29 @@
       }
     },
     methods:{
-    /*  goToFirst(s){
+      goToteacherManagement(s){
         this.activeFlag = s;
-        this.$router.push({path:"/homePage/prepare"});
+        this.$router.push({path:"/admin/teacherManagement"});
       },
-      goToSecond(s){
+      goTostudentManagement(s){
         this.activeFlag = s;
-        this.$router.push({path:"/homePage/second"});
+        this.$router.push({path:"/admin/studentManagement"});
       },
-      goback: function() {
-        this.$router.push({path: "/navBar"});
-      },*/
-      /* gotenching(){
-         this.$router.push({path:"/homePage/teachingMaterials"});
-       }*/
+      goToresourceManagement(s){
+        this.activeFlag = s;
+        this.$router.push({path:"/admin/resourceManagement"});
+      },
+      goTocurriculumRecovery(s){
+        this.activeFlag = s;
+        this.$router.push({path:"/admin/curriculumRecovery"});
+      },
+      goToconfigurationManagement(s){
+        this.activeFlag = s;
+        this.$router.push({path:"/admin/configurationManagement"});
+      },
+      goToopinionManagement(){
+         this.$router.push({path:"/admin/opinionManagement"});
+       }
     }
   }
 </script>
@@ -55,19 +80,21 @@
   #left {
     height: 60%;
   }
-  img {
-    padding-left: 10%;
-  }
+*{
+  margin: 0;
+  padding: 0;
+}
   ul {
-    height: 100%;
+    height: 100%;/* img {
+    padding-left: 10%;
+  }*/
   }
   ul li {
     text-align: center;
     display: block;
     width: 100%;
-    height: 24%;
+    height: 10%;
     /*border: 1px solid #ccc;*/
-    margin-bottom: 30%;
     cursor: pointer;
     color: #fff;
     padding-top: 5%;

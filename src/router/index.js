@@ -28,6 +28,12 @@ import FinishDiscuss from '@/components/student/FinishTo/FinishDiscuss'
 import FinishExercise from '@/components/student/FinishTo/FinishExercise'
 import FinishAssignment from '@/components/student/FinishTo/FinishAssignment'
 import admin from '@/components/admin'
+import teacherManagement from '@/components/systemManagement/management/teacherManagement'
+import studentManagement from '@/components/systemManagement/management/studentManagement'
+import resourceManagement from '@/components/systemManagement/management/resourceManagement'
+import curriculumRecovery from '@/components/systemManagement/management/curriculumRecovery'
+import configurationManagement from '@/components/systemManagement/management/configurationManagement'
+import opinionManagement from '@/components/systemManagement/management/opinionManagement'
 
 
 
@@ -150,6 +156,32 @@ export default new Router({
     {
       path: '/admin',
       component: admin,
+      children: [
+        {
+          path: 'teacherManagement',
+          component: teacherManagement,
+        },
+        {
+          path: 'studentManagement',
+          component: studentManagement,
+        },
+        {
+          path: 'resourceManagement',
+          component: resourceManagement,
+        },
+        {
+          path: 'curriculumRecovery',
+          component: curriculumRecovery,
+        },
+        {
+          path: 'configurationManagement',
+          component: configurationManagement,
+        },
+        {
+          path: 'opinionManagement',
+          component: opinionManagement,
+        },
+      ]
     },
   ]
 })

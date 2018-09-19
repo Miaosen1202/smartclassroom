@@ -10,25 +10,25 @@
       <li :class="{active : activeFlag == 'teacherManagement'}" @click="goToteacherManagement('teacherManagement')">
         <el-button type="text" @click="dialogVisible = true">
 
-          <p>Prepare a lesson</p>
+          <p>teacherManagement</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'studentManagement'}" @click="goTostudentManagement('studentManagement')">
 
-        <P>Manage all lessons</P>
+        <P>studentManagement</P>
       </li>
       <li :class="{active : activeFlag == 'resourceManagement'}" @click="goToresourceManagement('resourceManagement')">
 
-        <P>Manage all lessons</P>
+        <P>resourceManagement</P>
       </li><li :class="{active : activeFlag == 'curriculumRecovery'}" @click="goTocurriculumRecovery('curriculumRecovery')">
 
-      <P>Manage all lessons</P>
+      <P>curriculumRecovery</P>
     </li><li :class="{active : activeFlag == 'configurationManagement'}" @click="goToconfigurationManagement('configurationManagement')">
 
-      <P>Manage all lessons</P>
+      <P>configurationManagement</P>
     </li><li :class="{active : activeFlag == 'opinionManagement'}" @click="goToopinionManagement('opinionManagement')">
 
-      <P>Manage all lessons</P>
+      <P>opinionManagement</P>
     </li>
     </ul>
     <!--<span>
@@ -69,7 +69,8 @@
         this.activeFlag = s;
         this.$router.push({path:"/admin/configurationManagement"});
       },
-      goToopinionManagement(){
+      goToopinionManagement(s){
+        this.activeFlag = s;
          this.$router.push({path:"/admin/opinionManagement"});
        }
     }

@@ -44,38 +44,38 @@
         <el-table-column
           prop="lessonName"
           label="Lession"
-          width="120">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="courseName"
           label="Course"
-          width="120">
+          min-width="40%">
         </el-table-column>
         <el-table-column
           prop="createUserName"
           label="创建人"
-          width="80">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="materialType"
           label="所属分类"
-          width="120">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="fileSize"
           label="Size"
-          width="110">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="updateTime"
           label="Update"
-          width="160">
+          min-width="50%">
           <template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
         <el-table-column
           prop="downloadCount"
           label="浏览次数"
-          width="130">
+          min-width="30%">
         </el-table-column>
 
         <el-table-column label="操作">

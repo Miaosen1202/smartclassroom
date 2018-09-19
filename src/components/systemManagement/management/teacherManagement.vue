@@ -1,5 +1,5 @@
 <template>
-  <div class="all">
+  <div class="management">
     教师管理
 
     <div>
@@ -11,9 +11,9 @@
     <div>
       <el-table
         ref="multipleTable"
-        :data="tableData3"
+        :data="tableData"
         tooltip-effect="dark"
-        style="width: 100%"
+        style="width: 98%"
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
@@ -23,44 +23,41 @@
         <el-table-column
           prop="accountNumber"
           label="账号"
-          width="100">
+          min-width="30%"
+         >
         </el-table-column>
         <el-table-column
           prop="name"
           label="姓名"
-          width="80">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="email"
           label="邮箱"
-          width="120">
+          min-width="40%">
         </el-table-column>
         <el-table-column
           prop="cellPhoneNo"
           label="联系电话"
-          width="120">
+          min-width="40%">
         </el-table-column>
         <el-table-column
           prop="subject"
           label="分类"
-          width="80">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="updateTime"
           label="更新"
-          width="160">
+          min-width="40%">
           <template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
         <el-table-column
           prop="status"
           label="状态"
-          width="80">
+          min-width="30%">
         </el-table-column>
-        <!--<el-table-column
-          prop="address"
-          label="操作"
-          show-overflow-tooltip>
-        </el-table-column>-->
+
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -77,10 +74,6 @@
           </template>
         </el-table-column>
       </el-table>
-      <!--<div style="margin-top: 20px">
-        <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
-        <el-button @click="toggleSelection()">取消选择</el-button>
-      </div>-->
     </div>
     <div style="position: absolute;bottom: 8%;left: 44%">
       <el-pagination
@@ -91,12 +84,24 @@
     </div>
     <!--编辑弹框-->
     <el-dialog
-      title="老师信息编辑"
+      title="Student information editor"
       :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
-      <span>这是一段信息</span>
-      <span slot="footer" class="dialog-footer">
+      width="20%"
+    >
+      <div class="projectile" style="padding-left: 10%">
+        <ul>
+          <li><sapn>老师编号：</sapn><el-input v-model="input" size="small" placeholder="请输入老师编号" style="width: 60%"></el-input></li>
+          <li><sapn>老师姓名：</sapn><el-input v-model="input" size="small" placeholder="请输入老师姓名" style="width: 60%"></el-input></li>
+          <li><sapn>个人邮箱：</sapn><el-input v-model="input" size="small" placeholder="请输入个人邮箱" style="width: 60%"></el-input></li>
+          <li><sapn>联系电话：</sapn><el-input v-model="input" size="small" placeholder="请输入联系电话" style="width: 60%"></el-input></li>
+          <li>
+            <span style="padding-right: 10%">状态：</span>
+            <el-radio v-model="radio" label="1">启用</el-radio>
+            <el-radio v-model="radio" label="2">禁用</el-radio>
+          </li>
+        </ul>
+      </div>
+      <span slot="footer" class="dialog-footer" style="text-align: right">
     <el-button @click="dialogVisible = false">取 消</el-button>
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
   </span>
@@ -110,7 +115,8 @@
       return {
         dialogVisible: false,
         input:'',
-        tableData3: [{
+        radio: '1',
+        tableData: [{
           date: '2016-05-03',
           accountNumber:'10000129',
           name: '王小虎',
@@ -152,7 +158,13 @@
 </script>
 
 <style scoped="">
-  .all {
+  .management {
     margin: 2%;
+  }
+  .el-dialog {
+    width: 32%!important;
+  }
+  .projectile ul li {
+    margin-top: 2%;
   }
 </style>

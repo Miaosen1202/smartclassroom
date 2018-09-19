@@ -43,28 +43,28 @@
         <el-table-column
           prop="content"
           label="意见描述"
-          width="160">
+          min-width="60%">
         </el-table-column>
         <el-table-column
           prop="userName"
           label="反馈人"
-          width="100">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="startTime"
           label="反馈时间"
-          width="160">
+          min-width="50%">
           <template slot-scope="scope">{{ scope.row.startTime }}</template>
         </el-table-column>
         <el-table-column
           prop="replyStatus"
           label="状态"
-          width="120">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="endTime"
           label="处理时间"
-          width="160">
+          min-width="60%">
         </el-table-column>
 
 

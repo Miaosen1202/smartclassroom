@@ -1,5 +1,5 @@
 <template>
-  <div class="all">
+  <div class="management">
     学生管理
 
     <div>
@@ -18,55 +18,51 @@
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
-          width="30">
+          width="50">
         </el-table-column>
 
         <el-table-column
           prop="accountNumber"
           label="账号"
-          width="100">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="name"
           label="姓名"
-          width="80">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="email"
           label="邮箱"
-          width="120">
+          min-width="40%">
         </el-table-column>
         <el-table-column
           prop="cellPhoneNo"
           label="联系电话"
-          width="110">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="majorName"
           label="专业"
-          width="130">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="className"
           label="班级"
-          width="90">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="updateTime"
           label="更新"
-          width="100">
+          min-width="40%">
           <template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
         <el-table-column
           prop="status"
           label="状态"
-          width="60">
+          min-width="30%">
         </el-table-column>
-        <!--<el-table-column
-          prop="address"
-          label="操作"
-          show-overflow-tooltip>
-        </el-table-column>-->
+
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -74,7 +70,9 @@
               @click="handleEdit(scope.$index, scope.row)">禁用</el-button>
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              @click="dialogVisible = true" >编辑</el-button>
+              <!--@click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+
             <el-button
               size="mini"
               type="danger"
@@ -94,7 +92,30 @@
         :total="1000">
       </el-pagination>
     </div>
-
+    <!--编辑弹框-->
+    <el-dialog
+      title="老师信息编辑"
+      :visible.sync="dialogVisible"
+      width="20%"
+    >
+      <div class="projectile" style="padding-left: 10%">
+        <ul>
+          <li><sapn>老师编号：</sapn><el-input v-model="input" size="small" placeholder="请输入老师编号" style="width: 60%"></el-input></li>
+          <li><sapn>老师姓名：</sapn><el-input v-model="input" size="small" placeholder="请输入老师姓名" style="width: 60%"></el-input></li>
+          <li><sapn>个人邮箱：</sapn><el-input v-model="input" size="small" placeholder="请输入个人邮箱" style="width: 60%"></el-input></li>
+          <li><sapn>联系电话：</sapn><el-input v-model="input" size="small" placeholder="请输入联系电话" style="width: 60%"></el-input></li>
+          <li>
+            <span style="padding-right: 10%">状态：</span>
+            <el-radio v-model="radio" label="1">启用</el-radio>
+            <el-radio v-model="radio" label="2">禁用</el-radio>
+          </li>
+        </ul>
+      </div>
+      <span slot="footer" class="dialog-footer" style="text-align: right">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 <!--教师分页查询/teacher/pageList-->
@@ -103,6 +124,8 @@
     data() {
       return {
         input:'',
+        radio: '1',
+        dialogVisible: false,
         tableData3: [{
           date: '2016-05-03',
           accountNumber:'10000123',
@@ -147,7 +170,10 @@
 </script>
 
 <style scoped="">
-  .all {
+  .management {
     margin: 2%;
+  }
+  .projectile ul li {
+    margin-top: 2%;
   }
 </style>

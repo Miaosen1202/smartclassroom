@@ -19,11 +19,11 @@
           type="selection"
           width="55">
         </el-table-column>
+
         <el-table-column
           prop="accountNumber"
           label="账号"
           width="100">
-          <template slot-scope="scope">{{ scope.row.date }}</template>
         </el-table-column>
         <el-table-column
           prop="name"
@@ -49,6 +49,7 @@
           prop="updateTime"
           label="更新"
           width="160">
+          <template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
         <el-table-column
           prop="status"
@@ -67,7 +68,8 @@
               @click="handleEdit(scope.$index, scope.row)">禁用</el-button>
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              @click="dialogVisible = true" >编辑</el-button>
+              <!--@click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
             <el-button
               size="mini"
               type="danger"
@@ -87,7 +89,18 @@
         :total="1000">
       </el-pagination>
     </div>
-
+    <!--编辑弹框-->
+    <el-dialog
+      title="老师信息编辑"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose">
+      <span>这是一段信息</span>
+      <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 <!--教师分页查询/teacher/pageList-->
@@ -95,9 +108,11 @@
   export default {
     data() {
       return {
+        dialogVisible: false,
         input:'',
         tableData3: [{
           date: '2016-05-03',
+          accountNumber:'10000129',
           name: '王小虎',
           email:'123@163.com',
           cellPhoneNo:'18522222222',
@@ -123,6 +138,9 @@
       }
     },
     methods: {
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
+      },
       handleEdit(index, row) {
         console.log(index, row);
       },

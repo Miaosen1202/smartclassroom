@@ -31,27 +31,27 @@
         <el-table-column
           prop="materialName"
           label="File Name"
-          width="170">
+          min-width="50%">
         </el-table-column>
         <el-table-column
           prop="createUserName"
           label="创建人"
-          width="80">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="materialType"
           label="资源分类"
-          width="120">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="fileSize"
           label="Size"
-          width="110">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="updateTime"
           label="Update"
-          width="160">
+          min-width="50%">
           <template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
         <el-table-column

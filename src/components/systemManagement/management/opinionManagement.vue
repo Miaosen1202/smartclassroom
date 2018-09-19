@@ -26,7 +26,7 @@
         </el-date-picker>
       </div>
       <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量上传</el-button>
+
     </div>
     <div>
       <el-table
@@ -146,6 +146,8 @@
 <style scoped="">
   .curriculumRecovery {
     margin: 2%;
+    margin-top: 0px;
+    padding-top: 2%;
   }
   .end-placeholder {
     margin-left: 6% !important;

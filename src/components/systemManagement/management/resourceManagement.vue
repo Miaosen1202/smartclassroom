@@ -64,7 +64,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              @click="handleEdit(scope.$index, scope.row)">修改</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -145,6 +145,8 @@
 <style scoped="">
   .all {
     margin: 2%;
+    margin-top: 0px;
+    padding-top: 2%;
   }
 </style>
 

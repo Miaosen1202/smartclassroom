@@ -163,6 +163,8 @@
 <style scoped="">
   .curriculumRecovery {
     margin: 2%;
+    margin-top: 0px;
+    padding-top: 2%;
   }
   .end-placeholder {
     margin-left: 6% !important;

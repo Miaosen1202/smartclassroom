@@ -18,7 +18,7 @@
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
-          width="50">
+          width="30">
         </el-table-column>
 
         <el-table-column
@@ -39,12 +39,12 @@
         <el-table-column
           prop="cellPhoneNo"
           label="联系电话"
-          min-width="30%">
+          min-width="40%">
         </el-table-column>
         <el-table-column
           prop="majorName"
           label="专业"
-          min-width="30%">
+          min-width="50%">
         </el-table-column>
         <el-table-column
           prop="className"
@@ -54,13 +54,13 @@
         <el-table-column
           prop="updateTime"
           label="更新"
-          min-width="40%">
+          min-width="50%">
           <template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
         <el-table-column
           prop="status"
           label="状态"
-          min-width="30%">
+          min-width="20%">
         </el-table-column>
 
         <el-table-column label="操作">
@@ -94,16 +94,18 @@
     </div>
     <!--编辑弹框-->
     <el-dialog
-      title="老师信息编辑"
+      title="Student information editor"
       :visible.sync="dialogVisible"
       width="20%"
     >
       <div class="projectile" style="padding-left: 10%">
         <ul>
-          <li><sapn>老师编号：</sapn><el-input v-model="input" size="small" placeholder="请输入老师编号" style="width: 60%"></el-input></li>
-          <li><sapn>老师姓名：</sapn><el-input v-model="input" size="small" placeholder="请输入老师姓名" style="width: 60%"></el-input></li>
+          <li><sapn>学生编号：</sapn><el-input v-model="input" size="small" placeholder="请输入老师编号" style="width: 60%"></el-input></li>
+          <li><sapn>学生姓名：</sapn><el-input v-model="input" size="small" placeholder="请输入老师姓名" style="width: 60%"></el-input></li>
           <li><sapn>个人邮箱：</sapn><el-input v-model="input" size="small" placeholder="请输入个人邮箱" style="width: 60%"></el-input></li>
           <li><sapn>联系电话：</sapn><el-input v-model="input" size="small" placeholder="请输入联系电话" style="width: 60%"></el-input></li>
+          <li><sapn>所在班级：</sapn><el-input v-model="input" size="small" placeholder="请输入所在班级" style="width: 60%"></el-input></li>
+          <li><sapn>所学专业：</sapn><el-input v-model="input" size="small" placeholder="请输入所学专业" style="width: 60%"></el-input></li>
           <li>
             <span style="padding-right: 10%">状态：</span>
             <el-radio v-model="radio" label="1">启用</el-radio>
@@ -172,6 +174,8 @@
 <style scoped="">
   .management {
     margin: 2%;
+    margin-top: 0px;
+    padding-top: 2%;
   }
   .projectile ul li {
     margin-top: 2%;

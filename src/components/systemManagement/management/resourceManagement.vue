@@ -19,47 +19,19 @@
     <div>
       <el-table
         ref="multipleTable"
-        :data="tableData3"
+        :data="resourceManagementList"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
-        <el-table-column
-          type="selection"
-          width="30">
-        </el-table-column>
+        <el-table-column type="selection" width="30"></el-table-column>
 
-        <el-table-column
-          prop="materialName"
-          label="File Name"
-          min-width="50%">
+        <el-table-column prop="materialName" label="File Name" min-width="50%"></el-table-column>
+        <el-table-column prop="createUserName" label="创建人" min-width="30%"></el-table-column>
+        <el-table-column prop="materialTypeDesc" label="资源分类" min-width="30%"></el-table-column>
+        <el-table-column prop="fileSize" label="Size" min-width="30%"></el-table-column>
+        <el-table-column prop="updateTime" label="Update" min-width="50%"><template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
-        <el-table-column
-          prop="createUserName"
-          label="创建人"
-          min-width="30%">
-        </el-table-column>
-        <el-table-column
-          prop="materialType"
-          label="资源分类"
-          min-width="30%">
-        </el-table-column>
-        <el-table-column
-          prop="fileSize"
-          label="Size"
-          min-width="30%">
-        </el-table-column>
-        <el-table-column
-          prop="updateTime"
-          label="Update"
-          min-width="50%">
-          <template slot-scope="scope">{{ scope.row.updateTime }}</template>
-        </el-table-column>
-        <el-table-column
-          prop="downloadCount"
-          label="浏览次数"
-          width="130">
-        </el-table-column>
-
+        <el-table-column prop="downloadCount" label="浏览次数" width="130"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -72,16 +44,12 @@
           </template>
         </el-table-column>
       </el-table>
-      <!--<div style="margin-top: 20px">
-        <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
-        <el-button @click="toggleSelection()">取消选择</el-button>
-      </div>-->
     </div>
     <div style="position: absolute;bottom: 8%;left: 44%">
       <el-pagination
         background
         layout="prev, pager, next"
-        :total="1000">
+        :total=total>
       </el-pagination>
     </div>
 
@@ -93,29 +61,11 @@
     data() {
       return {
         input:'',
-        tableData3: [{
-          date: '2016-05-03',
-          createUserName: 'admin',
-          fileSize:'100M',
-          materialName:'结构力学，变量与常量',
-          materialType:'高等数学',
-          downloadCount:'88',
-          updateTime:'2018-12-12 20:20PM',
-
-
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
+        pageSize: 1,//页大小
+        currentPage: 1,//当前页
+        pages: 0,//总页数
+        total: 0,//总条数
+        resourceManagementList: [],
         multipleSelection: [],
         options: [{
           value: '选项1',
@@ -125,8 +75,10 @@
           label: '北京烤鸭'
         }],
         value: ''
-
       }
+    },
+    mounted() {
+      this.resourceManagementQuery();
     },
     methods: {
       handleSelectionChange(val) {
@@ -137,7 +89,55 @@
       },
       handleDelete(index, row) {
         console.log(index, row);
-      }
+      },
+      resourceManagementQuery: function () {
+
+        this.$http.get(`${process.env.NODE_ENV}/materialBank/pageList`,)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.resourceManagementList = res.data.entity.list;
+              this.total = res.data.entity.total;
+              this.currentPage = res.data.entity.pageIndex;
+              this.pages = (res.data.entity.total) % (res.data.entity.pageSize) == 0 ?
+                (res.data.entity.total) / (res.data.entity.pageSize) :
+                (res.data.entity.total) / (res.data.entity.pageSize) + 1;
+              this.pageSize = res.data.entity.pageSize;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
+      //向下翻页
+      toNextPage() {
+        this.currentPage = this.currentPage + 1;
+        if (this.currentPage > this.pages) {
+          this.$message({
+            message: 'sorry,this is the last page!',
+            type: 'warning'
+          });
+          this.currentPage--;
+        } else if (this.currentPage <= this.pages) {
+          this.selectedAnswerCode = "";
+          this.isSubmit = 1;
+          this.teacherManagementQuery();
+        }
+
+      },
+      //向上翻页
+      goBack() {
+        this.currentPage = this.currentPage - 1;
+        if (this.currentPage == 0) {
+          this.$message({
+            message: 'sorry,this is the first page!',
+            type: 'warning'
+          });
+          this.currentPage++;
+        } else {
+          this.selectedAnswerCode = "";
+          this.isSubmit = 1;
+          this.teacherManagementQuery();
+        }
+      },
     }
   }
 </script>

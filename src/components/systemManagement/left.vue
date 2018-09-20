@@ -1,11 +1,10 @@
 <template>
   <div id="left">
-    <img style="cursor: pointer" v-on:click="goback()" class="logo"
+    <!--<img style="cursor: pointer" v-on:click="goback()" class="logo"
          src="../../../static/images/pc1.png" width="100%" height="40%" alt="">
     <div>
       <img src="../../../static/images/pc2.png" width="16.5%" alt="" style="position: absolute;top: 15%;left: -2px">
-    </div>
-
+    </div>-->
     <ul>
       <li :class="{active : activeFlag == 'teacherManagement'}" @click="goToteacherManagement('teacherManagement')">
         <el-button type="text" @click="dialogVisible = true">

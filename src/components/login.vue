@@ -80,9 +80,11 @@
             if (res.data.code == 200) {
               this.entity = res.data.entity;
               this.$router.push({path: "/navBar"});
+            } else {
+              this.$message.error(res.data.message);
             }
           }).catch((err) => {
-          console.log(err);
+          this.$message.error(err);
         });
       },
       goToadmin: function () {
@@ -95,9 +97,11 @@
             if (res.data.code == 200) {
               this.entity = res.data.entity;
               this.$router.push({path: "/admin/teacherManagement"});
+            } else {
+              this.$message.error(res.data.message)
             }
           }).catch((err) => {
-          console.log(err);
+          this.$message.error(err);
         });
       },
       studentslogin:function () {
@@ -111,9 +115,11 @@
             if (res.data.code == 200) {
               this.entity = res.data.entity;
               this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
+            } else {
+              this.$message.error(res.data.message)
             }
           }).catch((err) => {
-          console.log(err);
+          this.$message.error(err);
         });
 
       }

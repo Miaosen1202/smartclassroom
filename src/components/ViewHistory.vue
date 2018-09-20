@@ -2,7 +2,7 @@
   <div id="viewhistory">
     <div class="historytop">
       <p>Welcome Matthew !</p>
-      <p v-on:click="goback()" style="float: right;padding-right: 2%;cursor: pointer">
+      <p @click="logout" style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">
       </p>
     </div>
@@ -191,8 +191,14 @@
             alert(err);
           });
       },
-      goback: function() {
-        this.$router.push({path: "/navBar"});
+      logout: function() {
+        this.$http.post(`${process.env.NODE_ENV}/logout`)
+          .then((res) => {
+            this.$router.push({path: "/"});
+          }).catch((err) => {
+          this.$message.error("Logout error: " + err);
+          this.$router.push({path: "/"});
+        });
       },
     }
   }

@@ -8,6 +8,7 @@
       <el-button type="primary" @click="loadStudentRecords(1)" size="small" icon="el-icon-search"></el-button>
       <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
       <el-button type="primary" @click="resetPassword" size="mini" style="float: right;margin-left: 1%">重置初始化密码</el-button>
+      <!--<el-button type="primary" @click="getImportModelFile" size="mini" style="float: right;">获取学生导入模板</el-button>-->
       <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;">导入学生数据</el-button>
     </div>
     <div>
@@ -153,12 +154,9 @@
         :on-change="handleUploadFileChange"
         :on-success="handleUploadFileSuccess">
         <el-button size="small" type="primary">点击上传</el-button>
-        <!--<el-button size="small" type="primary" @click="addshowUplond">-->
-          <!--<img src="../../../assets/images/u60.png" alt="">-->
-          <!--Upload-->
-        <!--</el-button>-->
-        <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
       </el-upload>
+
+      <el-checkbox v-model="overrideExistsStudentNoData">是否覆盖已存在学生编号的数据</el-checkbox>
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelImport">取 消</el-button>
@@ -192,7 +190,8 @@
         studentEditDialogVisible: false,
         studentImportDialogVisible: false,
         studentDataFilePath: "",
-        studentDataFileList: []
+        studentDataFileList: [],
+        overrideExistsStudentNoData: false
       }
     },
 
@@ -377,15 +376,14 @@
         this.studentDataFileList = [];
       },
       confirmImport: function () {
-        // todo 处理编号冲突
-
         if (this.studentDataFilePath == "") {
           this.$message.error("Please upload file");
           return;
         }
 
         let param = {
-          fileName: this.studentDataFilePath
+          fileName: this.studentDataFilePath,
+          override: this.overrideExistsStudentNoData ? true : null
         };
 
         this.$http.post(`${process.env.NODE_ENV}/student/import/edit`, param)
@@ -403,6 +401,10 @@
           }).catch((err) => {
            this.$message.error(err);
         });
+      },
+
+      getImportModelFile: function () {
+        
       }
     }
   }

@@ -23,7 +23,6 @@
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期"
-          @change="chg"
           >
         </el-date-picker>
       </div>
@@ -105,34 +104,39 @@
         @current-change="loadFeedbackRecord">
       </el-pagination>
     </div>
+
     <!--编辑反馈弹框-->
     <el-dialog
+      @close="replyDialogClose"
       title="意见反馈"
-      :visible.sync="dialogVisible"
+      :visible.sync="replyDialogVisible"
       width="20%">
+
       <div class="projectile" style="padding:2% 6%">
-        <sapn>老师反馈于</sapn> <span>2018-01-01  17：15 PM</span>
-        <el-input
-          type="textarea"
-          autosize
-          placeholder="请输入内容"
-          v-model="textarea2">
-        </el-input>
+        <span><i>{{ this.feedbackDetail.root.replyerName }}</i>反馈于</span>
+        <span>{{ formatDateTime(this.feedbackDetail.root.createTime) }}</span>
+        <div style="padding: 2%; margin: 2%; border: 1px solid black">{{ this.feedbackDetail.root.content }}</div>
+
         <div>
           <ul>
-            <li><span>2018-01-01  17：15 PM </span><span>admin</span>回复: <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet</span></li>
+            <li v-for="fd in feedbackDetail.replyList">
+              <span>{{ formatDateTime(fd.createTime) }}</span>
+              <span>{{ fd.replyerName }}</span>回复:
+              <span>{{ fd.content }}</span>
+            </li>
           </ul>
         </div>
         <el-input
           type="textarea"
           autosize
           placeholder="请输入内容"
-          v-model="textarea3">
+          v-model="reply.content">
         </el-input>
       </div>
+
       <span slot="footer" class="dialog-footer" style="text-align: right">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+        <el-button @click="cancelReply">Cancel</el-button>
+        <el-button type="primary" @click="addReply">Save</el-button>
       </span>
     </el-dialog>
   </div>
@@ -143,6 +147,8 @@
   export default {
     data() {
       return {
+        replyDialogVisible: false,
+
         replyStatusOps: [{
           label: "待反馈",
           value: 0
@@ -169,7 +175,16 @@
           replyerName: '',
           startTime: '',
           endTime: '',
-        }
+        },
+
+        feedbackDetail: {
+          root: {},
+          replyList: []
+        },
+
+        reply: {
+          content: null
+        },
       }
     },
 
@@ -179,12 +194,6 @@
 
     methods: {
       formatDateTime: util.formatDateTime,
-
-      chg: function(a) {
-        console.log(a)
-        console.log(this.searchTimeRange)
-        this.search.startTime = undefined;
-      },
 
       loadFeedbackRecord: function(pageIndex) {
         if (this.searchTimeRange != null && this.searchTimeRange.length >= 2) {
@@ -218,7 +227,59 @@
       },
 
       goReply: function (index, row) {
-        console.log(index, row);
+        this.replyDialogVisible = true;
+        this.loadFeedbackReply(row.id);
+      },
+
+      addReply: function () {
+        let reply = {
+          content: this.reply.content,
+          replyId: this.feedbackDetail.root.id,
+        };
+
+        if (reply.content === null || reply.content === '' || reply.content.trim() === "") {
+          this.$message.error("Please input reply content");
+          return;
+        }
+
+        this.$http.post(`${process.env.NODE_ENV}/feedback/add`, reply)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.$message.info("Reply success");
+              this.reply.content = '';
+              this.loadFeedbackReply(reply.replyId);
+            } else {
+              this.$message.error(this.data.message);
+            }
+          }).catch((err) => {
+            this.$message.error(err);
+        });
+      },
+
+      cancelReply: function () {
+        this.replyDialogVisible = false;
+        this.reply.content = '';
+      },
+
+      replyDialogClose: function () {
+        this.loadFeedbackRecord();
+      },
+
+      loadFeedbackReply: function (id) {
+        this.feedbackReplyDetail = [];
+
+        this.$http.get(`${process.env.NODE_ENV}/feedback/reply/query`, {params: {rootId: id}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.feedbackDetail.root = res.data.entity.list[0];
+              this.feedbackDetail.replyList = res.data.entity.list.slice(1);
+
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+           this.$message.error(err);
+        });
       },
 
       handleDelete: function (index, row) {

@@ -1,6 +1,15 @@
 
 export default {
   formatDateTime: function(date) {
+    if (date == undefined || date === null || date === "") {
+      return '';
+    }
+    try {
+      date = new Date(date);
+    } catch (e) {
+      console.error("date format error", date);
+      return '';
+    }
     var month = '' + (date.getMonth() + 1);
     var day = '' + date.getDate();
     var year = date.getFullYear();

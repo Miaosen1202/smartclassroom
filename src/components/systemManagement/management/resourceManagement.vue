@@ -24,7 +24,6 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="30"></el-table-column>
-
         <el-table-column prop="materialName" label="File Name" min-width="50%"></el-table-column>
         <el-table-column prop="createUserName" label="创建人" min-width="30%"></el-table-column>
         <el-table-column prop="materialTypeDesc" label="资源分类" min-width="30%"></el-table-column>
@@ -36,7 +35,7 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+              @click="modifyPageSkip">修改</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -84,9 +83,7 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
+
       handleDelete(index, row) {
         console.log(index, row);
       },
@@ -107,36 +104,8 @@
           console.log(err);
         });
       },
-      //向下翻页
-      toNextPage() {
-        this.currentPage = this.currentPage + 1;
-        if (this.currentPage > this.pages) {
-          this.$message({
-            message: 'sorry,this is the last page!',
-            type: 'warning'
-          });
-          this.currentPage--;
-        } else if (this.currentPage <= this.pages) {
-          this.selectedAnswerCode = "";
-          this.isSubmit = 1;
-          this.teacherManagementQuery();
-        }
-
-      },
-      //向上翻页
-      goBack() {
-        this.currentPage = this.currentPage - 1;
-        if (this.currentPage == 0) {
-          this.$message({
-            message: 'sorry,this is the first page!',
-            type: 'warning'
-          });
-          this.currentPage++;
-        } else {
-          this.selectedAnswerCode = "";
-          this.isSubmit = 1;
-          this.teacherManagementQuery();
-        }
+      modifyPageSkip:function ()  {
+        this.$router.push({path:"/admin/configurationManagement"});
       },
     }
   }

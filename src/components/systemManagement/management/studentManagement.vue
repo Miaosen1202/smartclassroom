@@ -138,7 +138,6 @@
     </el-dialog>
   </div>
 </template>
-<!--教师分页查询/teacher/pageList-->
 <script>
   export default {
     data() {
@@ -176,14 +175,12 @@
         if (this.studentNameSearch && this.studentNameSearch.trim()) {
           param.params.name = this.studentNameSearch;
         }
-
         this.$http.get(`${process.env.NODE_ENV}/student/pageList`, param)
           .then((res) => {
             if (res.data.code != 200) {
               this.$message.error(res.data.message);
               return;
             }
-
             this.studentRecords = res.data.entity.list;
             this.page.total = res.data.entity.total;
             this.page.pageIndex = res.data.entity.pageIndex;

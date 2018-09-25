@@ -1,5 +1,5 @@
 <template>
-  <div class="curriculumRecovery">
+  <div class="management">
     意见管理
     <div>
       <p style="display: inline-block">总数量</p>：<span>20</span>
@@ -26,12 +26,11 @@
         </el-date-picker>
       </div>
       <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
-
     </div>
     <div>
       <el-table
         ref="multipleTable"
-        :data="tableData3"
+        :data="teacherRecords"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -72,7 +71,8 @@
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">反馈</el-button>
+              @click="dialogVisible = true"
+              >反馈</el-button><!--@click="handleEdit(scope.$index, scope.row)"-->
             <el-button
               size="mini"
               type="danger"
@@ -84,11 +84,44 @@
     <div style="position: absolute;bottom: 8%;left: 44%">
       <el-pagination
         background
+        :page-size="page.pageSize"
+        :page-count="page.pageNumber"
+        :current-page="page.pageIndex"
         layout="prev, pager, next"
-        :total="1000">
+        :total="page.total"
+        @current-change="loadTeacherRecords">
       </el-pagination>
     </div>
-
+    <!--编辑反馈弹框-->
+    <el-dialog
+      title="意见反馈"
+      :visible.sync="dialogVisible"
+      width="20%">
+      <div class="projectile" style="padding:2% 6%">
+        <sapn>老师反馈于</sapn> <span>2018-01-01  17：15 PM</span>
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="请输入内容"
+          v-model="textarea2">
+        </el-input>
+        <div>
+          <ul>
+            <li><span>2018-01-01  17：15 PM </span><span>admin</span>回复: <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod bibendum laoreet</span></li>
+          </ul>
+        </div>
+        <el-input
+          type="textarea"
+          autosize
+          placeholder="请输入内容"
+          v-model="textarea3">
+        </el-input>
+      </div>
+      <span slot="footer" class="dialog-footer" style="text-align: right">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -96,28 +129,17 @@
     data() {
       return {
         input:'',
-        tableData3: [{
-          content: '没意见，有意见，有意见吗',
-          replyStatus:'待反馈',
-          userName:'admin',
-          endTime:'2018-12-22 20:20PM',
-          startTime:'2018-12-12 20:20PM',
-
-
-        }, {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-07',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
+        textarea2:'',
+        textarea3:'',
+        dialogVisible: false,
+        teacherRecords: [],
         multipleSelection: [],
+        page: {
+          total: 0,
+          pageIndex: 1,
+          pageSize: 5,
+          pageNumber: 5
+        },
         options: [{
           value: '选项1',
           label: '黄金糕'
@@ -128,6 +150,10 @@
         value: '',
         value6: '',
       }
+
+    },
+    mounted() {
+      this.loadTeacherRecords(this.pageIndex);
     },
     methods: {
       handleSelectionChange(val) {
@@ -138,13 +164,44 @@
       },
       handleDelete(index, row) {
         console.log(index, row);
-      }
+      },
+      loadTeacherRecords: function(pageIndex) {
+        var param = {
+          params: {
+            pageIndex: (typeof pageIndex == "undefined") ? this.page.pageIndex : pageIndex,
+            pageSize: this.page.pageSize
+          }
+        };
+        if (this.teacherNameSearch && this.teacherNameSearch.trim()) {
+          param.params.name = this.teacherNameSearch;
+        }
+
+        this.$http.get(`${process.env.NODE_ENV}/feedback/pageList`, param)
+          .then((res) => {
+            if (res.data.code != 200) {
+              this.$message.error(res.data.message);
+              return;
+            }
+            this.teacherRecords = res.data.entity.list;
+            this.page.total = res.data.entity.total;
+            this.page.pageIndex =param.params.pageIndex;
+            /*this.page.pageSize = res.data.entity.pageSize;*/
+
+          }).catch((err) => {
+          this.$message.error(err);
+        });
+      },
+      handleSelectionChange(selection) {
+        // console.log("select change", val);
+        // console.log(val[0].id)
+        this.multipleSelection = selection;
+      },
     }
   }
 </script>
 
 <style scoped="">
-  .curriculumRecovery {
+  .management {
     margin: 2%;
     margin-top: 0px;
     padding-top: 2%;

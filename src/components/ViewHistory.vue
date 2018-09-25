@@ -101,7 +101,7 @@
         <el-table-column prop="time" label="上课时间" :formatter="formatter"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="goPrepare(scope.$index, scope.row)">进入</el-button>
+            <el-button size="mini" @click="goTeaching(scope.$index, scope.row)">进入</el-button>
             <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
@@ -155,8 +155,12 @@
 
         return [year, month, day].join('-') + " " + [hour, min, sec].join(":");
       },
-      goPrepare: function(index, row) {
-        this.$router.push({path: "/homePage/course", query: {"lessonId": row.lessonId}});
+
+      goTeaching: function(index, row) {
+        // this.$router.push({path: "/homePage/course", query: {"lessonId": row.lessonId}});
+
+        this.$router.push({path: "/StartTeachingMaterials", query: {"lessonId": row.lessonId, lessonCode: row.lessonCode}});
+        // StartTeachingMaterials?lessonId=80&lessonCode=XDQ9
       },
       loadTeacherTeachingHistory: function (pageIndex) {
         var param = {

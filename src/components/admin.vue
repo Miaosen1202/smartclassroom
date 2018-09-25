@@ -61,8 +61,8 @@
   }
   .right-main{
     width: 98%;
-    height: 86%;
-    margin-top: 2%;
+    height: 87%;
+    margin-top: 1%;
     margin-left: 2%;
     background-color: #fff;
 

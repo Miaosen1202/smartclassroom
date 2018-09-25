@@ -13,7 +13,7 @@
 
       <el-tooltip class="item" effect="dark" content="Submit the lesson and you can find it in “Manage all lessons”"
                   placement="bottom-end">
-        <el-button size="small" type="warning">Submit</el-button>
+        <el-button size="small" type="warning" @click="lessonPublish">Publish</el-button>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="Delete the lesson and all the data under this lesson."
                   placement="bottom-start">
@@ -64,8 +64,8 @@
         exercisesNumber: 0,
         assignmentNumber: 0,
         entity: {
-          lesson: {lessonName: ""},
-          course: {courseName: ""}
+          lesson: null,
+          course: null
         },//lesson和course
       }
     },
@@ -75,6 +75,21 @@
       this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": this.lessonId}});
     },
     methods: {
+      lessonPublish() {
+        if (this.entity.lesson != null && this.entity.lesson.id) {
+          this.$http.post(`${process.env.NODE_ENV}/lesson/publish/edit`, {"id": this.entity.lesson.id})
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.$message.info("Lesson publish success");
+              } else {
+                this.$message.error(res.data.message);
+              }
+            }).catch((err) => {
+              this.$message.error(err);
+          });
+        }
+      },
+
       showContent(s) {
         if (s == "teaching") {
           this.activeFlag = s;

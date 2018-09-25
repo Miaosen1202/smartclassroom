@@ -36,7 +36,9 @@
                 <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
                   <i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
                 </span>
-                <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">Start the class</p>
+                <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">
+                  {{ lesson.teachingStatus == 1 ? "Go on to class" : "Start the class" }}
+                </p>
 
               </div>
 

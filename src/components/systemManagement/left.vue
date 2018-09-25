@@ -1,11 +1,10 @@
 <template>
   <div id="left">
-    <img style="cursor: pointer" v-on:click="goback()" class="logo"
+    <!--<img style="cursor: pointer" v-on:click="goback()" class="logo"
          src="../../../static/images/pc1.png" width="100%" height="40%" alt="">
     <div>
       <img src="../../../static/images/pc2.png" width="16.5%" alt="" style="position: absolute;top: 15%;left: -2px">
-    </div>
-
+    </div>-->
     <ul>
       <li :class="{active : activeFlag == 'teacherManagement'}" @click="goToteacherManagement('teacherManagement')">
         <el-button type="text" @click="dialogVisible = true">
@@ -23,9 +22,9 @@
       </li><li :class="{active : activeFlag == 'curriculumRecovery'}" @click="goTocurriculumRecovery('curriculumRecovery')">
 
       <P>curriculumRecovery</P>
-    </li><li :class="{active : activeFlag == 'configurationManagement'}" @click="goToconfigurationManagement('configurationManagement')">
+   <!-- </li><li :class="{active : activeFlag == 'configurationManagement'}" @click="goToconfigurationManagement('configurationManagement')">
 
-      <P>configurationManagement</P>
+      <P>configurationManagement</P>-->
     </li><li :class="{active : activeFlag == 'opinionManagement'}" @click="goToopinionManagement('opinionManagement')">
 
       <P>opinionManagement</P>
@@ -65,10 +64,10 @@
         this.activeFlag = s;
         this.$router.push({path:"/admin/curriculumRecovery"});
       },
-      goToconfigurationManagement(s){
+    /*  goToconfigurationManagement(s){
         this.activeFlag = s;
         this.$router.push({path:"/admin/configurationManagement"});
-      },
+      },*/
       goToopinionManagement(s){
         this.activeFlag = s;
          this.$router.push({path:"/admin/opinionManagement"});

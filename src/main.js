@@ -7,11 +7,11 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 import echarts from 'echarts'
+import md5 from 'js-md5';
 
-
-Vue.prototype.$echarts = echarts
-
-Vue.config.productionTip = false
+Vue.prototype.$echarts = echarts;
+Vue.prototype.$md5 = md5;
+Vue.config.productionTip = false;
 var $http = axios.create({
   baseURL: process.env.BASE_API,
   timeout: 5000,

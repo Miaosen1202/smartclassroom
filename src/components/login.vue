@@ -2,15 +2,6 @@
   <div id="all">
     <div id="login">
       <p><img src="../assets/images/u2081.png" alt=""></p>
-      <!--<h5>WEIDONG SMART CLASSROOM</h5>-->
-
-      <!--<div class="account">
-        <input class="form-control" type="text" placeholder="Account Name" v-model="userName" >
-      </div>
-      <div class="password">
-        <input class="form-control" type="password" placeholder="Password" v-model="password">
-      </div>
-        <span  v-on:click="goToLogin()">Login</span> &lt;!&ndash;@click="goToLogin"&ndash;&gt;-->
       <div>
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="TEACHER" name="first">
@@ -42,32 +33,35 @@
               <el-button type="text">Forget your password?</el-button>
             </el-tooltip>
           </el-tab-pane>
-          <el-tab-pane label="角色管理" name="third">角色管理</el-tab-pane>
+          <el-tab-pane label="ADMIN" name="third">
+            <div class="account">
+              <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
+            </div>
+            <div class="password">
+              <input class="form-control" type="password" placeholder="Password" v-model="password">
+            </div>
+            <span v-on:click="goToadmin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
+            <el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"
+                        placement="top" popper-class="test">
+              <el-button type="text">Forget your password?</el-button>
+            </el-tooltip>
+          </el-tab-pane>
         </el-tabs>
       </div>
-
-      <!--<div class="admin">
-        <i data-toggle="tooltip" data-placement="top" title="Please contact the system administrator">Forget your password?</i>
-      </div>-->
-      <!--<el-tooltip class="item admin"  effect="dark" content="Please contact the system administrator" placement="top" popper-class="test">
-        <el-button type="text">Forget your password?</el-button>
-      </el-tooltip>-->
-      <!--<el-tooltip :popper-class="toolTipClass" content="Please contact the system administrator" placement="top">
-        <el-button>Forget your password?</el-button>
-      </el-tooltip>-->
     </div>
   </div>
 </template>
 
 <script>
-
+ /* import crypto from 'crypto'*/
   export default {
     data() {
       return {
         activeName: 'first',
         toolTipClass: 'page-login-toolTipClass',
         userName: "",
-        password: "",
+       /* password: "e10adc3949ba59abbe56e057f20f883e",*/
+        password:"",
         lessonCode:'',
         entity: ""
       }
@@ -79,23 +73,41 @@
       goToLogin: function () {
         var login = {
           "userName": this.userName,
-          "password": this.password,
+          "password": this.$md5(this.password),
         };
         this.$http.post(`${process.env.NODE_ENV}/login`, login)
           .then((res) => {
             if (res.data.code == 200) {
               this.entity = res.data.entity;
               this.$router.push({path: "/navBar"});
+            } else {
+              this.$message.error(res.data.message);
             }
           }).catch((err) => {
-          console.log(err);
+          this.$message.error(err);
         });
-
+      },
+      goToadmin: function () {
+        var login = {
+          "userName": this.userName,
+          "password": this.$md5(this.password),
+        };
+        this.$http.post(`${process.env.NODE_ENV}/login`, login)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.entity = res.data.entity;
+              this.$router.push({path: "/admin/teacherManagement"});
+            } else {
+              this.$message.error(res.data.message)
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        });
       },
       studentslogin:function () {
         var login = {
           "userName": this.userName,
-          "password": this.password,
+          "password": this.$md5(this.password),
           "lessonCode":this.lessonCode
         };
         this.$http.post(`${process.env.NODE_ENV}/login`, login)
@@ -103,9 +115,11 @@
             if (res.data.code == 200) {
               this.entity = res.data.entity;
               this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
+            } else {
+              this.$message.error(res.data.message)
             }
           }).catch((err) => {
-          console.log(err);
+          this.$message.error(err);
         });
 
       }

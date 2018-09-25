@@ -526,6 +526,7 @@
           shareMaterialIds.push(m.id);
         });
         let param = {
+          lessonCode: this.lessonCode,
           ids: shareMaterialIds,
           isShare: 1
         };

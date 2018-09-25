@@ -8,6 +8,7 @@
       <el-button type="primary" @click="loadStudentRecords(1)" size="small" icon="el-icon-search"></el-button>
       <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
       <el-button type="primary" @click="resetPassword" size="mini" style="float: right;margin-left: 1%">重置初始化密码</el-button>
+      <!--<el-button type="primary" @click="getImportModelFile" size="mini" style="float: right;">获取学生导入模板</el-button>-->
       <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;">导入学生数据</el-button>
     </div>
     <div>
@@ -98,7 +99,7 @@
     <!--编辑弹框-->
     <el-dialog
       title="Student information editor"
-      :visible.sync="studentEditDialogVisable"
+      :visible.sync="studentEditDialogVisible"
       width="20%"
       >
       <div class="projectile" style="padding-left: 10%">
@@ -136,16 +137,44 @@
         <el-button type="primary" @click="editStudentSubmit">确 定</el-button>
       </span>
     </el-dialog>
+
+    <!-- 学生导入弹框 -->
+    <el-dialog
+      title="Student Import"
+      :visible.sync="studentImportDialogVisible"
+      width="30%"
+      center>
+
+      <el-upload
+        class="student-data-upload"
+        name="file"
+        with-credentials
+        :file-list="studentDataFileList"
+        :action="getUploadFilePath()"
+        :on-change="handleUploadFileChange"
+        :on-success="handleUploadFileSuccess">
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
+
+      <el-checkbox v-model="overrideExistsStudentNoData">是否覆盖已存在学生编号的数据</el-checkbox>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelImport">取 消</el-button>
+        <el-button type="primary" @click="confirmImport">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
 <script>
+  import util from '@/utils/util'
+
   export default {
     data() {
       return {
         studentMajors: [],
         studentNameSearch: '',
         radio: '0',
-        studentEditDialogVisable: false,
         studentRecords: [],
         multipleSelection: [],
         page: {
@@ -156,12 +185,17 @@
         },
         editStudent: {
 
-        }
+        },
+        studentEditDialogVisible: false,
+        studentImportDialogVisible: false,
+        studentDataFilePath: "",
+        studentDataFileList: [],
+        overrideExistsStudentNoData: false
       }
     },
 
     mounted() {
-        this.loadStudentRecords(this.pageIndex);
+      this.loadStudentRecords(this.pageIndex);
     },
 
     methods: {
@@ -191,8 +225,6 @@
       },
 
       handleSelectionChange(selection) {
-        // console.log("select change", val);
-        // console.log(val[0].id)
         this.multipleSelection = selection;
       },
 
@@ -202,7 +234,7 @@
             if (res.data.code == 200) {
               this.studentMajors = res.data.entity;
 
-              this.studentEditDialogVisable = true;
+              this.studentEditDialogVisible = true;
               this.editStudent = {
                 id: row.id,
                 studentNo: row.studentNo,
@@ -224,7 +256,7 @@
       },
 
       hideStudentEditDialog: function() {
-        this.studentEditDialogVisable = false;
+        this.studentEditDialogVisible = false;
       },
 
       editStudentSubmit: function() {
@@ -305,7 +337,7 @@
       },
 
       goImportStudent: function() {
-
+        this.studentImportDialogVisible =  true;
       },
 
       doDeleteStudent: function (ids) {
@@ -318,6 +350,58 @@
           }).catch((err) => {
           this.$message.error(err);
         });
+      },
+
+      getUploadFilePath: function () {
+        return util.fileUploadPath();
+      },
+
+      handleUploadFileSuccess: function (res, file, fileList) {
+        console.log(res)
+        if (res.code == 200) {
+          this.studentDataFilePath = res.entity.fileTmpName;
+        } else {
+          this.studentDataFileList = [];
+          this.$message.error(res.message);
+        }
+      },
+      handleUploadFileChange: function (file, fileList) {
+        this.studentDataFileList = fileList.slice(-1);
+      },
+      cancelImport: function () {
+        this.studentImportDialogVisible = false;
+        this.studentDataFileList = [];
+      },
+      confirmImport: function () {
+        if (this.studentDataFilePath == "") {
+          this.$message.error("Please upload file");
+          return;
+        }
+
+        let param = {
+          fileName: this.studentDataFilePath,
+          override: this.overrideExistsStudentNoData ? true : null
+        };
+
+        this.$http.post(`${process.env.NODE_ENV}/student/import/edit`, param)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.studentImportDialogVisible = false;
+              this.studentDataFileList = [];
+
+              this.$message.info("Import student data success");
+
+              this.loadStudentRecords(1);
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+           this.$message.error(err);
+        });
+      },
+
+      getImportModelFile: function () {
+        
       }
     }
   }

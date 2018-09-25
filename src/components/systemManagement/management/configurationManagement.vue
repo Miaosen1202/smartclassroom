@@ -1,16 +1,16 @@
 <template>
   <div style="height: 100%;width: 100%;padding: 2%">
-    medin
+
     <div style="float: left;width: 40%;height: 80%">
-      资源修改
+
       <div>
         <ul>
           <li>
-            name:
+            <h4>name:</h4>
             <el-input v-model="input"  size="small" placeholder="请输入内容"></el-input>
           </li>
           <li style="margin-top: 4%">
-            classification:
+            <h4>classification:</h4>
             <el-select v-model="value" size="small" placeholder="请选择" style="display: block">
               <el-option
                 v-for="item in options"
@@ -22,7 +22,7 @@
 
           </li>
           <li style="margin-top: 4%">
-            describe:
+            <h4>describe:</h4>
             <el-input
               type="textarea"
               :autosize="{ minRows: 10, maxRows: 16}"
@@ -34,9 +34,36 @@
 
       </div>
     </div>
-    <div class="replace" >
+    <div class="replace">
+     <h4 style="margin-top: -4%;"> medin</h4>
+      <div >
+       <!-- <el-upload
+          class="upload-demo"
+          action="https://jsonplaceholder.typicode.com/posts/"
+          :on-preview="handlePreview"
+          :on-remove="handleRemove"
+          :before-remove="beforeRemove"
+          multiple
+          :limit="3"
+          :on-exceed="handleExceed"
+          :file-list="fileList">
+          <el-button size="small" type="primary">点击上传</el-button>
+        </el-upload>-->
+        <el-upload
+          class="upload-demo"
+          :action="action"
+          :on-change="handleChange"
+          :on-success="handleSuccess"
+          :with-credentials="true"
+          :file-list="fileList3"
+          style="display: inline-block;margin: 18% 38%;">
+          <img src="../../../../static/images/u550.png" alt="">
+          <el-button type="primary" size="mini" style="float: right;">Replace the file</el-button>
+        </el-upload>
+      </div>
 
     </div>
+    <el-button type="primary" size="mini" style="float: left;margin-left: 70%;">Renew</el-button>
   </div>
 </template>
 
@@ -57,7 +84,14 @@
             }
 
         },
-        methods: {}
+        methods: {
+          handleRemove(file, fileList) {
+            console.log(file, fileList);
+          },
+          handlePreview(file) {
+            console.log(file);
+          },
+        }
     }
 </script>
 
@@ -68,6 +102,7 @@
     width: 56%;
     height: 80%;
     margin-left: 4%;
+    margin-top: 2%;
     border: 1px solid #bbdde5;
     border-radius: 4px;
   }

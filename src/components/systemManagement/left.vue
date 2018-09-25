@@ -22,9 +22,9 @@
       </li><li :class="{active : activeFlag == 'curriculumRecovery'}" @click="goTocurriculumRecovery('curriculumRecovery')">
 
       <P>curriculumRecovery</P>
-    </li><li :class="{active : activeFlag == 'configurationManagement'}" @click="goToconfigurationManagement('configurationManagement')">
+   <!-- </li><li :class="{active : activeFlag == 'configurationManagement'}" @click="goToconfigurationManagement('configurationManagement')">
 
-      <P>configurationManagement</P>
+      <P>configurationManagement</P>-->
     </li><li :class="{active : activeFlag == 'opinionManagement'}" @click="goToopinionManagement('opinionManagement')">
 
       <P>opinionManagement</P>
@@ -64,10 +64,10 @@
         this.activeFlag = s;
         this.$router.push({path:"/admin/curriculumRecovery"});
       },
-      goToconfigurationManagement(s){
+    /*  goToconfigurationManagement(s){
         this.activeFlag = s;
         this.$router.push({path:"/admin/configurationManagement"});
-      },
+      },*/
       goToopinionManagement(s){
         this.activeFlag = s;
          this.$router.push({path:"/admin/opinionManagement"});

@@ -49,7 +49,6 @@
         </li>
       </ul>
     </div>
-
     <!--Delete the lesson and all the data under this lesson.-->
   </div>
 

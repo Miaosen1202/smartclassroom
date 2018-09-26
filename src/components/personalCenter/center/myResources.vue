@@ -105,7 +105,7 @@
         });
       },
       modifyPageSkip:function ()  {
-        this.$router.push({path:"/admin/configurationManagement"});
+        this.$router.push({path:"/personalCenterManagement/modify"});
       },
     }
   }
@@ -118,4 +118,5 @@
     padding-top: 2%;
   }
 </style>
+
 

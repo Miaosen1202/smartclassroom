@@ -1,7 +1,7 @@
 <template>
-  <div>
-    我的意见
-  </div>
+<div>
+  修改
+</div>
 </template>
 
 <script>

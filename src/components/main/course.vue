@@ -27,21 +27,26 @@
 
     <div class="right">
       <ul>
-        <li :class="{active : activeFlag == 'teaching'}" @click="showContent('teaching')">
-          <p><img src="../../assets/images/u1138.png" alt=""></p>
-          <p>Teaching Materials({{materialNumber}})</p>
+        <li :class="{active1 : activeFlag == 'teaching'}" @click="showContent('teaching')" style="background-color: #fff4e3;color:#f17e26">
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">Teaching Materials</p>
+          <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Materials.png" alt=""></p>
+          <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{materialNumber}}</h2>
         </li>
-        <li :class="{active : activeFlag == 'discussion'}" @click="showContent('discussion')">
-          <p><img src="../../assets/images/u1144.png" alt=""></p>
-          <p>Discussion({{discussNumber}})</p>
+        <li :class="{active2 : activeFlag == 'discussion'}" @click="showContent('discussion')" style="background-color: #d8fff5;color:#26be96">
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">Teaching Materials</p>
+          <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Discussion.png" alt=""></p>
+          <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{discussNumber}}</h2>
         </li>
-        <li :class="{active : activeFlag == 'exercises'}" @click="showContent('exercises')">
-          <p><img src="../../assets/images/u1158.png" alt=""></p>
-          <p>Exercises({{exercisesNumber}})</p>
+        <li :class="{active3 : activeFlag == 'exercises'}" @click="showContent('exercises')" style="background-color: #d6e1ff;color:#0138b1">
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width:76%">Exercises</p>
+          <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Exericises.png" alt=""></p>
+          <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{exercisesNumber}}</h2>
         </li>
-        <li :class="{active : activeFlag == 'assignment'}" @click="showContent('assignment')">
-          <p><img src="../../assets/images/u1171.png" alt=""></p>
-          <p>Assignment({{assignmentNumber}})</p>
+        <li :class="{active4 : activeFlag == 'assignment'}" @click="showContent('assignment')" style="background-color: #f2dafc;color:#b10eab">
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width:76%">Assignment</p>
+          <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Assignment.png" alt=""></p>
+          <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{assignmentNumber}}</h2>
+
         </li>
       </ul>
     </div>
@@ -188,11 +193,20 @@
     /* box-shadow:10px 10px 5px #888888;*/
   }
 
-  ul li.active {
+  ul li.active1 {
     /* background-color: #1d4c9e;*/
-    border-left: 4px solid rgba(0, 204, 0, 1);
+    border-left: 4px solid #f17e26;
   }
-
+  ul li.active2 {
+    /* background-color: #1d4c9e;*/
+    border-left: 4px solid #26be96;
+  }ul li.active3 {
+     /* background-color: #1d4c9e;*/
+     border-left: 4px solid #0e38b1;
+   }ul li.active4 {
+      /* background-color: #1d4c9e;*/
+      border-left: 4px solid #b10eab;
+    }
   .right ul li p:first-child {
     padding-top: 8%;
     text-align: center;

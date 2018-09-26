@@ -6,7 +6,7 @@
       <div>
         <ul>
           <li>
-            <h4>name:</h4>
+            <h4 style="color: #333333">name:</h4>
             <el-input v-model="input"  size="small" placeholder="请输入内容"></el-input>
           </li>
           <li style="margin-top: 4%">

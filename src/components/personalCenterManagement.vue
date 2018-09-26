@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import left from './systemManagement/left.vue'
-  import top from './systemManagement/top.vue'
+  import left from './personalCenter/left.vue'
+  import top from './personalCenter/top.vue'
   export default {
     name: 'homePage',
     data () {
@@ -69,4 +69,5 @@
 
   }
 </style>
+
 

@@ -20,7 +20,6 @@
         <el-button size="small" type="primary">Delete</el-button>
       </el-tooltip>
     </div>
-
     <div class="left">
       <router-view></router-view>
     </div>
@@ -69,8 +68,8 @@
         exercisesNumber: 0,
         assignmentNumber: 0,
         entity: {
-          lesson: null,
-          course: null
+          lesson: '',
+          course: ''
         },//lesson和course
       }
     },
@@ -81,7 +80,7 @@
     },
     methods: {
       lessonPublish() {
-        if (this.entity.lesson != null && this.entity.lesson.id) {
+        if (this.entity.lesson != '' && this.entity.lesson.id) {
           this.$http.post(`${process.env.NODE_ENV}/lesson/publish/edit`, {"id": this.entity.lesson.id})
             .then((res) => {
               if (res.data.code == 200) {

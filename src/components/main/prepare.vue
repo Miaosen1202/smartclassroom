@@ -37,7 +37,7 @@
         You have a lesson being edited, continue or quit?
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary" @click="dialogVisible = false">Continue</el-button>
+        <el-button size="medium" type="primary" @click="goContinue()">Continue</el-button>
         <el-button size="medium" @click="dialogVisible = false">Give up</el-button>
       </span>
     </el-dialog>
@@ -46,11 +46,11 @@
       :visible.sync="showCourseDialogVisible"
       width="30%"
       height="200px"
-       >
+    >
       <el-scrollbar style="height: 100%">
-      <div v-for="existCourse in existCourseList">
-        <el-radio v-model="radio" :label="existCourse.id">{{existCourse.courseName}}</el-radio>
-      </div>
+        <div v-for="existCourse in existCourseList">
+          <el-radio v-model="radio" :label="existCourse.id">{{existCourse.courseName}}</el-radio>
+        </div>
       </el-scrollbar>
       <span slot="footer" class="dialog-footer">
         <el-button size="medium" type="primary" @click="sure">OK</el-button>
@@ -61,15 +61,15 @@
 </template>
 
 <script>
-  import eventBus from '../../eventBus'
 
   export default {
     data() {
       return {
         showCourseDialogVisible: false,
-        dialogVisible: true,
+        dialogVisible: false,
         lessonName: "",
         courseName: "",
+        continueLessonId: "",
         existCourseName: "",
         /*existCourseExampleList:[
           {
@@ -88,7 +88,29 @@
       }
     },
     //methods: {}
+    mounted() {
+      this.isShowDialog();
+    },
     methods: {
+      goContinue() {
+        this.$router.push({path: "/homePage/course/addMaterials?lessonId="+ this.continueLessonId})
+      },
+      isShowDialog() {
+        //未发布第一条
+        this.$http.get(`${process.env.NODE_ENV}/lesson/pageList?status=0&pageIndex=1&pageSize=1`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              if (res.data.entity.list.length > 0) {
+                this.continueLessonId = res.data.entity.list[0].id;
+                this.dialogVisible = true;
+              }
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
       showCourseDialog() {
         this.showCourseDialogVisible = true;
         this.existCourseList = this.existCourseExampleList;

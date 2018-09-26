@@ -6,7 +6,6 @@
       <div>
         <input class="form-control step1" type="text" placeholder="please enter" v-model="lessonName">
       </div>
-
     </div>
     <div class="new">
       <h4>step 2:</h4>
@@ -33,13 +32,15 @@
       title="Tips"
       :visible.sync="dialogVisible"
       width="30%">
-      <span>You have a lesson being edited, continue or quit?</span>
+      <span>
+        <img src="../../../static/images/Continuetocourse.png" alt="">
+        You have a lesson being edited, continue or quit?
+      </span>
       <span slot="footer" class="dialog-footer">
         <el-button size="medium" type="primary" @click="dialogVisible = false">Continue</el-button>
         <el-button size="medium" @click="dialogVisible = false">Give up</el-button>
       </span>
     </el-dialog>
-
     <el-dialog
       title="Select Course"
       :visible.sync="showCourseDialogVisible"

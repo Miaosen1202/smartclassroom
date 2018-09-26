@@ -57,7 +57,7 @@
           prop="updateTime"
           label="更新"
           min-width="50%">
-          <template slot-scope="scope">{{ scope.row.updateTime }}</template>
+          <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
         <el-table-column
           prop="status"
@@ -199,6 +199,8 @@
     },
 
     methods: {
+      formatDateTime: util.formatDateTime,
+
       loadStudentRecords: function(pageIndex) {
         var param = {
           params: {

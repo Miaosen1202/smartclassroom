@@ -63,7 +63,12 @@
        /* password: "e10adc3949ba59abbe56e057f20f883e",*/
         password:"",
         lessonCode:'',
-        entity: ""
+        entity: "",
+        identity: {
+          manager: 1,
+          teacher: 2,
+          student: 3
+        }
       }
     },
     methods: {
@@ -78,6 +83,11 @@
         this.$http.post(`${process.env.NODE_ENV}/login`, login)
           .then((res) => {
             if (res.data.code == 200) {
+              if (this.identity.teacher != res.data.entity.identity) {
+                this.$message.error("Login user is not a teacher");
+                return;
+              }
+
               this.entity = res.data.entity;
               this.$router.push({path: "/navBar"});
             } else {
@@ -95,6 +105,11 @@
         this.$http.post(`${process.env.NODE_ENV}/login`, login)
           .then((res) => {
             if (res.data.code == 200) {
+              if (this.identity.manager != res.data.entity.identity) {
+                this.$message.error("Login user is not a manager");
+                return;
+              }
+
               this.entity = res.data.entity;
               this.$router.push({path: "/admin/teacherManagement"});
             } else {
@@ -113,6 +128,11 @@
         this.$http.post(`${process.env.NODE_ENV}/login`, login)
           .then((res) => {
             if (res.data.code == 200) {
+              if (this.identity.student != res.data.entity.identity) {
+                this.$message.error("Login user is not a student");
+                return;
+              }
+
               this.entity = res.data.entity;
               this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
             } else {

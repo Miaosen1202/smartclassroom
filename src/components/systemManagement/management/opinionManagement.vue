@@ -46,6 +46,7 @@
         </el-table-column>
 
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="content"
           label="意见描述"
           min-width="60%">

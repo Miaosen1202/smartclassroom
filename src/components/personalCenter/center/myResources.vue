@@ -6,7 +6,7 @@
       <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
       <el-input v-model="search.materialName" size="small" placeholder="请输入文件名称查询" style="width: 20%"></el-input>
 
-      <el-button type="primary" @click="resourceManagementQuery(1)" size="small" icon="el-icon-search"></el-button>
+      <el-button type="primary" @click="resourceManagementQuery(1)" size="small" icon="el-icon-search" style="background-color: #0138b1;color: #fff"></el-button>
       <!--<el-select v-model="value" size="small" placeholder="请选择">-->
         <!--<el-option-->
           <!--v-for="item in options"-->
@@ -15,8 +15,8 @@
           <!--:value="item.value">-->
         <!--</el-option>-->
       <!--</el-select>-->
-      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
-      <el-button type="primary" @click="goBatchUpload" size="mini" style="float: right;margin-left: 1%">批量上传</el-button>
+      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">批量删除</el-button>
+      <el-button type="primary" @click="goBatchUpload" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">上传文件</el-button>
     </div>
     <div>
       <el-table

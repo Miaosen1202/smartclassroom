@@ -31,8 +31,8 @@
         </el-date-picker>
       </div>
 
-      <el-button type="primary" @click="loadLessonRecords(1)" size="small" icon="el-icon-search"></el-button>
-      <el-button type="primary" @click="batchDelete()" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
+      <el-button type="primary" @click="loadLessonRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
+      <el-button type="primary" @click="batchDelete()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
     </div>
     <div>
       <el-table
@@ -114,7 +114,7 @@
         page: {
           total: 0,
           pageIndex: 1,
-          pageSize: 10,
+          pageSize: 5,
           pageNumber: 5
         },
         value: '',

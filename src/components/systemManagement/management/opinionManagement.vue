@@ -75,7 +75,7 @@
           prop="updateTime"
           label="处理时间"
           min-width="60%">
-          <template slot-scope="scope">{{ formatDateTime(scope.row.createTime) }}</template>
+          <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
 
 

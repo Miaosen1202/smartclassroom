@@ -13,39 +13,42 @@
 
       <el-tooltip class="item" effect="dark" content="Submit the lesson and you can find it in “Manage all lessons”"
                   placement="bottom-end">
-        <el-button size="small" type="warning" @click="lessonPublish">Publish</el-button>
+        <el-button style="background-color: #0e38b1;border: 1px solid #0e38b1;color: #fff" size="small"  @click="lessonPublish">Publish</el-button>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="Delete the lesson and all the data under this lesson."
                   placement="bottom-start">
-        <el-button size="small" type="primary">Delete</el-button>
+        <el-button size="small">Delete</el-button>
       </el-tooltip>
     </div>
-
     <div class="left">
       <router-view></router-view>
     </div>
 
     <div class="right">
       <ul>
-        <li :class="{active : activeFlag == 'teaching'}" @click="showContent('teaching')">
-          <p><img src="../../assets/images/u1138.png" alt=""></p>
-          <p>Teaching Materials({{materialNumber}})</p>
+        <li :class="{active1 : activeFlag == 'teaching'}" @click="showContent('teaching')" style="background-color: #fff4e3;color:#f17e26">
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">Teaching Materials</p>
+          <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Materials.png" alt=""></p>
+          <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{materialNumber}}</h2>
         </li>
-        <li :class="{active : activeFlag == 'discussion'}" @click="showContent('discussion')">
-          <p><img src="../../assets/images/u1144.png" alt=""></p>
-          <p>Discussion({{discussNumber}})</p>
+        <li :class="{active2 : activeFlag == 'discussion'}" @click="showContent('discussion')" style="background-color: #d8fff5;color:#26be96">
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">Discussion</p>
+          <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Discussion.png" alt=""></p>
+          <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{discussNumber}}</h2>
         </li>
-        <li :class="{active : activeFlag == 'exercises'}" @click="showContent('exercises')">
-          <p><img src="../../assets/images/u1158.png" alt=""></p>
-          <p>Exercises({{exercisesNumber}})</p>
+        <li :class="{active3 : activeFlag == 'exercises'}" @click="showContent('exercises')" style="background-color: #d6e1ff;color:#0138b1">
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width:76%">Exercises</p>
+          <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Exericises.png" alt=""></p>
+          <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{exercisesNumber}}</h2>
         </li>
-        <li :class="{active : activeFlag == 'assignment'}" @click="showContent('assignment')">
-          <p><img src="../../assets/images/u1171.png" alt=""></p>
-          <p>Assignment({{assignmentNumber}})</p>
+        <li :class="{active4 : activeFlag == 'assignment'}" @click="showContent('assignment')" style="background-color: #f2dafc;color:#b10eab">
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width:76%">Assignment</p>
+          <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Assignment.png" alt=""></p>
+          <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{assignmentNumber}}</h2>
+
         </li>
       </ul>
     </div>
-
     <!--Delete the lesson and all the data under this lesson.-->
   </div>
 
@@ -64,8 +67,8 @@
         exercisesNumber: 0,
         assignmentNumber: 0,
         entity: {
-          lesson: null,
-          course: null
+          lesson: '',
+          course: ''
         },//lesson和course
       }
     },
@@ -73,10 +76,66 @@
       this.getDetailByLessonId();
       // this.$router.push({path: "/homePage/course/teachingMaterials", query: {"lessonId": this.lessonId}});
       this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": this.lessonId}});
+      this.materialNumberLoad();
+      this.discussNumberLoad();
+      this.exercisesNumberLoad();
+      this.assignmentNumberLoad();
     },
     methods: {
+      assignmentNumberLoad() {
+        this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/statistic/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.assignmentNumber = res.data.entity;
+            }else{
+              console.log(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
+      exercisesNumberLoad() {
+        this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/statistic/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.exercisesNumber = res.data.entity;
+            }else{
+              console.log(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
+      discussNumberLoad() {
+        this.$http.get(`${process.env.NODE_ENV}/classDiscuss/statistic/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.discussNumber = res.data.entity;
+            }else{
+              console.log(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
+      materialNumberLoad() {
+        this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/statistic/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.materialNumber = res.data.entity;
+            }else{
+              console.log(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
       lessonPublish() {
-        if (this.entity.lesson != null && this.entity.lesson.id) {
+        if (this.entity.lesson != '' && this.entity.lesson.id) {
           this.$http.post(`${process.env.NODE_ENV}/lesson/publish/edit`, {"id": this.entity.lesson.id})
             .then((res) => {
               if (res.data.code == 200) {
@@ -128,7 +187,7 @@
          });*/
       },
     },
-    components: {}
+    components: {},
   }
 </script>
 
@@ -188,11 +247,20 @@
     /* box-shadow:10px 10px 5px #888888;*/
   }
 
-  ul li.active {
+  ul li.active1 {
     /* background-color: #1d4c9e;*/
-    border-left: 4px solid rgba(0, 204, 0, 1);
+    border-left: 4px solid #f17e26;
   }
-
+  ul li.active2 {
+    /* background-color: #1d4c9e;*/
+    border-left: 4px solid #26be96;
+  }ul li.active3 {
+     /* background-color: #1d4c9e;*/
+     border-left: 4px solid #0e38b1;
+   }ul li.active4 {
+      /* background-color: #1d4c9e;*/
+      border-left: 4px solid #b10eab;
+    }
   .right ul li p:first-child {
     padding-top: 8%;
     text-align: center;

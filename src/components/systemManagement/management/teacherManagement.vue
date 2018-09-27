@@ -1,14 +1,14 @@
 <template>
   <div class="management">
-    教师管理
+    {{$t('message.TeacherManagement')}}
 
     <div>
       <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
       <el-input v-model="teacherNameSearch" size="small" placeholder="请输入内容" style="width: 20%;margin-left: 1%"></el-input>
       <el-button @click="loadTeacherRecords(1)" type="primary" size="small" icon="el-icon-search"></el-button>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">重置初始化密码</el-button>
-
-      <el-upload
+      <el-button @click="resetPassword" type="primary" size="mini" style="float: right;margin-left: 1%">重置初始化密码</el-button>
+      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;">导入老师数据</el-button>
+      <!--<el-upload
         class="upload-demo"
         :action="action"
         :on-change="handleChange"
@@ -17,7 +17,7 @@
         :file-list="fileList3"
         style="display: inline-block;float: right;">
         <el-button type="primary" size="mini" style="float: right;">导入教师数据</el-button>
-      </el-upload>
+      </el-upload>-->
     </div>
     <div>
       <el-table
@@ -43,7 +43,7 @@
           <template slot-scope="scope">
             <el-button size="mini" @click="editTeacher(scope.$index, scope.row)">{{ scope.row.status == 1 ? "禁用" : "启用" }}</el-button>
             <el-button size="mini" @click="showStudentEditDialog(scope.$index, scope.row)" >编辑</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" type="danger"  @click="deleteStudent(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -96,10 +96,36 @@
   </span>
       </el-dialog>
     </div>
+    <!-- 学生导入弹框 -->
+    <el-dialog
+      title="Student Import"
+      :visible.sync="studentImportDialogVisible"
+      width="30%"
+      center>
+
+      <el-upload
+        class="student-data-upload"
+        name="file"
+        with-credentials
+        :file-list="studentDataFileList"
+        :action="getUploadFilePath()"
+        :on-change="handleUploadFileChange"
+        :on-success="handleUploadFileSuccess">
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
+
+      <el-checkbox v-model="overrideExistsStudentNoData">是否覆盖已存在老师编号的数据</el-checkbox>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="cancelImport">取 消</el-button>
+        <el-button type="primary" @click="confirmImport">确 定</el-button>
+      </span>
+    </el-dialog>
+
   </div>
 </template>
-<!--教师分页查询/teacher/pageList-->
 <script>
+  import util from '@/utils/util'
   export default {
     data() {
       return {
@@ -114,14 +140,18 @@
           pageNumber: 5
         },
         isSubmit: 1,
-        fileList3: [],
-        action: process.env.NODE_ENV + '/teacher/import/edit',
+        /*action: process.env.NODE_ENV + '/teacher/import/edit',*/
         exercises: {},
         questionType: '1',
         teacherRecords: [],
         tableData: [],
         multipleSelection: [],
         editStudent: {},
+        studentEditDialogVisible: false,
+        studentImportDialogVisible: false,
+        studentDataFilePath: "",
+        studentDataFileList: [],
+        overrideExistsStudentNoData: false
       }
     },
     mounted() {
@@ -129,25 +159,6 @@
     },
     methods: {
 
-
-
-      /*教师数据导入*/
-     /* teacherManagementQuery: function () {
-        this.$http.get(`${process.env.NODE_ENV}/teacher/pageList`,)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.teacherManagementList = res.data.entity.list;
-              this.total = res.data.entity.total;
-              this.currentPage = res.data.entity.pageIndex;
-              this.pages = (res.data.entity.total) % (res.data.entity.pageSize) == 0 ?
-                (res.data.entity.total) / (res.data.entity.pageSize) :
-                (res.data.entity.total) / (res.data.entity.pageSize) + 1;
-              this.pageSize = res.data.entity.pageSize;
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
-      },*/
 
       loadTeacherRecords: function(pageIndex) {
         var param = {
@@ -170,7 +181,6 @@
             this.page.total = res.data.entity.total;
             this.page.pageIndex =param.params.pageIndex;
             /*this.page.pageSize = res.data.entity.pageSize;*/
-
           }).catch((err) => {
           this.$message.error(err);
         });
@@ -246,40 +256,108 @@
         });
       },
       /*教师数据导入*/
-      cancelCreateDiscuss: function() {
-        this.createPanelShow = false;
-        this.discussContent = "",
-        this.fileList3 = [];
-        this.attachments = [];
-        this.editDiscussId = undefined;
-        this.showDiscussListPanel = this.discussionList.length > 0;
+      goImportStudent: function() {
+        this.studentImportDialogVisible =  true;
       },
-      goToAddDiscussion: function() {
-        this.showDiscussListPanel = true;
-        this.createPanelShow = true;
-      },
-      createPanelToggle: function(){
-        this.createPanelShow = !this.createPanelShow;
+      getUploadFilePath: function () {
+        return util.fileUploadPath();
       },
 
-
-      handleChange(file, fileList) {
-        this.fileList3 = fileList;
-      },
-
-      handleSuccess(res, file) {
-        console.log(res);
+      handleUploadFileSuccess: function (res, file, fileList) {
+        console.log(res)
         if (res.code == 200) {
-          this.fileEntity = res.entity;
+          this.studentDataFilePath = res.entity.fileTmpName;
+        } else {
+          this.studentDataFileList = [];
+          this.$message.error(res.message);
         }
       },
-      handleEdit(index, row) {
-        console.log(index, row);
+      handleUploadFileChange: function (file, fileList) {
+        this.studentDataFileList = fileList.slice(-1);
       },
-      handleDelete(index, row) {
-        console.log(index, row);
+      cancelImport: function () {
+        this.studentImportDialogVisible = false;
+        this.studentDataFileList = [];
+      },
+      confirmImport: function () {
+        if (this.studentDataFilePath == "") {
+          this.$message.error("Please upload file");
+          return;
+        }
+
+        let param = {
+          fileName: this.studentDataFilePath,
+          override: this.overrideExistsStudentNoData ? true : null
+        };
+
+        this.$http.post(`${process.env.NODE_ENV}/teacher/import/edit`, param)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.studentImportDialogVisible = false;
+              this.studentDataFileList = [];
+
+              this.$message.info("Import student data success");
+              this.loadTeacherRecords(1);
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        });
       },
 
+      /*handleEdit(index, row) {
+        console.log(index, row);
+      },*/
+      deleteStudent(index, row) {
+        this.doDeleteStudent([row.id]);
+      },
+      /*batchDelete: function () {
+        if (this.multipleSelection.length == 0) {
+          this.$message.error("Please select at least one row of data");
+          return;
+        }
+
+        let ids = [];
+        for (let i = 0; i < this.multipleSelection.length; i++) {
+          ids.push(this.multipleSelection[i].id);
+        }
+
+        this.doDeleteStudent(ids);
+      },*/
+      doDeleteStudent: function (ids) {
+        this.$http.post(`${process.env.NODE_ENV}/teacher/deletes`, ids)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.$message.info("Delete success");
+              this.loadTeacherRecords(this.page.pageIndex);
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        });
+      },
+      resetPassword: function() {
+        if (this.multipleSelection.length == 0) {
+          this.$message.error("Please select at least one row of data");
+          return;
+        }
+
+        let ids = [];
+        for (let i = 0; i < this.multipleSelection.length; i++) {
+          ids.push(this.multipleSelection[i].id);
+        }
+
+        this.$http.post(`${process.env.NODE_ENV}/user/resetPassword/edit`, {userIds: ids})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.$message.info("Reset user password success")
+            } else {
+              this.$message.error("Reset user password fail: " + res.data.message);
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        });
+      },
     }
   }
 </script>

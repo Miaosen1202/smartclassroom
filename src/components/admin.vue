@@ -1,12 +1,13 @@
 <template>
   <div id="all">
+    <div class="right-top">
+      <top></top>
+    </div>
     <div class="left">
       <left></left>
     </div>
     <div class="right">
-      <div class="right-top">
-        <top></top>
-      </div>
+
       <div class="right-main">
         <router-view></router-view>
       </div>
@@ -43,13 +44,13 @@
   }
   .left{
     width: 18%;
-    height: 100%;
+    height: 88%;
     float: left;
-    background-color: #2a58ab;
+    background-color: #0138b1;
   }
   .right {
     width: 82%;
-    height: 100%;
+    height: 90%;
     /* background-color: blue;*/
     float: left;
   }
@@ -61,7 +62,7 @@
   }
   .right-main{
     width: 98%;
-    height: 87%;
+    height: 96%;
     margin-top: 1%;
     margin-left: 2%;
     background-color: #fff;

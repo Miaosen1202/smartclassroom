@@ -8,6 +8,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import axios from 'axios'
 import echarts from 'echarts'
 import md5 from 'js-md5';
+/*import locale from 'element-ui/lib/locale/lang/en'*/
+import i18n from './i18n/i18n';
+
 
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$md5 = md5;
@@ -32,12 +35,13 @@ const service = axios.create({
   // "Content-Type": "application/x-www-form-urlencoded"
   // },
   withCredentials: true // 允许携带cookie
-});*/
+});*
 
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  i18n,
   components: { App },
   template: '<App/>'
 })

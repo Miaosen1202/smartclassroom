@@ -9,25 +9,35 @@
       <li :class="{active : activeFlag == 'teacherManagement'}" @click="goToteacherManagement('teacherManagement')">
         <el-button type="text" @click="dialogVisible = true">
 
-          <p>teacherManagement</p>
+          <p>
+            <img src="../../../static/images/Teache.png" alt="">
+            teacherManagement</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'studentManagement'}" @click="goTostudentManagement('studentManagement')">
 
-        <P>studentManagement</P>
+        <P>
+          <img src="../../../static/images/Student.png" alt="">
+          studentManagement</P>
       </li>
       <li :class="{active : activeFlag == 'resourceManagement'}" @click="goToresourceManagement('resourceManagement')">
 
-        <P>resourceManagement</P>
+        <P>
+          <img src="../../../static/images/Resource.png" alt="">
+          resourceManagement</P>
       </li><li :class="{active : activeFlag == 'curriculumRecovery'}" @click="goTocurriculumRecovery('curriculumRecovery')">
 
-      <P>curriculumRecovery</P>
+      <P>
+        <img src="../../../static/images/CurriculumRecovery.png" alt="">
+        curriculumRecovery</P>
    <!-- </li><li :class="{active : activeFlag == 'configurationManagement'}" @click="goToconfigurationManagement('configurationManagement')">
 
       <P>configurationManagement</P>-->
     </li><li :class="{active : activeFlag == 'opinionManagement'}" @click="goToopinionManagement('opinionManagement')">
 
-      <P>opinionManagement</P>
+      <P>
+        <img src="../../../static/images/OpinionManagement.png" alt="">
+        opinionManagement</P>
     </li>
     </ul>
     <!--<span>
@@ -90,18 +100,21 @@
   }*/
   }
   ul li {
-    text-align: center;
+    text-align: left;
     display: block;
     width: 100%;
-    height: 10%;
+    height: 20%;
     /*border: 1px solid #ccc;*/
     cursor: pointer;
-    color: #fff;
-    padding-top: 5%;
+    color: #c3c7d5;
+    padding-top: 12%;
     margin-top: 10%;
+    padding-left: 10%;
+
   }
   ul li.active{
-    background-color: #1d4c9e;
+    background-color: #144efc;
+    color: #fff;
 
   }
   .logo {

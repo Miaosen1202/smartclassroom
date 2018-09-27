@@ -4,7 +4,7 @@
       <div v-on:click="goback()" style="display: inline-block">
         <img src="../../static/images/pclogo.png" alt="" width="100" height="50" style="cursor: pointer;vertical-align: middle">
       </div>
-      <p style="cursor: pointer" v-on:click="goback()">Welcome Matthew !</p>
+      <p style="cursor: pointer" v-on:click="goback()">{{$t('message.text')}}</p>
       <span @click="dialogFormVisible = true" class="password">Modify Password</span>
       <p v-on:click="backlogin" style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">

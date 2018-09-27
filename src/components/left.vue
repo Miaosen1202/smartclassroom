@@ -1,16 +1,16 @@
 <template>
   <div id="left">
-    <img style="cursor: pointer" v-on:click="goback()" class="logo"
-         src="../assets/images/u164.png" width="80%" alt="">
+    <!--<img style="cursor: pointer" v-on:click="goback()" class="logo"
+         src="../assets/images/u164.png" width="80%" alt="">-->
     <ul>
       <li :class="{active : activeFlag == 'prepare'}" @click="goToFirst('prepare')">
         <el-button type="text" @click="dialogVisible = true">
-        <img src="../assets/images/ui1.png"  alt="">
+        <img src="../../static/images/Preparealesson.png"  alt="">
         <p>Prepare a lesson</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'second'}" @click="goToSecond('second')">
-        <img src="../assets/images/ui.png"  alt="">
+        <img src="../../static/images/Manangealllessons.png"  alt="">
         <P>Manage all lessons</P>
       </li>
 
@@ -65,16 +65,17 @@
     text-align: center;
     display: block;
     width: 100%;
-    height: 24%;
+    height: 40%;
     /*border: 1px solid #ccc;*/
     margin-bottom: 30%;
     cursor: pointer;
-    color: #fff;
-    padding-top: 5%;
+    color: #c3c7d5;
+    padding-top: 16%;
     margin-top: 10%;
   }
   ul li.active{
-    background-color: #1d4c9e;
+    background-color: #144efc;
+    color: #fff;
 
   }
   .logo {

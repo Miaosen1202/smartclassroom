@@ -4,12 +4,12 @@
       <!--<p>增加练习 第一个页面 </p>
       <p>There is no exercises yet.</p>-->
       <div class="order">
-        <el-button size="small" type="primary">
-          <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align: middle"></p>
+        <el-button size="medium" type="primary">
+          <!--<p><img src="../../../assets/images/u60.png" alt="" style="vertical-align: middle"></p>-->
           <p>Create a Exercises</p>
         </el-button>
         <!--<el-button type="warning">Order</el-button>-->
-        <el-button size="medium" class="list btn" type="warning" @click="showExercisesDialog">Order</el-button>
+        <el-button size="medium" class="list btn" type="primary" @click="showExercisesDialog">Order</el-button>
       </div>
       <!--新增exercises开始-->
       <div class="exercises" v-show="showAdd">

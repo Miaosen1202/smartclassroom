@@ -4,7 +4,7 @@
 
     <div>
       <p style="display: inline-block">总数量</p>：<span>20</span>
-      <el-input v-model="input" size="small" placeholder="请输入学生姓名查询" style="width: 20%"></el-input>
+      <el-input v-model="teacherNameSearch" size="small" placeholder="请输入学生姓名查询" style="width: 20%"></el-input>
       <el-select v-model="value" size="small" placeholder="请选择">
         <el-option
           v-for="item in options"
@@ -13,8 +13,9 @@
           :value="item.value">
         </el-option>
       </el-select>
+      <el-button @click="loadTeacherRecords(1)" type="primary" size="small" icon="el-icon-search"></el-button>
       <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量上传</el-button>
+      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">上传文件</el-button>
     </div>
     <div>
       <el-table
@@ -47,37 +48,44 @@
     <div style="position: absolute;bottom: 8%;left: 44%">
       <el-pagination
         background
+        :page-size="page.pageSize"
+        :page-count="page.pageNumber"
+        :current-page="page.pageIndex"
         layout="prev, pager, next"
-        :total=total>
+        :total="page.total"
+        @current-change="resourceManagementQuery">
       </el-pagination>
     </div>
 
   </div>
 </template>
-<!--教师分页查询/teacher/pageList-->
+
 <script>
   export default {
     data() {
       return {
         input:'',
-        pageSize: 1,//页大小
-        currentPage: 1,//当前页
-        pages: 0,//总页数
-        total: 0,//总条数
+        page: {
+          total: 0,
+          pageIndex: 1,
+          pageSize: 5,
+          pageNumber: 5
+        },
+        teacherNameSearch: '',
         resourceManagementList: [],
         multipleSelection: [],
         options: [{
           value: '选项1',
-          label: '黄金糕'
+          label: '1'
         },  {
           value: '选项2',
-          label: '北京烤鸭'
+          label: '2'
         }],
         value: ''
       }
     },
     mounted() {
-      this.resourceManagementQuery();
+      this.resourceManagementQuery(this.pageIndex);
     },
     methods: {
       handleSelectionChange(val) {
@@ -87,21 +95,29 @@
       handleDelete(index, row) {
         console.log(index, row);
       },
-      resourceManagementQuery: function () {
+      resourceManagementQuery: function(pageIndex) {
+        var param = {
+          params: {
+            pageIndex: (typeof pageIndex == "undefined") ? this.page.pageIndex : pageIndex,
+            pageSize: this.page.pageSize
+          }
+        };
+        if (this.teacherNameSearch && this.teacherNameSearch.trim()) {
+          param.params.name = this.teacherNameSearch;
+        }
 
-        this.$http.get(`${process.env.NODE_ENV}/materialBank/pageList`,)
+        this.$http.get(`${process.env.NODE_ENV}/materialBank/pageList`, param)
           .then((res) => {
-            if (res.data.code == 200) {
-              this.resourceManagementList = res.data.entity.list;
-              this.total = res.data.entity.total;
-              this.currentPage = res.data.entity.pageIndex;
-              this.pages = (res.data.entity.total) % (res.data.entity.pageSize) == 0 ?
-                (res.data.entity.total) / (res.data.entity.pageSize) :
-                (res.data.entity.total) / (res.data.entity.pageSize) + 1;
-              this.pageSize = res.data.entity.pageSize;
+            if (res.data.code != 200) {
+              this.$message.error(res.data.message);
+              return;
             }
+            this.teacherRecords = res.data.entity.list;
+            this.page.total = res.data.entity.total;
+            this.page.pageIndex =param.params.pageIndex;
+            /*this.page.pageSize = res.data.entity.pageSize;*/
           }).catch((err) => {
-          console.log(err);
+          this.$message.error(err);
         });
       },
       modifyPageSkip:function ()  {

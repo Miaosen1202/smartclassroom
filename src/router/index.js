@@ -34,6 +34,11 @@ import resourceManagement from '@/components/systemManagement/management/resourc
 import curriculumRecovery from '@/components/systemManagement/management/curriculumRecovery'
 import configurationManagement from '@/components/systemManagement/management/configurationManagement'
 import opinionManagement from '@/components/systemManagement/management/opinionManagement'
+import personalCenterManagement from '@/components/personalCenterManagement'
+import myCourse from '@/components/personalCenter/center/myCourse'
+import myOpinion from '@/components/personalCenter/center/myOpinion'
+import myResources from '@/components/personalCenter/center/myResources'
+import modify from '@/components/personalCenter/center/modify'
 
 
 
@@ -180,6 +185,28 @@ export default new Router({
         {
           path: 'opinionManagement',
           component: opinionManagement,
+        },
+      ]
+    },
+    {
+      path: '/personalCenterManagement',
+      component: personalCenterManagement,
+      children: [
+        {
+          path: 'myCourse',
+          component: myCourse,
+        },
+        {
+          path: 'myOpinion',
+          component: myOpinion,
+        },
+        {
+          path: 'myResources',
+          component: myResources,
+        },
+        {
+          path: 'modify',
+          component: modify,
         },
       ]
     },

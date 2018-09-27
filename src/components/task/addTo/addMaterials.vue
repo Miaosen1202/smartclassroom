@@ -5,7 +5,7 @@
       <div class="no-material">
         <p><img src="../../../assets/images/u768.png" alt=""></p>
         <p>There is no teaching materials yet.</p>
-        <el-button size="medium" type="primary" @click="goToAddMaterials">
+        <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddMaterials">
           <img src="../../../assets/images/u60.png" alt="">
         </el-button>
       </div>
@@ -15,19 +15,19 @@
       <el-scrollbar >
 
         <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
-                     @change="handleCheckAllChange">全选</el-checkbox>
+                     @change="handleCheckAllChange">All</el-checkbox>
 
         <div class="check">
+          <el-button size="small"  @click="handleMaterialRemove"  >
+           <!-- <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">-->
+            Delete
+          </el-button>
           <!--<el-button size="small" type="primary" @click="goViewMaterialBank">-->
             <!--<img src="../../../assets/images/u60.png" alt="">More-->
           <!--</el-button>-->
-          <el-button size="small" type="primary" @click="copyToClike">
-            <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">
+          <el-button size="small" type="primary" @click="copyToClike" style="background-color: #f17e26;border: none">
+            <img src="../../../../static/images/COPYTO.png"  alt="" width="20px" height="15px" >
             Copy To
-          </el-button>
-          <el-button size="small" type="primary" @click="handleMaterialRemove">
-            <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">
-            Delete
           </el-button>
         </div>
 
@@ -40,8 +40,8 @@
           :on-change="handleChange"
           :on-success="handleFileUploadSuccess"
         >
-          <el-button size="small" type="primary" @click="addshowUplond">
-            <img src="../../../assets/images/u60.png" alt="">
+          <el-button size="small" type="primary" @click="addshowUplond" style="background-color: #26b196">
+            <img src="../../../../static/images/UPLOAD.png" height="15px"  alt="">
             Upload
           </el-button>
 

@@ -42,11 +42,19 @@
             <div class="password">
               <input class="form-control" type="password" placeholder="Password" v-model="password">
             </div>
+<<<<<<< HEAD
             <el-tooltip style="float: right" class="item admin" effect="dark" content="Please contact the system administrator"
                         placement="top" popper-class="test">
               <el-button type="text">Forget your password?</el-button>
             </el-tooltip>
             <el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
+=======
+            <span v-on:click="goToadmin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
+            <!--<el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"-->
+                        <!--placement="top" popper-class="test">-->
+              <!--<el-button type="text">Forget your password?</el-button>-->
+            <!--</el-tooltip>-->
+>>>>>>> 21519fd2a694eacc0ac56b3f304863b95abfe688
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -55,6 +63,8 @@
 </template>
 
 <script>
+  import util from '../utils/util'
+
  /* import crypto from 'crypto'*/
   export default {
     data() {
@@ -77,6 +87,7 @@
       handleClick(tab, event) {
         console.log(tab, event);
       },
+
       goToLogin: function () {
         var login = {
           "userName": this.userName,
@@ -89,6 +100,8 @@
                 this.$message.error("Login user is not a teacher");
                 return;
               }
+
+              util.storeLoginUser(res.data.entity);
 
               this.entity = res.data.entity;
               this.$router.push({path: "/homePage/prepare"});
@@ -112,6 +125,8 @@
                 return;
               }
 
+              util.storeLoginUser(res.data.entity);
+
               this.entity = res.data.entity;
               this.$router.push({path: "/admin/teacherManagement"});
             } else {
@@ -134,6 +149,8 @@
                 this.$message.error("Login user is not a student");
                 return;
               }
+
+              util.storeLoginUser(res.data.entity);
 
               this.entity = res.data.entity;
               this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});

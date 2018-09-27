@@ -224,8 +224,11 @@
             this.page.total = res.data.entity.total;
             this.page.pageIndex = res.data.entity.pageIndex;
             this.page.pageSize = res.data.entity.pageSize;
+
+            return true;
           }).catch((err) => {
             this.$message.error(err);
+            return false;
         });
       },
 

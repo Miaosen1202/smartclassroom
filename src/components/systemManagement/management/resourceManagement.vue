@@ -4,7 +4,7 @@
 
     <div>
       <p style="display: inline-block">总数量</p>：<span>20</span>
-      <el-input v-model="search.materialName" size="small" placeholder="请输入学生姓名查询" style="width: 20%"></el-input>
+      <el-input v-model="search.materialName" size="small" placeholder="请输入资源名称" style="width: 20%"></el-input>
       <el-select v-model="search.materialType" size="small" placeholder="请选择">
         <el-option
           v-for="item in options"
@@ -15,13 +15,14 @@
       </el-select>
       <el-button @click="resourceManagementQuery(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
       <el-button type="primary" size="mini" @click="batchDelete" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">上传文件</el-button>
+      <el-button type="primary" size="mini" @click="goBatchUpload" style="float: right;margin-left: 1%;background-color: #0138b1;">上传文件</el-button>
     </div>
     <div>
       <el-table
         ref="multipleTable"
         :data="resourceManagementList"
         tooltip-effect="dark"
+
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
@@ -56,7 +57,31 @@
         @current-change="resourceManagementQuery">
       </el-pagination>
     </div>
+    <!-- 批量上传面板 -->
+    <el-dialog
+      title="批量上传"
+      :visible.sync="batchUploadDialogVisible"
+      width="30%"
+      @close="batchUploadDialogClosed"
+    >
 
+      <el-upload
+        class="material-batch-upload"
+        name="file"
+        :file-list="fileList"
+        :action="fileUploadPath"
+        with-credentials
+        :on-change="handleFileChange"
+        :on-remove="removeFile"
+        :on-success="handleFileUploadSuccess">
+        <el-button size="small" type="primary">点击上传</el-button>
+      </el-upload>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="batchUploadDialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="batchUpload">保 存</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -65,6 +90,11 @@
     data() {
       return {
         input:'',
+        batchUploadDialogVisible: false,
+        fileUploadPath: `${process.env.NODE_ENV}/file/upload`,
+        fileList: [],
+       addMaterials : [],
+
         page: {
           total: 0,
           pageIndex: 1,
@@ -98,6 +128,14 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
+      batchUploadDialogClosed: function () {
+        this.addMaterials = [];
+        this.fileList = [];
+      },
+      goBatchUpload: function () {
+        this.batchUploadDialogVisible = true;
+      },
+
       batchDelete: function () {
         if (this.multipleSelection.length == 0) {
           this.$message.error("Please select at least one row of data");
@@ -161,6 +199,51 @@
         //     }
         //   });
       },
+
+      handleFileChange: function (file, fileList) {
+        console.log("upload change", file);
+        console.log("upload change", fileList);
+      },
+
+      handleFileUploadSuccess: function (resp, file, fileList) {
+        if (resp.code == 200) {
+          var newMaterial = {
+            materialName: resp.entity.fileOriginName,
+            localPath: resp.entity.fileTmpName,
+          };
+
+          this.addMaterials.push(newMaterial);
+        } else if (resp.code == 300) {
+          this.$message.error(resp.message);
+          this.$router.push("/");
+        } else {
+          this.$message.error(resp.message);
+        }
+      },
+
+      batchUpload: function () {
+        if (this.addMaterials.length <= 0) {
+          this.$message.error("Please upload file first");
+          return;
+        }
+
+        this.$http.post(`${process.env.NODE_ENV}/materialBank/batchUpload/edit`, this.addMaterials)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.batchUploadDialogVisible = false;
+              this.addMaterials = [];
+
+              this.resourceManagementQuery();
+            } else if (res.data.code == 300) {
+              this.$message.error(res.data.message);
+              this.$router.push("/");
+            } else {
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        });
+      }
     }
   }
 </script>

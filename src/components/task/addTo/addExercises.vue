@@ -296,14 +296,12 @@
       },
       moveDownBtnHandler() {
         let index = this.getIndex();
-        console.log(index);
         this.swapArray(this.existExercisesList, index, index + 1)
         this.resetSort()
         this.handleCurrentChange(this.currentRow)
       },
       swapArray(arr, index1, index2) {
         arr[index1] = arr.splice(index2, 1, arr[index1])[0];
-        return arr;
       },
       getIndex() {
         let currentRowIndex = null;
@@ -325,7 +323,6 @@
         console.log(params.ids);
         this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/resetSort/edit`, params.ids)
           .then((res) => {
-            console.log(res);
             if (res.code == 200) {
               this.existExercisesList = res.entity;
             }
@@ -406,11 +403,8 @@
           analysis: this.analysis,
           options: queryOptions
         };
-        console.log(exercises);
-
         this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/add`, exercises)
           .then((res) => {
-
             if (res.data.code == 200) {
               this.questionType = 1;
               this.questionTitle = "";

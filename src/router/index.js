@@ -103,22 +103,24 @@ export default new Router({
         {
           path: 'second',
           component: second
-        }
+        },
+        {
+          path: 'goTeach',
+          component: goTeach,
+        },
+        {
+          path: 'ViewHistory',
+          component: ViewHistory,
+        },
 
       ]
     },
-    {
-      path: '/goTeach',
-      component: goTeach,
-    },
+
     {
       path: '/StartTeachingMaterials',
       component: StartTeachingMaterials,
     },
-    {
-      path: '/ViewHistory',
-      component: ViewHistory,
-    },
+
     {
       path: '/LearningHomework',
       component: LearningHomework,

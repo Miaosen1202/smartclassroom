@@ -41,10 +41,10 @@
               <input class="form-control" type="password" placeholder="Password" v-model="password">
             </div>
             <span v-on:click="goToadmin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
-            <el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"
-                        placement="top" popper-class="test">
-              <el-button type="text">Forget your password?</el-button>
-            </el-tooltip>
+            <!--<el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"-->
+                        <!--placement="top" popper-class="test">-->
+              <!--<el-button type="text">Forget your password?</el-button>-->
+            <!--</el-tooltip>-->
           </el-tab-pane>
         </el-tabs>
       </div>

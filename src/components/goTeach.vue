@@ -49,14 +49,17 @@
 
     </el-scrollbar>
 
-    <el-dialog title="Modify Password" :visible.sync="dialogFormVisible" style="width: 50%;height: 100%">
+    <el-dialog title="Modify Password"
+               :visible.sync="dialogFormVisible"
+               @close="modifyPasswordDialogClose"
+               style="width: 50%;height: 100%">
      <!-- <div v-for="(password,index) in oldpasswordlist" :key="index">-->
       <p>oldPassword</p>
       <el-input type="password" v-model="oldPassword" placeholder="Please enter"></el-input>
       <p style="color: #009900">New Password</p>
       <el-input type="password" v-model="newPassword" placeholder="Please enter"></el-input>
       <p style="color: #009900">Confirm Password</p>
-      <el-input type="password" v-model="newPassword" placeholder="Please enter"></el-input>
+      <el-input type="password" v-model="newPasswordConfirm" placeholder="Please enter"></el-input>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
         <el-button type="primary" @click="updatepassword">Submit</el-button>
@@ -81,6 +84,7 @@
         lessonCode:'',
         oldPassword:'',
         newPassword:'',
+        newPasswordConfirm: '',
 
        /* input: '',
         input2: '',
@@ -102,6 +106,12 @@
       this.getCourselist();
     },
     methods: {
+      modifyPasswordDialogClose: function () {
+        this.oldPassword = '';
+        this.newPassword = '';
+        this.newPasswordConfirm = "";
+      },
+
       toggle: function (id) {
         this.isShow = !this.isShow;
         this.clickedCourseId = id;
@@ -205,9 +215,26 @@
         this.$router.push({path: "/navBar"});
       },
       updatepassword: function () {
+        if ((this.oldPassword == "" || this.oldPassword.trim() == "")) {
+          this.$message.error("Please enter old password");
+          return;
+        }
+        if ((this.newPassword == "" || this.newPassword.trim() == "")) {
+          this.$message.error("Please enter new password");
+          return;
+        }
+        if ((this.newPasswordConfirm == "" || this.newPasswordConfirm.trim() == "")) {
+          this.$message.error("Please enter new password again");
+          return;
+        }
+        if (this.newPassword !== this.newPasswordConfirm) {
+          this.$message.error("New password not match the confirm password");
+          return;
+        }
+
         var oldpassword = {
-          oldPassword:this.oldPassword,
-          newPassword:this.newPassword,
+          oldPassword: this.$md5(this.oldPassword),
+          newPassword: this.$md5(this.newPassword),
         };
         this.$http.post(`${process.env.NODE_ENV}/user/updatePassword/edit`,oldpassword)
           .then((res) => {

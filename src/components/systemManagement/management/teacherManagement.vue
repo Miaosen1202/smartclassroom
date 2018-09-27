@@ -33,7 +33,7 @@
         <el-table-column prop="cellPhoneNo" label="联系电话" min-width="40%"></el-table-column>
         <el-table-column prop="subject" label="分类" min-width="30%"></el-table-column>
         <el-table-column prop="updateTime" label="更新" min-width="40%">
-           <template slot-scope="scope">{{ scope.row.updateTime }}</template>
+           <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
         <el-table-column prop="status" label="状态" min-width="30%">
           <template slot-scope="scope">{{ scope.row.status == 1 ? "启用" : "禁用" }}</template>
@@ -98,23 +98,24 @@
     </div>
     <!-- 学生导入弹框 -->
     <el-dialog
-      title="Student Import"
-      :visible.sync="studentImportDialogVisible"
+      title="Teacher Import"
+      :visible.sync="teacherImportDialogVisible"
       width="30%"
+      @close="teacherImportDialogClose"
       center>
 
       <el-upload
         class="student-data-upload"
         name="file"
         with-credentials
-        :file-list="studentDataFileList"
+        :file-list="teacherDataFileList"
         :action="getUploadFilePath()"
         :on-change="handleUploadFileChange"
         :on-success="handleUploadFileSuccess">
         <el-button size="small" type="primary">点击上传</el-button>
       </el-upload>
 
-      <el-checkbox v-model="overrideExistsStudentNoData">是否覆盖已存在老师编号的数据</el-checkbox>
+      <el-checkbox v-model="overrideExistsTeacherNoData">是否覆盖已存在老师编号的数据</el-checkbox>
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="cancelImport">取 消</el-button>
@@ -127,6 +128,7 @@
 <!--教师分页查询/teacher/pageList-->
 <script>
   import util from '@/utils/util'
+
   export default {
     data() {
       return {
@@ -148,18 +150,22 @@
         tableData: [],
         multipleSelection: [],
         editStudent: {},
-        studentEditDialogVisible: false,
-        studentImportDialogVisible: false,
-        studentDataFilePath: "",
-        studentDataFileList: [],
-        overrideExistsStudentNoData: false
+        teacherImportDialogVisible: false,
+        teacherDataFilePath: "",
+        teacherDataFileList: [],
+        overrideExistsTeacherNoData: false
       }
     },
     mounted() {
       this.loadTeacherRecords(this.pageIndex);
     },
     methods: {
+      formatDateTime: util.formatDateTime,
 
+      teacherImportDialogClose: function () {
+        this.teacherDataFileList = [];
+        this.overrideExistsTeacherNoData = null;
+      },
 
       loadTeacherRecords: function(pageIndex) {
         var param = {
@@ -258,7 +264,7 @@
       },
       /*教师数据导入*/
       goImportStudent: function() {
-        this.studentImportDialogVisible =  true;
+        this.teacherImportDialogVisible =  true;
       },
       getUploadFilePath: function () {
         return util.fileUploadPath();
@@ -267,35 +273,35 @@
       handleUploadFileSuccess: function (res, file, fileList) {
         console.log(res)
         if (res.code == 200) {
-          this.studentDataFilePath = res.entity.fileTmpName;
+          this.teacherDataFilePath = res.entity.fileTmpName;
         } else {
-          this.studentDataFileList = [];
+          this.teacherDataFileList = [];
           this.$message.error(res.message);
         }
       },
       handleUploadFileChange: function (file, fileList) {
-        this.studentDataFileList = fileList.slice(-1);
+        this.teacherDataFileList = fileList.slice(-1);
       },
       cancelImport: function () {
-        this.studentImportDialogVisible = false;
-        this.studentDataFileList = [];
+        this.teacherImportDialogVisible = false;
+        this.teacherDataFileList = [];
       },
       confirmImport: function () {
-        if (this.studentDataFilePath == "") {
+        if (this.teacherDataFilePath == "") {
           this.$message.error("Please upload file");
           return;
         }
 
         let param = {
-          fileName: this.studentDataFilePath,
-          override: this.overrideExistsStudentNoData ? true : null
+          fileName: this.teacherDataFilePath,
+          override: this.overrideExistsTeacherNoData ? true : null
         };
 
         this.$http.post(`${process.env.NODE_ENV}/teacher/import/edit`, param)
           .then((res) => {
             if (res.data.code == 200) {
-              this.studentImportDialogVisible = false;
-              this.studentDataFileList = [];
+              this.teacherImportDialogVisible = false;
+              this.teacherDataFileList = [];
 
               this.$message.info("Import student data success");
               this.loadTeacherRecords(1);

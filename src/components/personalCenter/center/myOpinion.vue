@@ -51,7 +51,7 @@
         </el-table-column>
         <el-table-column
           prop="startTime"
-          label="反馈时间"
+          label="提出时间"
           min-width="50%">
           <template slot-scope="scope">{{ scope.row.startTime }}</template>
         </el-table-column>
@@ -62,11 +62,9 @@
         </el-table-column>
         <el-table-column
           prop="endTime"
-          label="处理时间"
+          label="反馈时间"
           min-width="60%">
         </el-table-column>
-
-
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -142,10 +140,10 @@
         },
         options: [{
           value: '选项1',
-          label: '黄金糕'
+          label: '1'
         },  {
           value: '选项2',
-          label: '北京烤鸭'
+          label: '2'
         }],
         value: '',
         value6: '',

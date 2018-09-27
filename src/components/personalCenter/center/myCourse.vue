@@ -1,11 +1,11 @@
 <template>
   <div class="management">
-    我的课程
+    {{$t('message.mycourse')}}
     <div>
       <p style="display: inline-block">总数量</p>：<span>20</span>
-      <el-input v-model="input" size="small" placeholder="请输入意见内容查询" style="width: 14%"></el-input>
-      <el-input v-model="input" size="small" placeholder="请输入反馈人姓名查询" style="width: 14%"></el-input>
-      <el-select v-model="value" size="small" placeholder="请选择状态检索" style="width: 14%">
+      <el-input v-model="input" size="small" placeholder="请输入课时名称" style="width: 14%"></el-input>
+      <el-input v-model="input" size="small" placeholder="请输入课程名称" style="width: 14%"></el-input>
+      <el-select v-model="value" size="small" placeholder="请选择课程状态检索" style="width: 14%">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -41,38 +41,36 @@
 
         <el-table-column
           prop="content"
-          label="意见描述"
+          label="Lession"
           min-width="60%">
         </el-table-column>
         <el-table-column
           prop="userName"
-          label="反馈人"
+          label="Course"
           min-width="30%">
         </el-table-column>
         <el-table-column
           prop="startTime"
-          label="反馈时间"
+          label="作者"
           min-width="50%">
           <template slot-scope="scope">{{ scope.row.startTime }}</template>
+        </el-table-column>
+        <el-table-column
+          prop="endTime"
+          label="上课时间"
+          min-width="60%">
         </el-table-column>
         <el-table-column
           prop="replyStatus"
           label="状态"
           min-width="30%">
         </el-table-column>
-        <el-table-column
-          prop="endTime"
-          label="处理时间"
-          min-width="60%">
-        </el-table-column>
-
-
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
               size="mini"
               @click="dialogVisible = true"
-            >反馈</el-button><!--@click="handleEdit(scope.$index, scope.row)"-->
+            >进入</el-button><!--@click="handleEdit(scope.$index, scope.row)"-->
             <el-button
               size="mini"
               type="danger"

@@ -4,17 +4,15 @@
 
     <div>
       <p style="display: inline-block">总数量</p>：<span>20</span>
-      <el-input v-model="input" size="small" placeholder="请输入学生姓名查询" style="width: 20%"></el-input>
-      <el-select v-model="value" size="small" placeholder="请选择">
+      <el-input v-model="input" size="small" placeholder="请输入文件名查询" style="width: 20%"></el-input>
         <el-option
           v-for="item in options"
           :key="item.value"
           :label="item.label"
           :value="item.value">
         </el-option>
-      </el-select>
       <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量上传</el-button>
+      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">上传文件</el-button>
     </div>
     <div>
       <el-table
@@ -26,11 +24,11 @@
         <el-table-column type="selection" width="30"></el-table-column>
         <el-table-column prop="materialName" label="File Name" min-width="50%"></el-table-column>
         <el-table-column prop="createUserName" label="创建人" min-width="30%"></el-table-column>
-        <el-table-column prop="materialTypeDesc" label="资源分类" min-width="30%"></el-table-column>
+        <!--<el-table-column prop="materialTypeDesc" label="资源分类" min-width="30%"></el-table-column>-->
         <el-table-column prop="fileSize" label="Size" min-width="30%"></el-table-column>
         <el-table-column prop="updateTime" label="Update" min-width="50%"><template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
-        <el-table-column prop="downloadCount" label="浏览次数" width="130"></el-table-column>
+        <!--<el-table-column prop="downloadCount" label="浏览次数" width="130"></el-table-column>-->
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
@@ -68,10 +66,10 @@
         multipleSelection: [],
         options: [{
           value: '选项1',
-          label: '黄金糕'
+          label: '1'
         },  {
           value: '选项2',
-          label: '北京烤鸭'
+          label: '2'
         }],
         value: ''
       }

@@ -3,7 +3,7 @@
     <div class="no-discuss" v-show="!showDiscussListPanel">
       <p><img src="../../../assets/images/u674.png" alt=""></p>
       <p>There is no discussion yet.</p>
-      <el-button size="medium" type="primary" @click="goToAddDiscussion">
+      <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddDiscussion">
         <img src="../../../assets/images/u60.png" alt="">
       </el-button>
     </div>
@@ -12,9 +12,10 @@
       <el-scrollbar style="height: 100%">
 
         <div class="create" v-on:click="createPanelToggle()">
-          <el-button size="small" type="primary">
-            <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
-            <p>Create a Discussion</p>
+          <el-button size="medium" style="border: 1px solid #f17e26;color: #f17e26">
+            <p>
+              Create a Discussion
+            </p>
           </el-button>
         </div>
         <div class="discussion" v-show="createPanelShow">
@@ -38,15 +39,14 @@
             :on-success="handleSuccess"
             :with-credentials="true"
             :file-list="fileList3">
-            <el-button size="mini" type="primary">
+            <el-button size="mini"  style="background-color: #26be96">
               <img src="../../../assets/images/u166.png" alt="">
             </el-button>
             <div slot="tip" class="el-upload__tip">Add Attachments</div>
           </el-upload>
-
           <!--按钮-->
           <span slot="footer" class="dialog-footer">
-            <el-button style="margin-top: 2%;" size="medium" type="primary" v-on:click="sure()">Save</el-button>
+            <el-button style="margin-top: 2%;background-color: #0e38b1" size="medium"  v-on:click="sure()">Save</el-button>
             <el-button size="medium" @click="cancelCreateDiscuss">Cancel</el-button>
           </span>
         </div>

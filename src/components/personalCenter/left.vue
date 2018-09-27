@@ -8,11 +8,16 @@
     <ul>
       <li :class="{active : activeFlag == 'myCourse'}" @click="goToteacherManagement('myCourse')">
         <el-button type="text" @click="dialogVisible = true">
-
           <p>
             <img src="../../../static/images/Teache.png" alt="">
             myCourse</p>
         </el-button>
+      </li>
+      <li :class="{active : activeFlag == 'myResources'}" @click="goToresourceManagement('myResources')">
+
+        <P>
+          <img src="../../../static/images/Resource.png" alt="">
+          myResources</P>
       </li>
       <li :class="{active : activeFlag == 'myOpinion'}" @click="goTostudentManagement('myOpinion')">
 
@@ -20,12 +25,7 @@
           <img src="../../../static/images/Student.png" alt="">
           myOpinion</P>
       </li>
-      <li :class="{active : activeFlag == 'myResources'}" @click="goToresourceManagement('myResources')">
 
-        <P>
-          <img src="../../../static/images/Student.png" alt="">
-          myResources</P>
-      </li>
     </ul>
     <!--<span>
       <el-button type="primary" @click="gotenching('teachingMaterials')">

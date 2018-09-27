@@ -3,15 +3,15 @@
     <div class="no-record assignment" v-show="!showAssignmentListPanel">
       <p><img src="../../../assets/images/u1046.png" width="140" height="139" alt=""></p>
       <p style="display: block;padding-top: 0px">There is no assignment yet</p>
-      <el-button size="medium" type="primary" @click="goToAddAssignment">
+      <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddAssignment">
         <img src="../../../assets/images/u60.png" alt="">
       </el-button>
     </div>
     <div class="all assignment-panel" v-show="showAssignmentListPanel">
       <el-scrollbar style="height: 100%">
         <div class="create" v-on:click="createPanelToggle()">
-          <el-button size="small" type="primary">
-            <p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>
+          <el-button  size="medium" type="primary">
+            <!--<p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>-->
             <p>Create an Assignment</p>
           </el-button>
         </div>

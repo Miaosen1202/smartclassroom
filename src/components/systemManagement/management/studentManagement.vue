@@ -1,9 +1,9 @@
 <template>
   <div class="management">
-    学生管理
+    {{$t('message.studentManagement')}}
 
     <div>
-      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
+      <p style="display: inline-block"> {{$t('message.totalQuantity')}}</p>：<span>{{ page.total }}</span>
       <el-input v-model="studentNameSearch" size="small" placeholder="请输入学生姓名查询" style="width: 20%"></el-input>
       <el-button type="primary" @click="loadStudentRecords(1)" size="small" icon="el-icon-search"></el-button>
       <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
@@ -401,7 +401,7 @@
       },
 
       getImportModelFile: function () {
-        
+
       }
     }
   }

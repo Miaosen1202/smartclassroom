@@ -610,6 +610,7 @@
                 message: 'Class is over!',
                 type: 'success'
               });
+              this.$router.push({path: "/navBar"});
             }
           }).catch((err) => {
           console.log(err);

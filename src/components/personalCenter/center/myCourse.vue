@@ -23,15 +23,16 @@
           style="width: 100%"
           size="small"
           v-model="searchTimeRange"
-          type="datetimerange"
+          type="daterange"
           range-separator="至"
           start-placeholder="开始日期"
+          value-format="timestamp"
           end-placeholder="结束日期">
         </el-date-picker>
       </div>
 
       <el-button type="primary" @click="loadLessonRecords(1)" size="small" icon="el-icon-search"></el-button>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
+      <el-button type="primary" @click="batchDelete()" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
     </div>
     <div>
       <el-table
@@ -39,10 +40,11 @@
         :data="page.list"
         tooltip-effect="dark"
         style="width: 100%"
-        @selection-change="handleSelectionChange">
+        @selection-change="handleSelectionChange"
+        @select-all="handleSelectAll">
         <el-table-column
           type="selection"
-          width="30">
+          width="55">
         </el-table-column>
 
         <el-table-column
@@ -54,38 +56,35 @@
         <el-table-column
           prop="courseName"
           label="Course"
-          min-width="30%">
+          min-width="60%">
         </el-table-column>
 
         <el-table-column
           prop="teacherName"
           label="作者"
-          min-width="50%">
+          min-width="30%">
         </el-table-column>
 
         <el-table-column
           prop="startTime"
           label="上课时间"
-          min-width="30%">
+          min-width="40%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.startTime) }}</template>
         </el-table-column>
 
         <el-table-column
           prop="status"
           label="状态"
-          min-width="60%">
+          min-width="20%">
           <template slot-scope="scope">
             {{ scope.row.status === 0 ? "待上课" : (scope.row.status === 1 ? "进行中" : "已结束") }}
           </template>
         </el-table-column>
 
         <el-table-column label="操作">
-          <template slot-scope="scope">
-            <el-button size="mini">进入</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+          <template slot-scope="scope" v-if="scope.row.status>0">
+            <el-button size="mini" @click="handleInto(scope.$index, scope.row)">进入</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -98,7 +97,7 @@
         :current-page="page.pageIndex"
         layout="prev, pager, next"
         :total="page.total"
-        @current-change="loadTeacherRecords">
+        @current-change="loadLessonRecords">
       </el-pagination>
     </div>
 
@@ -110,13 +109,12 @@
   export default {
     data() {
       return {
-        dialogVisible: false,
         teacherRecords: [],
         multipleSelection: [],
         page: {
           total: 0,
           pageIndex: 1,
-          pageSize: 5,
+          pageSize: 10,
           pageNumber: 5
         },
         value: '',
@@ -145,23 +143,31 @@
 
     },
     mounted() {
-      this.loadLessonRecords();
+      this.loadLessonRecords(1);
     },
     methods: {
       formatDateTime: util.formatDateTime,
-
+      handleSelectAll(selection) {
+        this.$refs.multipleTable.clearSelection();
+        for (let i = 0; i < selection.length; i++) {
+          if (selection[i].status != 0) {
+            this.$refs.multipleTable.toggleRowSelection(this.page.list[i]);
+          }
+        }
+      },
       loadLessonRecords: function (pageIndex) {
+        let param = {
+          params: this.search
+        };
         if (this.searchTimeRange != null && this.searchTimeRange.length >= 2) {
-          this.search.startTime = util.formatDateTime(this.searchTimeRange[0]);
-          this.search.endTime = util.formatDateTime(this.searchTimeRange[1]);
+          console.log(this.searchTimeRange);
+          this.search.startTime = this.searchTimeRange[0];
+          this.search.endTime = this.searchTimeRange[1];
         } else {
           this.search.startTime = null;
           this.search.endTime = null;
         }
 
-        let param = {
-          params: this.search
-        };
         param.params.pageIndex = (typeof pageIndex == "undefined") ? this.page.pageIndex : pageIndex;
         param.params.pageSize = this.page.pageSize;
 
@@ -183,20 +189,42 @@
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
-      handleEdit(index, row) {
-        console.log(index, row);
+      handleInto(index, row) {
+        this.$router.push({path: "/StartTeachingMaterials", query: {lessonId:row.lessonId,lessonCode: row.lessonCode}});
       },
       handleDelete(index, row) {
-        console.log(index, row);
-      },
-      loadTeacherRecords: function(pageIndex) {
-
+        this.doDelete([row.id])
       },
       handleSelectionChange(selection) {
         // console.log("select change", val);
         // console.log(val[0].id)
         this.multipleSelection = selection;
       },
+      batchDelete: function () {
+        if (this.multipleSelection.length == 0) {
+          this.$message.error("Please select at least one row of data");
+          return;
+        }
+
+        let ids = [];
+        for (let i = 0; i < this.multipleSelection.length; i++) {
+          console.log(this.multipleSelection[i]);
+          ids.push(this.multipleSelection[i].id);
+        }
+        this.doDelete(ids);
+      },
+      doDelete(ids){
+        this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, ids)
+          .then((res) => {
+            if (res.data.code != 200) {
+              this.$message.error(res.data.message);
+            }else{
+              this.loadLessonRecords()
+            }
+          }).catch((err) => {
+          this.$message.error(err);
+        });
+      }
     }
   }
 </script>

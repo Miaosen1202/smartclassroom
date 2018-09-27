@@ -28,12 +28,15 @@
             <el-table-column >
               <template slot-scope="scope">
                 <el-button
+                  style="border: none"
                   size="mini"
-                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                  @click="handleEdit(scope.$index, scope.row)"><img src="../../../static/images/Modify.png" alt=""></el-button>
                 <el-button
                   size="mini"
-                  type="danger"
-                  @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                  style="border: none"
+                  @click="handleDelete(scope.$index, scope.row)">
+                  <img src="../../../static/images/shanchu.png" alt="">
+                </el-button>
               </template>
             </el-table-column>
           </el-table>

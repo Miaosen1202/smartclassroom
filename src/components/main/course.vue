@@ -13,11 +13,11 @@
 
       <el-tooltip class="item" effect="dark" content="Submit the lesson and you can find it in “Manage all lessons”"
                   placement="bottom-end">
-        <el-button size="small" type="warning" @click="lessonPublish">Publish</el-button>
+        <el-button style="background-color: #0e38b1;border: 1px solid #0e38b1;color: #fff" size="small"  @click="lessonPublish">Publish</el-button>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="Delete the lesson and all the data under this lesson."
                   placement="bottom-start">
-        <el-button size="small" type="primary">Delete</el-button>
+        <el-button size="small">Delete</el-button>
       </el-tooltip>
     </div>
     <div class="left">
@@ -32,7 +32,7 @@
           <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{materialNumber}}</h2>
         </li>
         <li :class="{active2 : activeFlag == 'discussion'}" @click="showContent('discussion')" style="background-color: #d8fff5;color:#26be96">
-          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">Teaching Materials</p>
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">Discussion</p>
           <p style="display: inline-block;margin-top: 10%"><img src="../../../static/images/Discussion.png" alt=""></p>
           <h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{discussNumber}}</h2>
         </li>

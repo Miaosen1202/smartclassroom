@@ -126,10 +126,10 @@
         multipleSelection: [],
         options: [{
           value: '选项1',
-          label: '黄金糕'
+          label: '1'
         },  {
           value: '选项2',
-          label: '北京烤鸭'
+          label: '2'
         }],
         value: ''
       }

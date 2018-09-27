@@ -1,6 +1,6 @@
 <template>
   <div class="management">
-    教师管理
+    {{$t('message.TeacherManagement')}}
 
     <div>
       <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
@@ -125,7 +125,6 @@
 
   </div>
 </template>
-<!--教师分页查询/teacher/pageList-->
 <script>
   import util from '@/utils/util'
 

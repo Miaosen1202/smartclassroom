@@ -2,7 +2,7 @@
   <div class="exercises">
     <p><img src="../../assets/images/u768.png" alt=""></p>
     <p>There is no exercises yet.</p>
-    <el-button size="medium" type="primary" @click="goToAddExercises">
+    <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddExercises">
       <img src="../../assets/images/u60.png" alt="">
     </el-button>
   </div>

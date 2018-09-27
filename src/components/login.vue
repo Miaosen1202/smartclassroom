@@ -2,7 +2,7 @@
   <div id="all">
     <div id="login">
       <p><img src="../assets/images/u2081.png" alt=""></p>
-      <div>
+      <div class="mainmain">
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="TEACHER" name="first">
             <div class="account">
@@ -152,12 +152,12 @@
   #all {
     width: 100%;
     height: 100%;
-    background-color: #2a58ad;
+    background-color: #0e38b1;
   }
 
   #login {
     text-align: center;
-    width: 20%;
+    width: 24%;
     height: 30%;
     margin: 2% auto;
     position: absolute;
@@ -244,6 +244,10 @@
   .el-tooltip__popper[x-placement^=top] .popper__arrow {
     border-top-color: rgb(255, 204, 204);
   }
-
+/*.mainmain {
+  background-color: #fff;
+  padding: 2%;
+  border-radius: 4px;
+}*/
 </style>
 

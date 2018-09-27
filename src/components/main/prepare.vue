@@ -1,32 +1,32 @@
 <template>
   <div id="prepare">
     <div>
-      <h4>step 1:</h4>
-      <p class="step">Give your new lesson a name</p>
+      <h4>{{$t('message.step')}} 1:</h4>
+      <p class="step">{{$t('message.newlesson')}}</p>
       <div>
-        <input class="form-control step1" type="text" placeholder="please enter" v-model="lessonName">
+        <input class="form-control step1" type="text" :placeholder="$t('message.pleaseenter')" v-model="lessonName">
       </div>
     </div>
     <div class="new">
-      <h4>step 2:</h4>
-      <p class="step">Add the new lesson to an existing course</p>
+      <h4>{{$t('message.step')}} 2:</h4>
+      <p class="step">{{$t('message.addcourse')}}</p>
       <div class="step2">
-        <el-radio v-model="submitCourseFlag" label="1">
-          <input class="form-control" type="text" id="firstinput2" placeholder="please select" v-model="existCourseName"
+        <el-radio v-model="submitCourseFlag" label="1" >
+          <input class="form-control" type="text" id="firstinput2" :placeholder="$t('message.pleaseselect')" v-model="existCourseName"
                  readonly>
         </el-radio>
-        <el-button size="medium" class="list btn" type="text" @click="showCourseDialog">List</el-button>
+        <el-button style="color: #fff" size="medium" class="list btn" type="text" @click="showCourseDialog">{{$t('message.list')}}</el-button>
       </div>
       <!--<h4 class="or">step 2:</h4>-->
       <p class="red">or, create a new course here.</p>
       <div class="here">
         <el-radio v-model="submitCourseFlag" label="2">
-          <input class="form-control" type="text" id="firstinput3" placeholder="please enter" v-model="courseName">
+          <input class="form-control" type="text" id="firstinput3" :placeholder="$t('message.pleaseselect')" v-model="courseName">
         </el-radio>
         <!--<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1">-->
       </div>
     </div>
-    <input type="submit" v-on:click="toggle()" class="list btn tj" value="submit">
+    <input style="color: #fff" type="submit" v-on:click="toggle()" class="list btn tj" value="submit">
 
     <el-dialog
       title="Tips"
@@ -34,11 +34,12 @@
       width="30%">
       <span>
         <img src="../../../static/images/Continuetocourse.png" alt="">
-        You have a lesson being edited, continue or quit?
+        {{$t('message.quite')}}
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary" @click="goContinue()">Continue</el-button>
-        <el-button size="medium" @click="dialogVisible = false">Give up</el-button>
+        <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goContinue()">{{$t('message.Continue')}}</el-button>
+        <!--<el-button style="background-color: #0e38b1" size="medium" type="primary" @click="dialogVisible = false">Continue</el-button>-->
+        <el-button size="medium" @click="dialogVisible = false">{{$t('message.giveup')}}</el-button>
       </span>
     </el-dialog>
     <el-dialog
@@ -53,7 +54,7 @@
         </div>
       </el-scrollbar>
       <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary" @click="sure">OK</el-button>
+        <el-button style="background-color:#0e38b1 " size="medium" type="primary" @click="sure">OK</el-button>
         <el-button size="medium" @click="showCourseDialogVisible = false">Cancel</el-button>
       </span>
     </el-dialog>
@@ -61,6 +62,7 @@
 </template>
 
 <script>
+  import eventBus from '../../eventBus'
 
   export default {
     data() {
@@ -150,6 +152,8 @@
             if (res.data.code == 200) {
               this.lessonId = res.data.entity;
               this.$router.push({path: "/homePage/course", query: {"lessonId": this.lessonId}});
+            }else {
+              this.$message.error('The new class name already exists');
             }
           }).catch((err) => {
           console.log(err);
@@ -229,8 +233,8 @@
     display: inline-block;
     width: 8%;
     /* height: 6%;*/
-    background-color: #67f867;
-    border: 1px solid #67f867;
+    background-color: #0e38b1;
+    border: 1px solid #0e38b1;
     margin-left: -0.5%;
     vertical-align: inherit;
   }

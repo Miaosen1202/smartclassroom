@@ -1,6 +1,6 @@
 <template>
   <div class="management">
-    我的课程
+    {{$t('message.mycourse')}}
     <div>
       <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
       <el-input v-model="search.courseName" size="small" placeholder="请输入课程名称查询" style="width: 14%"></el-input>

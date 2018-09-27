@@ -5,7 +5,7 @@
       <div class="no-material">
         <p><img src="../../../assets/images/u768.png" alt=""></p>
         <p>There is no teaching materials yet.</p>
-        <el-button size="medium" type="primary" @click="goToAddMaterials">
+        <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddMaterials">
           <img src="../../../assets/images/u60.png" alt="">
         </el-button>
       </div>

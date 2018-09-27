@@ -97,7 +97,8 @@
             <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
           </el-radio>
         </div>
-        <div v-for="(option,index) in exerciseEntity.options" :key="index" v-if="exerciseEntity.questionType == 2" style="width: 100%">
+        <div v-for="(option,index) in exerciseEntity.options" :key="index" v-if="exerciseEntity.questionType == 2"
+             style="width: 100%">
           <el-checkbox v-model="option.isCorrect" style="display: inline-block;width: 90%;">{{option.answerCode}}
             <el-input v-model="option.answerContent" placeholder="Please enter"
                       style="width: 100%;display: inline-block"></el-input>
@@ -139,11 +140,12 @@
         </el-button>
         <el-button type="text" icon="el-icon-edit" @click="getExecisesDetail(exercises.id)">
         </el-button>
-          <div style="word-wrap: break-word; word-break: normal;width: 90%">{{exercises.questionTitle}}</div>
+        <div style="word-wrap: break-word; word-break: normal;width: 90%">{{exercises.questionTitle}}</div>
         <ul v-for="(option,index) in exercises.options">
-          <li style="color: #000" :key="index"><P style="padding-right: 2%">{{option.answerCode}}</P><span>{{option.answerContent}}</span></li>
+          <li style="color: #000" :key="index"><P style="padding-right: 2%">{{option.answerCode}}</P><span>{{option.answerContent}}</span>
+          </li>
         </ul>
-          <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic;display: inline-block">Answer :</p>
+        <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic;display: inline-block">Answer :</p>
         <div v-for="(option,index) in exercises.options">
           <div v-if="option.isCorrect == 1">{{option.answerCode}}</div>
         </div>
@@ -155,13 +157,42 @@
         title="Order"
         :visible.sync="showExercisesDialogVisible"
         width="30%">
-        <div v-for="existExercises in existExercisesList">
-          <el-radio v-model="radio" :label="existExercises.id">{{existExercises.questionTitle}}</el-radio>
-        </div>
+        <!--<div v-for="existExercises in existExercisesList">-->
+        <!--<el-radio v-model="radio" :label="existExercises.id">{{existExercises.questionTitle}}</el-radio>-->
+        <!--</div>-->
+        <el-row>
+          <el-button type="text" size="mini" v-bind:disabled="moveTopBtn" @click="moveTopBtnHandler">置顶</el-button>
+          <el-button type="text" size="mini" v-bind:disabled="moveBoBtn" @click="moveBoBtnHandler">置底</el-button>
+          <el-button type="text" size="mini" v-bind:disabled="moveUpBtn" @click="moveUpBtnHandler">上移</el-button>
+          <el-button type="text" size="mini" v-bind:disabled="moveDownBtn" @click="moveDownBtnHandler">下移</el-button>
+        </el-row>
+
+        <template>
+          <el-table
+            ref="singleTable"
+            :data="existExercisesList"
+            highlight-current-row
+            :show-header="false"
+            @row-click="handleCurrentChange"
+            style="width: 100%">
+
+            <el-table-column
+              property="sort"
+              min="30%">
+              <template slot-scope="scope">
+                Exercises {{ scope.row.sort}}
+              </template>
+            </el-table-column>
+            <el-table-column
+              property="questionTitle"
+              min="70%">
+            </el-table-column>
+          </el-table>
+        </template>
         <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary" @click="sure">OK</el-button>
-        <el-button size="medium" @click="showExercisesDialogVisible = false">Cancel</el-button>
-      </span>
+          <el-button size="medium" type="primary" @click="sure">OK</el-button>
+          <el-button size="medium" @click="showExercisesDialogVisible = false">Cancel</el-button>
+        </span>
       </el-dialog>
     </el-scrollbar>
   </div>
@@ -184,7 +215,7 @@
         questionType: 1,
         lessonId: this.$route.query.lessonId,
         existExercisesList: [],
-        exercisesList:[],
+        exercisesList: [],
         codeObjList: [
           {id: 0, name: "A"},
           {id: 1, name: "B"},
@@ -206,24 +237,108 @@
             answerCode: "A"
           }
         ],
-        showAdd:true,
-        exerciseEntity:{},
-        selectEditItem:""
+        showAdd: true,
+        exerciseEntity: {},
+        selectEditItem: "",
+        moveTopBtn: false,
+        moveUpBtn: false,
+        moveBoBtn: false,
+        moveDownBtn: false,
+        currentRow: null
       };
     },
-    mounted(){
+    mounted() {
       this.getAssignmentListByLessonId();
     },
     methods: {
+      handleCurrentChange(row) {
+        this.currentRow = row;
+        if (this.existExercisesList.length == 1) {
+          this.moveTopBtn = true;
+          this.moveUpBtn = true;
+          this.moveBoBtn = true;
+          this.moveDownBtn = true;
+        } else if (this.existExercisesList[0].sort == this.currentRow.sort) {
+          this.moveTopBtn = true;
+          this.moveUpBtn = true;
+          this.moveBoBtn = false;
+          this.moveDownBtn = false;
+        } else if (this.existExercisesList[this.existExercisesList.length - 1].sort == this.currentRow.sort) {
+          this.moveTopBtn = false;
+          this.moveUpBtn = false;
+          this.moveBoBtn = true;
+          this.moveDownBtn = true;
+        } else {
+          this.moveTopBtn = false;
+          this.moveUpBtn = false;
+          this.moveBoBtn = false;
+          this.moveDownBtn = false;
+        }
+      },
+      moveTopBtnHandler() {
+        this.existExercisesList.splice(this.getIndex(), 1);
+        this.existExercisesList.splice(0, 0, this.currentRow);
+        this.resetSort()
+        this.handleCurrentChange(this.currentRow)
+      },
+      moveUpBtnHandler() {
+        let index = this.getIndex();
+        console.log(index);
+        this.swapArray(this.existExercisesList, index, index - 1)
+        this.resetSort()
+        this.handleCurrentChange(this.currentRow)
+      },
+      moveBoBtnHandler() {
+        this.existExercisesList.splice(this.getIndex(), 1);
+        this.existExercisesList.splice(this.existExercisesList.length, 0, this.currentRow);
+        this.resetSort()
+        this.handleCurrentChange(this.currentRow)
+      },
+      moveDownBtnHandler() {
+        let index = this.getIndex();
+        this.swapArray(this.existExercisesList, index, index + 1)
+        this.resetSort()
+        this.handleCurrentChange(this.currentRow)
+      },
+      swapArray(arr, index1, index2) {
+        arr[index1] = arr.splice(index2, 1, arr[index1])[0];
+      },
+      getIndex() {
+        let currentRowIndex = null;
+        for (let i = 0; i < this.existExercisesList.length; i++) {
+          if (this.existExercisesList[i].sort == this.currentRow.sort) {
+            currentRowIndex = i;
+            break
+          }
+        }
+        return currentRowIndex;
+      },
+      resetSort() {
+        let params = {
+          ids: []
+        };
+        for (let i = 0; i < this.existExercisesList.length; i++) {
+          params.ids.push(this.existExercisesList[i].id)
+        }
+        console.log(params.ids);
+        this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/resetSort/edit`, params.ids)
+          .then((res) => {
+            if (res.code == 200) {
+              this.existExercisesList = res.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
       addSelectItems() {
-        if(this.showAdd == true){
+        if (this.showAdd == true) {
           let answerCode = this.getCodeNameById(this.options.length);
           this.options.push({
             answerContent: "",
             isCorrect: false,
             answerCode: answerCode
           })
-        }else{
+        } else {
           let answerCode = this.getCodeNameById(this.exerciseEntity.options.length);
           this.exerciseEntity.options.push({
             answerContent: "",
@@ -231,17 +346,15 @@
             answerCode: answerCode
           })
         }
-
-
       },
       deleteSelectItems(ind) {
-        if(this.showAdd == true){
+        if (this.showAdd == true) {
           this.options.splice(ind, 1);
           console.log(this.options);
           this.options.forEach((e, i) => {
             e.answerCode = this.getCodeNameById(i);
           })
-        }else{
+        } else {
           this.exerciseEntity.options.splice(ind, 1);
           console.log(this.exerciseEntity.options);
           this.exerciseEntity.options.forEach((e, i) => {
@@ -260,15 +373,6 @@
       },
       showExercisesDialog() {
         this.showExercisesDialogVisible = true;
-        this.existExercisesList = this.existExercisesExampleList;
-        this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/resetSort/edit`)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.existExercisesList = res.data.entity;
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
       },
       sure: function () {
         var queryOptions = JSON.parse(JSON.stringify(this.options));
@@ -299,16 +403,13 @@
           analysis: this.analysis,
           options: queryOptions
         };
-        console.log(exercises);
-
         this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/add`, exercises)
           .then((res) => {
-
             if (res.data.code == 200) {
               this.questionType = 1;
-              this.questionTitle= "";
-              this.analysis="";
-              this.options= [
+              this.questionTitle = "";
+              this.analysis = "";
+              this.options = [
                 {
                   answerContent: "",
                   isCorrect: true,
@@ -327,38 +428,38 @@
       },
 
       //选择题列表
-       getAssignmentListByLessonId(){
-         this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
-           .then((res) => {
-             if (res.data.code == 200) {
-               this.existExercisesList = res.data.entity;
-             }
-           }).catch((err) => {
-           console.log(err);
-         });
-       },
+      getAssignmentListByLessonId() {
+        this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/list?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.existExercisesList = res.data.entity;
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+      },
       /*删除选项中的列表*/
-      deleteExercises:function (id) {
-        this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/deletes`,[id])
-          .then((res)=>{
-          if (res.data.code == 200){
-            this.getAssignmentListByLessonId();
-          }
+      deleteExercises: function (id) {
+        this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/deletes`, [id])
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.getAssignmentListByLessonId();
+            }
           }).catch((err) => {
           console.log(err);
         });
       },
       /*获取选择题详情*/
-      getExecisesDetail(id){
+      getExecisesDetail(id) {
         this.showAdd = false;
-        this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/get`,{params:{data:id}})
-          .then((res)=>{
-            if (res.data.code == 200){
+        this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/get`, {params: {data: id}})
+          .then((res) => {
+            if (res.data.code == 200) {
               res.data.entity.options.forEach((e) => {
-                if(e.isCorrect == 1){
+                if (e.isCorrect == 1) {
                   this.selectEditItem = e.answerCode;
                   e.isCorrect = true;
-                }else{
+                } else {
                   e.isCorrect = false;
                 }
 
@@ -372,7 +473,7 @@
       },
 
       /*选择题修改*/
-      edit(){
+      edit() {
         var queryOptions = JSON.parse(JSON.stringify(this.exerciseEntity.options));
         if (this.exerciseEntity.questionType == 1) {//单选
 
@@ -395,7 +496,7 @@
           })
         }
         var exercises = {
-          id:this.exerciseEntity.id,
+          id: this.exerciseEntity.id,
           lessonId: this.exerciseEntity.lessonId,
           questionTitle: this.exerciseEntity.questionTitle,
           questionType: this.exerciseEntity.questionType,
@@ -410,15 +511,15 @@
             if (res.data.code == 200) {
               this.showAdd = true;
               this.questionType = 1;
-              this.questionTitle= "";
-              this.options= [
+              this.questionTitle = "";
+              this.options = [
                 {
                   answerContent: "",
                   isCorrect: true,
                   answerCode: "A"
                 }
               ];
-              this.analysis="";
+              this.analysis = "";
 
               console.log("exercisesId：" + this.exercisesId);
               this.getAssignmentListByLessonId();

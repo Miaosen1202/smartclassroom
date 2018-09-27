@@ -136,6 +136,14 @@
         this.batchUploadDialogVisible = true;
       },
 
+      removeFile: function (file, fileList) {
+        let tmpName = file.response.entity.fileTmpName;
+        for (let i = 0; i < this.addMaterials.length; i++) {
+          if (tmpName  === this.addMaterials[i].localPath) {
+            this.addMaterials.splice(i, 1);
+          }
+        }
+      },
       batchDelete: function () {
         if (this.multipleSelection.length == 0) {
           this.$message.error("Please select at least one row of data");
@@ -165,7 +173,7 @@
           param.params.materialName  = this.search.materialName;
         }
         if (this.search.materialType && this.search.materialType.trim()) {
-          param.params.materialType  = this.search.materialType;
+          param.params.fileType  = this.search.materialType;
         }
 
         this.$http.get(`${process.env.NODE_ENV}/materialBank/pageList`, param)

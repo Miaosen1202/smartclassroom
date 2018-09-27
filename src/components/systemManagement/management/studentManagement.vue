@@ -36,17 +36,17 @@
         <el-table-column
           prop="email"
           label="邮箱"
-          min-width="40%">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="cellPhoneNo"
           label="联系电话"
-          min-width="40%">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="majorName"
           label="专业"
-          min-width="40%">
+          min-width="30%">
         </el-table-column>
         <el-table-column
           prop="className"
@@ -76,7 +76,7 @@
             <el-button
               style="border: none;color: #0138b1;"
               size="mini"
-              @click="showStudentEditDialog(scope.$index, scope.row)" > | Edit | </el-button>
+              @click="showStudentEditDialog(scope.$index, scope.row)" >| Edit |</el-button>
 
             <el-button
               style="border: none;color: #0138b1;"
@@ -87,7 +87,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <div style="position: absolute;bottom: 8%;left: 44%">
+    <div style="position: absolute;bottom: 6%;left: 44%">
       <el-pagination
         background
         :page-size="page.pageSize"

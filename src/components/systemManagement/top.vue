@@ -10,8 +10,9 @@
         </p>
         <div style="float: right;padding-right: 1%;margin-top: 1%;">
         <span >
-        <img src="../../../static/images/admintx.png" width="34" height="34" alt="">
-        Teacher</span>
+          <img src="../../../static/images/admintx.png" width="34" height="34" alt="">
+          {{ getLoginUser().name }}
+        </span>
         </div>
         <!--<el-select v-model="value" placeholder="admin" style="border: none">
           <el-option
@@ -36,38 +37,45 @@
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-              selectValue:'',
-              options:[
-                {
-                  value: 'cn',
-                  label: '中文'
-                }, {
-                  value: 'en',
-                  label: 'English'
-                }
-              ]
+  import util from '@/utils/util'
+
+  export default {
+    data() {
+        return {
+          selectValue:'',
+          options:[
+            {
+              value: 'cn',
+              label: '中文'
+            }, {
+              value: 'en',
+              label: 'English'
             }
-        },
-      created() {
-        let that = this;
-        console.log(localStorage.lang)
-        that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
-      },
-        methods: {
-          backlogin() {
-            this.$router.push({path: "/"});
-          },
-          //语言切换
-          langChange(e){
-            // console.log(e)
-            localStorage.setItem('lang',e);
-            this.$i18n.locale = e;
-          }
+          ]
         }
+    },
+
+    created() {
+      let that = this;
+      console.log(localStorage.lang)
+      that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+    },
+
+    methods: {
+      getLoginUser: util.getLoginUser,
+
+      backlogin() {
+        this.$router.push({path: "/"});
+      },
+
+      //语言切换
+      langChange(e){
+        // console.log(e)
+        localStorage.setItem('lang',e);
+        this.$i18n.locale = e;
+      }
     }
+  }
 </script>
 
 <style scoped="">

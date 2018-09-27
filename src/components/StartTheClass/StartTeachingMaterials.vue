@@ -26,8 +26,8 @@
   </span>
       </el-dialog>
 
-      <p v-on:click="goback()" style="float: right;padding-right: 2%;cursor: pointer;padding-top: 2%">
-        <img src="../../assets/images/u118.png" alt="">
+      <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
+        <img src="../../../static/images/u118.png" alt="">
       </p>
 
 
@@ -35,25 +35,25 @@
 
     </div>
     <!--下课按钮-->
-    <div class="right" style="width: 10%;float: right;margin-top: 1%">
+    <!--<div class="right" style="width: 10%;float: right;margin-top: 1%">
 
      <div class="view" @click="gobackLesson()" >
        <img src="../../assets/images/u2378.png" alt="">
        View my lessons
-      <!-- <el-button style="float: right;top: 50%;" type="primary" round @click="gobackLesson()">View my lessons</el-button>-->
+      &lt;!&ndash; <el-button style="float: right;top: 50%;" type="primary" round @click="gobackLesson()">View my lessons</el-button>&ndash;&gt;
      </div>
       <div class="view" @click="takeAbreak">
         <img src="../../assets/images/u2326.png" alt="">
         End the class
-       <!-- <el-button style="float: right;top: 50%;" type="primary" round @click="takeAbreak">End the class</el-button>-->
+       &lt;!&ndash; <el-button style="float: right;top: 50%;" type="primary" round @click="takeAbreak">End the class</el-button>&ndash;&gt;
       </div>
-    </div>
+    </div>-->
 
     <div class="main">
       <el-scrollbar style="height: 100%">
-        <el-tabs type="card" activeName="materialTab" @tab-click="tabChange">
+        <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange">
 
-          <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
+          <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'" >
             <p>Lesson： {{ lessonName }}</p>
             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
             </el-checkbox>
@@ -252,6 +252,7 @@
   export default {
     data() {
       return {
+        tabPosition: 'right',
         centerDialogVisible: true,
         discussAnswers: [],
         checkedMaterialList: [],
@@ -499,10 +500,10 @@
         this.isIndeterminate = false;
       },
       goback: function () {
-        this.$router.push({path: "/navBar"});
+        this.$router.push({path: "/homePage/goTeach"});
       },
-      gobackLesson:function (){
-        this.$router.push({path: "/goTeach"});
+      backlogin:function (){
+        this.$router.push({path: "/"});
       },
       //选择题列表
       /*getAssignmentListByLessonId() {
@@ -612,7 +613,7 @@
                 message: 'Class is over!',
                 type: 'success'
               });
-              this.$router.push({path: "/navBar"});
+              this.$router.push({path: "/homePage/goTeach"});
             }
           }).catch((err) => {
           console.log(err);

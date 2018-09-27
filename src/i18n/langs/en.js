@@ -6,7 +6,19 @@ const en = {
     'mycourse':'myCourse',
     'TeacherManagement':'Teacher management',
     'studentManagement':'studentManagement',
-    'totalQuantity':'Total quantity'
+    'totalQuantity':'Total quantity',
+    'step':'step',
+    'addcourse':'Add the new lesson to an existing course',
+    'pleaseselect':'please select',
+    'pleaseenter':'please enter',
+    'list':'list',
+    'Continue':'Continue',
+    'giveup':'Give up',
+    'quite':'You have a lesson being edited, continue or quit?',
+
+
+
+
   },
   ...enLocale
 }

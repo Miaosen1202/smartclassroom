@@ -1,27 +1,27 @@
 <template>
   <div id="prepare">
     <div>
-      <h4>step 1:</h4>
+      <h4>{{$t('message.step')}} 1:</h4>
       <p class="step">{{$t('message.newlesson')}}</p>
       <div>
-        <input class="form-control step1" type="text" placeholder="please enter" v-model="lessonName">
+        <input class="form-control step1" type="text" :placeholder="$t('message.pleaseenter')" v-model="lessonName">
       </div>
     </div>
     <div class="new">
-      <h4>step 2:</h4>
-      <p class="step">Add the new lesson to an existing course</p>
+      <h4>{{$t('message.step')}} 2:</h4>
+      <p class="step">{{$t('message.addcourse')}}</p>
       <div class="step2">
-        <el-radio v-model="submitCourseFlag" label="1">
-          <input class="form-control" type="text" id="firstinput2" placeholder="please select" v-model="existCourseName"
+        <el-radio v-model="submitCourseFlag" label="1" >
+          <input class="form-control" type="text" id="firstinput2" :placeholder="$t('message.pleaseselect')" v-model="existCourseName"
                  readonly>
         </el-radio>
-        <el-button style="color: #fff" size="medium" class="list btn" type="text" @click="showCourseDialog">List</el-button>
+        <el-button style="color: #fff" size="medium" class="list btn" type="text" @click="showCourseDialog">{{$t('message.list')}}</el-button>
       </div>
       <!--<h4 class="or">step 2:</h4>-->
       <p class="red">or, create a new course here.</p>
       <div class="here">
         <el-radio v-model="submitCourseFlag" label="2">
-          <input class="form-control" type="text" id="firstinput3" placeholder="please enter" v-model="courseName">
+          <input class="form-control" type="text" id="firstinput3" :placeholder="$t('message.pleaseselect')" v-model="courseName">
         </el-radio>
         <!--<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1">-->
       </div>
@@ -34,12 +34,12 @@
       width="30%">
       <span>
         <img src="../../../static/images/Continuetocourse.png" alt="">
-        You have a lesson being edited, continue or quit?
+        {{$t('message.quite')}}
       </span>
       <span slot="footer" class="dialog-footer">
-        <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goContinue()">Continue</el-button>
+        <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goContinue()">{{$t('message.Continue')}}</el-button>
         <!--<el-button style="background-color: #0e38b1" size="medium" type="primary" @click="dialogVisible = false">Continue</el-button>-->
-        <el-button size="medium" @click="dialogVisible = false">Give up</el-button>
+        <el-button size="medium" @click="dialogVisible = false">{{$t('message.giveup')}}</el-button>
       </span>
     </el-dialog>
     <el-dialog

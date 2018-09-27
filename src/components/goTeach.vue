@@ -56,10 +56,13 @@
      <!-- <div v-for="(password,index) in oldpasswordlist" :key="index">-->
       <p>oldPassword</p>
       <el-input type="password" v-model="oldPassword" placeholder="Please enter"></el-input>
+
       <p style="color: #009900">New Password</p>
       <el-input type="password" v-model="newPassword" placeholder="Please enter"></el-input>
+
       <p style="color: #009900">Confirm Password</p>
       <el-input type="password" v-model="newPasswordConfirm" placeholder="Please enter"></el-input>
+
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">Cancel</el-button>
         <el-button type="primary" @click="updatepassword">Submit</el-button>
@@ -71,6 +74,7 @@
 
 <script>
   import eventBus from '../eventBus'
+
   export default {
     data() {
       return {
@@ -82,7 +86,7 @@
         courselist: [],
         lessonlist: [],
         lessonCode:'',
-        oldPassword:'',
+        oldPassword: '',
         newPassword:'',
         newPasswordConfirm: '',
 
@@ -150,7 +154,7 @@
         });
       },
       getLessonListByCourseId(id) {
-        this.$http.get(`${process.env.NODE_ENV}/lesson/list?courseId=${id}`)
+        this.$http.get(`${process.env.NODE_ENV}/lesson/list?status=1&courseId=${id}`)
           .then((res) => {
             if (res.data.code == 200) {
               this.lessonlist = res.data.entity;
@@ -232,7 +236,7 @@
           return;
         }
 
-        var oldpassword = {
+        let oldpassword = {
           oldPassword: this.$md5(this.oldPassword),
           newPassword: this.$md5(this.newPassword),
         };

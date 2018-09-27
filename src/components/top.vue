@@ -10,8 +10,9 @@
       </p>
       <div @click="mycourse" style="float: right;padding-right: 1%;margin-top: 1%;cursor: pointer;">
         <span >
-        <img src="../../static/images/admintx.png" width="34" height="34" alt="">
-        Teacher</span>
+          <img src="../../static/images/admintx.png" width="34" height="34" alt="">
+          {{ getLoginUser().name }}
+        </span>
       </div>
 
       <!--<el-select v-model="value" placeholder="admin" style="border: none">
@@ -39,6 +40,8 @@
 </template>
 
 <script>
+  import util from '../utils/util'
+
     export default {
         data() {
             return {
@@ -61,6 +64,8 @@
         that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
       },
         methods: {
+          getLoginUser: util.getLoginUser,
+
           goToFirst(){
             this.$router.push({path:"/navBar"});
           },

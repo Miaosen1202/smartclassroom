@@ -53,6 +53,8 @@
 </template>
 
 <script>
+  import util from '../utils/util'
+
  /* import crypto from 'crypto'*/
   export default {
     data() {
@@ -75,6 +77,7 @@
       handleClick(tab, event) {
         console.log(tab, event);
       },
+
       goToLogin: function () {
         var login = {
           "userName": this.userName,
@@ -87,6 +90,8 @@
                 this.$message.error("Login user is not a teacher");
                 return;
               }
+
+              util.storeLoginUser(res.data.entity);
 
               this.entity = res.data.entity;
               this.$router.push({path: "/navBar"});
@@ -110,6 +115,8 @@
                 return;
               }
 
+              util.storeLoginUser(res.data.entity);
+
               this.entity = res.data.entity;
               this.$router.push({path: "/admin/teacherManagement"});
             } else {
@@ -132,6 +139,8 @@
                 this.$message.error("Login user is not a student");
                 return;
               }
+
+              util.storeLoginUser(res.data.entity);
 
               this.entity = res.data.entity;
               this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});

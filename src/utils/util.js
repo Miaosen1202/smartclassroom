@@ -51,6 +51,15 @@ export default {
     return sizestr;
   },
 
+  storeLoginUser: function (user) {
+    sessionStorage.setItem("loginUser", JSON.stringify(user));
+  },
+
+  getLoginUser: function () {
+    let loginUser = JSON.parse(sessionStorage.getItem("loginUser"));
+    return loginUser == null ? {} : loginUser;
+  },
+
   // get: function (path, param, handler) {
   //   this.$http.get(`${process.env.NODE_ENV}` + path, {params: param})
   //     .then((res) => {

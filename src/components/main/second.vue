@@ -63,7 +63,7 @@
         methods: {
           courseCollapseChange: function(courseId) {
             if (typeof courseId !== "undefined") {
-              this.$http.get(`${process.env.NODE_ENV}/lesson/list?status=1&courseId=` + courseId)
+              this.$http.get(`${process.env.NODE_ENV}/lesson/list?courseId=` + courseId)
                 .then((res) => {
                   if (res.data.code == 200) {
                     this.tableData = res.data.entity;

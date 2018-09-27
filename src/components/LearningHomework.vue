@@ -2,7 +2,7 @@
   <div id="all">
     <div class="right-top">
       <p style="color: white;font-weight: 700">
-        Welcome Matthew !
+        Welcome {{ getLoginUser().name }} !
       </p>
       <p style="float: right;padding-right: 3%;cursor: pointer"><img v-on:click="goback()" src="../assets/images/u4.png" alt=""></p>
     </div>
@@ -30,6 +30,8 @@
 
 <script>
   import eventBus from '../eventBus'
+  import util from '../utils/util'
+
   import left from './student/studentLeft.vue'
   export default {
     name: 'homePage',
@@ -48,6 +50,8 @@
       this.getDetailByLessonId();
     },
     methods:{
+      getLoginUser: util.getLoginUser,
+
       getDetailByLessonId: function () {
         this.$http.get(`${process.env.NODE_ENV}/lesson/detail/query?lessonId=${this.lessonId}`)
           .then((res) => {

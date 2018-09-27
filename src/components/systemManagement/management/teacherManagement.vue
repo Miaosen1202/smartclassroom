@@ -5,9 +5,9 @@
     <div>
       <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
       <el-input v-model="teacherNameSearch" size="small" placeholder="请输入内容" style="width: 20%;margin-left: 1%"></el-input>
-      <el-button @click="loadTeacherRecords(1)" type="primary" size="small" icon="el-icon-search"></el-button>
-      <el-button @click="resetPassword" type="primary" size="mini" style="float: right;margin-left: 1%">重置初始化密码</el-button>
-      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;">导入老师数据</el-button>
+      <el-button @click="loadTeacherRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
+      <el-button @click="resetPassword" type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">重置初始化密码</el-button>
+      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">导入老师数据</el-button>
       <!--<el-upload
         class="upload-demo"
         :action="action"
@@ -32,18 +32,18 @@
         <el-table-column prop="email" label="邮箱" min-width="40%"></el-table-column>
         <el-table-column prop="cellPhoneNo" label="联系电话" min-width="40%"></el-table-column>
         <el-table-column prop="subject" label="分类" min-width="30%"></el-table-column>
-        <el-table-column prop="updateTime" label="更新" min-width="40%">
+        <el-table-column prop="updateTime" label="更新" min-width="30%">
            <template slot-scope="scope">{{ scope.row.updateTime }}</template>
         </el-table-column>
         <el-table-column prop="status" label="状态" min-width="30%">
-          <template slot-scope="scope">{{ scope.row.status == 1 ? "启用" : "禁用" }}</template>
+          <template slot-scope="scope">{{ scope.row.status == 1 ? "Start" : "Disable" }}</template>
         </el-table-column>
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button size="mini" @click="editTeacher(scope.$index, scope.row)">{{ scope.row.status == 1 ? "禁用" : "启用" }}</el-button>
-            <el-button size="mini" @click="showStudentEditDialog(scope.$index, scope.row)" >编辑</el-button>
-            <el-button size="mini" type="danger"  @click="deleteStudent(scope.$index, scope.row)">删除</el-button>
+            <el-button style="border: none;color: #0138b1;"  size="mini" @click="editTeacher(scope.$index, scope.row)">{{ scope.row.status == 1 ? "Disable" : "Start" }}</el-button>
+            <el-button style="border: none;color: #0138b1;"  size="mini" @click="showStudentEditDialog(scope.$index, scope.row)" >| Edit |</el-button>
+            <el-button style="border: none;color: #0138b1;"  size="mini"  @click="deleteStudent(scope.$index, scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>

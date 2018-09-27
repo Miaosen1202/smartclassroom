@@ -13,7 +13,14 @@
         <img src="../../static/images/Manangealllessons.png"  alt="">
         <P>Manage all lessons</P>
       </li>
-
+      <li :class="{active : activeFlag == 'goTeach'}" @click="goTeach('goTeach')">
+        <img src="../../static/images/toteach.png"  alt="">
+        <P>To Teach</P>
+      </li>
+      <li :class="{active : activeFlag == 'ViewHistory'}" @click="viewHistory('ViewHistory')">
+        <img src="../../static/images/history.png"  alt="">
+        <P>View History</P>
+      </li>
     </ul>
     <!--<span>
       <el-button type="primary" @click="gotenching('teachingMaterials')">
@@ -41,8 +48,16 @@
         this.activeFlag = s;
         this.$router.push({path:"/homePage/second"});
       },
+      goTeach(s){
+        this.activeFlag = s;
+        this.$router.push({path:"/goTeach"});
+      },
+      viewHistory(s){
+        this.activeFlag = s;
+        this.$router.push({path:"/ViewHistory"});
+      },
       goback: function() {
-        this.$router.push({path: "/navBar"});
+        this.$router.push({path: "/homePage/prepare"});
       },
      /* gotenching(){
         this.$router.push({path:"/homePage/teachingMaterials"});
@@ -56,7 +71,8 @@
     height: 60%;
   }
   img {
-    padding-left: 10%;
+   /* padding-left: 10%;*/
+    padding-top: 4%;
   }
   ul {
     height: 100%;
@@ -65,13 +81,13 @@
     text-align: center;
     display: block;
     width: 100%;
-    height: 40%;
+    height: 20%;
     /*border: 1px solid #ccc;*/
-    margin-bottom: 30%;
+    margin-bottom: 10%;
     cursor: pointer;
     color: #c3c7d5;
-    padding-top: 16%;
-    margin-top: 10%;
+   /* padding-top: 16%;*/
+    margin-top: 16%;
   }
   ul li.active{
     background-color: #144efc;

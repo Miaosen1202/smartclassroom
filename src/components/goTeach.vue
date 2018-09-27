@@ -1,6 +1,6 @@
 <template>
   <div id="goTeach">
-    <div class="teachtop">
+    <!--<div class="teachtop">
       <div v-on:click="goback()" style="display: inline-block">
         <img src="../../static/images/pclogo.png" alt="" width="100" height="50" style="cursor: pointer;vertical-align: middle">
       </div>
@@ -8,9 +8,43 @@
       <span @click="dialogFormVisible = true" class="password">Modify Password</span>
       <p v-on:click="backlogin" style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">
-      </p>
+      </p>-->
+
+
+
+      <div class="teachtop">
+        <p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:bottom;cursor: pointer">
+          <img src="../../static/images/logo.png" alt="">
+        </p>
+        <span @click="dialogFormVisible = true" class="password" style="padding-top: 1%;margin-left: 2%">Modify Password</span>
+        <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
+          <img src="../../static/images/u118.png" alt="">
+        </p>
+        <div @click="mycourse" style="float: right;padding-right: 1%;margin-top: 1%;cursor: pointer;">
+        <span >
+        <img src="../../static/images/admintx.png" width="34" height="34" alt="">
+        Teacher</span>
+        </div>
+
+        <!--语言包引入-->
+        <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
+          <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+
+      </div>
+
+
+
+
      <!-- <p v-for="(student,index) in studentsid" :key="index">{{entity.student}}</p>-->
-    </div>
+    <!--</div>-->
     <el-scrollbar style="height: 100%">
       <div class="teachmain">
         <p style="padding-left: 2%;margin-top: 2%">
@@ -21,7 +55,7 @@
           <div class="have" v-for="(course,index) in courselist" :key="index">
             <div v-on:click="toggle(course.id)" style="cursor: pointer;display: inline-block">
               <i class="el-icon-arrow-down"></i>
-              <img src="../assets/images/u1212.png" alt="">
+              <img src="../../static/images/course.png" alt="">
               <!--<h5 >Course：Journey of the Universe: A Story for Our Times1 </h5>-->
               <h5>{{course.courseName}}</h5>
             </div>
@@ -30,7 +64,7 @@
             <div v-show="isShow && (clickedCourseId == course.id)">
               <div class="lesson" v-for="(lesson,index) in lessonlist" :key="index">
                 <div v-on:click="lessonhistory()" style="cursor: pointer;display: inline-block">
-                  <img src="../assets/images/u16.png" alt="">
+                  <img src="../../static/images/lesson.png" alt="">
                 </div>
                 <p v-on:click="goTeaching(lesson.id)">{{lesson.lessonName}}</p>
                 <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
@@ -58,8 +92,8 @@
       <p style="color: #009900">Confirm Password</p>
       <el-input type="password" v-model="newPassword" placeholder="Please enter"></el-input>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="updatepassword">Submit</el-button>
+        <el-button size="medium" @click="dialogFormVisible = false">Cancel</el-button>
+        <el-button size="medium" style="background-color: #0138b1;color: #fff"  @click="updatepassword">Submit</el-button>
       </div>
       <!--</div>-->
     </el-dialog>
@@ -71,6 +105,16 @@
   export default {
     data() {
       return {
+        selectValue:'',
+        options:[
+          {
+            value: 'cn',
+            label: '中文'
+          }, {
+            value: 'en',
+            label: 'English'
+          }
+        ],
         courseName: '',
         isShow: false,
         clickedCourseId:"",
@@ -97,6 +141,11 @@
         },
         formLabelWidth: '100px'
       }
+    },
+    created() {
+      let that = this;
+      console.log(localStorage.lang)
+      that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
     },
     mounted() {
       this.getCourselist();
@@ -226,6 +275,21 @@
           console.log(err);
         });
       },
+      goToFirst(){
+        this.$router.push({path:"/homePage/prepare"});
+      },
+      backlogin() {
+        this.$router.push({path: "/"});
+      },
+      mycourse() {
+        this.$router.push({path: "/personalCenterManagement/myCourse"});
+      },
+      //语言切换
+      langChange(e){
+        // console.log(e)
+        localStorage.setItem('lang',e);
+        this.$i18n.locale = e;
+      }
     }
   }
 </script>
@@ -246,12 +310,12 @@
     z-index: 1;
   }
 
-  .teachtop p {
+/*  .teachtop p {
     display: inline-block;
     padding-top: 1%;
     padding-left: 2%;
 
-  }
+  }*/
 
   .teachmain {
     width: 80%;

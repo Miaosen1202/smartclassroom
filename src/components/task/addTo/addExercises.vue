@@ -4,12 +4,16 @@
       <!--<p>增加练习 第一个页面 </p>
       <p>There is no exercises yet.</p>-->
       <div class="order">
-        <el-button size="medium" type="primary">
-          <!--<p><img src="../../../assets/images/u60.png" alt="" style="vertical-align: middle"></p>-->
-          <p>Create a Exercises</p>
+        <el-button size="medium" style="border: 1px solid #f17e26;color: #f17e26">
+          <p>
+            <img src="../../../../static/images/Creat.png" alt="">
+            Create a Exercises
+          </p>
         </el-button>
-        <!--<el-button type="warning">Order</el-button>-->
-        <el-button size="medium" class="list btn" type="primary" @click="showExercisesDialog">Order</el-button>
+        <el-button  style="background-color: #26be96;color: #fff;border: 1px solid #26be96"  @click="showExercisesDialog" >
+          <img src="../../../../static/images/Order.png" alt="">
+         <p>Order</p>
+        </el-button>
       </div>
       <!--新增exercises开始-->
       <div class="exercises" v-show="showAdd">
@@ -45,7 +49,7 @@
 
 
         <div class="option">
-          <el-button size="mini" style="display: inline-block" @click="addSelectItems">+0ptions</el-button>
+          <el-button size="mini" style="display: inline-block;background-color: #f17e26;color: #fff" @click="addSelectItems">+0ptions</el-button>
           <div style="display: inline-block;width: 50%">
             <p style="color: #ff6699;padding-left: 2%">
               <i class="el-icon-warning"></i>
@@ -62,9 +66,9 @@
           placeholder="Explanation"
           v-model="analysis" style="width: 70%;display: block;margin-top: 2%">
         </el-input>
-        <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary" style="margin-top: 2%" v-on:click="sure()">Save</el-button>
-        <el-button size="medium">Cancel</el-button>
+        <span slot="footer" class="dialog-footer" style="margin-left: 40%">
+        <el-button size="medium" type="primary" style="margin-top: 2%;background-color: #0e38b1;color: #fff" v-on:click="sure()">Save</el-button>
+        <el-button size="medium" style="color: #333333">Cancel</el-button>
       </span>
       </div>
       <!--新增exercises结束-->
@@ -188,7 +192,11 @@
           {id: 3, name: "D"},
           {id: 4, name: "E"},
           {id: 5, name: "F"},
-          {id: 5, name: "G"},
+          {id: 6, name: "G"},
+          {id: 7, name: "H"},
+          {id: 8, name: "I"},
+          {id: 9, name: "J"},
+          {id: 10, name: "K"},
 
         ],
         options: [

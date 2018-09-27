@@ -26,7 +26,7 @@
           end-placeholder="结束日期">
         </el-date-picker>
       </div>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
+      <el-button type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
       <!--<el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量上传</el-button>-->
     </div>
     <div>

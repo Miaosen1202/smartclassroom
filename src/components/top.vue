@@ -62,7 +62,7 @@
       },
         methods: {
           goToFirst(){
-            this.$router.push({path:"/navBar"});
+            this.$router.push({path:"/homePage/prepare"});
           },
           backlogin() {
             this.$router.push({path: "/"});

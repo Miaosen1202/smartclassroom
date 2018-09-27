@@ -10,9 +10,11 @@
     <div class="all assignment-panel" v-show="showAssignmentListPanel">
       <el-scrollbar style="height: 100%">
         <div class="create" v-on:click="createPanelToggle()">
-          <el-button  size="medium" type="primary">
-            <!--<p><img src="../../../assets/images/u60.png" alt="" style="vertical-align:baseline"></p>-->
-            <p>Create an Assignment</p>
+          <el-button  size="medium"  style="border: 1px solid #f17e26;color: #f17e26">
+            <p>
+              <img src="../../../../static/images/Creat.png" alt="">
+              Create an Assignment
+            </p>
           </el-button>
         </div>
         <div class="discussion" v-show="createPanelShow">
@@ -33,15 +35,15 @@
             :on-success="handleSuccess"
             :with-credentials="true"
             :file-list="attachmentFileList">
-            <el-button size="mini" type="primary">
+            <el-button size="mini" style="background-color: #26be96">
               <img src="../../../assets/images/u166.png" alt="">
             </el-button>
             <div slot="tip" class="el-upload__tip">Add Attachments</div>
           </el-upload>
 
-          <span slot="footer" class="dialog-footer">
-        <el-button style="margin-top: 2%;" size="medium" type="primary" v-on:click="addOrUpdateAssignment()">Save</el-button>
-        <el-button size="medium" @click="cancelAddOrUpdate">Cancel</el-button>
+          <span slot="footer" class="dialog-footer" style="margin-left: 40%">
+        <el-button style="margin-top: 2%;background-color: #0e38b1;color: #fff;" size="medium" type="primary" v-on:click="addOrUpdateAssignment()">Save</el-button>
+        <el-button size="medium" style="color: #333333" @click="cancelAddOrUpdate">Cancel</el-button>
       </span>
         </div>
 

@@ -43,17 +43,23 @@
               <input class="form-control" type="password" placeholder="Password" v-model="password">
             </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
             <el-tooltip style="float: right" class="item admin" effect="dark" content="Please contact the system administrator"
                         placement="top" popper-class="test">
               <el-button type="text">Forget your password?</el-button>
             </el-tooltip>
             <el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
 =======
+=======
+>>>>>>> 21519fd2a694eacc0ac56b3f304863b95abfe688
             <span v-on:click="goToadmin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
             <!--<el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"-->
                         <!--placement="top" popper-class="test">-->
               <!--<el-button type="text">Forget your password?</el-button>-->
             <!--</el-tooltip>-->
+<<<<<<< HEAD
+>>>>>>> 21519fd2a694eacc0ac56b3f304863b95abfe688
+=======
 >>>>>>> 21519fd2a694eacc0ac56b3f304863b95abfe688
           </el-tab-pane>
         </el-tabs>

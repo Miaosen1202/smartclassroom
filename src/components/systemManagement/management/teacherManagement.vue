@@ -33,8 +33,13 @@
         <el-table-column prop="cellPhoneNo" label="联系电话" min-width="40%"></el-table-column>
         <el-table-column prop="subject" label="分类" min-width="30%"></el-table-column>
 <<<<<<< HEAD
+<<<<<<< HEAD
         <el-table-column prop="updateTime" label="更新" min-width="30%">
            <template slot-scope="scope">{{ scope.row.updateTime }}</template>
+=======
+        <el-table-column prop="updateTime" label="更新" min-width="40%">
+           <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
+>>>>>>> 21519fd2a694eacc0ac56b3f304863b95abfe688
 =======
         <el-table-column prop="updateTime" label="更新" min-width="40%">
            <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>

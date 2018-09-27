@@ -14,6 +14,7 @@
         <div class="create" v-on:click="createPanelToggle()">
           <el-button size="medium" style="border: 1px solid #f17e26;color: #f17e26">
             <p>
+              <img src="../../../../static/images/Creat.png" alt="">
               Create a Discussion
             </p>
           </el-button>
@@ -45,9 +46,9 @@
             <div slot="tip" class="el-upload__tip">Add Attachments</div>
           </el-upload>
           <!--按钮-->
-          <span slot="footer" class="dialog-footer">
-            <el-button style="margin-top: 2%;background-color: #0e38b1" size="medium"  v-on:click="sure()">Save</el-button>
-            <el-button size="medium" @click="cancelCreateDiscuss">Cancel</el-button>
+          <span slot="footer" class="dialog-footer" style="margin-left: 40%">
+            <el-button style="margin-top: 2%;background-color: #0e38b1;color: #fff" size="medium"  v-on:click="sure()">Save</el-button>
+            <el-button size="medium" style="color: #333333" @click="cancelCreateDiscuss">Cancel</el-button>
           </span>
         </div>
 

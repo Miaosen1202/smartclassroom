@@ -40,7 +40,7 @@ export default {
   #all{
     width:100%;
     height:100%;
-    background-color: #ccc;
+    background-color: #f4f4f4;
   }
 .left{
   width: 18%;

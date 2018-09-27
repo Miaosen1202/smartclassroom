@@ -27,9 +27,9 @@
         </el-date-picker>
       </div>
 
-      <el-button type="primary" @click="loadFeedbackRecord(1)" size="small" icon="el-icon-search"></el-button>
+      <el-button  @click="loadFeedbackRecord(1)"  style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
 
-      <el-button @click="batchDelete" type="primary" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
+      <el-button @click="batchDelete"  size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">批量删除</el-button>
     </div>
 
     <div>
@@ -46,6 +46,7 @@
         </el-table-column>
 
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="content"
           label="意见描述"
           min-width="60%">

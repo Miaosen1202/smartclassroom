@@ -22,10 +22,10 @@
           end-placeholder="结束日期">
         </el-date-picker>
       </div>
-      <el-button type="primary" @click="loadFeedbackRecord(1)" size="small" icon="el-icon-search"></el-button>
+      <el-button type="primary" @click="loadFeedbackRecord(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
 
-      <el-button type="primary" @click="goReply()" size="mini" style="float: right;margin-left: 1%">反馈</el-button>
-      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
+      <el-button type="primary" @click="goReply()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">反馈</el-button>
+      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">批量删除</el-button>
     </div>
     <div>
       <el-table

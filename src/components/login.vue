@@ -4,20 +4,21 @@
       <p><img src="../assets/images/u2081.png" alt=""></p>
       <div class="mainmain">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="TEACHER" name="first">
+          <el-tab-pane label="Teacher" name="first">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
             <div class="password">
               <input class="form-control" type="password" placeholder="Password" v-model="password">
             </div>
-            <span v-on:click="goToLogin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
-            <el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"
+            <el-tooltip style="float: right" class="item admin" effect="dark" content="Please contact the system administrator"
                         placement="top" popper-class="test">
               <el-button type="text">Forget your password?</el-button>
             </el-tooltip>
+            <el-button  v-on:click="goToLogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
+
           </el-tab-pane>
-          <el-tab-pane label="STUDENT" name="second">
+          <el-tab-pane label="Student" name="second">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
@@ -27,24 +28,33 @@
             <div class="password">
               <input class="form-control" type="password" placeholder="lessonCode" v-model="lessonCode">
             </div>
-            <span v-on:click="studentslogin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
-            <el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"
+            <el-tooltip style="float: right" class="item admin" effect="dark" content="Please contact the system administrator"
                         placement="top" popper-class="test">
               <el-button type="text">Forget your password?</el-button>
             </el-tooltip>
+            <el-button v-on:click="studentslogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
+
           </el-tab-pane>
-          <el-tab-pane label="ADMIN" name="third">
+          <el-tab-pane label="Admin" name="third">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
             <div class="password">
               <input class="form-control" type="password" placeholder="Password" v-model="password">
             </div>
-            <span v-on:click="goToadmin()" style="display: inline-block">Login</span> <!--@click="goToLogin"-->
+
+            <!--<el-tooltip style="float: right" class="item admin" effect="dark" content="Please contact the system administrator"
+                        placement="top" popper-class="test">
+              <el-button type="text">Forget your password?</el-button>
+            </el-tooltip>-->
+            <el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
+
+            <!--<span v-on:click="goToadmin()" style="display: inline-block">Login</span>--> <!--@click="goToLogin"-->
             <!--<el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"-->
                         <!--placement="top" popper-class="test">-->
               <!--<el-button type="text">Forget your password?</el-button>-->
             <!--</el-tooltip>-->
+
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -53,6 +63,8 @@
 </template>
 
 <script>
+  import util from '../utils/util'
+
  /* import crypto from 'crypto'*/
   export default {
     data() {
@@ -75,6 +87,7 @@
       handleClick(tab, event) {
         console.log(tab, event);
       },
+
       goToLogin: function () {
         var login = {
           "userName": this.userName,
@@ -88,8 +101,10 @@
                 return;
               }
 
+              util.storeLoginUser(res.data.entity);
+
               this.entity = res.data.entity;
-              this.$router.push({path: "/navBar"});
+              this.$router.push({path: "/homePage/prepare"});
             } else {
               this.$message.error(res.data.message);
             }
@@ -109,6 +124,8 @@
                 this.$message.error("Login user is not a manager");
                 return;
               }
+
+              util.storeLoginUser(res.data.entity);
 
               this.entity = res.data.entity;
               this.$router.push({path: "/admin/teacherManagement"});
@@ -132,6 +149,8 @@
                 this.$message.error("Login user is not a student");
                 return;
               }
+
+              util.storeLoginUser(res.data.entity);
 
               this.entity = res.data.entity;
               this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
@@ -185,7 +204,7 @@
   }
 
   input::-webkit-input-placeholder {
-    color: #ffffff;
+    color: #ccc;
     font-size: 12px;
     text-align: left;
   }
@@ -195,14 +214,14 @@
     width: 100%;
     font-size: 14px;
     line-height: 1.42857;
-    color: #fff;
-    background-color: rgba(177, 177, 177, 0.8);
+    color: #0f0f0f;
+    background-color: #fff;
     background-image: none;
     box-shadow: rgba(255, 255, 255, 0.07) 0px 1px 1px inset;
     padding: 6px 12px;
     border-width: 1px;
     border-style: solid;
-    border-color: rgb(204, 204, 204);
+    border-color: rgb(143, 143, 143);
     border-image: initial;
     border-radius: 4px;
   }
@@ -227,9 +246,9 @@
    .el-tooltip__popper.is-dark {
      background-color: red !important;
    }*/
-  .el-button {
+  /*.el-button {
     padding: 0px !important;
-  }
+  }*/
 
   .page-login-toolTipClass {
     background-color: rgb(255, 204, 204) !important;
@@ -244,10 +263,10 @@
   .el-tooltip__popper[x-placement^=top] .popper__arrow {
     border-top-color: rgb(255, 204, 204);
   }
-/*.mainmain {
+.mainmain {
   background-color: #fff;
-  padding: 2%;
-  border-radius: 4px;
-}*/
+  padding: 10%;
+  border-radius: 2px;
+}
 </style>
 

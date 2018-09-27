@@ -26,11 +26,13 @@
   </span>
       </el-dialog>
 
-
-
       <p v-on:click="goback()" style="float: right;padding-right: 2%;cursor: pointer;padding-top: 2%">
         <img src="../../assets/images/u118.png" alt="">
       </p>
+
+
+
+
     </div>
     <!--下课按钮-->
     <div class="right" style="width: 10%;float: right;margin-top: 1%">

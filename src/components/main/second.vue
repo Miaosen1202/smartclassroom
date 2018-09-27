@@ -2,14 +2,13 @@
   <div id="all">
 
     <div class="over">
-      <p>Revise your course name and lesson name.</p>
+      <p style="color: #666666">Revise your course name and lesson name.</p>
       <el-collapse accordion class="course-item" @change="courseCollapseChange">
         <el-collapse-item v-for="course in courseList"
                           :title="course.courseName" :name="course.id" :key="course.id" >
           <template slot="title">
-            <img src="../../assets/images/u1212.png" alt="">
+            <img src="../../../static/images/course.png" alt="">
             <span class="course-name" :data-course-id="course.id">{{ course.courseName }}</span>
-            <i class="header-icon el-icon-info"></i>
           </template>
 
           <el-table v-show="true"
@@ -21,7 +20,7 @@
             <el-table-column width="600">
               <template slot-scope="scope">
                 <!--<i class="el-icon-time"></i>-->
-                <img src="../../assets/images/u1442.png" alt="">
+                <img src="../../../static/images/lesson.png" alt="">
                 <span style="margin-left: 10px">{{ scope.row.lessonName }}</span>
               </template>
             </el-table-column>
@@ -63,7 +62,7 @@
         methods: {
           courseCollapseChange: function(courseId) {
             if (typeof courseId !== "undefined") {
-              this.$http.get(`${process.env.NODE_ENV}/lesson/list?status=1&courseId=` + courseId)
+              this.$http.get(`${process.env.NODE_ENV}/lesson/list?courseId=` + courseId)
                 .then((res) => {
                   if (res.data.code == 200) {
                     this.tableData = res.data.entity;

@@ -13,9 +13,9 @@
           :value="item.value">
         </el-option>
       </el-select>
-      <el-button @click="loadTeacherRecords(1)" type="primary" size="small" icon="el-icon-search"></el-button>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量删除</el-button>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%">上传文件</el-button>
+      <el-button @click="loadTeacherRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
+      <el-button type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
+      <el-button type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">上传文件</el-button>
     </div>
     <div>
       <el-table

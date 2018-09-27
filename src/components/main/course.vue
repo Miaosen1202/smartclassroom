@@ -20,7 +20,6 @@
         <el-button size="small">Delete</el-button>
       </el-tooltip>
     </div>
-
     <div class="left">
       <router-view></router-view>
     </div>
@@ -50,7 +49,6 @@
         </li>
       </ul>
     </div>
-
     <!--Delete the lesson and all the data under this lesson.-->
   </div>
 
@@ -78,8 +76,64 @@
       this.getDetailByLessonId();
       // this.$router.push({path: "/homePage/course/teachingMaterials", query: {"lessonId": this.lessonId}});
       this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": this.lessonId}});
+      this.materialNumberLoad();
+      this.discussNumberLoad();
+      this.exercisesNumberLoad();
+      this.assignmentNumberLoad();
     },
     methods: {
+      assignmentNumberLoad() {
+        this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/statistic/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.assignmentNumber = res.data.entity;
+            }else{
+              console.log(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
+      exercisesNumberLoad() {
+        this.$http.get(`${process.env.NODE_ENV}/choiceQuestion/statistic/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.exercisesNumber = res.data.entity;
+            }else{
+              console.log(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
+      discussNumberLoad() {
+        this.$http.get(`${process.env.NODE_ENV}/classDiscuss/statistic/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.discussNumber = res.data.entity;
+            }else{
+              console.log(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
+      materialNumberLoad() {
+        this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/statistic/query?lessonId=${this.lessonId}`)
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.materialNumber = res.data.entity;
+            }else{
+              console.log(res.data.message);
+            }
+          }).catch((err) => {
+          console.log(err);
+        });
+
+      },
       lessonPublish() {
         if (this.entity.lesson != '' && this.entity.lesson.id) {
           this.$http.post(`${process.env.NODE_ENV}/lesson/publish/edit`, {"id": this.entity.lesson.id})
@@ -133,7 +187,7 @@
          });*/
       },
     },
-    components: {}
+    components: {},
   }
 </script>
 

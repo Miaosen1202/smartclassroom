@@ -14,7 +14,7 @@
         <div class="coursetop">
           <!--Lesson : Our Solar System and Life’s Emergence  v-for="lessonId in existCourseList"{{lessonId.courseName}}-->
           <p>{{entity.lesson.lessonName}}<!--Emergence--><!--{{entity.lesson.lessonName}}-->
-            <img src="../assets/images/u475.png" alt="">
+            <!--<img src="../assets/images/u475.png" alt="">-->
           </p>
           <p>
             <img src="../assets/images/u434.png" alt="">

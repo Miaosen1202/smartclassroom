@@ -56,11 +56,11 @@
             <div v-on:click="toggle(course.id)" style="cursor: pointer;display: inline-block">
               <i class="el-icon-arrow-down"></i>
               <img src="../../static/images/course.png" alt="">
-              <!--<h5 >Course：Journey of the Universe: A Story for Our Times1 </h5>-->
+            <!--  <h5 >Course：Journey of the Universe: A Story for Our Times1 </h5>-->
               <h5>{{course.courseName}}</h5>
             </div>
-            <!--<h5 v-on:click="deletecours(course.id)" class="el-icon-delete"-->
-                <!--style="color: red;cursor: pointer;float: right;margin-right: 1%"></h5>-->
+            <h5 v-on:click="deletecours(course.id)" class="el-icon-delete"
+                style="color: red;cursor: pointer;float: right;margin-right: 1%"></h5>
             <div v-show="isShow && (clickedCourseId == course.id)">
               <div class="lesson" v-for="(lesson,index) in lessonlist" :key="index">
                 <div v-on:click="lessonhistory()" style="cursor: pointer;display: inline-block">
@@ -68,7 +68,7 @@
                 </div>
                 <p v-on:click="goTeaching(lesson.id)">{{lesson.lessonName}}</p>
                 <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
-                  <!--<i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>-->
+                  <i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
                 </span>
                 <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">
                   {{ lesson.teachingStatus == 1 ? "Go on to class" : "Start the class" }}
@@ -264,9 +264,9 @@
           console.log(err);
         });
       },
-      goback: function() {
+      /*goback: function() {
         this.$router.push({path: "/navBar"});
-      },
+      },*/
       updatepassword: function () {
         if ((this.oldPassword == "" || this.oldPassword.trim() == "")) {
           this.$message.error("Please enter old password");
@@ -349,11 +349,11 @@
   }*/
 
   .teachmain {
-    width: 80%;
+    width: 90%;
     height: 100%;
     margin: 0 auto;
     overflow: auto;
-    padding-top: 4%;
+    padding-top: 2%;
 
   }
 

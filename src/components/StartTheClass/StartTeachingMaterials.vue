@@ -1,16 +1,47 @@
 <template>
   <div id="start">
+
     <div class="top">
-      <div v-on:click="goback()" style="display: inline-block">
+
+      <div>
+        <p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:middle;cursor: pointer">
+          <img src="../../../static/images/logo.png" alt="">
+        </p>
+        <span style="color: blue;margin-left: 8%">{{$t('message.text')}}</span>
+        <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
+          <img src="../../../static/images/u118.png" alt="">
+        </p>
+        <div @click="mycourse" style="float: right;padding-right: 1%;margin-top: 1%;cursor: pointer;">
+        <span >
+          <img src="../../../static/images/admintx.png" width="34" height="34" alt="">
+          {{ getLoginUser().name }}
+        </span>
+        </div>
+
+        <!--语言包引入-->
+        <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
+          <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value">
+            </el-option>
+          </el-select>
+        </div>
+
+      </div>
+
+      <!--<div v-on:click="goback()" style="display: inline-block">
         <img src="../../assets/images/pclogo.png" alt="" width="100" height="50"
              style="cursor: pointer;vertical-align: initial;">
       </div>
       <div style="margin: 0 auto;color: #2c6cae;cursor: pointer;display: inline-block;padding-left: 34%">
-        <!--Class Code :{{lessonCode}}-->
+        &lt;!&ndash;Class Code :{{lessonCode}}&ndash;&gt;
         <el-button type="text" @click="centerDialogVisible = true">Class Code :{{lessonCode}}</el-button>
       </div>
 
-      <!--提示弹框-->
+      &lt;!&ndash;提示弹框&ndash;&gt;
       <el-dialog
         title="This is Class Code :"
         :visible.sync="centerDialogVisible"
@@ -19,16 +50,16 @@
         <h1 style="text-align: center;">{{lessonCode}}</h1>
         <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">
-      <!--<img src="../../assets/images/u231.png" alt="">-->
+      &lt;!&ndash;<img src="../../assets/images/u231.png" alt="">&ndash;&gt;
       Close
     </el-button>
-    <!--<el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>-->
+    &lt;!&ndash;<el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>&ndash;&gt;
   </span>
       </el-dialog>
 
       <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
         <img src="../../../static/images/u118.png" alt="">
-      </p>
+      </p>-->
 
 
 
@@ -49,7 +80,46 @@
       </div>
     </div>-->
 
-    <div class="main">
+      <canvas id="c1" width="1300px" height="500px">
+                <span>该浏览器不支持canvas内容</span>
+      </canvas>
+
+      <div>
+        <el-button v-on:click="toggle()" style="float: right;border: none;background-color: #0e38b1" circle>
+          <img src="../../../static/images/toolkit.png"  alt="">
+        </el-button>
+        <div class="tool" style="float: right;margin-top: 1%;display: inline-block" v-show="isShow">
+          <div class="view" @click="draw">
+            <el-tooltip class="item" effect="dark" content="Mark pen" placement="bottom">
+            <el-button style="float: right;border: none;"  round >
+              <img src="../../../static/images/pen-blue.png" alt="">
+            </el-button>
+            </el-tooltip>
+          </div>
+          <div class="view" @click="gobackLesson()" >
+            <el-tooltip class="item" effect="dark" content="View my lessons" placement="bottom">
+              <el-button style="float: right;border: none" round @click="gobackLesson()">
+                <img src="../../../static/images/attentance-blue.png" alt="">
+              </el-button>
+            </el-tooltip>
+          </div>
+          <div class="view" @click="takeAbreak">
+            <el-tooltip class="item" effect="dark" content="End the class" placement="bottom">
+              <el-button style="float: right;;border: none"  round @click="takeAbreak">
+                <img src="../../../static/images/over-red.png"  alt="">
+              </el-button>
+            </el-tooltip>
+
+          </div>
+
+
+        </div>
+
+      </div>
+
+
+    <div style="position: absolute;top: 10%;left: 10%;">
+    <div class="main" style="height: 100%">
       <el-scrollbar style="height: 100%">
         <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange">
 
@@ -168,8 +238,8 @@
             <img v-on:click="goback()" src="../../assets/images/u273.png" alt="">
           </span>
             <p>Lesson： {{ lessonName }}</p>
-            <div class="exercise" style="width: 100%;margin-right: 2%">
-              <!--<div class="leftexerc" style="height: 350px">
+           <!-- <div class="exercise" style="width: 100%;margin-right: 2%">
+              &lt;!&ndash;<div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
                   <h6 style="display:inline-block; border-bottom: 2px solid #999">Exercises1</h6>
                   <div style="padding-left:2%; border-bottom: 1px solid #ccc">
@@ -177,20 +247,20 @@
                     <p style="display:inline-block">Which of the planets of the solar</p>
                   </div>
                 </el-scrollbar>
-              </div>-->
+              </div>&ndash;&gt;
 
-              <!--<div class="rightexerc" :style="{width: '300px', height: '300px'}">
+              &lt;!&ndash;<div class="rightexerc" :style="{width: '300px', height: '300px'}">
                 <div id="bmyChart"></div>
-              </div>-->
-              <div>
+              </div>&ndash;&gt;
+              &lt;!&ndash;<div>
                 <p style="display: inline-block;padding-left: 2%">Statistics Responses </p>
                 <h3 style="color: #880000;display: inline-block">14</h3>/<span>16</span>
-                <!--<span class="el-icon-arrow-left"></span>-->
+                &lt;!&ndash;<span class="el-icon-arrow-left"></span>&ndash;&gt;
                 <el-button style="margin-left: 8%" type="primary" icon="el-icon-caret-left" circle></el-button>
                 <el-button type="primary" icon="el-icon-caret-right" circle></el-button>
-              </div>
+              </div>&ndash;&gt;
               <div style="float: left;width: 38%;height: 300px;margin: 1% 0%">
-                <!--<el-scrollbar style="height: 100%">
+                &lt;!&ndash;<el-scrollbar style="height: 100%">
                   <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%;">
                     <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
                     <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
@@ -228,17 +298,21 @@
                       than the famous Sirius, the
                     </p>
                   </div>
-                </el-scrollbar>-->
+                </el-scrollbar>&ndash;&gt;
               </div>
-            </div>
+            </div>-->
           </el-tab-pane>
         </el-tabs>
+            
       </el-scrollbar>
     </div>
+    </div>
+
   </div>
 </template>
 
 <script>
+  import util from '../../utils/util'
   import eventBus from '../../eventBus'
   /*require('echarts-wordcloud');*/
   // 引入基本模板
@@ -252,7 +326,17 @@
   export default {
     data() {
       return {
-        tabPosition: 'right',
+        selectValue:'',
+        options:[
+          {
+            value: 'cn',
+            label: '中文'
+          }, {
+            value: 'en',
+            label: 'English'
+          }
+        ],
+        tabPosition: 'top',
         centerDialogVisible: true,
         discussAnswers: [],
         checkedMaterialList: [],
@@ -277,12 +361,12 @@
         handleCheckedCitiesChange: '',
         discussionList: [],
         existExercisesList: [],
-        options: [
-          /*{
+        /*options: [
+          /!*{
             answerCode:'',
             answerContent:'',
-          }*/
-        ],
+          }*!/
+        ],*/
         pageSize:1,//页大小
         currentPage:1,//当前页
         pages: 0,//总页数
@@ -290,6 +374,11 @@
         isSubmit:1,
         msg: ''
       }
+    },
+    created() {
+      let that = this;
+      console.log(localStorage.lang)
+      that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
     },
     mounted() {
       this.loadFinishexercise();
@@ -300,6 +389,33 @@
      /* this.getAssignmentListByLessonId();*/
     },
     methods: {
+      getLoginUser: util.getLoginUser,
+      draw() {
+        /*debugger;*/
+        var oC = document.getElementById('c1');
+        var oCG = oC.getContext('2d');
+        oCG.strokeStyle="red";
+        oCG.lineWidth=3;
+        oC.onmousedown = function(ev) {
+
+          var ev = ev || window.event;
+          oCG.moveTo(ev.clientX-oC.offsetLeft,ev.clientY-oC.offsetTop);
+          //ev.clientX-oC.offsetLeft,ev.clientY-oC.offsetTop鼠标在当前画布上X,Y坐标
+
+          document.onmousemove = function(ev) {
+            var ev = ev || window.event;//获取event对象
+            oCG.lineTo(ev.clientX-oC.offsetLeft,ev.clientY-oC.offsetTop);
+            oCG.stroke();
+          };
+
+          oC.onmouseup = function() {
+            document.onmousemove = null;
+            document.onmouseup = null;
+          };
+
+        };
+      },
+
       drawLine() {
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById('myChart'))
@@ -502,6 +618,9 @@
       goback: function () {
         this.$router.push({path: "/homePage/goTeach"});
       },
+      gobackLesson: function () {
+        this.$router.push({path: "/homePage/goTeach"});
+      },
       backlogin:function (){
         this.$router.push({path: "/"});
       },
@@ -619,6 +738,23 @@
           console.log(err);
         });
       },
+
+      goToFirst(){
+        this.$router.push({path:"/homePage/prepare"});
+      },
+      backlogin() {
+        this.$router.push({path: "/"});
+      },
+      mycourse() {
+        this.$router.push({path: "/personalCenterManagement/myCourse"});
+      },
+      //语言切换
+      langChange(e){
+        // console.log(e)
+        localStorage.setItem('lang',e);
+        this.$i18n.locale = e;
+      }
+
     }
 
   }
@@ -637,7 +773,7 @@
   }
 
   .main {
-    width: 80%;
+    width: 100%;
     margin: 2% auto;
     height: 80%;
     overflow: auto;
@@ -645,7 +781,7 @@
 
   .list {
     border: 1px solid #ccc;
-    width: 84%;
+    width: 100%;
     border-radius: 2%;
     padding: 1% 2%;
     border-radius: 4px;
@@ -728,8 +864,7 @@
   .leftexerc {
     display: inline-block;
     /*border: 1px solid #ccc;*/
-
-    width: 60%;
+    width: 50%;
     height: 100%;
     float: left;
     padding-left: 2%;
@@ -749,17 +884,18 @@
   }
 .view {
   margin-top: 1%;
-  border: 1px solid #ccc;
-  display:inline-block;
   float: right;
-  padding: 2%;
-  background-color: #ccc;
-  border-radius: 4px;
   cursor: pointer;
-  width: 76%;
+
 }
   .view:active {
     background-color: #8c8c8c;
     cursor: pointer;
+  }
+  .tool {
+    background-color: #fff;
+    /*border: 1px solid #ccc;*/
+    box-shadow: 0 0 5px blue ;
+    border-radius: 20px;
   }
 </style>

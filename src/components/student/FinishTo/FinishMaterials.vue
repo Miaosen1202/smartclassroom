@@ -11,9 +11,23 @@
                      style="display: block;padding-top: 2%">
           <!--<img src="../../../assets/images/u558.png" alt="">-->
           <a :href="material.materialUrl" :download="material.materialName">{{ material.materialName }}</a>
+            <!--<span @click="preview(material.localPath)">{{material.materialName}}</span>-->
+            <!--<i class="el-icon-download" @click="downFile(material.materialUrl)" style="cursor: pointer;"></i>-->
         </el-checkbox>
       </el-checkbox-group>
     </el-scrollbar>
+
+
+    <el-dialog
+      class="file-preview"
+      title="preview"
+      :visible.sync="filePreviewDialogVisible"
+      width="100%"
+      fullscreen
+      >
+      <iframe :src="previewHtml" style="width: 100%; height: 100%">
+      </iframe>
+    </el-dialog>
   </div>
 </template>
 
@@ -25,7 +39,10 @@
         checkedMaterials: [],
         materialList: [],
         isIndeterminate: true,
-        lessonId: this.$route.query.lessonId
+        lessonId: this.$route.query.lessonId,
+
+        filePreviewDialogVisible: false,
+        previewHtml: "",
       }
     },
 
@@ -34,6 +51,27 @@
     },
 
     methods: {
+      preview: function (filePath) {
+        this.filePreviewDialogVisible = true;
+        this.previewHtml = "";
+
+        this.$http.get(`${process.env.NODE_ENV}/file/preview`, {params: {filePath: filePath}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.previewHtml = res.data.entity;
+            } else if (res.data.code == 300) {
+              this.$message.error(res.data.message);
+              this.$router.push("/");
+            } else {
+              console.error("preview fail", res.data.message);
+              this.$message.error("预览文件失败，请下载至本地查看");
+            }
+          }).catch((err) => {
+          console.error("preview fail", err);
+          this.$message.error("预览文件失败，请下载至本地查看");
+        });
+      },
+
       handleCheckAllChange(val) {
         this.checkedMaterials = val ? cityOptions : [];
         this.isIndeterminate = false;

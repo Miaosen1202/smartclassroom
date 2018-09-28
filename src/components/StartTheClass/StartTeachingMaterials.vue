@@ -34,20 +34,7 @@
 
 
     </div>
-    <!--下课按钮-->
-    <!--<div class="right" style="width: 10%;float: right;margin-top: 1%">
 
-     <div class="view" @click="gobackLesson()" >
-       <img src="../../assets/images/u2378.png" alt="">
-       View my lessons
-      &lt;!&ndash; <el-button style="float: right;top: 50%;" type="primary" round @click="gobackLesson()">View my lessons</el-button>&ndash;&gt;
-     </div>
-      <div class="view" @click="takeAbreak">
-        <img src="../../assets/images/u2326.png" alt="">
-        End the class
-       &lt;!&ndash; <el-button style="float: right;top: 50%;" type="primary" round @click="takeAbreak">End the class</el-button>&ndash;&gt;
-      </div>
-    </div>-->
 
     <div class="main">
       <el-scrollbar style="height: 100%">
@@ -60,7 +47,12 @@
             <el-checkbox-group v-model="checkedMaterialList">
               <div class="list" v-for="material in materialList">
                 <el-checkbox :label="material" :disabled="material.isShare == 1">
-                  <a :href="material.materialUrl" :download="material.materialName">{{material.materialName}}</a>
+                  <!--<a :href="material.materialUrl" :download="material.materialName">{{material.materialName}}</a>-->
+
+                  <span @click="preview(material.localPath)">{{material.materialName}}</span>
+                  <a :href="material.materialUrl" :download="material.materialName">
+                    <i class="el-icon-download" style="cursor: pointer;"></i>
+                  </a>
                 </el-checkbox>
               </div>
             </el-checkbox-group>
@@ -75,7 +67,12 @@
               <p>{{discussion.discussContent}}</p>
               <ul>
                 <li v-for="atth in discussion.attachments">
-                  <a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>
+                  <!--<a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>-->
+
+                  <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
+                  <a :href="atth.fileUrl" :download="atth.fileName">
+                    <i class="el-icon-download" style="cursor: pointer;"></i>
+                  </a>
                 </li>
               </ul>
               <div class="news" v-on:click="getDiscussAnswer(discussion.id)">
@@ -91,7 +88,12 @@
                     <p>{{ discussAnswer.answerContent }}</p>
                     <ul>
                       <li v-for="atth in discussAnswer.attachments">
-                        <a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>
+                        <!--<a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>-->
+
+                        <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
+                        <a :href="atth.fileUrl" :download="atth.fileName">
+                          <i class="el-icon-download" style="cursor: pointer;"></i>
+                        </a>
                       </li>
                     </ul>
                   </div>
@@ -157,7 +159,12 @@
                 <p>{{assignment.assignmentName}}</p>
                 <ul>
                   <li v-for="atth in assignment.attachments">
-                    <a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>
+                    <!--<a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>-->
+
+                    <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
+                    <a :href="atth.fileUrl" :download="atth.fileName">
+                      <i class="el-icon-download" style="cursor: pointer;"></i>
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -190,50 +197,22 @@
                 <el-button type="primary" icon="el-icon-caret-right" circle></el-button>
               </div>
               <div style="float: left;width: 38%;height: 300px;margin: 1% 0%">
-                <!--<el-scrollbar style="height: 100%">
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%;">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the
-                    </p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the
-                    </p>
-                  </div>
-                </el-scrollbar>-->
+
               </div>
             </div>
           </el-tab-pane>
         </el-tabs>
       </el-scrollbar>
+
+      <el-dialog
+        class="file-preview"
+        title="preview"
+        :visible.sync="filePreviewDialogVisible"
+        width="100%"
+        fullscreen>
+        <iframe :src="previewHtml" style="width: 100%; height: 100%">
+        </iframe>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -288,7 +267,10 @@
         pages: 0,//总页数
         total:0,//总条数
         isSubmit:1,
-        msg: ''
+        msg: '',
+
+        filePreviewDialogVisible: false,
+        previewHtml: "",
       }
     },
     mounted() {
@@ -301,6 +283,32 @@
      /* this.getAssignmentListByLessonId();*/
     },
     methods: {
+      preview: function (filePath) {
+        this.filePreviewDialogVisible = true;
+        this.previewHtml = "";
+
+        this.$http.get(`${process.env.NODE_ENV}/file/preview`, {params: {filePath: filePath}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.previewHtml = res.data.entity;
+            } else if (res.data.code == 300) {
+              this.$message.error(res.data.message);
+              this.$router.push("/");
+            } else {
+              console.error("preview fail", res.data.message);
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+            console.error("preview fail", err);
+            this.$message.error("预览文件失败，请下载至本地查看");
+        });
+      },
+
+      downFile(filePath){
+        /*window.open(`${process.env.NODE_ENV}/http://localhost:8088/${filePath}`);*/
+        window.open(`${process.env.NODE_ENV}${filePath}`);
+      },
+
       centerDialogVisibleShow() {
         console.log(this.$route.query.isShow);
         if (this.$route.query.isShow==undefined) {
@@ -635,6 +643,14 @@
   }
 </script>
 
+<style>
+  .file-preview .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .file-preview .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+</style>
 <style scoped>
   #start {
     width: 100%;

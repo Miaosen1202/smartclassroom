@@ -304,7 +304,7 @@
 
       doDelete: function (ids) {
         let me = this;
-        this.del("/", ids, (data) => {
+        this.del("/feedback", ids, (data) => {
           me.loadFeedbackRecord(me.page.pageIndex);
         });
         // this.$http.post(`${process.env.NODE_ENV}/feedback/deletes`, ids)

@@ -13,21 +13,21 @@
 
 
       <div class="teachtop">
-        <p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:bottom;cursor: pointer">
+        <!--<p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:bottom;cursor: pointer">
           <img src="../../static/images/logo.png" alt="">
-        </p>
+        </p>-->
         <span @click="dialogFormVisible = true" class="password" style="padding-top: 1%;margin-left: 2%">Modify Password</span>
         <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
           <img src="../../static/images/u118.png" alt="">
         </p>
-        <div @click="mycourse" style="float: right;padding-right: 1%;margin-top: 1%;cursor: pointer;">
+       <!-- <div @click="mycourse" style="float: right;padding-right: 1%;margin-top: 1%;cursor: pointer;">
         <span >
         <img src="../../static/images/admintx.png" width="34" height="34" alt="">
         Teacher</span>
-        </div>
+        </div>-->
 
         <!--语言包引入-->
-        <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
+       <!-- <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
           <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
             <el-option
               v-for="item in options"
@@ -36,7 +36,7 @@
               :value="item.value">
             </el-option>
           </el-select>
-        </div>
+        </div>-->
 
       </div>
 
@@ -333,7 +333,7 @@
 
   .teachtop {
     width: 100%;
-    height: 8%;
+    height: 6%;
     font-family: 'Arial Normal', 'Arial';
     /*background-color: rgb(215, 215, 215);*/
     background-color: rgba(248, 248, 248, 1);

@@ -49,7 +49,7 @@
 
 
         <div class="option">
-          <el-button size="mini" style="display: inline-block;background-color: #f17e26;color: #fff" @click="addSelectItems">+0ptions</el-button>
+          <el-button size="mini" style="display: inline-block;background-color: #f17e26;color: #fff" v-bind:disabled="optionsShow" @click="addSelectItems">+Options</el-button>
           <div style="display: inline-block;width: 50%">
             <p style="color: #ff6699;padding-left: 2%">
               <i class="el-icon-warning"></i>
@@ -108,7 +108,7 @@
 
 
         <div class="option">
-          <el-button size="mini" style="display: inline-block" @click="addSelectItems">+0ptions</el-button>
+          <el-button size="mini" style="display: inline-block;background-color: #f17e26;color: #fff" v-bind:disabled="optionsShow" @click="addSelectItems">+Options</el-button>
           <div style="display: inline-block;width: 50%">
             <p style="color: #ff6699;padding-left: 2%">
               <i class="el-icon-warning"></i>
@@ -237,6 +237,7 @@
             answerCode: "A"
           }
         ],
+        optionsShow:false,
         showAdd: true,
         exerciseEntity: {},
         selectEditItem: "",
@@ -346,17 +347,21 @@
             answerCode: answerCode
           })
         }
+        if (this.options.length == this.codeObjList.length) {
+          this.optionsShow= true;//控制按钮可用状态
+        }
       },
       deleteSelectItems(ind) {
+        this.optionsShow=false;//控制按钮可用状态
         if (this.showAdd == true) {
           this.options.splice(ind, 1);
-          console.log(this.options);
+          // console.log(this.options);
           this.options.forEach((e, i) => {
             e.answerCode = this.getCodeNameById(i);
           })
         } else {
           this.exerciseEntity.options.splice(ind, 1);
-          console.log(this.exerciseEntity.options);
+          // console.log(this.exerciseEntity.options);
           this.exerciseEntity.options.forEach((e, i) => {
             e.answerCode = this.getCodeNameById(i);
           })

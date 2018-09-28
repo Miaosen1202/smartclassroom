@@ -1,91 +1,17 @@
 <template>
   <div id="viewhistory">
-    <div class="historytop">
+    <!--<div class="historytop">
       <p>Welcome {{ getLoginUser().name }} !</p>
       <p @click="logout" style="float: right;padding-right: 2%;cursor: pointer">
         <img src="../assets/images/u118.png" alt="">
       </p>
-    </div>
-    <!--<el-scrollbar style="height: 100%">
-    <div class="historymain">
-      <p style="padding-left: 2%">
-        <i class="el-icon-warning"></i>
-        Please choose a lesson.
-      </p>
-      <div class="lessonhistory">
-        <div class="have">
-          <div v-on:click="toggle()" style="cursor: pointer;display: inline-block">
-            <i class="el-icon-arrow-down"></i>
-            <img src="../assets/images/u1212.png" alt="">
-            <h5 >Course：Journey of the Universe: A Story for Our Times1 </h5>
-          </div>
-          <h5 class="el-icon-delete" style="color: red;cursor: pointer;float: right;margin-right: 2%"></h5>
-          <div v-show="isShow">
-          <div class="lesson" >
-            <div v-on:click="lessonhistory()" style="cursor: pointer;display: inline-block">
-              <i class="el-icon-arrow-down"></i>
-              <img src="../assets/images/u16.png" alt="">
-            </div>
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-              <p style="float: right">12:00 30/08/2018
-                <i class="el-icon-delete" style="color: red;cursor: pointer"></i>
-              </p>
-            <div v-show="lessonmain">
-              <ul>
-                <li>Our Solar System and Life’s .docx</li>
-                <li>Emergence.jpg</li>
-              </ul>
-            </div>
-          </div>
-          <div class="lesson">
-            <div>
-              <img src="../assets/images/u16.png" alt="">
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
+    </div>-->
 
-            </div>
-            <ul>
-              <li>Our Solar System and Life’s .docx</li>
-              <li>Emergence.jpg</li>
-            </ul>
-          </div>
-          <div class="lesson">
-            <p>Which of the planets of the solar system looks brightest on the earth</p>
-            <ul>
-              <li>Our Solar System and Life’s .docx</li>
-              <li>Emergence.jpg</li>
-            </ul>
-          </div>
-          </div>
-        </div>
-      </div>
-        <div class="lessonhistory">
-          <div class="have">
-            <h5>Course：Journey of the Universe: A Story for Our Times1 </h5>
-            <div class="lesson">
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-              <ul>
-                <li>Our Solar System and Life’s .docx</li>
-                <li>Emergence.jpg</li>
-              </ul>
-            </div>
-            <div class="lesson">
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-              <ul>
-                <li>Our Solar System and Life’s .docx</li>
-                <li>Emergence.jpg</li>
-              </ul>
-            </div>
-            <div class="lesson">
-              <p>Which of the planets of the solar system looks brightest on the earth</p>
-              <ul>
-                <li>Our Solar System and Life’s .docx</li>
-                <li>Emergence.jpg</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-    </div>
-    </el-scrollbar>-->
+
+
+
+
+
     <!--表格建立 样式修改2018/9/6-->
     <!--:header-cell-style="{background:'#ccc',color:'#fff'}"-->
     <div class="all">
@@ -128,9 +54,11 @@
         pageSize: 5,
         pageIndex: 1,
         recordNumber: 0,
-        teacherTeachingHistoryRecords: []
+        teacherTeachingHistoryRecords: [],
+
       }
     },
+
     mounted() {
       this.loadTeacherTeachingHistory(this.pageIndex);
     },
@@ -148,7 +76,7 @@
       goTeaching: function(index, row) {
         // this.$router.push({path: "/homePage/course", query: {"lessonId": row.lessonId}});
 
-        this.$router.push({path: "/StartTeachingMaterials", query: {"lessonId": row.lessonId, lessonCode: row.lessonCode}});
+        this.$router.push({path: "/StartTeachingMaterials", query: {"lessonId": row.lessonId, lessonCode: row.lessonCode,isShow: false}});
         // StartTeachingMaterials?lessonId=80&lessonCode=XDQ9
       },
       loadTeacherTeachingHistory: function (pageIndex) {
@@ -193,17 +121,18 @@
           this.$router.push({path: "/"});
         });
       },
+
     }
   }
 </script>
 
 <style scoped="">
   .all {
-    width: 80%;
+    width: 90%;
     height: 80%;
     display: inline-block;
     vertical-align: middle;
-    padding-left: 16%;
+    padding-left: 4%;
     margin-top: 2%;
   }
 
@@ -216,16 +145,16 @@
     width: 100%;
     height: 10%;
     font-family: 'Arial Normal', 'Arial';
-    background-color: rgb(215, 215, 215);
+    background-color: rgb(248, 248, 248);
     /* position: fixed;
      z-index: 99999;*/
   }
 
-  .historytop p {
+  /*.historytop p {
     display: inline-block;
     padding-top: 1%;
     padding-left: 2%;
-  }
+  }*/
 
   .historymain {
     width: 80%;

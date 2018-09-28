@@ -50,15 +50,15 @@
       },
       goTeach(s){
         this.activeFlag = s;
-        this.$router.push({path:"/goTeach"});
+        this.$router.push({path:"/homePage/goTeach"});
       },
       viewHistory(s){
         this.activeFlag = s;
-        this.$router.push({path:"/ViewHistory"});
+        this.$router.push({path:"/homePage/ViewHistory"});
       },
-      goback: function() {
+     /* goback: function() {
         this.$router.push({path: "/homePage/prepare"});
-      },
+      },*/
      /* gotenching(){
         this.$router.push({path:"/homePage/teachingMaterials"});
       }*/

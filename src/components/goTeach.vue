@@ -110,6 +110,7 @@
   import eventBus from '../eventBus'
 
   export default {
+    // var me = this;
     data() {
       return {
         selectValue:'',
@@ -234,35 +235,45 @@
         this.$router.push({path: "/"});
       },
       deletecours: function (id) {
-        this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message({
-                message: 'Congratulations on your successful deletion!',
-                type: 'success'
-              });
-              this.getCourselist();
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
+        let me = this;
+        this.del("/course",[id], (data)=> me.getCourselist())
+        // this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message({
+        //         message: 'Congratulations on your successful deletion!',
+        //         type: 'success'
+        //       });
+        //       this.getCourselist();
+        //     }
+        //   }).catch((err) => {
+        //   console.log(err);
+        // });
       },
       deletelesson: function (courseId,lessonId) {
-        this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [lessonId])
-          .then((res) => {
-            if (res.data.code == 200) {
-              /*this.discussionId = res.data.entity;
-              console.log("discussionId:"+this.discussionId);*/
-              this.$message({
-                message: 'Congratulations on your successful deletion!',
-                type: 'success'
-              });
-              this.getLessonListByCourseId(courseId);
-
-            }
-          }).catch((err) => {
-          console.log(err);
+        let me = this;
+        this.del("/lesson",[lessonId], ()=> {
+          this.$message({
+            message: 'Congratulations on your successful deletion!',
+            type: 'success'
+          });
+          me.getLessonListByCourseId(courseId);
         });
+        // this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [lessonId])
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       /*this.discussionId = res.data.entity;
+        //       console.log("discussionId:"+this.discussionId);*/
+        //       this.$message({
+        //         message: 'Congratulations on your successful deletion!',
+        //         type: 'success'
+        //       });
+        //       this.getLessonListByCourseId(courseId);
+        //
+        //     }
+        //   }).catch((err) => {
+        //   console.log(err);
+        // });
       },
       /*goback: function() {
         this.$router.push({path: "/navBar"});

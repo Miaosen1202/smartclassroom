@@ -1,7 +1,7 @@
 <template>
 
   <div style="height: 100%">
-    <div class="teach" v-show="!showUpload" >
+    <div class="teach" v-show="!showUpload">
       <div class="no-material">
         <p><img src="../../../assets/images/u768.png" alt=""></p>
         <p>There are no teaching materials yet.</p>
@@ -12,21 +12,22 @@
     </div>
 
     <div class="material-panel all" v-show="showUpload">
-      <el-scrollbar >
+      <el-scrollbar>
 
         <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
-                     @change="handleCheckAllChange">All</el-checkbox>
+                     @change="handleCheckAllChange">All
+        </el-checkbox>
 
         <div class="check">
-          <el-button size="small"  @click="handleMaterialRemove"  >
-           <!-- <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">-->
+          <el-button size="small" @click="handleMaterialRemove">
+            <!-- <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">-->
             Delete
           </el-button>
           <!--<el-button size="small" type="primary" @click="goViewMaterialBank">-->
-            <!--<img src="../../../assets/images/u60.png" alt="">More-->
+          <!--<img src="../../../assets/images/u60.png" alt="">More-->
           <!--</el-button>-->
           <el-button size="small" type="primary" @click="copyToClike" style="background-color: #f17e26;border: none">
-            <img src="../../../../static/images/COPYTO.png"  alt="" width="20px" height="15px" >
+            <img src="../../../../static/images/COPYTO.png" alt="" width="20px" height="15px">
             Copy To
           </el-button>
         </div>
@@ -41,7 +42,7 @@
           :on-success="handleFileUploadSuccess"
         >
           <el-button size="small" type="primary" @click="addshowUplond" style="background-color: #26b196">
-            <img src="../../../../static/images/UPLOAD.png" height="15px"  alt="">
+            <img src="../../../../static/images/UPLOAD.png" height="15px" alt="">
             Upload
           </el-button>
 
@@ -55,7 +56,7 @@
         <!--</el-checkbox-group>-->
         <el-checkbox-group v-model="checkedMaterialList">
           <div class="list" v-for="material in materialList">
-            <el-checkbox :label="material" >
+            <el-checkbox :label="material">
               <a :href="material.materialUrl" :download="material.materialName">{{material.materialName}}</a>
             </el-checkbox>
           </div>
@@ -63,11 +64,11 @@
 
         <!-- 拷贝课时资料 -->
         <el-dialog ref="copyToDialog"
-          id="copyToDialog"
-          title="Select a Lesson"
-          :visible.sync="copyToDialogVisible"
-          @open="copyMaterialDialogOpen"
-          width="30%">
+                   id="copyToDialog"
+                   title="Select a Lesson"
+                   :visible.sync="copyToDialogVisible"
+                   @open="copyMaterialDialogOpen"
+                   width="30%">
 
           <div>
             <el-collapse accordion v-model="activeName" @change="courseCollapseChange">
@@ -75,8 +76,9 @@
                                 :title="course.courseName"
                                 :name="course.id"
                                 :key="course.id"
-                                >
-                <el-radio class="lesson-item" v-for="les in lessonList" v-model="copyToLessonRadio" :label="les.id" :key="les.id">
+              >
+                <el-radio class="lesson-item" v-for="les in lessonList" v-model="copyToLessonRadio" :label="les.id"
+                          :key="les.id">
                   {{les.lessonName}}
                 </el-radio>
               </el-collapse-item>
@@ -118,13 +120,13 @@
       this.getMaterialList();
     },
     methods: {
-      goToAddMaterials: function() {
+      goToAddMaterials: function () {
         this.showUpload = true;
       },
       UploadUrl: function () {
         return `${process.env.NODE_ENV}/file/upload`;
       },
-      handleFileUploadSuccess: function(resp, file, fileList) {
+      handleFileUploadSuccess: function (resp, file, fileList) {
         if (resp.code == 200) {
           var newMaterial = {
             lessonId: this.lessonId,
@@ -148,7 +150,7 @@
                 alert(res.data.message);
               }
             }).catch((err) => {
-              alert(err);
+            alert(err);
           });
         } else {
           alert("Upload file error: " + resp.message);
@@ -157,9 +159,9 @@
       handleChange(file, fileList) {
         console.log("upload change", file, fileList)
       },
-      handleMaterialRemove: function() {
+      handleMaterialRemove: function () {
         var deleteMaterialIds = [];
-        this.checkedMaterialList.forEach(function(m) {
+        this.checkedMaterialList.forEach(function (m) {
           deleteMaterialIds.push(m.id);
         });
 
@@ -167,33 +169,52 @@
           this.$message.error("请先选择课时资料");
           return;
         }
-        this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/deletes`, deleteMaterialIds)
-          .then((res) => {
-            if (res.data.code == 200) {
-              var delIdCache = {};
-              JSON.parse(res.data.entity).forEach(function (id) {
-                delIdCache[id] = true;
-              });
-
-              console.log("delete success, deletedIds:", delIdCache);
-              for (var i = this.checkedMaterialList.length - 1; i >= 0; i--) {
-                if (delIdCache[this.checkedMaterialList[i].id]) {
-                  this.checkedMaterialList.splice(i, 1);
-                }
-              }
-              for (var i = this.materialList.length - 1; i >= 0; i--) {
-                if (delIdCache[this.materialList[i].id]) {
-                  this.materialList.splice(i, 1);
-                }
-              }
-
-              this.showUpload = this.materialList.length > 0;
-            } else {
-              this.$message.error(res.data.message);
+        let me = this;
+        this.del("/lessonMaterial", deleteMaterialIds, (data) => {
+          var delIdCache = {};
+          JSON.parse(data.entity).forEach(function (id) {
+            delIdCache[id] = true;
+          });
+          console.log("delete success, deletedIds:", delIdCache);
+          for (var i = me.checkedMaterialList.length - 1; i >= 0; i--) {
+            if (delIdCache[me.checkedMaterialList[i].id]) {
+              me.checkedMaterialList.splice(i, 1);
             }
-          }).catch((err) => {
-            this.$message.error(err);
-        });
+          }
+          for (var i = me.materialList.length - 1; i >= 0; i--) {
+            if (delIdCache[me.materialList[i].id]) {
+              me.materialList.splice(i, 1);
+            }
+          }
+          me.showUpload = me.materialList.length > 0;
+        })
+        // this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/deletes`, deleteMaterialIds)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       var delIdCache = {};
+        //       JSON.parse(res.data.entity).forEach(function (id) {
+        //         delIdCache[id] = true;
+        //       });
+        //
+        //       console.log("delete success, deletedIds:", delIdCache);
+        //       for (var i = this.checkedMaterialList.length - 1; i >= 0; i--) {
+        //         if (delIdCache[this.checkedMaterialList[i].id]) {
+        //           this.checkedMaterialList.splice(i, 1);
+        //         }
+        //       }
+        //       for (var i = this.materialList.length - 1; i >= 0; i--) {
+        //         if (delIdCache[this.materialList[i].id]) {
+        //           this.materialList.splice(i, 1);
+        //         }
+        //       }
+        //
+        //       this.showUpload = this.materialList.length > 0;
+        //     } else {
+        //       this.$message.error(res.data.message);
+        //     }
+        //   }).catch((err) => {
+        //     this.$message.error(err);
+        // });
       },
       addshowUplond() {
         var addUplond = {
@@ -225,14 +246,14 @@
               this.$message.error(res.data.message);
             }
           }).catch((err) => {
-            this.$message.error(err);
+          this.$message.error(err);
         });
       },
       handleCheckAllChange(val) {
         this.checkedMaterialList = val ? this.materialList : [];
         this.isIndeterminate = false;
       },
-      copyToClike: function() {
+      copyToClike: function () {
         if (this.checkedMaterialList.length == 0) {
           this.$message.error("请先选择课时资料");
           return;
@@ -248,10 +269,10 @@
               this.$message.error(res.data.message);
             }
           }).catch((err) => {
-            this.$message.error(err);
+          this.$message.error(err);
         });
       },
-      courseCollapseChange: function(courseId) {
+      courseCollapseChange: function (courseId) {
         if (typeof courseId == "undefined") {
           return;
         }
@@ -301,7 +322,7 @@
               this.$message.error(res.data.message);
             }
           }).catch((err) => {
-            this.$message.error(err);
+          this.$message.error(err);
         });
       },
       goViewMaterialBank: function () {
@@ -349,19 +370,23 @@
   .check {
     display: inline-block;
   }
+
   .dialog-footer .el-button:first-child {
     background-color: rgba(0, 204, 0, 1);
     border: none;
   }
+
   .dialog-footer .el-button:first-child:hover {
     background-color: rgb(0, 160, 0);
     border: none;
   }
+
   .dialog-footer .el-button:last-child {
     background-color: rgba(153, 153, 153, 1);
     border: none;
     color: white;
   }
+
   .dialog-footer .el-button:last-child:hover {
     background-color: rgb(116, 116, 116);
     border: none;
@@ -372,14 +397,17 @@
     text-align: center;
     margin-top: 4%;
   }
+
   .teach p:first-child {
     color: #ccc;
     margin-bottom: 3%;
   }
+
   .teach p:nth-child(2) {
     color: #999;
     margin-bottom: 3%;
   }
+
   .el-button--medium {
     padding: 1% 5%;
   }

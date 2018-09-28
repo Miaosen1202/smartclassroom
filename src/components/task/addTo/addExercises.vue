@@ -445,14 +445,16 @@
       },
       /*删除选项中的列表*/
       deleteExercises: function (id) {
-        this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/deletes`, [id])
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.getAssignmentListByLessonId();
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
+        let me = this;
+        this.del("/choiceQuestion", [id],()=> me.getAssignmentListByLessonId())
+        // this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/deletes`, [id])
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.getAssignmentListByLessonId();
+        //     }
+        //   }).catch((err) => {
+        //   console.log(err);
+        // });
       },
       /*获取选择题详情*/
       getExecisesDetail(id) {

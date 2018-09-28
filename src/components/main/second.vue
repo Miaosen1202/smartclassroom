@@ -90,13 +90,15 @@
             this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": row.id}});
           },
           handleDelete(index, row) {
-            this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [row.id])
-                .then((res) => {
-                    this.tableData.splice(index, 1);
-                    console.log("delete success, lessonId=" + res.data.entity);
-                }).catch((err) => {
-                  console.error(err);
-                });
+            let me = this;
+            this.del("/lesson", [row.id], () => me.tableData.splice(index, 1));
+            // this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [row.id])
+            //     .then((res) => {
+            //         this.tableData.splice(index, 1);
+            //         console.log("delete success, lessonId=" + res.data.entity);
+            //     }).catch((err) => {
+            //       console.error(err);
+            //     });
           }
         }
     }

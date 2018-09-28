@@ -22,9 +22,55 @@ var $http = axios.create({
 });
 Vue.prototype.$http = $http;
 
-
-
 Vue.use(ElementUI);
+Vue.prototype.post = function (path, param, successCallback, errorCallback) {
+  $http.post(`${process.env.NODE_ENV}` + path, param)
+    .then((res) => {
+      if (res.data.code == 200) {
+        console.log("---200----");
+        successCallback(res.data)
+      } else if (res.data.code == 300) {
+        console.log("---300----");
+        this.$router.push("/")
+      } else {
+        if (errorCallback == undefined) {
+          this.$message.error(res.data.message)
+        } else {
+          console.log("---500----");
+          errorCallback(res)
+        }
+      }
+    });
+};
+Vue.prototype.get = function (path, param, successCallback, errorCallback) {
+  $http.get(`${process.env.NODE_ENV}` + path, param)
+    .then((res) => {
+      if (res.data.code == 200) {
+        console.log("---200----");
+        successCallback(res.data)
+      } else if (res.data.code == 300) {
+        console.log("---300----");
+        this.$router.push("/")
+      } else {
+        console.log("---500----");
+        if (errorCallback == undefined) {
+          this.$message.error(res.data.message)
+        } else {
+          errorCallback(res)
+        }
+      }
+    })
+    .catch((err) => {
+      console.error(err)
+    });
+};
+Vue.prototype.del=function (path, param, successCallback, errorCallback) {
+  this.$confirm('确认删除？')
+    .then(() => {
+      this.post(path+"/deletes", param, successCallback, errorCallback)
+    })
+    .catch(() => {});
+};
 
 /*// 创建axios实例
 const service = axios.create({
@@ -42,8 +88,8 @@ new Vue({
   el: '#app',
   router,
   i18n,
-  components: { App },
+  components: {App},
   template: '<App/>'
-})
+});
 
 

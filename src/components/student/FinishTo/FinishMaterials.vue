@@ -10,9 +10,13 @@
         <el-checkbox v-for="material in materialList" :key="index" :label="material"
                      style="display: block;padding-top: 2%">
           <!--<img src="../../../assets/images/u558.png" alt="">-->
-          <a :href="material.materialUrl" :download="material.materialName">{{ material.materialName }}</a>
+          <!--<a :href="material.materialUrl" :download="material.materialName">{{ material.materialName }}</a>-->
             <!--<span @click="preview(material.localPath)">{{material.materialName}}</span>-->
             <!--<i class="el-icon-download" @click="downFile(material.materialUrl)" style="cursor: pointer;"></i>-->
+          <span @click="preview(material.localPath)">{{material.materialName}}</span>
+          <a :href="material.materialUrl" :download="material.materialName">
+            <i class="el-icon-download" style="cursor: pointer;"></i>
+          </a>
         </el-checkbox>
       </el-checkbox-group>
     </el-scrollbar>
@@ -23,8 +27,7 @@
       title="preview"
       :visible.sync="filePreviewDialogVisible"
       width="100%"
-      fullscreen
-      >
+      fullscreen>
       <iframe :src="previewHtml" style="width: 100%; height: 100%">
       </iframe>
     </el-dialog>
@@ -99,6 +102,14 @@
   }
 </script>
 
+<style>
+  .file-preview .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .file-preview .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+</style>
 <style scoped="">
   .all {
     margin: 0px 2%;

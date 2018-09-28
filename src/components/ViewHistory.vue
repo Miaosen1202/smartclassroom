@@ -85,32 +85,43 @@
           pageSize: this.pageSize,
           status: 2
         };
-        this.$http.get(`${process.env.NODE_ENV}/teacherClassRecord/pageList`, {params: param})
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.teacherTeachingHistoryRecords = res.data.entity.list;
-              this.pageIndex = res.data.entity.pageIndex;
-              this.recordNumber = res.data.entity.total;
-            } else {
-              alert(res.data.message);
-            }
-          }).catch((err) => {
-            alert(err);
-          });
+        let  me = this;
+        this.get("/teacherClassRecord/pageList",{params: param},function (data) {
+          me.teacherTeachingHistoryRecords = data.entity.list;
+          me.pageIndex = data.entity.pageIndex;
+          me.recordNumber = data.entity.total;
+        });
+        // this.$http.get(`${process.env.NODE_ENV}/teacherClassRecord/pageList`, {params: param})
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.teacherTeachingHistoryRecords = res.data.entity.list;
+        //       this.pageIndex = res.data.entity.pageIndex;
+        //       this.recordNumber = res.data.entity.total;
+        //     } else {
+        //       alert(res.data.message);
+        //     }
+        //   }).catch((err) => {
+        //     alert(err);
+        //   });
       },
       handleDelete: function (index, row) {
         console.log("handle delete, index=" + index, row)
-        this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, [row.id])
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.loadTeacherTeachingHistory(this.pageIndex);
-            } else {
-              alert(res.data.message);
-            }
-          }).catch((err) => {
-            console.error("delete error", err);
-            alert(err);
-          });
+        let me=this;
+        //todo xxxx
+        this.del("/teacherClassRecord", [row.id],function (data) {
+          me.loadTeacherTeachingHistory(me.pageIndex);
+        })
+        // this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, [row.id])
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.loadTeacherTeachingHistory(this.pageIndex);
+        //     } else {
+        //       alert(res.data.message);
+        //     }
+        //   }).catch((err) => {
+        //     console.error("delete error", err);
+        //     alert(err);
+        //   });
       },
       logout: function() {
         this.$http.post(`${process.env.NODE_ENV}/logout`)

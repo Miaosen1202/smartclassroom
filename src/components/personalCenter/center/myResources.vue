@@ -188,17 +188,22 @@
       },
 
       doDelete: function (ids) {
-        this.$http.post(`${process.env.NODE_ENV}/materialBank/deletes`, ids)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message.info("Delete success");
-              this.resourceManagementQuery();
-            } else if (res.data.code == 300) {
-              this.$router.push({path: "/login"});
-            } else {
-              this.$message.error(res.data.message);
-            }
-          });
+        let me = this;
+        this.del("/materialBank", ids, (data) => {
+          this.$message.info("Delete success");
+          me.resourceManagementQuery();
+        });
+        // this.$http.post(`${process.env.NODE_ENV}/materialBank/deletes`, ids)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message.info("Delete success");
+        //       this.resourceManagementQuery();
+        //     } else if (res.data.code == 300) {
+        //       this.$router.push({path: "/login"});
+        //     } else {
+        //       this.$message.error(res.data.message);
+        //     }
+        //   });
       },
 
       removeFile: function (file, fileList) {

@@ -339,15 +339,19 @@
         this.doDeleteStudent(ids);
       },*/
       doDeleteStudent: function (ids) {
-        this.$http.post(`${process.env.NODE_ENV}/teacher/deletes`, ids)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message.info("Delete success");
-              this.loadTeacherRecords(this.page.pageIndex);
-            }
-          }).catch((err) => {
-          this.$message.error(err);
+        let me = this;
+        this.del("/teacher", ids, (data) => {
+          me.loadTeacherRecords(this.page.pageIndex);
         });
+        // this.$http.post(`${process.env.NODE_ENV}/teacher/deletes`, ids)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message.info("Delete success");
+        //       this.loadTeacherRecords(this.page.pageIndex);
+        //     }
+        //   }).catch((err) => {
+        //   this.$message.error(err);
+        // });
       },
       resetPassword: function() {
         if (this.multipleSelection.length == 0) {

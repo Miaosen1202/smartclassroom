@@ -175,7 +175,6 @@
           JSON.parse(data.entity).forEach(function (id) {
             delIdCache[id] = true;
           });
-          console.log("delete success, deletedIds:", delIdCache);
           for (var i = me.checkedMaterialList.length - 1; i >= 0; i--) {
             if (delIdCache[me.checkedMaterialList[i].id]) {
               me.checkedMaterialList.splice(i, 1);

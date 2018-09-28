@@ -32,7 +32,7 @@
       <el-button @click="batchDelete"  size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">批量删除</el-button>
     </div>
 
-    <div>
+    <div class="mangementtable">
       <el-table
         ref="multipleTable"
         :data="page.list"
@@ -46,6 +46,7 @@
         </el-table-column>
 
         <el-table-column
+          data-placement="auto"
           :show-overflow-tooltip="true"
           prop="content"
           label="意见描述"
@@ -324,6 +325,9 @@
   }
   .end-placeholder {
     margin-left: 6% !important;
+  }
+  .mangementtable .el-tooltip__popper {
+    width: 50%!important;
   }
 </style>
 

@@ -253,7 +253,7 @@
       },
       /*答题记录查询*/
       getsubmitHistoryLessonId(){
-        debugger;
+        /*debugger;*/
         var submitHistoryr = {
           questionId: subdiscussion.id,
           questionType:5,

@@ -34,20 +34,7 @@
 
 
     </div>
-    <!--下课按钮-->
-    <!--<div class="right" style="width: 10%;float: right;margin-top: 1%">
 
-     <div class="view" @click="gobackLesson()" >
-       <img src="../../assets/images/u2378.png" alt="">
-       View my lessons
-      &lt;!&ndash; <el-button style="float: right;top: 50%;" type="primary" round @click="gobackLesson()">View my lessons</el-button>&ndash;&gt;
-     </div>
-      <div class="view" @click="takeAbreak">
-        <img src="../../assets/images/u2326.png" alt="">
-        End the class
-       &lt;!&ndash; <el-button style="float: right;top: 50%;" type="primary" round @click="takeAbreak">End the class</el-button>&ndash;&gt;
-      </div>
-    </div>-->
 
     <div class="main">
       <el-scrollbar style="height: 100%">
@@ -190,45 +177,7 @@
                 <el-button type="primary" icon="el-icon-caret-right" circle></el-button>
               </div>
               <div style="float: left;width: 38%;height: 300px;margin: 1% 0%">
-                <!--<el-scrollbar style="height: 100%">
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%;">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the
-                    </p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the
-                    </p>
-                  </div>
-                </el-scrollbar>-->
+
               </div>
             </div>
           </el-tab-pane>

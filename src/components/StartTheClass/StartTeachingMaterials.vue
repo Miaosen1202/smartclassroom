@@ -167,7 +167,7 @@
                   <div class="leftcolor" v-for="discussAnswer in discussAnswers">
                     <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
                     <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
-                    <p>{{ discussAnswer.answerContent }}</p>
+                    <p>{{discussAnswer.answerContent }}</p>
                     <ul>
                       <li v-for="atth in discussAnswer.attachments" >
                         <!--<a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>-->

@@ -67,7 +67,7 @@ Vue.prototype.get = function (path, param, successCallback, errorCallback) {
 Vue.prototype.del=function (path, param, successCallback, errorCallback) {
   this.$confirm('确认删除？')
     .then(() => {
-      this.post(path, param, successCallback, errorCallback)
+      this.post(path+"/deletes", param, successCallback, errorCallback)
     })
     .catch(() => {});
 };

@@ -108,7 +108,7 @@
         console.log("handle delete, index=" + index, row)
         let me=this;
         //todo xxxx
-        this.del("/teacherClassRecord/deletes", [row.id],function (data) {
+        this.del("/teacherClassRecord", [row.id],function (data) {
           me.loadTeacherTeachingHistory(me.pageIndex);
         })
         // this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, [row.id])

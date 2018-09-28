@@ -218,16 +218,18 @@
       },
       /*删除列表*/
       deleteDiscussion:function (id) {
-        this.$http.post(`${process.env.NODE_ENV}/classDiscuss/deletes`,[id])
-          .then((res) => {
-            if (res.data.code == 200) {
-              /*this.discussionId = res.data.entity;
-              console.log("discussionId:"+this.discussionId);*/
-              this.getDiscussionListByLessonId();
-            }
-          }).catch((err) => {
-          console.log(err);
-        });
+        let me = this;
+        this.del("/classDiscuss",[id],()=>me.getDiscussionListByLessonId());
+        // this.$http.post(`${process.env.NODE_ENV}/classDiscuss/deletes`,[id])
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       /*this.discussionId = res.data.entity;
+        //       console.log("discussionId:"+this.discussionId);*/
+        //       this.getDiscussionListByLessonId();
+        //     }
+        //   }).catch((err) => {
+        //   console.log(err);
+        // });
       }
     }
   }

@@ -236,7 +236,7 @@
       },
       deletecours: function (id) {
         let me = this;
-        this.del("/course/deletes",[id], (data)=> me.getCourselist())
+        this.del("/course",[id], (data)=> me.getCourselist())
         // this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
         //   .then((res) => {
         //     if (res.data.code == 200) {
@@ -252,7 +252,7 @@
       },
       deletelesson: function (courseId,lessonId) {
         let me = this;
-        this.del("/lesson/deletes",[lessonId], ()=> {
+        this.del("/lesson",[lessonId], ()=> {
           this.$message({
             message: 'Congratulations on your successful deletion!',
             type: 'success'

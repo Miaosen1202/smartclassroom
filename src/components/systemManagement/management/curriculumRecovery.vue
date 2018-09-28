@@ -3,36 +3,30 @@
     课程找回
 
     <div>
-      <p style="display: inline-block">总数量</p>：<span>20</span>
-      <el-input v-model="input" size="small" placeholder="请输入课程名称查询" style="width: 14%"></el-input>
-      <el-input v-model="input" size="small" placeholder="请输入创建人姓名查询" style="width: 14%"></el-input>
-      <el-select v-model="value" size="small" placeholder="请选择所属分类" style="width: 14%">
-        <el-option
-          v-for="item in options"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value">
-        </el-option>
-      </el-select>
+      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
+      <el-input v-model="search.lessonName" size="small" placeholder="请输入课程名称查询" style="width: 14%"></el-input>
+      <el-input v-model="search.createUserName" size="small" placeholder="请输入创建人姓名查询" style="width: 14%"></el-input>
       <div class="block" style="width: 30%;display: inline-block" >
        <!-- {{value6}}-->
         <el-date-picker
           style="width: 100%"
           size="small"
-          v-model="value6"
-          type="daterange"
+          v-model="searchTimeRange"
+          type="datetimerange"
           range-separator="至"
           start-placeholder="开始日期"
           end-placeholder="结束日期">
         </el-date-picker>
       </div>
-      <el-button type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
-      <!--<el-button type="primary" size="mini" style="float: right;margin-left: 1%">批量上传</el-button>-->
+
+      <el-button type="primary" @click="loadRecords(1)" size="small" icon="el-icon-search" style="background-color: #0138b1;color: #fff"></el-button>
+      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
     </div>
+
     <div>
       <el-table
         ref="multipleTable"
-        :data="teacherRecords"
+        :data="page.list"
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange">
@@ -46,64 +40,49 @@
           label="Lession"
           min-width="30%">
         </el-table-column>
+
         <el-table-column
           prop="courseName"
           label="Course"
           min-width="40%">
         </el-table-column>
+
         <el-table-column
           prop="createUserName"
           label="创建人"
           min-width="30%">
         </el-table-column>
-        <el-table-column
-          prop="materialType"
-          label="所属分类"
-          min-width="30%">
-        </el-table-column>
-        <el-table-column
-          prop="fileSize"
-          label="Size"
-          min-width="30%">
-        </el-table-column>
+
         <el-table-column
           prop="updateTime"
           label="Update"
           min-width="50%">
-          <template slot-scope="scope">{{ scope.row.updateTime }}</template>
-        </el-table-column>
-        <el-table-column
-          prop="downloadCount"
-          label="浏览次数"
-          min-width="30%">
+          <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
 
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleEdit(scope.$index, scope.row)">恢复</el-button>
+              @click="lessonRecovery(scope.$index, scope.row)">恢复</el-button>
             <el-button
               size="mini"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              @click="lessonDelete(scope.$index, scope.row)">删除</el-button>
           </template>
         </el-table-column>
       </el-table>
-      <!--<div style="margin-top: 20px">
-        <el-button @click="toggleSelection([tableData3[1], tableData3[2]])">切换第二、第三行的选中状态</el-button>
-        <el-button @click="toggleSelection()">取消选择</el-button>
-      </div>-->
     </div>
+
     <div style="position: absolute;bottom: 8%;left: 44%">
       <el-pagination
         background
         :page-size="page.pageSize"
-        :page-count="page.pageNumber"
+        :page-count="pageNumber"
         :current-page="page.pageIndex"
         layout="prev, pager, next"
         :total="page.total"
-        @current-change="loadTeacherRecords">
+        @current-change="loadRecords">
       </el-pagination>
     </div>
 
@@ -111,6 +90,8 @@
 </template>
 <!--教师分页查询/teacher/pageList-->
 <script>
+  import util from '@/utils/util'
+
   export default {
     data() {
       return {
@@ -118,57 +99,122 @@
         teacherRecords: [],
         multipleSelection: [],
         page: {
+          list: [],
           total: 0,
           pageIndex: 1,
-          pageSize: 5,
-          pageNumber: 5
+          pageSize: 5
         },
-        options: [{
-          value: '选项1',
-          label: '黄金糕'
-        },  {
-          value: '选项2',
-          label: '北京烤鸭'
-        }],
+        pageNumber: 5,
+
         value: '',
         value6: '',
+
+        searchTimeRange: [],
+        search: {
+          lessonName: "",
+          createUserName: "",
+          startTime: null,
+          endTime: null
+        }
       }
     },
     mounted() {
-      this.loadTeacherRecords(this.pageIndex);
+      this.loadRecords(this.pageIndex);
     },
     methods: {
-      loadTeacherRecords: function(pageIndex) {
-      var param = {
-        params: {
-          pageIndex: (typeof pageIndex == "undefined") ? this.page.pageIndex : pageIndex,
-          pageSize: this.page.pageSize
+      formatDateTime: util.formatDateTime,
+
+      lessonRecovery: function (index, row) {
+        this.$http.post(`${process.env.NODE_ENV}/lesson/recover/edit`, [row.id])
+          .then((res) => {
+             if (res.data.code == 200) {
+               this.$message.success("Recover lesson + '" + row.lessonName + "' success");
+               this.loadRecords();
+             } else if (res.data.code == 300) {
+               this.$message.error(res.data.message);
+               this.$router.push("/");
+             } else {
+               this.$message.error(res.data.message);
+             }
+          }).catch((err) => {
+           this.$message.error(err);
+        });
+      },
+
+      batchDelete: function () {
+        if (this.multipleSelection.length == 0) {
+          this.$message.error("Please select at least one row of data");
+          return;
         }
-      };
-      if (this.teacherNameSearch && this.teacherNameSearch.trim()) {
-        param.params.name = this.teacherNameSearch;
-      }
 
-      this.$http.get(`${process.env.NODE_ENV}/course/pageList`, param)
-        .then((res) => {
-          if (res.data.code != 200) {
-            this.$message.error(res.data.message);
-            return;
+        let ids = [];
+        for (let i = 0; i < this.multipleSelection.length; i++) {
+          ids.push(this.multipleSelection[i].id);
+        }
+
+        this.doDelete(ids);
+      },
+
+      lessonDelete: function (index, row) {
+        this.doDelete([row.id]);
+      },
+
+      doDelete: function (ids) {
+        this.$confirm('此操作将永久删除课时, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, ids)
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.$message.success("Delete success");
+                this.loadRecords();
+              } else if (res.data.code == 300) {
+                this.$message.error(res.data.message);
+                this.$router.push("/");
+              } else {
+                this.$message.error(res.data.message);
+              }
+            }).catch((err) => {
+            this.$message.error(err);
+          });
+        }).catch(() => {
+        });
+      },
+
+      loadRecords: function(pageIndex) {
+        let param = {
+          params: {
+            pageIndex: (typeof pageIndex == "undefined") ? this.page.pageIndex : pageIndex,
+            pageSize: this.page.pageSize,
+            deleteStatus: 0
           }
-          this.teacherRecords = res.data.entity.list;
-          this.page.total = res.data.entity.total;
-          this.page.pageIndex =param.params.pageIndex;
-          /*this.page.pageSize = res.data.entity.pageSize;*/
+        };
+        param.params.lessonName = this.search.lessonName;
+        param.params.createUserName = this.search.createUserName;
 
-        }).catch((err) => {
-        this.$message.error(err);
-      });
-    },
+        if (this.searchTimeRange != null && this.searchTimeRange.length > 0) {
+          param.params.startTime = new Date(this.searchTimeRange[0]).getTime();
+          param.params.endTime = new Date(this.searchTimeRange[1]).getTime();
+        }
+
+        this.$http.get(`${process.env.NODE_ENV}/lesson/pageList`, param)
+          .then((res) => {
+            if (res.data.code != 200) {
+              this.$message.error(res.data.message);
+              return;
+            }
+            this.page = res.data.entity;
+          }).catch((err) => {
+            this.$message.error(err);
+        });
+      },
+
       handleSelectionChange(selection) {
-        // console.log("select change", val);
-        // console.log(val[0].id)
         this.multipleSelection = selection;
-      },}
+      },
+    }
   }
 </script>
 

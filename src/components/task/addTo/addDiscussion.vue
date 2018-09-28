@@ -132,7 +132,6 @@
       },
 
       handleSuccess(res, file) {
-        console.log(res);
         if (res.code == 200) {
           this.fileEntity = res.entity;
           this.attachments.push(
@@ -207,7 +206,7 @@
         this.createPanelShow = true;
         this.editDiscussId = editDiscuss.id;
         this.discussContent = editDiscuss.discussContent;
-        this.attachments = editDiscuss.attachments || [];
+        this.attachments = editDiscuss.attachments ? editDiscuss.attachments.slice() : [];
 
         this.fileList3 = [];
         for (let i = 0; i < this.attachments.length; i++) {

@@ -15,9 +15,12 @@
 
         <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
         <ul style="padding-left: 2%">
-          <li v-for="(attachment,ind) in discussion.attachments" :key="ind" @click="downFile(attachment.fileUrl)">
-            {{attachment.fileName}}
-            <i class="el-icon-download" style="cursor: pointer;"></i>
+          <li v-for="(attachment,ind) in discussion.attachments" :key="ind">
+            <!--<span @click="preview(attachment.fileLocalPath)">{{attachment.fileName}}</span>-->
+            <!--<i class="el-icon-download" @click="downFile(attachment.fileUrl)" style="cursor: pointer;"></i>-->
+            <a :href="attachment.fileUrl" :download="attachment.fileName">
+              <span>{{attachment.fileName}}</span><i class="el-icon-download" style="cursor: pointer;"></i>
+            </a>
           </li>
         </ul>
       </div>
@@ -72,6 +75,17 @@
           </div>
         </div>
     </el-scrollbar>
+
+    <!--<el-dialog-->
+      <!--class="file-preview"-->
+      <!--title="preview"-->
+      <!--:visible.sync="filePreviewDialogVisible"-->
+      <!--width="100%"-->
+      <!--fullscreen-->
+      <!--&gt;-->
+      <!--<iframe :src="previewHtml" style="width: 100%; height: 100%">-->
+      <!--</iframe>-->
+    <!--</el-dialog>-->
   </div>
 </template>
 
@@ -101,6 +115,9 @@
         total:0,//总条数
         isSubmit:1,
         exercises:{},
+
+        filePreviewDialogVisible: false,
+        previewHtml: "",
       }
     },
     mounted() {
@@ -111,6 +128,27 @@
 
     },
     methods: {
+      preview: function (filePath) {
+        this.filePreviewDialogVisible = true;
+        this.previewHtml = "";
+
+        this.$http.get(`${process.env.NODE_ENV}/file/preview`, {params: {filePath: filePath}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.previewHtml = res.data.entity;
+            } else if (res.data.code == 300) {
+              this.$message.error(res.data.message);
+              this.$router.push("/");
+            } else {
+              console.error("preview fail", res.data.message);
+              this.$message.error("预览文件失败，请下载至本地查看");
+            }
+          }).catch((err) => {
+            console.error("preview fail", err);
+            this.$message.error("预览文件失败，请下载至本地查看");
+        });
+      },
+
       toggle: function () {
         this.isShow = !this.isShow;
       },
@@ -253,7 +291,7 @@
       },
       /*答题记录查询*/
       getsubmitHistoryLessonId(){
-        debugger;
+        /*debugger;*/
         var submitHistoryr = {
           questionId: subdiscussion.id,
           questionType:5,
@@ -272,8 +310,15 @@
   }
 </script>
 
-<style scoped="">
-
+<style>
+  .file-preview .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .file-preview .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+</style>
+<style scoped>
   .all {
     margin: 0px 2%;
     width: 98%;

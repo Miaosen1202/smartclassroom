@@ -10,6 +10,8 @@
       <el-button type="primary" @click="resetPassword" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">重置初始化密码</el-button>
       <!--<el-button type="primary" @click="getImportModelFile" size="mini" style="float: right;">获取学生导入模板</el-button>-->
       <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">导入学生数据</el-button>
+      <el-button type="primary" @click="getImportTpl" size="mini" style="float: right;background-color: #0138b1">下载导入模板</el-button>
+
     </div>
     <div>
       <el-table
@@ -231,7 +233,9 @@
             return false;
         });
       },
-
+      getImportTpl() {
+        window.open(`../../../static/tpl/student_import_`+localStorage.lang+'.xlsx');
+      },
       handleSelectionChange(selection) {
         this.multipleSelection = selection;
       },

@@ -8,6 +8,7 @@
       <el-button @click="loadTeacherRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
       <el-button @click="resetPassword" type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">重置初始化密码</el-button>
       <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">导入老师数据</el-button>
+      <el-button type="primary" @click="getImportTpl" size="mini" style="float: right;background-color: #0138b1">下载导入模板</el-button>
       <!--<el-upload
         class="upload-demo"
         :action="action"
@@ -263,6 +264,9 @@
           }).catch((err) => {
           this.$message.error(err);
         });
+      },
+      getImportTpl() {
+        window.open(`../../../static/tpl/teacher_import_`+localStorage.lang+'.xlsx');
       },
       /*教师数据导入*/
       goImportStudent: function() {

@@ -26,7 +26,7 @@
               <input class="form-control" type="password" placeholder="Password" v-model="password">
             </div>
             <div class="password">
-              <input class="form-control" type="password" placeholder="lessonCode" v-model="lessonCode">
+              <input class="form-control" type="text" placeholder="lessonCode" v-model="lessonCode">
             </div>
             <el-tooltip style="float: right" class="item admin" effect="dark" content="Please contact the system administrator"
                         placement="top" popper-class="test">

@@ -76,7 +76,7 @@
       goTeaching: function(index, row) {
         // this.$router.push({path: "/homePage/course", query: {"lessonId": row.lessonId}});
 
-        this.$router.push({path: "/StartTeachingMaterials", query: {"lessonId": row.lessonId, lessonCode: row.lessonCode}});
+        this.$router.push({path: "/StartTeachingMaterials", query: {"lessonId": row.lessonId, lessonCode: row.lessonCode,isShow: false}});
         // StartTeachingMaterials?lessonId=80&lessonCode=XDQ9
       },
       loadTeacherTeachingHistory: function (pageIndex) {

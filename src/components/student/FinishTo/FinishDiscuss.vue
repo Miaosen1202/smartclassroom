@@ -16,11 +16,13 @@
         <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
         <ul style="padding-left: 2%">
           <li v-for="(attachment,ind) in discussion.attachments" :key="ind">
-            <!--<span @click="preview(attachment.fileLocalPath)">{{attachment.fileName}}</span>-->
-            <!--<i class="el-icon-download" @click="downFile(attachment.fileUrl)" style="cursor: pointer;"></i>-->
+            <span @click="preview(attachment.fileLocalPath)">{{attachment.fileName}}</span>
             <a :href="attachment.fileUrl" :download="attachment.fileName">
-              <span>{{attachment.fileName}}</span><i class="el-icon-download" style="cursor: pointer;"></i>
+              <i class="el-icon-download" style="cursor: pointer;"></i>
             </a>
+            <!--<a :href="attachment.fileUrl" :download="attachment.fileName">-->
+              <!--<span>{{attachment.fileName}}</span><i class="el-icon-download" style="cursor: pointer;"></i>-->
+            <!--</a>-->
           </li>
         </ul>
       </div>
@@ -76,16 +78,15 @@
         </div>
     </el-scrollbar>
 
-    <!--<el-dialog-->
-      <!--class="file-preview"-->
-      <!--title="preview"-->
-      <!--:visible.sync="filePreviewDialogVisible"-->
-      <!--width="100%"-->
-      <!--fullscreen-->
-      <!--&gt;-->
-      <!--<iframe :src="previewHtml" style="width: 100%; height: 100%">-->
-      <!--</iframe>-->
-    <!--</el-dialog>-->
+    <el-dialog
+      class="file-preview"
+      title="preview"
+      :visible.sync="filePreviewDialogVisible"
+      width="100%"
+      fullscreen>
+      <iframe :src="previewHtml" style="width: 100%; height: 100%">
+      </iframe>
+    </el-dialog>
   </div>
 </template>
 

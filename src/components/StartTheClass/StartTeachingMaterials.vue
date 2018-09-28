@@ -3,11 +3,15 @@
 
     <div class="top">
 
-      <div>
+      <div >
         <p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:middle;cursor: pointer">
           <img src="../../../static/images/logo.png" alt="">
         </p>
-        <span style="color: blue;margin-left: 8%">{{$t('message.text')}}</span>
+        <div style="margin: 0 auto;color: #2c6cae;cursor: pointer;display: inline-block;padding-left: 34%">
+          <!--Class Code :{{lessonCode}}-->
+          <el-button type="text" @click="centerDialogVisible = true">Class Code :{{lessonCode}}</el-button>
+        </div>
+       <!-- <span style="color: blue;margin-left: 8%">{{$t('message.text')}}</span>-->
         <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
           <img src="../../../static/images/u118.png" alt="">
         </p>
@@ -35,13 +39,10 @@
       <!--<div v-on:click="goback()" style="display: inline-block">
         <img src="../../assets/images/pclogo.png" alt="" width="100" height="50"
              style="cursor: pointer;vertical-align: initial;">
-      </div>
-      <div style="margin: 0 auto;color: #2c6cae;cursor: pointer;display: inline-block;padding-left: 34%">
-        &lt;!&ndash;Class Code :{{lessonCode}}&ndash;&gt;
-        <el-button type="text" @click="centerDialogVisible = true">Class Code :{{lessonCode}}</el-button>
-      </div>
+      </div>-->
 
-      &lt;!&ndash;提示弹框&ndash;&gt;
+
+      <!--提示弹框-->
       <el-dialog
         title="This is Class Code :"
         :visible.sync="centerDialogVisible"
@@ -50,14 +51,14 @@
         <h1 style="text-align: center;">{{lessonCode}}</h1>
         <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false">
-      &lt;!&ndash;<img src="../../assets/images/u231.png" alt="">&ndash;&gt;
+      <!--<img src="../../assets/images/u231.png" alt="">-->
       Close
     </el-button>
-    &lt;!&ndash;<el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>&ndash;&gt;
+    <!--<el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>-->
   </span>
       </el-dialog>
 
-      <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
+      <!--<p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
         <img src="../../../static/images/u118.png" alt="">
       </p>-->
 
@@ -80,11 +81,11 @@
       </div>
     </div>-->
 
-      <canvas id="c1" width="1300px" height="500px">
+      <canvas id="c1" width="1400px" height="500px">
                 <span>该浏览器不支持canvas内容</span>
       </canvas>
 
-      <div>
+      <div class="tool">
         <el-button v-on:click="toggle()" style="float: right;border: none;background-color: #0e38b1" circle>
           <img src="../../../static/images/toolkit.png"  alt="">
         </el-button>
@@ -118,9 +119,9 @@
       </div>
 
 
-    <div style="position: absolute;top: 10%;left: 10%;">
-    <div class="main" style="height: 100%">
-      <el-scrollbar style="height: 100%">
+    <div style="position: absolute;top: 10%;left: 10%;width: 60%">
+    <div class="main" >
+      <el-scrollbar>
         <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange">
 
           <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'" >
@@ -139,17 +140,17 @@
                 </el-checkbox>
               </div>
             </el-checkbox-group>
-            <el-button style="background-color: rgba(0, 204, 0, 1);color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
+            <el-button style="margin-bottom: 10%;background-color: rgba(0, 204, 0, 1);color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
           </el-tab-pane>
 
-          <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'">
+          <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'" style="margin-bottom: 10%;">
             <p>Lesson： {{ lessonName }}</p>
             <div  v-for="(discussion, index) in discussionList" :key="discussion.id">
               <div class="have">
               <h5>Discussion {{discussion.sort}}</h5>
               <p>{{discussion.discussContent}}</p>
               <ul>
-                <li v-for="atth in discussion.attachments">
+                <li v-for="atth in discussion.attachments" >
                   <!--<a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>-->
 
                   <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
@@ -170,7 +171,7 @@
                     <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
                     <p>{{ discussAnswer.answerContent }}</p>
                     <ul>
-                      <li v-for="atth in discussAnswer.attachments">
+                      <li v-for="atth in discussAnswer.attachments" >
                         <!--<a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>-->
 
                         <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
@@ -234,7 +235,7 @@
 
             </div>
           </el-tab-pane>
-          <el-tab-pane name="assignmentTab" :label="'Assignment(' + assignmentNumber + ')'">
+          <el-tab-pane name="assignmentTab" :label="'Assignment(' + assignmentNumber + ')'" style="margin-bottom: 10%;">
             <div>
               <h5>Lesson： {{ lessonName }}</h5>
               <div class="have" v-for="assignment in assignmentList">
@@ -965,7 +966,6 @@
   margin-top: 1%;
   float: right;
   cursor: pointer;
-
 }
   .view:active {
     background-color: #8c8c8c;
@@ -973,8 +973,7 @@
   }
   .tool {
     background-color: #fff;
-    /*border: 1px solid #ccc;*/
-    box-shadow: 0 0 5px blue ;
-    border-radius: 20px;
+    box-shadow: 0 0 5px blue;
+    border-radius: 30px;
   }
 </style>

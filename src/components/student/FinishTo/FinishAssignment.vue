@@ -14,13 +14,27 @@
 
           <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{assignment.assignmentName}}</p>
           <ul style="padding-left: 2%">
-            <li v-for="(attachment,ind) in assignment.attachments" :key="ind" @click="downFile(attachment.fileUrl)">
-              {{attachment.fileName}}
-              <i class="el-icon-download" style="cursor: pointer;"></i>
+            <li v-for="(attachment,ind) in assignment.attachments" :key="ind">
+
+              <span @click="preview(attachment.fileLocalPath)">{{attachment.fileName}}</span>
+              <a :href="attachment.fileUrl" :download="attachment.fileName">
+                <i class="el-icon-download" style="cursor: pointer;"></i>
+              </a>
+              <!--<i class="el-icon-download" style="cursor: pointer;"></i>-->
             </li>
           </ul>
         </div>
       </el-scrollbar>
+
+    <el-dialog
+      class="file-preview"
+      title="preview"
+      :visible.sync="filePreviewDialogVisible"
+      width="100%"
+      fullscreen>
+      <iframe :src="previewHtml" style="width: 100%; height: 100%">
+      </iframe>
+    </el-dialog>
   </div>
 </template>
 
@@ -32,12 +46,36 @@
         lessonCode:this.$route.query.lessonCode,
         assignmentList:[],
         attachments: [],
+
+        filePreviewDialogVisible: false,
+        previewHtml: "",
       }
     },
     mounted() {
       this.getDiscussionListByLessonId();
     },
     methods: {
+      preview: function (filePath) {
+        this.filePreviewDialogVisible = true;
+        this.previewHtml = "";
+
+        this.$http.get(`${process.env.NODE_ENV}/file/preview`, {params: {filePath: filePath}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.previewHtml = res.data.entity;
+            } else if (res.data.code == 300) {
+              this.$message.error(res.data.message);
+              this.$router.push("/");
+            } else {
+              console.error("preview fail", res.data.message);
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+          console.error("preview fail", err);
+          this.$message.error("预览文件失败，请下载至本地查看");
+        });
+      },
+
       getDiscussionListByLessonId(){
         this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/list?lessonId=${this.lessonId}`)
           .then((res) => {
@@ -58,6 +96,15 @@
   }
 </script>
 
+
+<style>
+  .file-preview .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .file-preview .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+</style>
 <style scoped="">
   .all {
     margin:0px 2%;

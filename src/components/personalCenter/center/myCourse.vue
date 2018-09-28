@@ -214,16 +214,20 @@
         this.doDelete(ids);
       },
       doDelete(ids){
-        this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, ids)
-          .then((res) => {
-            if (res.data.code != 200) {
-              this.$message.error(res.data.message);
-            }else{
-              this.loadLessonRecords()
-            }
-          }).catch((err) => {
-          this.$message.error(err);
+        let me = this;
+        this.del("/teacherClassRecord", ids, (data) => {
+          me.loadLessonRecords()
         });
+        // this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, ids)
+        //   .then((res) => {
+        //     if (res.data.code != 200) {
+        //       this.$message.error(res.data.message);
+        //     }else{
+        //       this.loadLessonRecords()
+        //     }
+        //   }).catch((err) => {
+        //   this.$message.error(err);
+        // });
       }
     }
   }

@@ -231,20 +231,25 @@
       },
 
       doDelete: function (ids) {
-        this.$http.post(`${process.env.NODE_ENV}/feedback/deletes`, ids)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message.info("Delete success");
-              this.loadFeedbackRecord(this.page.pageIndex);
-            } else if (res.data.code == 300) {
-              this.$message.info(res.data.message);
-              this.$router.push("/");
-            } else {
-              this.$message.info(res.data.message);
-            }
-          }).catch((err) => {
-            this.$message.error(err);
+        let me = this;
+        this.del("/", ids, (data) => {
+          this.$message.info("Delete success");
+          me.loadFeedbackRecord(me.page.pageIndex);
         });
+        // this.$http.post(`${process.env.NODE_ENV}/feedback/deletes`, ids)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message.info("Delete success");
+        //       this.loadFeedbackRecord(this.page.pageIndex);
+        //     } else if (res.data.code == 300) {
+        //       this.$message.info(res.data.message);
+        //       this.$router.push("/");
+        //     } else {
+        //       this.$message.info(res.data.message);
+        //     }
+        //   }).catch((err) => {
+        //     this.$message.error(err);
+        // });
       },
 
 

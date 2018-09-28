@@ -7,13 +7,15 @@
         <input class="form-control step1" type="text" :placeholder="$t('message.pleaseenter')" v-model="lessonName">
       </div>
     </div>
+
     <div class="new">
       <h4>{{$t('message.step')}} 2:</h4>
       <p class="step">{{$t('message.addcourse')}}</p>
       <div class="step2">
         <el-radio v-model="submitCourseFlag" label="1" >
-          <input class="form-control" type="text" id="firstinput2" :placeholder="$t('message.pleaseselect')" v-model="existCourseName"
-                 readonly>
+          <input class="form-control" type="text" id="firstinput2"
+                 :placeholder="$t('message.pleaseselect')"
+                 v-model="existCourseName" readonly>
         </el-radio>
         <el-button style="color: #fff" size="medium" class="list btn" type="text" @click="showCourseDialog">{{$t('message.list')}}</el-button>
       </div>
@@ -21,7 +23,10 @@
       <p class="red">or, create a new course here.</p>
       <div class="here">
         <el-radio v-model="submitCourseFlag" label="2">
-          <input class="form-control" type="text" id="firstinput3" :placeholder="$t('message.pleaseselect')" v-model="courseName">
+          <input class="form-control" type="text" id="firstinput3"
+                 clearable
+                 @focus="focusNewCourseNameInput"
+                 :placeholder="$t('message.pleaseselect')" v-model="courseName">
         </el-radio>
         <!--<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1">-->
       </div>
@@ -94,6 +99,11 @@
       this.isShowDialog();
     },
     methods: {
+      focusNewCourseNameInput: function () {
+        this.submitCourseFlag = "2";
+      },
+
+
       goContinue() {
         this.$router.push({path: "/homePage/course/addMaterials?lessonId="+ this.continueLessonId})
       },
@@ -131,6 +141,8 @@
       },
 
       sure() {
+        this.submitCourseFlag = "1";
+
         for (let i = 0; i < this.existCourseList.length; i++) {
           if (this.existCourseList[i].id == this.radio) {
             this.existCourseName = this.existCourseList[i].courseName;

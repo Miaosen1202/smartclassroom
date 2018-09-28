@@ -202,7 +202,7 @@
     data() {
       return {
         tabPosition: 'right',
-        centerDialogVisible: true,
+        centerDialogVisible: false,
         discussAnswers: [],
         checkedMaterialList: [],
         materialNumber: 0,
@@ -241,6 +241,7 @@
       }
     },
     mounted() {
+      this.centerDialogVisibleShow();
       this.loadFinishexercise();
       this.drawLine();
       /*this.bdrawLine();*/
@@ -249,6 +250,12 @@
      /* this.getAssignmentListByLessonId();*/
     },
     methods: {
+      centerDialogVisibleShow() {
+        console.log(this.$route.query.isShow);
+        if (this.$route.query.isShow==undefined) {
+          this.centerDialogVisible = true
+        }
+      },
       drawLine() {
         // 基于准备好的dom，初始化echarts实例
         let myChart = this.$echarts.init(document.getElementById('myChart'))
@@ -424,8 +431,12 @@
         this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
           .then((res) => {
             if (res.data.code == 200) {
-              document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "";
-              this.discussAnswers = res.data.entity.questionAnswerRecordVos;
+              if (res.data.entity.questionAnswerRecordVos.length > 1) {
+                document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "";
+                this.discussAnswers = res.data.entity.questionAnswerRecordVos;
+              }else{
+                this.$message.info("not discussion")
+              }
             } else {
               this.$message.error(res.data.message);
             }

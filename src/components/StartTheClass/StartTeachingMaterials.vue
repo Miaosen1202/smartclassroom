@@ -694,6 +694,14 @@
   }
 </script>
 
+<style>
+  .file-preview .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .file-preview .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+</style>
 <style scoped>
   #start {
     width: 100%;

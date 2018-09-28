@@ -17,7 +17,7 @@
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="Delete the lesson and all the data under this lesson."
                   placement="bottom-start">
-        <el-button size="small">Delete</el-button>
+        <el-button size="small" @click="lessonDelete">Delete</el-button>
       </el-tooltip>
     </div>
     <div class="left">
@@ -55,6 +55,8 @@
 </template>
 
 <script>
+  import util from '@/utils/util'
+
   export default {
     data() {
       return {
@@ -82,6 +84,37 @@
       this.assignmentNumberLoad();
     },
     methods: {
+      lessonDelete: function () {
+        this.$confirm('确认删除?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [this.lessonId])
+            .then((res) => {
+              if (res.data.code == 200) {
+                this.$message({
+                  type: 'success',
+                  message: '删除成功!'
+                });
+                this.$router.push("/homePage/second");
+              } else if (res.data.code == 300) {
+                this.$message.error(this.data.message);
+                this.$router.push("/");
+              } else {
+                this.$message.error(this.data.message);
+              }
+            }).catch((err) => {
+              this.$message.error(err);
+          });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+      },
+
       assignmentNumberLoad() {
         this.$http.get(`${process.env.NODE_ENV}/lessonAssignment/statistic/query?lessonId=${this.lessonId}`)
           .then((res) => {

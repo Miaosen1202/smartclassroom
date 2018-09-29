@@ -88,7 +88,7 @@
           <img src="../../../static/images/toolkit.png"  alt="">
         </el-button>
         <div class="tool" style="float: right;margin-top: 1%;display: inline-block" v-show="isShow">
-          <div class="view" @click="draw">
+          <div class="view" @click="goObjectProjection">
             <el-tooltip class="item" effect="dark" content="Object Projection" placement="bottom">
               <el-button style="float: right;border: none;"  round >
                 <img src="../../../static/images/Objectprojection-blue.png" alt="">
@@ -355,6 +355,30 @@
         <iframe :src="previewHtml" style="width: 100%; height: 100%">
         </iframe>
       </el-dialog>
+
+      <el-dialog
+        class="object-projection"
+        title="Object Projection"
+        :visible.sync="objectProjection.dialogVisible"
+        @close="objectProjectionClose"
+        width="100%"
+        fullscreen>
+
+        <div class="project-unsupport-tip" v-show="!objectProjection.support">
+          <el-alert
+            title="Your browser dose not support object projection, please install jetion ActiveX first"
+            type="error"
+            center
+            show-icon>
+          </el-alert>
+        </div>
+        <div v-show="objectProjection.support">
+          <div style="text-align: center;">
+            <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="800" height="600" style="border: 1px solid lightsteelblue"/>
+          </div>
+        </div>
+        <el-button @click="captureProjection" type="primary">Capture Screen</el-button>
+      </el-dialog>
     </div>
     </div>
 
@@ -426,6 +450,11 @@
 
         filePreviewDialogVisible: false,
         previewHtml: "",
+
+        objectProjection: {
+          dialogVisible: false,
+          support: true,
+        },
       }
     },
     created() {
@@ -445,6 +474,57 @@
     },
     methods: {
       getLoginUser: util.getLoginUser,
+
+      goObjectProjection: function () {
+        this.objectProjection.dialogVisible = true;
+
+        // fixme check browser is support the ActiveX
+        // if (!JetionCapturer) {
+        //   this.objectProjection.support = false;
+        //   return;
+        // }
+        // if (!document.all.JetionCapturer.object) {
+        //   this.objectProjection.support = false;
+        //   return;
+        // }
+
+        this.objectProjection.support = true;
+        JetionCapturer.Run(-1);
+      },
+
+      objectProjectionClose: function () {
+        if (this.objectProjection.support) {
+          JetionCapturer.Stop();
+        }
+        // this.objectProjection.dialogVisible = false;
+      },
+
+      captureProjection: function () {
+        JetionCapturer.SetJpgQuality(255);
+        let captureImg = JetionCapturer.CaptureToBase64();
+
+        if (!captureImg) {
+          this.$message.error("Capture projection fail");
+          return;
+        }
+
+        captureImg = captureImg.replace(/\r|\n/g, "");
+
+        let atthName = this.lessonName + "-" + new Date().getTime() + "-capture.jpg";
+        this.post("/file/dataUpload", {data: captureImg, name: atthName}, function (res) {
+          let filePath = res.entity.fileTmpName;
+
+          let atth = {
+            lessonCode: this.lessonCode,
+            fileName: atthName,
+            fileLocalPath: filePath
+          };
+          this.post("/teacherClassRecordAttachment/add", atth, function (data) {
+            this.$message.success("Save capture image success");
+          });
+        });
+      },
+
       draw() {
         /*debugger;*/
         var oC = document.getElementById('c1');
@@ -855,6 +935,13 @@
 </script>
 
 <style>
+  .object-projection .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .object-projection .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+
   .file-preview .el-dialog.is-fullscreen {
     width: 80% !important;
   }

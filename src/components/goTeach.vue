@@ -237,7 +237,7 @@
       },
       deletecours: function (id) {
         let me = this;
-        this.del("/course",[id], (data)=> me.getCourselist())
+        this._del("/course",[id], (data)=> me.getCourselist())
         // this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
         //   .then((res) => {
         //     if (res.data.code == 200) {
@@ -253,7 +253,7 @@
       },
       deletelesson: function (courseId,lessonId) {
         let me = this;
-        this.del("/lesson",[lessonId], ()=> {
+        this._del("/lesson",[lessonId], ()=> {
           me.getLessonListByCourseId(courseId);
         });
         // this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [lessonId])

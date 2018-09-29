@@ -91,7 +91,7 @@
           },
           handleDelete(index, row) {
             let me = this;
-            this.del("/lesson", [row.id], () => me.tableData.splice(index, 1));
+            this._del("/lesson", [row.id], () => me.tableData.splice(index, 1));
             // this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [row.id])
             //     .then((res) => {
             //         this.tableData.splice(index, 1);

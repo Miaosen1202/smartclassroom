@@ -10,6 +10,7 @@ import echarts from 'echarts'
 import md5 from 'js-md5';
 /*import locale from 'element-ui/lib/locale/lang/en'*/
 import i18n from './i18n/i18n';
+import "babel-polyfill"
 
 
 Vue.prototype.$echarts = echarts;

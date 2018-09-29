@@ -219,7 +219,7 @@
       /*删除列表*/
       deleteDiscussion:function (id) {
         let me = this;
-        this.del("/classDiscuss",[id],()=>me.getDiscussionListByLessonId());
+        this._del("/classDiscuss",[id],()=>me.getDiscussionListByLessonId());
         // this.$http.post(`${process.env.NODE_ENV}/classDiscuss/deletes`,[id])
         //   .then((res) => {
         //     if (res.data.code == 200) {

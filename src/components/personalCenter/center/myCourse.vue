@@ -215,7 +215,7 @@
       },
       doDelete(ids){
         let me = this;
-        this.del("/teacherClassRecord", ids, (data) => {
+        this._del("/teacherClassRecord", ids, (data) => {
           me.loadLessonRecords()
         });
         // this.$http.post(`${process.env.NODE_ENV}/teacherClassRecord/deletes`, ids)

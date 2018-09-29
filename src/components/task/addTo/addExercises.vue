@@ -447,7 +447,7 @@
       /*删除选项中的列表*/
       deleteExercises: function (id) {
         let me = this;
-        this.del("/choiceQuestion", [id],()=> me.getAssignmentListByLessonId())
+        this._del("/choiceQuestion", [id],()=> me.getAssignmentListByLessonId())
         // this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/deletes`, [id])
         //   .then((res) => {
         //     if (res.data.code == 200) {

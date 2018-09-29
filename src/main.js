@@ -65,7 +65,7 @@ Vue.prototype.get = function (path, param, successCallback, errorCallback) {
       console.error(err)
     });
 };
-Vue.prototype.del=function (path, param, successCallback, errorCallback) {
+Vue.prototype._del=function (path, param, successCallback, errorCallback) {
   this.$confirm('确认删除?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
@@ -74,7 +74,7 @@ Vue.prototype.del=function (path, param, successCallback, errorCallback) {
   // this.$confirm('确认删除？')
     .then(() => {
       this.post(path+"/deletes", param, successCallback, errorCallback)
-      this.$message.success("Delete success");
+      this.$message.success("删除成功");
     })
     .catch(() => {});
 };

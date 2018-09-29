@@ -424,6 +424,22 @@
     },
     methods: {
       getLoginUser: util.getLoginUser,
+
+      objectProjection: function () {
+        if (!window.CaptureOcx1) {
+          this.$message.error("Your browser dose not support object projection, please install jetion ActiveX first");
+          return;
+        }
+
+        CaptureOcx1.run(-1);
+      },
+
+      captureProjection: function () {
+        CaptureOcx1.SetJpgQuality(255);
+        let captureImg = CaptureOcx1.CaptureToBase64();
+        this.post(``)
+      },
+
       draw() {
         /*debugger;*/
         var oC = document.getElementById('c1');

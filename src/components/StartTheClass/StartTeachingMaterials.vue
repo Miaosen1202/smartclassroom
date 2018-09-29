@@ -434,6 +434,7 @@
       let that = this;
       console.log(localStorage.lang)
       that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+      this.langChange(that.selectValue)
     },
     mounted() {
       this.centerDialogVisibleShow();

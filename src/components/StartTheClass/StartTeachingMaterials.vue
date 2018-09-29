@@ -373,7 +373,7 @@
           </el-alert>
         </div>
         <div v-show="objectProjection.support">
-          <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="CaptureOcx1" width="800" height="500"/>
+          <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="800" height="500"/>
         </div>
       </el-dialog>
     </div>
@@ -475,26 +475,26 @@
       goObjectProjection: function () {
         debugger
         this.objectProjection.dialogVisible = true;
-        if (!window.ActiveXObject) {
+        if (!window.all.JetionCapturer.object) {
           this.objectProjection.support = false;
           return;
         } else {
           this.objectProjection.support = true;
         }
 
-        CaptureOcx1.run(-1);
+        JetionCapturer.run(-1);
       },
 
       objectProjectionClose: function () {
         if (this.objectProjection.support) {
-          CaptureOcx1.stop();
+          JetionCapturer.stop();
         }
         // this.objectProjection.dialogVisible = false;
       },
 
       captureProjection: function () {
-        CaptureOcx1.SetJpgQuality(255);
-        let captureImg = CaptureOcx1.CaptureToBase64();
+        JetionCapturer.SetJpgQuality(255);
+        let captureImg = JetionCapturer.CaptureToBase64();
 
 
         this.post("/file/dataUpload", {data: captureImg, name: this.lessonName + "-capture.jpg"}, function (res) {

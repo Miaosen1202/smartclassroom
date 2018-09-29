@@ -76,10 +76,10 @@
               input:'',
               options: [{
                 value: '选项1',
-                label: '黄金糕'
+                label: '1'
               }, {
                 value: '选项2',
-                label: '双皮奶',
+                label: '2',
               }],
             }
 

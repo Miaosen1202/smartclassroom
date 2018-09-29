@@ -48,9 +48,9 @@
         :visible.sync="centerDialogVisible"
         width="30%"
         center>
-        <h1 style="text-align: center;">{{lessonCode}}</h1>
+        <h1 style="text-align: center;font-size: 50px">{{lessonCode}}</h1>
         <span slot="footer" class="dialog-footer">
-    <el-button @click="centerDialogVisible = false">
+    <el-button @click="centerDialogVisible = false" style="background-color: #0e38b1;color: #fff">
       <!--<img src="../../assets/images/u231.png" alt="">-->
       Close
     </el-button>
@@ -120,9 +120,9 @@
     <div style="position: absolute;top: 10%;left: 10%;width: 60%">
     <div class="main" >
       <el-scrollbar>
-        <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange">
+        <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
 
-          <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'" >
+          <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
             <p>Lesson： {{ lessonName }}</p>
             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
             </el-checkbox>
@@ -183,7 +183,7 @@
               </div>
             </div>
           </el-tab-pane>
-          <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'">
+          <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'" >
             <p>Lesson： {{ lessonName }}</p>
             <div class="exercise">
               <div class="leftexerc" style="height: 350px">
@@ -254,9 +254,9 @@
           </el-tab-pane>
           <el-tab-pane>
           <span slot="label">
-            <img v-on:click="goback()" src="../../assets/images/u273.png" alt="">
+            <img v-on:click="gobackk()" src="../../assets/images/u273.png" alt="">
           </span>
-            <p>Lesson： {{ lessonName }}</p>
+            <!--<p>Lesson： {{ lessonName }}</p>-->
            <!-- <div class="exercise" style="width: 100%;margin-right: 2%">
               &lt;!&ndash;<div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
@@ -685,7 +685,7 @@
         this.checkedMaterialList = val ? this.materialList : [];
         this.isIndeterminate = false;
       },
-      goback: function () {
+      gobackk: function () {
         this.$router.push({path: "/homePage/goTeach"});
       },
       gobackLesson: function () {

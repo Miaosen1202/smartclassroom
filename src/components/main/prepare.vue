@@ -90,7 +90,7 @@
         ],*/
         existCourseList: [],
         radio: "",
-        submitCourseFlag: "2",
+        submitCourseFlag: "1",
         lessonId: ""
       }
     },

@@ -137,15 +137,13 @@
         </div>
 
       </div>
-
-
     <div style="position: absolute;top: 10%;left: 10%;width: 60%">
     <div class="main" >
       <el-scrollbar>
         <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
 
           <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
-            <p>Lesson： {{ lessonName }}</p>
+            <p>Lesson： {{ lessonName }}</p>npm install --save babel-polyfill
             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
             </el-checkbox>
             <el-checkbox-group v-model="checkedMaterialList">

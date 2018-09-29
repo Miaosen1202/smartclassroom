@@ -18,7 +18,10 @@
           <li v-for="(attachment,ind) in discussion.attachments" :key="ind">
             <span @click="preview(attachment.fileLocalPath)">{{attachment.fileName}}</span>
             <a :href="attachment.fileUrl" :download="attachment.fileName">
-              <i class="el-icon-download" style="cursor: pointer;"></i>
+             <!-- <i class="el-icon-download" style="cursor: pointer;"></i>-->
+              <i  style="cursor: pointer;">
+                <img src="../../../../static/images/UPLOAD.png" alt="">
+              </i>
             </a>
             <!--<a :href="attachment.fileUrl" :download="attachment.fileName">-->
               <!--<span>{{attachment.fileName}}</span><i class="el-icon-download" style="cursor: pointer;"></i>-->

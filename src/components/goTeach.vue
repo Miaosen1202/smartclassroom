@@ -67,9 +67,9 @@
                   <img src="../../static/images/lesson.png" alt="">
                 </div>-->
                 <p v-on:click="goTeaching(lesson.id)">{{lesson.lessonName}}</p>
-                <!--<span style="float: right">{{ dateTimeformat(lesson.createTime) }}
-                  <i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
-                </span>-->
+                <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
+                  <!--<i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>-->
+                </span>
                 <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">
                   {{ lesson.teachingStatus == 1 ? "Go on to class" : "Start the class" }}
                 </p>

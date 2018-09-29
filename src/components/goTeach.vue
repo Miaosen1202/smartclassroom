@@ -253,10 +253,6 @@
       deletelesson: function (courseId,lessonId) {
         let me = this;
         this.del("/lesson",[lessonId], ()=> {
-          this.$message({
-            message: 'Congratulations on your successful deletion!',
-            type: 'success'
-          });
           me.getLessonListByCourseId(courseId);
         });
         // this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [lessonId])

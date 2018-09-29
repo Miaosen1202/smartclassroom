@@ -190,7 +190,6 @@
       doDelete: function (ids) {
         let me = this;
         this.del("/materialBank", ids, (data) => {
-          this.$message.info("Delete success");
           me.resourceManagementQuery();
         });
         // this.$http.post(`${process.env.NODE_ENV}/materialBank/deletes`, ids)

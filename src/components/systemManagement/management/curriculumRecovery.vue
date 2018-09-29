@@ -160,25 +160,30 @@
       },
 
       doDelete: function (ids) {
+        let me = this;
         this.$confirm('此操作将永久删除课时, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, ids)
-            .then((res) => {
-              if (res.data.code == 200) {
-                this.$message.success("Delete success");
-                this.loadRecords();
-              } else if (res.data.code == 300) {
-                this.$message.error(res.data.message);
-                this.$router.push("/");
-              } else {
-                this.$message.error(res.data.message);
-              }
-            }).catch((err) => {
-            this.$message.error(err);
+          this.post("/lesson/deletes", ids, (data) => {
+            this.$message.success("Delete success");
+            me.loadRecords();
           });
+          // this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, ids)
+          //   .then((res) => {
+          //     if (res.data.code == 200) {
+          //       this.$message.success("Delete success");
+          //       this.loadRecords();
+          //     } else if (res.data.code == 300) {
+          //       this.$message.error(res.data.message);
+          //       this.$router.push("/");
+          //     } else {
+          //       this.$message.error(res.data.message);
+          //     }
+          //   }).catch((err) => {
+          //   this.$message.error(err);
+          // });
         }).catch(() => {
         });
       },

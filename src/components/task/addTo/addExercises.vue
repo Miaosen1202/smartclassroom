@@ -10,7 +10,7 @@
             Create a Exercises
           </p>
         </el-button>
-        <el-button  style="background-color: #26be96;color: #fff;border: 1px solid #26be96"  @click="showExercisesDialog" >
+        <el-button  style="background-color: #26be96;color: #fff;border: 1px solid #26be96" v-bind:disabled="existExercisesList.length<1"  @click="showExercisesDialog" >
           <img src="../../../../static/images/Order.png" alt="">
          <p>Order</p>
         </el-button>
@@ -133,7 +133,7 @@
       <!--修改exercises结束-->
 
       <div class="have" v-for="(exercises,index) in existExercisesList" :key="index">
-        <h5>Exercises {{exercises.sort}}</h5>
+        <h5>Exercises {{index+1}}</h5>
         <span v-show="exercises.questionType == '1'">Single-choice</span>
         <span v-show="exercises.questionType == '2'">Multiple-choice</span>
         <el-button v-on:click="deleteExercises(exercises.id)" type="text" icon="el-icon-delete">
@@ -175,7 +175,10 @@
             :show-header="false"
             @row-click="handleCurrentChange"
             style="width: 100%">
-
+            <el-table-column
+              type="index"
+              :index="indexMethod">
+            </el-table-column>
             <el-table-column
               property="sort"
               min="30%">
@@ -241,10 +244,10 @@
         showAdd: true,
         exerciseEntity: {},
         selectEditItem: "",
-        moveTopBtn: false,
-        moveUpBtn: false,
-        moveBoBtn: false,
-        moveDownBtn: false,
+        moveTopBtn: true,
+        moveUpBtn: true,
+        moveBoBtn: true,
+        moveDownBtn: true,
         currentRow: null
       };
     },
@@ -252,6 +255,10 @@
       this.getAssignmentListByLessonId();
     },
     methods: {
+      indexMethod(index) {
+        return "Exercises "+index;
+      },
+
       handleCurrentChange(row) {
         this.currentRow = row;
         if (this.existExercisesList.length == 1) {
@@ -421,9 +428,7 @@
                   answerCode: "A"
                 }
               ];
-
-
-              console.log("exercisesId：" + this.exercisesId);
+              this.optionsShow=false;
               this.getAssignmentListByLessonId();
             }
           }).catch((err) => {

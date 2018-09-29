@@ -411,25 +411,40 @@
           analysis: this.analysis,
           options: queryOptions
         };
-        this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/add`, exercises)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.questionType = 1;
-              this.questionTitle = "";
-              this.analysis = "";
-              this.options = [
-                {
-                  answerContent: "",
-                  isCorrect: true,
-                  answerCode: "A"
-                }
-              ];
-              this.optionsShow=false;
-              this.getAssignmentListByLessonId();
+        let me = this;
+        this._add("/choiceQuestion", exercises, data => {
+          me.questionType = 1;
+          me.questionTitle = "";
+          me.analysis = "";
+          me.options = [
+            {
+              answerContent: "",
+              isCorrect: true,
+              answerCode: "A"
             }
-          }).catch((err) => {
-          console.log(err);
+          ];
+          me.optionsShow=false;
+          me.getAssignmentListByLessonId();
         });
+        // this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/add`, exercises)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.questionType = 1;
+        //       this.questionTitle = "";
+        //       this.analysis = "";
+        //       this.options = [
+        //         {
+        //           answerContent: "",
+        //           isCorrect: true,
+        //           answerCode: "A"
+        //         }
+        //       ];
+        //       this.optionsShow=false;
+        //       this.getAssignmentListByLessonId();
+        //     }
+        //   }).catch((err) => {
+        //   console.log(err);
+        // });
 
       },
 

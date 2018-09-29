@@ -24,60 +24,93 @@ var $http = axios.create({
 Vue.prototype.$http = $http;
 
 Vue.use(ElementUI);
-Vue.prototype.post = function (path, param, successCallback, errorCallback) {
+Vue.prototype.post = function (path, param, successCallback, errorCallback, catchCallback) {
   $http.post(`${process.env.NODE_ENV}` + path, param)
     .then((res) => {
-      if (res.data.code == 200) {
-        console.log("---200----");
-        successCallback(res.data)
-      } else if (res.data.code == 300) {
-        console.log("---300----");
-        this.$router.push("/")
-      } else {
-        if (errorCallback == undefined) {
-          this.$message.error(res.data.message)
-        } else {
-          console.log("---500----");
-          errorCallback(res)
-        }
-      }
-    });
-};
-Vue.prototype.get = function (path, param, successCallback, errorCallback) {
-  $http.get(`${process.env.NODE_ENV}` + path, param)
-    .then((res) => {
-      if (res.data.code == 200) {
-        console.log("---200----");
-        successCallback(res.data)
-      } else if (res.data.code == 300) {
-        console.log("---300----");
-        this.$router.push("/")
-      } else {
-        console.log("---500----");
-        if (errorCallback == undefined) {
-          this.$message.error(res.data.message)
-        } else {
-          errorCallback(res)
-        }
-      }
+      _mythen(res, successCallback, errorCallback)
     })
     .catch((err) => {
-      console.error(err)
+      _mycatch(err, catchCallback)
     });
 };
-Vue.prototype._del=function (path, param, successCallback, errorCallback) {
+Vue.prototype.get = function (path, param, successCallback, errorCallback, catchCallback) {
+  $http.get(`${process.env.NODE_ENV}` + path, param)
+    .then((res) => {
+      _mythen(res, successCallback, errorCallback)
+    })
+    .catch((err) => {
+      _mycatch(err, catchCallback)
+    });
+};
+
+function _mycatch(err, catchCallback) {
+  if (catchCallback != undefined) {
+    catchCallback(err)
+  } else {
+    console.error(err)
+  }
+}
+function _mythen(res, successCallback, errorCallback) {
+  if (res.data.code == 200) {
+    console.log("---200----");
+    successCallback(res.data)
+  } else if (res.data.code == 300) {
+    console.log("---300----");
+    this.$router.push("/")
+  } else {
+    console.log("---500----");
+    if (errorCallback == undefined) {
+      this.$message.error(res.data.message)
+    } else {
+      errorCallback(res)
+    }
+  }
+}
+
+Vue.prototype._del = function (path, param, successCallback, errorCallback) {
   this.$confirm('确认删除?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'warning'
-          })
+    confirmButtonText: '确定',
+    cancelButtonText: '取消',
+    type: 'warning'
+  })
   // this.$confirm('确认删除？')
     .then(() => {
-      this.post(path+"/deletes", param, successCallback, errorCallback)
-      this.$message.success("删除成功");
+      this.post(path + "/deletes", param, (data)=>{
+        successCallback(data);
+        this.$message.success("删除成功");
+      }, errorCallback)
     })
-    .catch(() => {});
+    .catch(() => {
+    });
 };
+
+Vue.prototype._add = function (path, param, successCallback, errorCallback) {
+  let el = event.currentTarget;
+  el.disabled = true;
+  this.post(path + "/add", param, (data) => {
+    successCallback(data);
+    el.disabled = false;
+  }, (res) => {
+    if (errorCallback != undefined) {
+      errorCallback(res);
+    } else {
+      this.$message.error(res.data.message)
+    }
+    el.disabled = false;
+  },(err)=>{
+    el.disabled = false;
+  })
+};
+
+function sleep(numberMillis) {
+  var now = new Date();
+  var exitTime = now.getTime() + numberMillis;
+  while (true) {
+    now = new Date();
+    if (now.getTime() > exitTime)
+      return;
+  }
+}
 
 /*// 创建axios实例
 const service = axios.create({

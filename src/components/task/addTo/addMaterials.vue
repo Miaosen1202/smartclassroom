@@ -135,23 +135,34 @@
             localPath: resp.entity.fileTmpName,
             isShare: 0
           };
-          this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/add`, newMaterial)
-            .then((res) => {
-              if (res.data.code == 200) {
-                this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/get?data=${res.data.entity}`)
-                  .then((res) => {
-                    if (res.data.code == 200) {
-                      this.materialList.push(res.data.entity);
-                    } else {
-                      alert(res.data.message);
-                    }
-                  })
-              } else {
-                alert(res.data.message);
-              }
-            }).catch((err) => {
-            alert(err);
+          let me = this;
+          this._add("/lessonMaterial", newMaterial, data => {
+            this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/get?data=${data.entity}`)
+              .then((res) => {
+                if (res.data.code == 200) {
+                  me.materialList.push(res.data.entity);
+                } else {
+                  alert(res.data.message);
+                }
+              })
           });
+          // this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/add`, newMaterial)
+          //   .then((res) => {
+          //     if (res.data.code == 200) {
+          //       this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/get?data=${res.data.entity}`)
+          //         .then((res) => {
+          //           if (res.data.code == 200) {
+          //             this.materialList.push(res.data.entity);
+          //           } else {
+          //             alert(res.data.message);
+          //           }
+          //         })
+          //     } else {
+          //       alert(res.data.message);
+          //     }
+          //   }).catch((err) => {
+          //   alert(err);
+          // });
         } else {
           alert("Upload file error: " + resp.message);
         }
@@ -222,16 +233,20 @@
           "lessonId": this.lessonId
         };
 
-        this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/add`, addUplond)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.materialName = res.data.entity;
-
-            }
-
-          }).catch((err) => {
-          console.log(err);
+        let me = this;
+        this._add("/lessonMaterial", addUplond, data => {
+          me.materialName = data.entity;
         });
+        // this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/add`, addUplond)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.materialName = res.data.entity;
+        //
+        //     }
+        //
+        //   }).catch((err) => {
+        //   console.log(err);
+        // });
 
 
       },

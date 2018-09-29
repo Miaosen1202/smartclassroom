@@ -522,9 +522,13 @@
             fileName: atthName,
             fileLocalPath: filePath
           };
-          that.post("/teacherClassRecordAttachment/add", atth, function (data) {
-            that.$message.success("Save capture image success");
+          let me = this;
+          this._add("/teacherClassRecordAttachment", atth, data => {
+
           });
+          // this.post("/teacherClassRecordAttachment/add", atth, function (data) {
+          //   this.$message.success("Save capture image success");
+          // });
         });
       },
 

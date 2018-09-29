@@ -248,18 +248,24 @@
           return;
         }
 
-        this.$http.post(`${process.env.NODE_ENV}/feedback/add`, reply)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message.info("Reply success");
-              this.reply.content = '';
-              this.loadFeedbackReply(reply.replyId);
-            } else {
-              this.$message.error(this.data.message);
-            }
-          }).catch((err) => {
-            this.$message.error(err);
+        let me = this;
+        this._add("/feedback", reply, data => {
+          me.$message.info("Reply success");
+          me.reply.content = '';
+          me.loadFeedbackReply(reply.replyId);
         });
+        // this.$http.post(`${process.env.NODE_ENV}/feedback/add`, reply)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message.info("Reply success");
+        //       this.reply.content = '';
+        //       this.loadFeedbackReply(reply.replyId);
+        //     } else {
+        //       this.$message.error(this.data.message);
+        //     }
+        //   }).catch((err) => {
+        //     this.$message.error(err);
+        // });
       },
 
       cancelReply: function () {

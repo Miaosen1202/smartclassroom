@@ -280,28 +280,37 @@
           return;
         }
 
-        this.$http.post(`${process.env.NODE_ENV}/feedback/add`, reply)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message.info("Reply success");
-              this.reply.content = '';
-
-              if (reply.replyId) {
-                this.loadFeedbackReply(reply.replyId);
-              } else {
-                this.replyDialogVisible = false;
-              }
-            } if (res.data.code == 300) {
-              this.$message.error(this.data.message);
-              this.$router.push("/");
-            } else {
-              this.$message.error(this.data.message);
-            }
-
-            return null;
-          }).catch((err) => {
-            this.$message.error(err);
+        let me = this;
+        this._add("/feedback", reply, data => {
+          me.reply.content = '';
+          if (reply.replyId) {
+            me.loadFeedbackReply(reply.replyId);
+          } else {
+            me.replyDialogVisible = false;
+          }
         });
+        // this.$http.post(`${process.env.NODE_ENV}/feedback/add`, reply)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message.info("Reply success");
+        //       this.reply.content = '';
+        //
+        //       if (reply.replyId) {
+        //         this.loadFeedbackReply(reply.replyId);
+        //       } else {
+        //         this.replyDialogVisible = false;
+        //       }
+        //     } if (res.data.code == 300) {
+        //       this.$message.error(this.data.message);
+        //       this.$router.push("/");
+        //     } else {
+        //       this.$message.error(this.data.message);
+        //     }
+        //
+        //     return null;
+        //   }).catch((err) => {
+        //     this.$message.error(err);
+        // });
       },
 
       cancelReply: function () {

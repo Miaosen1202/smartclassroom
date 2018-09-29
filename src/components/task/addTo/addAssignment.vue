@@ -148,18 +148,26 @@
         };
 
         if (this.editAssignmentId === undefined) {
-          this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
-            .then((res) => {
-              if (res.data.code == 200) {
-                this.assignmentName = "";
-                this.attachments =[];
-                this.attachmentFileList = [];
-                this.createPanelShow = false;
-                this.getAssignmentListByLessonId();
-              }
-            }).catch((err) => {
-            this.$message.error(err);
+          let me = this;
+          this._add("/lessonAssignment", assignment, data => {
+            this.assignmentName = "";
+            me.attachments =[];
+            me.attachmentFileList = [];
+            me.createPanelShow = false;
+            me.getAssignmentListByLessonId();
           });
+          // this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/add`, assignment)
+          //   .then((res) => {
+          //     if (res.data.code == 200) {
+          //       this.assignmentName = "";
+          //       this.attachments =[];
+          //       this.attachmentFileList = [];
+          //       this.createPanelShow = false;
+          //       this.getAssignmentListByLessonId();
+          //     }
+          //   }).catch((err) => {
+          //   this.$message.error(err);
+          // });
         } else {
           assignment["id"] = this.editAssignmentId;
           this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/modify`, assignment)

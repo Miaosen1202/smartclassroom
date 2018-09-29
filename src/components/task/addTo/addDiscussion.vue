@@ -149,21 +149,29 @@
         };
 
         if (typeof this.editDiscussId == "undefined") {
-          this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
-            .then((res) => {
-              if (res.data.code == 200) {
-                this.discussContent = "",
-                  this.fileList3 = [];
-                this.attachments = [];
-                /*this.discussionId = res.data.entity;
-                console.log("discussionId:"+this.discussionId);*/
-                /*this.showAttachments = JSON.parse(JSON.stringify(this.attachments));*/
-                this.getDiscussionListByLessonId();
-                this.createPanelShow = false;
-              }
-            }).catch((err) => {
-            console.log(err);
+          let me = this;
+          this._add("/classDiscuss", discussion, data => {
+            me.discussContent = "",
+            me.fileList3 = [];
+            me.attachments = [];
+            me.getDiscussionListByLessonId();
+            me.createPanelShow = false;
           });
+          // this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
+          //   .then((res) => {
+          //     if (res.data.code == 200) {
+          //       this.discussContent = "",
+          //         this.fileList3 = [];
+          //       this.attachments = [];
+          //       /*this.discussionId = res.data.entity;
+          //       console.log("discussionId:"+this.discussionId);*/
+          //       /*this.showAttachments = JSON.parse(JSON.stringify(this.attachments));*/
+          //       this.getDiscussionListByLessonId();
+          //       this.createPanelShow = false;
+          //     }
+          //   }).catch((err) => {
+          //   console.log(err);
+          // });
         } else {
           discussion["id"] = this.editDiscussId;
           this.$http.post(`${process.env.NODE_ENV}/classDiscuss/modify`, discussion)

@@ -100,9 +100,10 @@
       @close="replyDialogClose"
       title="意见反馈"
       :visible.sync="replyDialogVisible"
-      width="20%">
-
-      <div class="projectile" style="padding:2% 6%">
+      width="50%">
+      <div class="projectile" style=" width: 100%;height: 400px;overflow: auto">
+        <el-scrollbar style="height: 100%">
+          <div style="padding:2% 6%;">
         <div class="root-reply" v-show="this.feedbackDetail.root.id != null">
           <span><i>{{ this.feedbackDetail.root.replyerName }}</i>反馈于</span>
           <span>{{ formatDateTime(this.feedbackDetail.root.createTime) }}</span>
@@ -110,11 +111,17 @@
         </div>
 
         <div>
-          <ul>
+          <!--<ul>
             <li v-for="fd in feedbackDetail.replyList">
               <span>{{ formatDateTime(fd.createTime) }}</span>
               <span>{{ fd.replyerName }}</span>回复:
               <span>{{ fd.content }}</span>
+            </li>
+          </ul>-->
+          <ul>
+            <li v-for="fd in feedbackDetail.replyList">
+              <span><h4 style="display: inline-block">{{ fd.replyerName }}</h4> {{ formatDateTime(fd.createTime) }}</span>
+              <p style="word-break:break-all;">Reply: {{ fd.content }}</p>
             </li>
           </ul>
         </div>
@@ -125,7 +132,8 @@
           v-model="reply.content">
         </el-input>
       </div>
-
+        </el-scrollbar>
+      </div>
       <span slot="footer" class="dialog-footer" style="text-align: right">
         <el-button @click="cancelReply">Cancel</el-button>
         <el-button type="primary" @click="addReply">Save</el-button>
@@ -329,6 +337,7 @@
 </script>
 
 <style scoped="">
+
   .management {
     margin: 2%;
     margin-top: 0px;
@@ -336,6 +345,27 @@
   }
   .end-placeholder {
     margin-left: 6% !important;
+  }
+  .mangementtable .el-tooltip__popper {
+    width: 50%!important;
+  }
+  .end-placeholder {
+    margin-left: 6% !important;
+  }
+  .el-dialog__body {
+    overflow: auto;
+    width: 100%;
+    height: 200px;
+  }
+
+  .el-dialog__header {
+    border-bottom: 1px solid #ccc;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .el-radio {
+    width: 60%;
   }
 </style>
 

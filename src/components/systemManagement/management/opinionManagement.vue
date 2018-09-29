@@ -114,17 +114,19 @@
       title="意见反馈"
       :visible.sync="replyDialogVisible"
       height="400px"
-      width="50%">
-      <el-scrollbar style="height: 100%">
-      <div class="projectile" style="padding:2% 6%">
+      width="90%">
+
+      <div class="projectile" style=" width: 100%;height: 400px;overflow: auto">
+        <el-scrollbar style="height: 100%">
+          <div style="padding:2% 6%;">
         <span><i>{{ this.feedbackDetail.root.replyerName }}</i>反馈于</span>
         <span>{{ formatDateTime(this.feedbackDetail.root.createTime) }}</span>
         <div style="padding: 2%; margin: 2%; border: 1px solid black">{{ this.feedbackDetail.root.content }}</div>
         <div>
           <ul>
             <li v-for="fd in feedbackDetail.replyList">
-              <span><h5 >{{ fd.replyerName }} {{ formatDateTime(fd.createTime) }}</h5></span>回复:
-              <span>{{ fd.content }}</span>
+              <span><h4 style="display: inline-block">{{ fd.replyerName }}</h4> {{ formatDateTime(fd.createTime) }}</span>
+              <p style="word-break:break-all;">Reply: {{ fd.content }}</p>
             </li>
           </ul>
         </div>
@@ -134,11 +136,13 @@
           placeholder="请输入内容"
           v-model="reply.content">
         </el-input>
+          </div>
+        </el-scrollbar>
       </div>
-      </el-scrollbar>
+
       <span slot="footer" class="dialog-footer" style="text-align: right">
-        <el-button @click="cancelReply">Cancel</el-button>
-        <el-button type="primary" @click="addReply">Save</el-button>
+        <el-button  @click="cancelReply">Cancel</el-button>
+        <el-button style="background-color: #0e38b1;color: #fff" @click="addReply">Save</el-button>
       </span>
     </el-dialog>
   </div>

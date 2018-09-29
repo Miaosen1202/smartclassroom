@@ -15,7 +15,10 @@
             <!--<i class="el-icon-download" @click="downFile(material.materialUrl)" style="cursor: pointer;"></i>-->
           <span @click="preview(material.localPath)">{{material.materialName}}</span>
           <a :href="material.materialUrl" :download="material.materialName">
-            <i class="el-icon-download" style="cursor: pointer;"></i>
+            <i  style="cursor: pointer;">
+              <img src="../../../../static/images/UPLOAD.png" alt="">
+            </i>
+
           </a>
         </el-checkbox>
       </el-checkbox-group>

@@ -18,7 +18,10 @@
 
               <span @click="preview(attachment.fileLocalPath)">{{attachment.fileName}}</span>
               <a :href="attachment.fileUrl" :download="attachment.fileName">
-                <i class="el-icon-download" style="cursor: pointer;"></i>
+                <!--<i class="el-icon-download" style="cursor: pointer;"></i>-->
+                <i  style="cursor: pointer;">
+                  <img src="../../../../static/images/UPLOAD.png" alt="">
+                </i>
               </a>
               <!--<i class="el-icon-download" style="cursor: pointer;"></i>-->
             </li>

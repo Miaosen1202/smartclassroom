@@ -88,7 +88,7 @@
           <img src="../../../static/images/toolkit.png"  alt="">
         </el-button>
         <div class="tool" style="float: right;margin-top: 1%;display: inline-block" v-show="isShow">
-          <div class="view" @click="draw">
+          <div class="view" @click="goObjectProjection">
             <el-tooltip class="item" effect="dark" content="Object Projection" placement="bottom">
               <el-button style="float: right;border: none;"  round >
                 <img src="../../../static/images/Objectprojection-blue.png" alt="">
@@ -143,7 +143,7 @@
         <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
 
           <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
-            <p>Lesson： {{ lessonName }}</p>npm install --save babel-polyfill
+            <p>Lesson： {{ lessonName }}</p>
             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
             </el-checkbox>
             <el-checkbox-group v-model="checkedMaterialList">
@@ -355,6 +355,27 @@
         <iframe :src="previewHtml" style="width: 100%; height: 100%">
         </iframe>
       </el-dialog>
+
+      <el-dialog
+        class="object-projection"
+        title="Object Projection"
+        :visible.sync="objectProjection.dialogVisible"
+        @close="objectProjectionClose"
+        width="100%"
+        fullscreen>
+
+        <div class="project-unsupport-tip" v-show="!objectProjection.support">
+          <el-alert
+            title="Your browser dose not support object projection, please install jetion ActiveX first"
+            type="error"
+            center
+            show-icon>
+          </el-alert>
+        </div>
+        <div v-show="objectProjection.support">
+          <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="CaptureOcx1" width="800" height="500"/>
+        </div>
+      </el-dialog>
     </div>
     </div>
 
@@ -426,6 +447,11 @@
 
         filePreviewDialogVisible: false,
         previewHtml: "",
+
+        objectProjection: {
+          dialogVisible: false,
+          support: true,
+        },
       }
     },
     created() {
@@ -446,19 +472,36 @@
     methods: {
       getLoginUser: util.getLoginUser,
 
-      objectProjection: function () {
-        if (!window.CaptureOcx1) {
-          this.$message.error("Your browser dose not support object projection, please install jetion ActiveX first");
+      goObjectProjection: function () {
+        debugger
+        this.objectProjection.dialogVisible = true;
+        if (!window.ActiveXObject) {
+          this.objectProjection.support = false;
           return;
+        } else {
+          this.objectProjection.support = true;
         }
 
         CaptureOcx1.run(-1);
       },
 
+      objectProjectionClose: function () {
+        if (this.objectProjection.support) {
+          CaptureOcx1.stop();
+        }
+        // this.objectProjection.dialogVisible = false;
+      },
+
       captureProjection: function () {
         CaptureOcx1.SetJpgQuality(255);
         let captureImg = CaptureOcx1.CaptureToBase64();
-        this.post(``)
+
+
+        this.post("/file/dataUpload", {data: captureImg, name: this.lessonName + "-capture.jpg"}, function (res) {
+          let filePath = res.entity.fileTmpName;
+          // todo
+          this.$message.info(filePath)
+        });
       },
 
       draw() {
@@ -871,6 +914,13 @@
 </script>
 
 <style>
+  .object-projection .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .object-projection .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+
   .file-preview .el-dialog.is-fullscreen {
     width: 80% !important;
   }

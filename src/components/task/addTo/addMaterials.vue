@@ -170,7 +170,7 @@
           return;
         }
         let me = this;
-        this.del("/lessonMaterial", deleteMaterialIds, (data) => {
+        this._del("/lessonMaterial", deleteMaterialIds, (data) => {
           var delIdCache = {};
           JSON.parse(data.entity).forEach(function (id) {
             delIdCache[id] = true;

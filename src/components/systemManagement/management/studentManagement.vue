@@ -354,7 +354,7 @@
 
       doDeleteStudent: function (ids) {
         let me = this;
-        this.del("/student", ids, (data) => {
+        this._del("/student", ids, (data) => {
           me.loadStudentRecords(me.page.pageIndex);
         });
         // this.$http.post(`${process.env.NODE_ENV}/student/deletes`, ids)

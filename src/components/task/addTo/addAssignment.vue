@@ -196,7 +196,7 @@
 
       deleteAssignment:function (id, index) {
         let me = this;
-        this.del("/lessonAssignment", [id], () => me.getAssignmentListByLessonId());
+        this._del("/lessonAssignment", [id], () => me.getAssignmentListByLessonId());
         // this.$http.post(`${process.env.NODE_ENV}/lessonAssignment/deletes`, [id])
         //   .then((res) => {
         //     if (res.data.code == 200) {

@@ -102,7 +102,7 @@
               <!--</el-button>-->
             <!--</el-tooltip>-->
           <!--</div>-->
-          <div class="view" >
+          <div class="view" @click="viewPresence" >
             <el-tooltip class="item" effect="dark" content="Attentance" placement="bottom">
               <el-button style="float: right;border: none;"  round >
                 <img src="../../../static/images/attentance-blue.png" alt="">
@@ -373,6 +373,37 @@
         </div>
         <!--<el-button @click="captureProjection" type="primary">Capture Screen</el-button>-->
       </el-dialog>
+
+      <el-dialog
+        class="student-presence"
+        title="Student presence"
+        :visible.sync="studentPresence.dialogVisible"
+        @close="studentPresenceDialogClose"
+        width="100%"
+        fullscreen>
+
+        <div>
+          <div>Total attendance {{studentPresence.list.length}}</div>
+          <div style="width: 80%; margin: auto">
+            <el-tag class="presence-student" type="success" v-for="student in studentPresence.list"
+                    style="padding: 20px; margin-right: 40px; margin-bottom: 20px; height: auto; width: 150px; font-size: 18px; color: #666; background-color: #f8f8f8">
+              <span>
+                {{student.name}}
+              </span>
+              <span>
+                {{student.studentNo}}
+              </span>
+            </el-tag>
+            <!--<el-row :gutter="20">-->
+              <!--<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>-->
+            <!--</el-row>-->
+            <!--<ul>-->
+              <!--<li v-for="student in studentPresence.list">{{student.name}}</li>-->
+            <!--</ul>-->
+          </div>
+        </div>
+
+      </el-dialog>
     </div>
     </div>
 
@@ -449,6 +480,11 @@
           dialogVisible: false,
           support: true,
         },
+
+        studentPresence: {
+          dialogVisible: false,
+          list: []
+        }
       }
     },
     created() {
@@ -468,6 +504,20 @@
     },
     methods: {
       getLoginUser: util.getLoginUser,
+
+      studentPresenceDialogClose: function () {
+
+      },
+
+      viewPresence: function () {
+        console.log("view");
+        this.studentPresence.dialogVisible = true;
+
+        let that = this;
+        that.get("/studentInClass/list", {params: {lessonCode: that.lessonCode}}, function (res) {
+          that.studentPresence.list = res.entity;
+        });
+      },
 
       goObjectProjection: function () {
         this.objectProjection.dialogVisible = true;
@@ -934,6 +984,14 @@
 </script>
 
 <style>
+  .student-presence .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .student-presence .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+
+
   .object-projection .el-dialog.is-fullscreen {
     width: 80% !important;
   }

@@ -489,16 +489,12 @@
         // }
 
         this.objectProjection.support = true;
-        if (JetionCapturer && JetionCapturer.Run) {
-          JetionCapturer.Run(-1);
-        }
+        JetionCapturer.Run(-1);
       },
 
       objectProjectionClose: function () {
         if (this.objectProjection.support) {
-          if (JetionCapturer && JetionCapturer.Stop) {
-            JetionCapturer.Stop();
-          }
+          JetionCapturer.Stop();
         }
         // this.objectProjection.dialogVisible = false;
       },
@@ -512,10 +508,20 @@
           return;
         }
 
-        this.post("/file/dataUpload", {data: captureImg, name: this.lessonName + "-capture.jpg"}, function (res) {
+        captureImg = captureImg.replace(/\r|\n/g, "");
+
+        let atthName = this.lessonName + "-" + new Date().getTime() + "-capture.jpg";
+        this.post("/file/dataUpload", {data: captureImg, name: atthName}, function (res) {
           let filePath = res.entity.fileTmpName;
-          // todo
-          this.$message.info(filePath)
+
+          let atth = {
+            lessonCode: this.lessonCode,
+            fileName: atthName,
+            fileLocalPath: filePath
+          };
+          this.post("/teacherClassRecordAttachment/add", atth, function (data) {
+            this.$message.success("Save capture image success");
+          });
         });
       },
 

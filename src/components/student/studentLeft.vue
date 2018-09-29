@@ -4,20 +4,20 @@
     <ul>
       <li :class="{active : activeFlag == 'LearningMaterials'}" @click="goToFirst('LearningMaterials')">
         <el-button type="text" @click="dialogVisible = true">
-          <img src="../../assets/images/u13.png"  alt="">
+          <img src="../../../static/images/TeachingMaterials-white.png"  alt="">
           <p>Learning Materials</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'LetDiscuss'}" @click="goToSecond('LetDiscuss')">
-        <img src="../../assets/images/u14.png"  alt="">
+        <img src="../../../static/images/Discussion-white.png"  alt="">
         <P>Let’s Discuss</P>
       </li>
       <li :class="{active : activeFlag == 'TakeExercises'}" @click="goToThird('TakeExercises')">
-        <img src="../../assets/images/u15.png"  alt="">
+        <img src="../../../static/images/Exericises-white.png"  alt="">
         <P>Take exercises</P>
       </li>
       <li :class="{active : activeFlag == 'MyAssignment'}" @click="goToFive('MyAssignment')">
-        <img src="../../assets/images/u12.png"  alt="">
+        <img src="../../../static/images/Assignment-white.png"  alt="">
         <P>My assignment</P>
       </li>
 
@@ -97,12 +97,12 @@
     margin-top: 10%;
   }
   ul li.active{
-    background-color: #ddd;
-    border-left: 2px solid  rgb(111, 111, 183);
+    background-color: #144efc;
+    color: #fff;
 
   }
   p {
-    color: rgb(111, 111, 183);
+    color:#fff;
 
   }
 

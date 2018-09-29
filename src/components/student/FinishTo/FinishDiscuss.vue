@@ -7,7 +7,7 @@
         <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
       </div>
       <el-button v-on:click="toggle(exercises)"
-                 style="margin: 1% 0px 0px 1%;background-color:  rgba(111, 111, 183,1);color: white;font-weight: 700">
+                 style="margin: 1% 0px 0px 1%;background-color: #0e38b1;color: white;font-weight: 700">
         Reply
       </el-button>
       <div class="have" v-for="(discussion,index) in discussionList" :key="index">
@@ -18,7 +18,10 @@
           <li v-for="(attachment,ind) in discussion.attachments" :key="ind">
             <span @click="preview(attachment.fileLocalPath)">{{attachment.fileName}}</span>
             <a :href="attachment.fileUrl" :download="attachment.fileName">
-              <i class="el-icon-download" style="cursor: pointer;"></i>
+             <!-- <i class="el-icon-download" style="cursor: pointer;"></i>-->
+              <i  style="cursor: pointer;">
+                <img src="../../../../static/images/UPLOAD.png" alt="">
+              </i>
             </a>
             <!--<a :href="attachment.fileUrl" :download="attachment.fileName">-->
               <!--<span>{{attachment.fileName}}</span><i class="el-icon-download" style="cursor: pointer;"></i>-->
@@ -50,7 +53,7 @@
               :on-success="handleSuccess"
               :with-credentials="true"
               :file-list="fileList3">
-              <el-button size="mini" type="primary" style="background-color: rgba(111, 111, 183,1);">
+              <el-button size="mini" type="primary" style="background-color: #0e38b1;">
                 <img src="../../../assets/images/u166.png" alt="">
               </el-button>
 
@@ -59,7 +62,7 @@
 
             <!--按钮-->
             <span slot="footer" class="dialog-footer">
-        <el-button style="margin-top: 2%;background-color: #4cae4c" size="medium" type="primary" @click="submitQuestionAnswer(discussionList[0])">submit</el-button>
+        <el-button style="margin-top: 1%;margin-left: 40%;margin-bottom: 1%;background-color: #0e38b1;" size="medium" type="primary" @click="submitQuestionAnswer(discussionList[0])">submit</el-button>
         <el-button size="medium">Cancel</el-button>
       </span>
           </div>
@@ -399,11 +402,12 @@
   }
 
   .elbtn .el-button {
-    background-color: rgb(157, 157, 238);
+    background-color: #0e38b1;
     border: none;
   }
 
   .elbtn .el-button:active {
-    background-color: rgba(111, 111, 183, 1)
+    background-color: #144efc;
+    color: #fff;
   }
 </style>

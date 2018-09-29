@@ -4,7 +4,7 @@
       <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Select All
       </el-checkbox>
       <div style="display: inline-block">
-        <el-button type="primary" style="background-color: rgba(111, 111, 183, 1)">Download Now</el-button>
+        <el-button  style="background-color: #0e38b1;color: #fff">Download Now</el-button>
       </div>
       <el-checkbox-group v-model="checkedMaterials" @change="handleCheckedCitiesChange">
         <el-checkbox v-for="material in materialList" :key="index" :label="material"
@@ -15,7 +15,10 @@
             <!--<i class="el-icon-download" @click="downFile(material.materialUrl)" style="cursor: pointer;"></i>-->
           <span @click="preview(material.localPath)">{{material.materialName}}</span>
           <a :href="material.materialUrl" :download="material.materialName">
-            <i class="el-icon-download" style="cursor: pointer;"></i>
+            <i  style="cursor: pointer;">
+              <img src="../../../../static/images/UPLOAD.png" alt="">
+            </i>
+
           </a>
         </el-checkbox>
       </el-checkbox-group>

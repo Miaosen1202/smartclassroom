@@ -58,7 +58,8 @@
     created() {
       let that = this;
       console.log(localStorage.lang)
-      that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+      that.selectValue = localStorage.lang == undefined?'en':localStorage.lang
+      this.langChange(that.selectValue)
     },
 
     methods: {

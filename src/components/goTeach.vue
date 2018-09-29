@@ -59,16 +59,16 @@
             <!--  <h5 >Course：Journey of the Universe: A Story for Our Times1 </h5>-->
               <h5>{{course.courseName}}</h5>
             </div>
-            <h5 v-on:click="deletecours(course.id)" class="el-icon-delete"
-                style="color: red;cursor: pointer;float: right;margin-right: 1%"></h5>
+           <!-- <h5 v-on:click="deletecours(course.id)" class="el-icon-delete"
+                style="color: red;cursor: pointer;float: right;margin-right: 1%"></h5>-->
             <div v-show="isShow && (clickedCourseId == course.id)">
               <div class="lesson" v-for="(lesson,index) in lessonlist" :key="index">
-                <div v-on:click="lessonhistory()" style="cursor: pointer;display: inline-block">
+                <!--<div v-on:click="lessonhistory()" style="cursor: pointer;display: inline-block">
                   <img src="../../static/images/lesson.png" alt="">
-                </div>
+                </div>-->
                 <p v-on:click="goTeaching(lesson.id)">{{lesson.lessonName}}</p>
                 <span style="float: right">{{ dateTimeformat(lesson.createTime) }}
-                  <i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>
+                  <!--<i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>-->
                 </span>
                 <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">
                   {{ lesson.teachingStatus == 1 ? "Go on to class" : "Start the class" }}
@@ -155,6 +155,7 @@
       let that = this;
       console.log(localStorage.lang)
       that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+      this.langChange(that.selectValue)
     },
     mounted() {
       this.getCourselist();

@@ -84,10 +84,32 @@
       </canvas>
 
       <div class="tool">
-        <el-button v-on:click="toggle()" style="float: right;border: none;background-color: #0e38b1" circle>
+        <el-button v-on:click="tooll()" style="float: right;border: none;background-color: #0e38b1" circle>
           <img src="../../../static/images/toolkit.png"  alt="">
         </el-button>
         <div class="tool" style="float: right;margin-top: 1%;display: inline-block" v-show="isShow">
+          <div class="view" @click="draw">
+            <el-tooltip class="item" effect="dark" content="Object Projection" placement="bottom">
+              <el-button style="float: right;border: none;"  round >
+                <img src="../../../static/images/Objectprojection-blue.png" alt="">
+              </el-button>
+            </el-tooltip>
+          </div>
+          <div class="view" >
+            <el-tooltip class="item" effect="dark" content="share my screen" placement="bottom">
+              <el-button style="float: right;border: none;"  round >
+                <img src="../../../static/images/sharemyscreen-blue.png" alt="">
+              </el-button>
+            </el-tooltip>
+          </div>
+          <div class="view" >
+            <el-tooltip class="item" effect="dark" content="Attentance" placement="bottom">
+              <el-button style="float: right;border: none;"  round >
+                <img src="../../../static/images/attentance-blue.png" alt="">
+              </el-button>
+            </el-tooltip>
+          </div>
+
           <div class="view" @click="draw">
             <el-tooltip class="item" effect="dark" content="Mark pen" placement="bottom">
             <el-button style="float: right;border: none;"  round >
@@ -115,15 +137,13 @@
         </div>
 
       </div>
-
-
     <div style="position: absolute;top: 10%;left: 10%;width: 60%">
     <div class="main" >
       <el-scrollbar>
         <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
 
           <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
-            <p>Lesson： {{ lessonName }}</p>
+            <p>Lesson： {{ lessonName }}</p>npm install --save babel-polyfill
             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
             </el-checkbox>
             <el-checkbox-group v-model="checkedMaterialList">
@@ -412,6 +432,7 @@
       let that = this;
       console.log(localStorage.lang)
       that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+      this.langChange(that.selectValue)
     },
     mounted() {
       this.centerDialogVisibleShow();
@@ -651,6 +672,9 @@
         });
       },
       toggle: function () {
+        this.isShow = !this.isShow;
+      },
+      tooll: function () {
         this.isShow = !this.isShow;
       },
       getDiscussAnswer: function (questionId) {

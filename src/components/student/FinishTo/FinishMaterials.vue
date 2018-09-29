@@ -4,7 +4,7 @@
       <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Select All
       </el-checkbox>
       <div style="display: inline-block">
-        <el-button type="primary" style="background-color: rgba(111, 111, 183, 1)">Download Now</el-button>
+        <el-button  style="background-color: #0e38b1;color: #fff">Download Now</el-button>
       </div>
       <el-checkbox-group v-model="checkedMaterials" @change="handleCheckedCitiesChange">
         <el-checkbox v-for="material in materialList" :key="index" :label="material"

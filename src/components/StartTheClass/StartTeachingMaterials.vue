@@ -95,13 +95,13 @@
               </el-button>
             </el-tooltip>
           </div>
-          <div class="view" >
-            <el-tooltip class="item" effect="dark" content="share my screen" placement="bottom">
-              <el-button style="float: right;border: none;"  round >
-                <img src="../../../static/images/sharemyscreen-blue.png" alt="">
-              </el-button>
-            </el-tooltip>
-          </div>
+          <!--<div class="view" >-->
+            <!--<el-tooltip class="item" effect="dark" content="share my screen" placement="bottom">-->
+              <!--<el-button style="float: right;border: none;"  round >-->
+                <!--<img src="../../../static/images/sharemyscreen-blue.png" alt="">-->
+              <!--</el-button>-->
+            <!--</el-tooltip>-->
+          <!--</div>-->
           <div class="view" >
             <el-tooltip class="item" effect="dark" content="Attentance" placement="bottom">
               <el-button style="float: right;border: none;"  round >
@@ -120,7 +120,7 @@
           <div class="view" @click="gobackLesson()" >
             <el-tooltip class="item" effect="dark" content="View my lessons" placement="bottom">
               <el-button style="float: right;border: none" round @click="gobackLesson()">
-                <img src="../../../static/images/attentance-blue.png" alt="">
+                <img src="../../../static/images/viewmylesson-blue.png" alt="">
               </el-button>
             </el-tooltip>
           </div>
@@ -374,7 +374,9 @@
         </div>
         <div v-show="objectProjection.support">
           <div style="text-align: center;">
-            <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="800" height="600" style="border: 1px solid lightsteelblue"/>
+            <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="1000" height="860">
+              <span>Your browser dose not support object projection, please install jetion ActiveX first</span>
+            </object>
           </div>
         </div>
         <el-button @click="captureProjection" type="primary">Capture Screen</el-button>
@@ -510,17 +512,18 @@
 
         captureImg = captureImg.replace(/\r|\n/g, "");
 
+        let that = this;
         let atthName = this.lessonName + "-" + new Date().getTime() + "-capture.jpg";
         this.post("/file/dataUpload", {data: captureImg, name: atthName}, function (res) {
           let filePath = res.entity.fileTmpName;
 
           let atth = {
-            lessonCode: this.lessonCode,
+            lessonCode: that.lessonCode,
             fileName: atthName,
             fileLocalPath: filePath
           };
-          this.post("/teacherClassRecordAttachment/add", atth, function (data) {
-            this.$message.success("Save capture image success");
+          that.post("/teacherClassRecordAttachment/add", atth, function (data) {
+            that.$message.success("Save capture image success");
           });
         });
       },

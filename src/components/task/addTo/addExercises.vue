@@ -156,7 +156,8 @@
       <el-dialog
         title="Order"
         :visible.sync="showExercisesDialogVisible"
-        width="30%">
+
+        width="100%">
         <!--<div v-for="existExercises in existExercisesList">-->
         <!--<el-radio v-model="radio" :label="existExercises.id">{{existExercises.questionTitle}}</el-radio>-->
         <!--</div>-->
@@ -177,18 +178,13 @@
             style="width: 100%">
             <el-table-column
               type="index"
+              width="100"
               :index="indexMethod">
             </el-table-column>
-            <el-table-column
-              property="sort"
-              min="30%">
-              <template slot-scope="scope">
-                Exercises {{ scope.row.sort}}
-              </template>
-            </el-table-column>
+
             <el-table-column
               property="questionTitle"
-              min="70%">
+              min-width="70%">
             </el-table-column>
           </el-table>
         </template>
@@ -256,7 +252,7 @@
     },
     methods: {
       indexMethod(index) {
-        return "Exercises "+index;
+        return "Exercises "+(index+1);
       },
 
       handleCurrentChange(row) {

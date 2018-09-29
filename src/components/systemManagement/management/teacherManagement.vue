@@ -1,14 +1,12 @@
 <template>
   <div class="management">
-    {{$t('message.TeacherManagement')}}
-
     <div>
-      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
+      <p style="display: inline-block">Total</p>：<span>{{ page.total }}</span>
       <el-input v-model="teacherNameSearch" size="small" placeholder="请输入内容" style="width: 20%;margin-left: 1%"></el-input>
       <el-button @click="loadTeacherRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
-      <el-button @click="resetPassword" type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">重置初始化密码</el-button>
-      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">导入老师数据</el-button>
-      <el-button type="primary" @click="getImportTpl" size="mini" style="float: right;background-color: #0138b1">下载导入模板</el-button>
+      <el-button @click="resetPassword" type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">Reset Password</el-button>
+      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">Import</el-button>
+      <el-button type="primary" @click="getImportTpl" size="mini" style="float: right;background-color: #0138b1">Download Template</el-button>
       <!--<el-upload
         class="upload-demo"
         :action="action"

@@ -379,7 +379,7 @@
             </object>
           </div>
         </div>
-        <el-button @click="captureProjection" type="primary">Capture Screen</el-button>
+        <!--<el-button @click="captureProjection" type="primary">Capture Screen</el-button>-->
       </el-dialog>
     </div>
     </div>

@@ -373,8 +373,8 @@
           </el-alert>
         </div>
         <div v-show="objectProjection.support">
-          <div>
-            <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="100%" height="100%"/>
+          <div style="text-align: center;">
+            <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="800" height="600" style="border: 1px solid lightsteelblue"/>
           </div>
         </div>
         <el-button @click="captureProjection" type="primary">Capture Screen</el-button>
@@ -489,12 +489,16 @@
         // }
 
         this.objectProjection.support = true;
-        JetionCapturer.run(-1);
+        if (JetionCapturer && JetionCapturer.Run) {
+          JetionCapturer.Run(-1);
+        }
       },
 
       objectProjectionClose: function () {
         if (this.objectProjection.support) {
-          JetionCapturer.stop();
+          if (JetionCapturer && JetionCapturer.Stop) {
+            JetionCapturer.Stop();
+          }
         }
         // this.objectProjection.dialogVisible = false;
       },
@@ -503,6 +507,10 @@
         JetionCapturer.SetJpgQuality(255);
         let captureImg = JetionCapturer.CaptureToBase64();
 
+        if (!captureImg) {
+          this.$message.error("Capture projection fail");
+          return;
+        }
 
         this.post("/file/dataUpload", {data: captureImg, name: this.lessonName + "-capture.jpg"}, function (res) {
           let filePath = res.entity.fileTmpName;

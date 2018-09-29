@@ -364,15 +364,7 @@
         width="100%"
         fullscreen>
 
-        <div class="project-unsupport-tip" v-show="!objectProjection.support">
-          <el-alert
-            title="Your browser dose not support object projection, please install jetion ActiveX first"
-            type="error"
-            center
-            show-icon>
-          </el-alert>
-        </div>
-        <div v-show="objectProjection.support">
+        <div>
           <div style="text-align: center;">
             <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="1000" height="860">
               <span>Your browser dose not support object projection, please switch to IE</span>
@@ -490,7 +482,7 @@
         //   return;
         // }
 
-        this.objectProjection.support = true;
+        // this.objectProjection.support = true;
         JetionCapturer.Run(-1);
       },
 

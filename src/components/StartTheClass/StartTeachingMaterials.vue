@@ -373,8 +373,11 @@
           </el-alert>
         </div>
         <div v-show="objectProjection.support">
-          <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="800" height="500"/>
+          <div>
+            <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="100%" height="100%"/>
+          </div>
         </div>
+        <el-button @click="captureProjection" type="primary">Capture Screen</el-button>
       </el-dialog>
     </div>
     </div>
@@ -473,15 +476,19 @@
       getLoginUser: util.getLoginUser,
 
       goObjectProjection: function () {
-        debugger
         this.objectProjection.dialogVisible = true;
-        if (!window.all.JetionCapturer.object) {
-          this.objectProjection.support = false;
-          return;
-        } else {
-          this.objectProjection.support = true;
-        }
 
+        // fixme check browser is support the ActiveX
+        // if (!JetionCapturer) {
+        //   this.objectProjection.support = false;
+        //   return;
+        // }
+        // if (!document.all.JetionCapturer.object) {
+        //   this.objectProjection.support = false;
+        //   return;
+        // }
+
+        this.objectProjection.support = true;
         JetionCapturer.run(-1);
       },
 

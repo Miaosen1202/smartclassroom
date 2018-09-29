@@ -6,7 +6,7 @@
       <li :class="{active : activeFlag == 'prepare'}" @click="goToFirst('prepare')">
         <el-button type="text" @click="dialogVisible = true">
         <img src="../../static/images/Preparealesson.png"  alt="">
-        <p>Prepare a lesson</p>
+        <p style="color: #fff">Prepare a lesson</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'second'}" @click="goToSecond('second')">
@@ -94,11 +94,16 @@
     color: #fff;
 
   }
+  ul li p.active{
+
+    color: #fff;
+
+  }
   .logo {
     margin-bottom: 16%;
   }
-p {
-  color: #fff;
-}
+/*p {
+  color: #c3c7d5;
+}*/
 
 </style>

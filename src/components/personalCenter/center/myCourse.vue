@@ -56,7 +56,7 @@
         <el-table-column
           prop="courseName"
           label="Course"
-          min-width="60%">
+          min-width="50%">
         </el-table-column>
 
         <el-table-column
@@ -75,16 +75,16 @@
         <el-table-column
           prop="status"
           label="状态"
-          min-width="20%">
+          min-width="30%">
           <template slot-scope="scope">
-            {{ scope.row.status === 0 ? "待上课" : (scope.row.status === 1 ? "进行中" : "已结束") }}
+            {{ scope.row.status === 0 ? "To be in class" : (scope.row.status === 1 ? "Have in hand" : "Finished") }}
           </template>
         </el-table-column>
 
         <el-table-column label="操作">
           <template slot-scope="scope" v-if="scope.row.status>0">
-            <el-button size="mini" @click="handleInto(scope.$index, scope.row)">进入</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleInto(scope.$index, scope.row)">Get into</el-button>
+            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>

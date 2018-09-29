@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:middle">
+      <p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:middle;cursor: pointer">
         <img src="../../../static/images/logo.png" alt="">
       </p>
       <span style="color: blue;margin-left: 4%">{{$t('message.text')}}</span>

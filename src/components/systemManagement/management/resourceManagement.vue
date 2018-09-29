@@ -36,12 +36,14 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
+              style="border: none;color: #0e38b1"
               size="mini"
-              @click="modifyPageSkip">修改</el-button>
+              @click="modifyPageSkip">modify</el-button>
             <el-button
+              style="border: none;color: #0e38b1"
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+
+              @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>

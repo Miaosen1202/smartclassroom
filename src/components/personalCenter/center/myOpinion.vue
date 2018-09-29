@@ -41,6 +41,7 @@
         </el-table-column>
 
         <el-table-column
+          :show-overflow-tooltip="true"
           prop="content"
           label="意见描述"
           min-width="60%">
@@ -57,7 +58,7 @@
           prop="replyStatus"
           label="状态"
           min-width="30%">
-          <template slot-scope="scope">{{ scope.row.replyStatus == 1 ? "已反馈" : "待反馈" }}</template>
+          <template slot-scope="scope">{{ scope.row.replyStatus == 1 ? "Feedback" : "Pending feedback" }}</template>
         </el-table-column>
 
         <el-table-column
@@ -70,13 +71,13 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
 
-            <el-button size="mini" :disabled="scope.row.replyStatus == 0"
-              @click="goReply(scope.row)">反馈</el-button>
+            <el-button style="border: none;color: #0e38b1" size="mini" :disabled="scope.row.replyStatus == 0"
+              @click="goReply(scope.row)">Feedback</el-button>
 
             <el-button
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              style="border: none;color: #0e38b1"
+              @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>

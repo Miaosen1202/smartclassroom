@@ -16,7 +16,7 @@
         <!--<p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:bottom;cursor: pointer">
           <img src="../../static/images/logo.png" alt="">
         </p>-->
-        <span @click="dialogFormVisible = true" class="password" style="padding-top: 1%;margin-left: 2%">Modify Password</span>
+        <!--<span @click="dialogFormVisible = true" class="password" style="padding-top: 1%;margin-left: 2%">Modify Password</span>-->
         <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
           <img src="../../static/images/u118.png" alt="">
         </p>
@@ -47,7 +47,7 @@
     <!--</div>-->
     <el-scrollbar style="height: 100%">
       <div class="teachmain">
-        <p style="padding-left: 2%;margin-top: 2%">
+        <p style="padding-left: 2%;margin-top: 2%;color: #999999">
           <i class="el-icon-warning"></i>
           Please choose a lesson.
         </p>

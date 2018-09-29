@@ -46,6 +46,7 @@ export default {
   width: 18%;
   height: 89%;
   float: left;
+  color: #c3c7d5;
   background-color: #0138b1;
 }
 .right {

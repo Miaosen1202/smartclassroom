@@ -97,9 +97,9 @@
   .logo {
     margin-bottom: 16%;
   }
-  p {
+  /*p {
     color: #fff;
   }
-
+*/
 </style>
 

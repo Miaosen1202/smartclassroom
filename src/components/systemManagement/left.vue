@@ -9,7 +9,7 @@
       <li :class="{active : activeFlag == 'teacherManagement'}" @click="goToteacherManagement('teacherManagement')">
         <el-button type="text" @click="dialogVisible = true">
 
-          <p>
+          <p style="color: #c3c7d5;">
             <img src="../../../static/images/Teache.png" alt="">
             teacherManagement</p>
         </el-button>
@@ -120,9 +120,9 @@
   .logo {
     margin-bottom: 16%;
   }
-  p {
+ /* p {
     color: #fff;
-  }
+  }*/
 
 </style>
 

@@ -2,7 +2,7 @@
   <div id="all">
 
     <div class="over">
-      <p style="color: #666666">Revise your course name and lesson name.</p>
+      <p style="color: #999999">Revise your course name and lesson name.</p>
       <el-collapse accordion class="course-item" @change="courseCollapseChange">
         <el-collapse-item v-for="course in courseList"
                           :title="course.courseName" :name="course.id" :key="course.id" >

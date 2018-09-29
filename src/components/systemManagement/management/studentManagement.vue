@@ -58,14 +58,14 @@
         <el-table-column
           prop="updateTime"
           label="更新"
-          min-width="40%">
+          min-width="36%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
         <el-table-column
           prop="status"
           label="状态"
-          min-width="20%">
-          <template slot-scope="scope">{{ scope.row.status == 1 ? "Start" : "Disable" }}</template>
+          min-width="26%">
+          <template slot-scope="scope">{{ scope.row.status == 1 ? "Enable" : "Disable" }}</template>
         </el-table-column>
 
         <el-table-column label="操作">
@@ -73,7 +73,7 @@
             <el-button
               style="border: none;color: #0138b1;"
               size="mini"
-              @click="editStudentStatus(scope.$index, scope.row)">{{ scope.row.status == 1 ? "Disable" : "Start" }}</el-button>
+              @click="editStudentStatus(scope.$index, scope.row)">{{ scope.row.status == 1 ? "Disable" : "Enable" }}</el-button>
 
             <el-button
               style="border: none;color: #0138b1;"

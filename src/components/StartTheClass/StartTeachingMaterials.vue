@@ -143,7 +143,7 @@
         <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
 
           <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
-            <p>Lesson： {{ lessonName }}</p>npm install --save babel-polyfill
+            <p>Lesson： {{ lessonName }}</p>
             <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
             </el-checkbox>
             <el-checkbox-group v-model="checkedMaterialList">
@@ -158,7 +158,7 @@
                 </el-checkbox>
               </div>
             </el-checkbox-group>
-            <el-button style="margin-bottom: 10%;background-color: rgba(0, 204, 0, 1);color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
+            <el-button style="margin-bottom: 10%;background-color: #0e38b1;color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
           </el-tab-pane>
 
           <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'" style="margin-bottom: 10%;">
@@ -209,9 +209,9 @@
               <div class="leftexerc" style="height: 350px">
                 <el-scrollbar style="height: 100%">
                   <div class="elbtn" style="float: right;padding-right: 2%">
-                    <el-button type="success" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
+                    <el-button style="background-color: #0e38b1" type="primary" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
                     <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
-                    <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
+                    <el-button tyle="background-color: #0e38b1" type="primary" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
                   </div>
                   <div v-for="(exercises,index) in existExercisesList">
                     <h4 style="display:inline-block; border-bottom: 2px solid #999">Exercises {{exercises.sort}}</h4>

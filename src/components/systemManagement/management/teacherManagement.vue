@@ -40,12 +40,12 @@
 
         </el-table-column>
         <el-table-column prop="status" label="状态" min-width="30%">
-          <template slot-scope="scope">{{ scope.row.status == 1 ? "Start" : "Disable" }}</template>
+          <template slot-scope="scope">{{ scope.row.status == 1 ? "Enable" : "Disable" }}</template>
         </el-table-column>
 
         <el-table-column label="操作">
           <template slot-scope="scope">
-            <el-button style="border: none;color: #0138b1;"  size="mini" @click="editTeacher(scope.$index, scope.row)">{{ scope.row.status == 1 ? "Disable" : "Start" }}</el-button>
+            <el-button style="border: none;color: #0138b1;"  size="mini" @click="editTeacher(scope.$index, scope.row)">{{ scope.row.status == 1 ? "Disable" : "Enable" }}</el-button>
             <el-button style="border: none;color: #0138b1;"  size="mini" @click="showStudentEditDialog(scope.$index, scope.row)" >| Edit |</el-button>
             <el-button style="border: none;color: #0138b1;"  size="mini"  @click="deleteStudent(scope.$index, scope.row)">Delete</el-button>
           </template>

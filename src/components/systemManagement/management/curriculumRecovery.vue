@@ -63,12 +63,13 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
+              style="border: none;color: #0e38b1"
               size="mini"
-              @click="lessonRecovery(scope.$index, scope.row)">恢复</el-button>
+              @click="lessonRecovery(scope.$index, scope.row)">Recovery</el-button>
             <el-button
               size="mini"
-              type="danger"
-              @click="lessonDelete(scope.$index, scope.row)">删除</el-button>
+              style="border: none;color: #0e38b1"
+              @click="lessonDelete(scope.$index, scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>

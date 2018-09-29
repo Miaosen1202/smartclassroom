@@ -84,12 +84,13 @@
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-button
+              style="border: none;color: #0e38b1"
               size="mini"
-              @click="goReply(scope.$index, scope.row)">反馈</el-button>
+              @click="goReply(scope.$index, scope.row)">Feedback</el-button>
             <el-button
               size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+              style="border: none;color: #0e38b1"
+              @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -112,18 +113,17 @@
       @close="replyDialogClose"
       title="意见反馈"
       :visible.sync="replyDialogVisible"
-      width="20%">
-
+      height="400px"
+      width="50%">
+      <el-scrollbar style="height: 100%">
       <div class="projectile" style="padding:2% 6%">
         <span><i>{{ this.feedbackDetail.root.replyerName }}</i>反馈于</span>
         <span>{{ formatDateTime(this.feedbackDetail.root.createTime) }}</span>
         <div style="padding: 2%; margin: 2%; border: 1px solid black">{{ this.feedbackDetail.root.content }}</div>
-
         <div>
           <ul>
             <li v-for="fd in feedbackDetail.replyList">
-              <span>{{ formatDateTime(fd.createTime) }}</span>
-              <span>{{ fd.replyerName }}</span>回复:
+              <span><h5 >{{ fd.replyerName }} {{ formatDateTime(fd.createTime) }}</h5></span>回复:
               <span>{{ fd.content }}</span>
             </li>
           </ul>
@@ -135,7 +135,7 @@
           v-model="reply.content">
         </el-input>
       </div>
-
+      </el-scrollbar>
       <span slot="footer" class="dialog-footer" style="text-align: right">
         <el-button @click="cancelReply">Cancel</el-button>
         <el-button type="primary" @click="addReply">Save</el-button>
@@ -332,6 +332,21 @@
   }
   .mangementtable .el-tooltip__popper {
     width: 50%!important;
+  }
+  .el-dialog__body {
+    overflow: auto;
+    width: 100%;
+    height: 200px;
+  }
+
+  .el-dialog__header {
+    border-bottom: 1px solid #ccc;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .el-radio {
+    width: 60%;
   }
 </style>
 

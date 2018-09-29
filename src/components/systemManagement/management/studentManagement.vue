@@ -353,15 +353,19 @@
       },
 
       doDeleteStudent: function (ids) {
-        this.$http.post(`${process.env.NODE_ENV}/student/deletes`, ids)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message.info("Delete success");
-              this.loadStudentRecords(this.page.pageIndex);
-            }
-          }).catch((err) => {
-          this.$message.error(err);
+        let me = this;
+        this.del("/student", ids, (data) => {
+          me.loadStudentRecords(me.page.pageIndex);
         });
+        // this.$http.post(`${process.env.NODE_ENV}/student/deletes`, ids)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message.info("Delete success");
+        //       this.loadStudentRecords(this.page.pageIndex);
+        //     }
+        //   }).catch((err) => {
+        //   this.$message.error(err);
+        // });
       },
 
       getUploadFilePath: function () {

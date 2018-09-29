@@ -303,15 +303,19 @@
       },
 
       doDelete: function (ids) {
-        this.$http.post(`${process.env.NODE_ENV}/feedback/deletes`, ids)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message.info("Delete success");
-              this.loadFeedbackRecord(this.page.pageIndex);
-            }
-          }).catch((err) => {
-            this.$message.error(err);
+        let me = this;
+        this.del("/feedback", ids, (data) => {
+          me.loadFeedbackRecord(me.page.pageIndex);
         });
+        // this.$http.post(`${process.env.NODE_ENV}/feedback/deletes`, ids)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message.info("Delete success");
+        //       this.loadFeedbackRecord(this.page.pageIndex);
+        //     }
+        //   }).catch((err) => {
+        //     this.$message.error(err);
+        // });
       },
     }
   }

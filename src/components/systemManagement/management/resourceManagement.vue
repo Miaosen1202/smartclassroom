@@ -194,17 +194,21 @@
         this.$router.push({path:"/admin/configurationManagement"});
       },
       doDelete: function (ids) {
-        this.$http.post(`${process.env.NODE_ENV}/materialBank/deletes`, ids)
-          .then((res) => {
-            if (res.data.code == 200) {
-              this.$message.info("Delete success");
-              this.resourceManagementQuery();
-            } else if (res.data.code == 300) {
-              this.$router.push({path: "/login"});
-            } else {
-              this.$message.error(res.data.message);
-            }
-          });
+        let me = this;
+        this.del("/materialBank", ids, (data) => {
+          me.resourceManagementQuery();
+        });
+        // this.$http.post(`${process.env.NODE_ENV}/materialBank/deletes`, ids)
+        //   .then((res) => {
+        //     if (res.data.code == 200) {
+        //       this.$message.info("Delete success");
+        //       this.resourceManagementQuery();
+        //     } else if (res.data.code == 300) {
+        //       this.$router.push({path: "/login"});
+        //     } else {
+        //       this.$message.error(res.data.message);
+        //     }
+        //   });
       },
 
       handleFileChange: function (file, fileList) {

@@ -1,11 +1,39 @@
 <template>
   <div id="all">
     <div class="right-top">
-      <p style="color: white;font-weight: 700">
+      <p style="display:inline-block;padding-left: 1%;vertical-align: bottom;">
+        <img src="../../static/images/logo.png" alt="">
+      </p>
+      <p style="font-weight: 700;display: inline-block;">
         Welcome {{ getLoginUser().name }} !
       </p>
-      <p style="float: right;padding-right: 3%;cursor: pointer"><img v-on:click="goback()" src="../assets/images/u4.png" alt=""></p>
+      <!--<p style="float: right;padding-right: 3%;cursor: pointer"><img v-on:click="goback()" src="../assets/images/u4.png" alt=""></p>-->
+      <p v-on:click="goback()" style="float: right;padding-right: 3%;padding-top:1%;cursor: pointer">
+        <img src="../../static/images/u118.png" alt="">
+      </p>
+      <span style="float: right;padding-top:0.8%;">
+          <img src="../../static/images/admintx.png" width="34" height="34" alt="">
+          {{ getLoginUser().name }}
+        </span>
+
+      <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
+        <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </div>
+
     </div>
+
+
+
+
+
+
     <div class="left">
       <left :lessonId="lessonId" :lessonCode="lessonCode"></left>
   </div>
@@ -38,6 +66,16 @@
 
     data () {
       return {
+        selectValue:'',
+        options:[
+          {
+            value: 'cn',
+            label: '中文'
+          }, {
+            value: 'en',
+            label: 'English'
+          }
+        ],
         lessonId: this.$route.query.lessonId,
         lessonCode:this.$route.query.lessonCode,
         entity: {
@@ -45,6 +83,11 @@
           course: {courseName: ""}
         },
       }
+    },
+    created() {
+      let that = this;
+      console.log(localStorage.lang)
+      that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
     },
     mounted() {
       this.getDetailByLessonId();
@@ -65,6 +108,11 @@
       goback: function () {
         this.$router.push({path: "/"});
       },
+      langChange(e){
+        // console.log(e)
+        localStorage.setItem('lang',e);
+        this.$i18n.locale = e;
+      },
     },
     components:{
       left,
@@ -83,10 +131,11 @@
     width: 16%;
     height: 88%;
     float: left;
-    margin-left: 1%;
-    margin-top: 1%;
-    background-color: #fff;
-    border-radius: 4px;
+    color: #fff;
+    /*margin-left: 1%;
+    margin-top: 1%;*/
+    background-color: #0138b1;
+    /*border-radius: 4px;*/
   }
   .right {
     width: 82%;
@@ -98,7 +147,8 @@
     width: 100%;
     height: 8%;
     border: 1px solid #929292;
-    background-color: rgba(67, 67, 133, 1);
+    background-color: #fff;
+    color: #0f0f0f;
   }
   .right-main{
     width: 94%;
@@ -111,7 +161,7 @@
   }
   p {
     display: inline-block;
-    padding-top: 1%;
+    /*padding-top: 1%;*/
     padding-left: 2%;
     margin: 0px !important;
   }
@@ -129,7 +179,7 @@
   }
 
   .coursetop p:first-child {
-    padding-top: 1%;
+    /*padding-top: 1%;*/
     display: inline-block;
   }
 

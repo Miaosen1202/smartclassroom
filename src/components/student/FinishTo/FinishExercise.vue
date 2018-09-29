@@ -35,7 +35,7 @@
 
       </div>
       <div class="submitt">
-        <el-button style="margin: 2%;" type="success" round @click="submitQuestionAnswer(existExercisesList[0])">Submit</el-button>
+        <el-button style="margin: 2%;background-color: #0e38b1;color: #fff"  round @click="submitQuestionAnswer(existExercisesList[0])">Submit</el-button>
       </div>
       <div class="answer" v-show="isSubmit == 0">
         <div v-for="(option,index) in exercises.options" :key="index">
@@ -217,12 +217,15 @@
     color: #6F6FB7
   }
   .answer {
-    border: 1px solid #ccc;
+    /*border: 1px solid #ccc;
     width: 96%;
     padding-left: 2%;
     margin-bottom: 2%;
     border-radius: 0px 0px 4px 4px;
-    display: inline-block;
+    display: inline-block;*/
+    float: right;
+    margin-top: 1%;
+    margin-right: 4%;
   }
   .elbtn {
     float: right;
@@ -230,10 +233,11 @@
     margin-right:4%;
   }
   .elbtn .el-button {
-    background-color: rgb(157, 157, 238);
+    background-color: #0e38b1;
     border: none;
   }
   .elbtn .el-button:active {
-    background-color: rgba(111, 111, 183,1)
+    background-color: #144efc;
+    color: #fff;
   }
 </style>

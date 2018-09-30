@@ -66,7 +66,14 @@
       getLoginUser: util.getLoginUser,
 
       backlogin() {
-        this.$router.push({path: "/"});
+        let that = this;
+        this.post("/logout", null, function () {
+          that.$message.success("Logout Success");
+          that.$router.push({path: "/"});
+        }, undefined, function () {
+          that.$message.error("Logout error: " + err);
+          that.$router.push({path: "/"});
+        });
       },
 
       //语言切换

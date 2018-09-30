@@ -96,7 +96,14 @@
             this.$router.push({path:"/homePage/prepare"});
           },
           backlogin() {
-            this.$router.push({path: "/"});
+            let that = this;
+            this.post("/logout", null, function () {
+              that.$message.success("Logout Success");
+              that.$router.push({path: "/"});
+            }, undefined, function () {
+              that.$message.error("Logout error: " + err);
+              that.$router.push({path: "/"});
+            });
           },
           mycourse() {
             this.$router.push({path: "/personalCenterManagement/myCourse"});

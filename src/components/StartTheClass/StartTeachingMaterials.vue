@@ -367,7 +367,7 @@
         <div>
           <div style="text-align: center;">
             <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="1000" height="860">
-              <span>Your browser dose not support object projection, please switch to IE</span>
+              <span>Your browser dose not support object projection</span>
             </object>
           </div>
         </div>
@@ -522,28 +522,29 @@
       goObjectProjection: function () {
         this.objectProjection.dialogVisible = true;
 
-        // fixme check browser is support the ActiveX
-        // if (!JetionCapturer) {
-        //   this.objectProjection.support = false;
-        //   return;
-        // }
-        // if (!document.all.JetionCapturer.object) {
-        //   this.objectProjection.support = false;
-        //   return;
-        // }
+        console.log("support", (!((typeof ActiveXObject === "undefined") || !new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1"))));
 
-        // this.objectProjection.support = true;
-        JetionCapturer.Run(-1);
+        if ((typeof ActiveXObject === "undefined") || !new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1")) {
+          this.objectProjection.support = false;
+          return;
+        } else {
+          this.objectProjection.support = true;
+          JetionCapturer.Run(-1);
+        }
       },
 
       objectProjectionClose: function () {
-        if (this.objectProjection.support) {
-          JetionCapturer.Stop();
+        if (!this.objectProjection.support) {
+          return;
         }
-        // this.objectProjection.dialogVisible = false;
+
+        JetionCapturer.Stop();
       },
 
       captureProjection: function () {
+        if (!this.objectProjection.support) {
+          return;
+        }
         JetionCapturer.SetJpgQuality(255);
         let captureImg = JetionCapturer.CaptureToBase64();
 

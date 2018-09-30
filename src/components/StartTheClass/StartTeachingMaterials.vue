@@ -522,16 +522,13 @@
       goObjectProjection: function () {
         this.objectProjection.dialogVisible = true;
 
-        console.log("support", (!((typeof ActiveXObject === "undefined") || !new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1"))));
+        this.objectProjection.support = !!window.ActiveXObject || "ActiveXObject" in window;
 
-
-        if (!!window.ActiveXObject || "ActiveXObject" in window || !new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1")) {
-          this.objectProjection.support = false;
-          return;
-        } else {
-          this.objectProjection.support = true;
+        console.log("support", this.objectProjection.support);
+        if (this.objectProjection.support && new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1")) {
           JetionCapturer.Run(-1);
         }
+        console.log("support", new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1"));
       },
 
       objectProjectionClose: function () {

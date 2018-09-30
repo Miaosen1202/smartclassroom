@@ -5,7 +5,7 @@
     <div>
       <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
       <el-input v-model="search.materialName" size="small" placeholder="请输入资源名称" style="width: 20%"></el-input>
-      <el-select v-model="search.materialType" size="small" placeholder="请选择">
+      <el-select v-model="search.materialType" clearable="" size="small" placeholder="请选择">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -135,11 +135,23 @@
           value: 'image',
           label: 'image'
         }, {
-          value: null,
-          label: '全部'
-        },  {
-          value: 'doc',
-          label: 'doc'
+          value: 'word',
+          label: 'word'
+        }, {
+          value: 'excel',
+          label: 'excel'
+        }, {
+          value: 'pdf',
+          label: 'pdf'
+        }, {
+          value: 'ppt',
+          label: 'ppt'
+        }, {
+          value: 'video',
+          label: 'video'
+        }, {
+          value: 'audio',
+          label: 'audio'
         }],
         value: '',
         search:{

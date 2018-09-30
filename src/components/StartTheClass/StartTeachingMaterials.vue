@@ -524,7 +524,8 @@
 
         console.log("support", (!((typeof ActiveXObject === "undefined") || !new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1"))));
 
-        if ((typeof ActiveXObject === "undefined") || !new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1")) {
+
+        if (!!window.ActiveXObject || "ActiveXObject" in window || !new ActiveXObject("JCAMERAOCX.JCameraOCXCtrl.1")) {
           this.objectProjection.support = false;
           return;
         } else {

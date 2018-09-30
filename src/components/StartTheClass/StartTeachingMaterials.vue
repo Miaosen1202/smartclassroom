@@ -79,188 +79,93 @@
       </div>
     </div>-->
 
-      <canvas id="c1" width="1400px" height="500px">
-                <span>该浏览器不支持canvas内容</span>
-      </canvas>
+    <canvas id="c1" width="1400px" height="500px">
+      <span>该浏览器不支持canvas内容</span>
+    </canvas>
 
-      <div class="tool">
-        <el-button v-on:click="tooll()" style="float: right;border: none;background-color: #0e38b1" circle>
-          <img src="../../../static/images/toolkit.png"  alt="">
-        </el-button>
-        <div class="tool" style="float: right;margin-top: 1%;display: inline-block" v-show="isShow">
-          <div class="view" @click="goObjectProjection">
-            <el-tooltip class="item" effect="dark" content="Object Projection" placement="bottom">
-              <el-button style="float: right;border: none;"  round >
-                <img src="../../../static/images/Objectprojection-blue.png" alt="">
-              </el-button>
-            </el-tooltip>
-          </div>
-          <!--<div class="view" >-->
-            <!--<el-tooltip class="item" effect="dark" content="share my screen" placement="bottom">-->
-              <!--<el-button style="float: right;border: none;"  round >-->
-                <!--<img src="../../../static/images/sharemyscreen-blue.png" alt="">-->
-              <!--</el-button>-->
-            <!--</el-tooltip>-->
-          <!--</div>-->
-          <div class="view" @click="viewPresence" >
-            <el-tooltip class="item" effect="dark" content="Attentance" placement="bottom">
-              <el-button style="float: right;border: none;"  round >
-                <img src="../../../static/images/attentance-blue.png" alt="">
-              </el-button>
-            </el-tooltip>
-          </div>
-
-          <div class="view" @click="draw">
-            <el-tooltip class="item" effect="dark" content="Mark pen" placement="bottom">
+    <div class="tool">
+      <el-button v-on:click="tooll()" style="float: right;border: none;background-color: #0e38b1" circle>
+        <img src="../../../static/images/toolkit.png"  alt="">
+      </el-button>
+      <div class="tool" style="float: right;margin-top: 1%;display: inline-block" v-show="isShow">
+        <div class="view" @click="goObjectProjection">
+          <el-tooltip class="item" effect="dark" content="Object Projection" placement="bottom">
             <el-button style="float: right;border: none;"  round >
-              <img src="../../../static/images/pen-blue.png" alt="">
+              <img src="../../../static/images/Objectprojection-blue.png" alt="">
             </el-button>
-            </el-tooltip>
-          </div>
-          <div class="view" @click="gobackLesson()" >
-            <el-tooltip class="item" effect="dark" content="View my lessons" placement="bottom">
-              <el-button style="float: right;border: none" round @click="gobackLesson()">
-                <img src="../../../static/images/viewmylesson-blue.png" alt="">
-              </el-button>
-            </el-tooltip>
-          </div>
-          <div class="view" @click="takeAbreak">
-            <el-tooltip class="item" effect="dark" content="End the class" placement="bottom">
-              <el-button style="float: right;;border: none"  round @click="takeAbreak">
-                <img src="../../../static/images/over-red.png"  alt="">
-              </el-button>
-            </el-tooltip>
-
-          </div>
-
-
+          </el-tooltip>
+        </div>
+        <!--<div class="view" >-->
+          <!--<el-tooltip class="item" effect="dark" content="share my screen" placement="bottom">-->
+            <!--<el-button style="float: right;border: none;"  round >-->
+              <!--<img src="../../../static/images/sharemyscreen-blue.png" alt="">-->
+            <!--</el-button>-->
+          <!--</el-tooltip>-->
+        <!--</div>-->
+        <div class="view" @click="viewPresence" >
+          <el-tooltip class="item" effect="dark" content="Attentance" placement="bottom">
+            <el-button style="float: right;border: none;"  round >
+              <img src="../../../static/images/attentance-blue.png" alt="">
+            </el-button>
+          </el-tooltip>
         </div>
 
+        <div class="view" @click="draw">
+          <el-tooltip class="item" effect="dark" content="Mark pen" placement="bottom">
+          <el-button style="float: right;border: none;"  round >
+            <img src="../../../static/images/pen-blue.png" alt="">
+          </el-button>
+          </el-tooltip>
+        </div>
+        <div class="view" @click="gobackLesson()" >
+          <el-tooltip class="item" effect="dark" content="View my lessons" placement="bottom">
+            <el-button style="float: right;border: none" round @click="gobackLesson()">
+              <img src="../../../static/images/viewmylesson-blue.png" alt="">
+            </el-button>
+          </el-tooltip>
+        </div>
+        <div class="view" v-show="!lessonIsEnd" @click="takeAbreak">
+          <el-tooltip class="item" effect="dark" content="End the class" placement="bottom">
+            <el-button style="float: right;;border: none"  round @click="takeAbreak">
+              <img src="../../../static/images/over-red.png"  alt="">
+            </el-button>
+          </el-tooltip>
+        </div>
       </div>
+    </div>
+
     <div style="position: absolute;top: 10%;left: 10%;width: 60%">
-    <div class="main" >
-      <el-scrollbar>
-        <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
+      <div class="main" >
+        <el-scrollbar>
+          <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
 
-          <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
-            <p>Lesson： {{ lessonName }}</p>
-            <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
-            </el-checkbox>
-            <el-checkbox-group v-model="checkedMaterialList">
-              <div class="list" v-for="material in materialList">
-                <el-checkbox :label="material" :disabled="material.isShare == 1">
-                  <!--<a :href="material.materialUrl" :download="material.materialName">{{material.materialName}}</a>-->
+            <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
+              <p>Lesson： {{ lessonName }}</p>
+              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
+              </el-checkbox>
+              <el-checkbox-group v-model="checkedMaterialList">
+                <div class="list" v-for="material in materialList">
+                  <el-checkbox :label="material" :disabled="material.isShare == 1">
+                    <!--<a :href="material.materialUrl" :download="material.materialName">{{material.materialName}}</a>-->
 
-                  <span @click="preview(material.localPath)">{{material.materialName}}</span>
-                  <a :href="material.materialUrl" :download="material.materialName">
-                    <i class="el-icon-download" style="cursor: pointer;"></i>
-                  </a>
-                </el-checkbox>
-              </div>
-            </el-checkbox-group>
-            <el-button style="margin-bottom: 10%;background-color: #0e38b1;color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
-          </el-tab-pane>
-
-          <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'" style="margin-bottom: 10%;">
-            <p>Lesson： {{ lessonName }}</p>
-            <div  v-for="(discussion, index) in discussionList" :key="discussion.id">
-              <div class="have">
-              <h5>Discussion {{discussion.sort}}</h5>
-              <p>{{discussion.discussContent}}</p>
-              <ul>
-                <li v-for="atth in discussion.attachments" >
-                  <!--<a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>-->
-
-                  <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
-                  <a :href="atth.fileUrl" :download="atth.fileName">
-                    <i class="el-icon-download" style="cursor: pointer;"></i>
-                  </a>
-                </li>
-              </ul>
-              <div class="news" v-on:click="getDiscussAnswer(discussion.id)">
-                <img src="../../assets/images/u2503.png" alt="">
-                <span class="discuss-answer-number"></span>
-              </div>
-              </div>
-              <div>
-                <div class="discussion-answer-items" :data-id="discussion.id" v-show="false"><!--messageDisplay-->
-                  <div class="leftcolor" v-for="discussAnswer in discussAnswers">
-                    <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
-                    <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
-                    <p>{{discussAnswer.answerContent }}</p>
-                    <ul>
-                      <li v-for="atth in discussAnswer.attachments" >
-                        <!--<a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>-->
-
-                        <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
-                        <a :href="atth.fileUrl" :download="atth.fileName">
-                          <i class="el-icon-download" style="cursor: pointer;"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
+                    <span @click="preview(material.localPath)">{{material.materialName}}</span>
+                    <a :href="material.materialUrl" :download="material.materialName">
+                      <i class="el-icon-download" style="cursor: pointer;"></i>
+                    </a>
+                  </el-checkbox>
                 </div>
-              </div>
-            </div>
-          </el-tab-pane>
-          <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'" >
-            <p>Lesson： {{ lessonName }}</p>
-            <div class="exercise">
-              <div class="leftexerc" style="height: 350px">
-                <el-scrollbar style="height: 100%">
-                  <div class="elbtn" style="float: right;padding-right: 2%">
-                    <el-button style="background-color: #0e38b1" type="primary" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
-                    <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
-                    <el-button tyle="background-color: #0e38b1" type="primary" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
-                  </div>
-                  <div v-for="(exercises,index) in existExercisesList">
-                    <h4 style="display:inline-block; border-bottom: 2px solid #999">Exercises {{exercises.sort}}</h4>
-                    <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
-                          v-show="exercises.questionType == '1'">Single-choice</span>
-                    <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
-                          v-show="exercises.questionType == '2'">Multiple-choice</span>
-                    <p>{{exercises.questionTitle}}</p>
-                    <ul v-for="(option,index) in exercises.options" :key="index">
-                      <li><h4 style="display: inline-block">{{option.answerCode}}:</h4>
-                        <span>{{option.answerContent}}</span></li>
-                    </ul>
+              </el-checkbox-group>
+              <el-button style="margin-bottom: 10%;background-color: #0e38b1;color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
+            </el-tab-pane>
 
-                    <div style="cursor: pointer" v-on:click="toggle()">
-                      <i class="el-icon-arrow-down"></i>
-                      <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
-                    </div>
-                    <div v-show="isShow">
-                      <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer :</i>
-                      <div v-for="(option,index) in exercises.options">
-                        <h4 v-if="option.isCorrect == 1">{{option.answerCode}}</h4>
-                      </div>
-                      <i style="font-weight: 700;color: #5cb85c">Explanation :</i>
-                      <p>{{exercises.analysis}}
-                      </p>
-                    </div>
-                  </div>
-
-                </el-scrollbar>
-              </div>
-              <div class="rightexerc">
-                <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
-              </div>
-              <!--<div class="rightexerc" :style="{width: '300px', height: '300px'}">
-                <div id="bmyChart"></div>
-              </div>-->
-            </div>
-            <div>
-
-            </div>
-          </el-tab-pane>
-          <el-tab-pane name="assignmentTab" :label="'Assignment(' + assignmentNumber + ')'" style="margin-bottom: 10%;">
-            <div>
-              <h5>Lesson： {{ lessonName }}</h5>
-              <div class="have" v-for="assignment in assignmentList">
-                <h5>Assignment {{assignment.sort}}</h5>
-                <p>{{assignment.assignmentName}}</p>
+            <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'" style="margin-bottom: 10%;">
+              <p>Lesson： {{ lessonName }}</p>
+              <div  v-for="(discussion, index) in discussionList" :key="discussion.id">
+                <div class="have">
+                <h5>Discussion {{discussion.sort}}</h5>
+                <p>{{discussion.discussContent}}</p>
                 <ul>
-                  <li v-for="atth in assignment.attachments">
+                  <li v-for="atth in discussion.attachments" >
                     <!--<a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>-->
 
                     <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
@@ -269,144 +174,235 @@
                     </a>
                   </li>
                 </ul>
+                <div class="news" v-on:click="getDiscussAnswer(discussion.id)">
+                  <img src="../../assets/images/u2503.png" alt="">
+                  <span class="discuss-answer-number"></span>
+                </div>
+                </div>
+                <div>
+                  <div class="discussion-answer-items" :data-id="discussion.id" v-show="false"><!--messageDisplay-->
+                    <div class="leftcolor" v-for="discussAnswer in discussAnswers">
+                      <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
+                      <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
+                      <p>{{discussAnswer.answerContent }}</p>
+                      <ul>
+                        <li v-for="atth in discussAnswer.attachments" >
+                          <!--<a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>-->
+
+                          <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
+                          <a :href="atth.fileUrl" :download="atth.fileName">
+                            <i class="el-icon-download" style="cursor: pointer;"></i>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </el-tab-pane>
+            <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'" >
+              <p>Lesson： {{ lessonName }}</p>
+              <div class="exercise">
+                <div class="leftexerc" style="height: 350px">
+                  <el-scrollbar style="height: 100%">
+                    <div class="elbtn" style="float: right;padding-right: 2%">
+                      <el-button style="background-color: #0e38b1" type="primary" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
+                      <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
+                      <el-button tyle="background-color: #0e38b1" type="primary" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
+                    </div>
+                    <div v-for="(exercises,index) in existExercisesList">
+                      <h4 style="display:inline-block; border-bottom: 2px solid #999">Exercises {{exercises.sort}}</h4>
+                      <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
+                            v-show="exercises.questionType == '1'">Single-choice</span>
+                      <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
+                            v-show="exercises.questionType == '2'">Multiple-choice</span>
+                      <p>{{exercises.questionTitle}}</p>
+                      <ul v-for="(option,index) in exercises.options" :key="index">
+                        <li><h4 style="display: inline-block">{{option.answerCode}}:</h4>
+                          <span>{{option.answerContent}}</span></li>
+                      </ul>
+
+                      <div style="cursor: pointer" v-on:click="toggle()">
+                        <i class="el-icon-arrow-down"></i>
+                        <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
+                      </div>
+                      <div v-show="isShow">
+                        <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer :</i>
+                        <div v-for="(option,index) in exercises.options">
+                          <h4 v-if="option.isCorrect == 1">{{option.answerCode}}</h4>
+                        </div>
+                        <i style="font-weight: 700;color: #5cb85c">Explanation :</i>
+                        <p>{{exercises.analysis}}
+                        </p>
+                      </div>
+                    </div>
+
+                  </el-scrollbar>
+                </div>
+                <div class="rightexerc">
+                  <div id="myChart" :style="{width: '300px', height: '300px'}"></div>
+                </div>
+                <!--<div class="rightexerc" :style="{width: '300px', height: '300px'}">
+                  <div id="bmyChart"></div>
+                </div>-->
+              </div>
+              <div>
+
+              </div>
+            </el-tab-pane>
+            <el-tab-pane name="assignmentTab" :label="'Assignment(' + assignmentNumber + ')'" style="margin-bottom: 10%;">
+              <div>
+                <h5>Lesson： {{ lessonName }}</h5>
+                <div class="have" v-for="assignment in assignmentList">
+                  <h5>Assignment {{assignment.sort}}</h5>
+                  <p>{{assignment.assignmentName}}</p>
+                  <ul>
+                    <li v-for="atth in assignment.attachments">
+                      <!--<a :href="atth.fileUrl" :download="atth.fileName">{{atth.fileName}}</a>-->
+
+                      <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
+                      <a :href="atth.fileUrl" :download="atth.fileName">
+                        <i class="el-icon-download" style="cursor: pointer;"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </el-tab-pane>
+            <el-tab-pane>
+            <span slot="label">
+              <img v-on:click="gobackk()" src="../../assets/images/u273.png" alt="">
+            </span>
+              <!--<p>Lesson： {{ lessonName }}</p>-->
+             <!-- <div class="exercise" style="width: 100%;margin-right: 2%">
+                &lt;!&ndash;<div class="leftexerc" style="height: 350px">
+                  <el-scrollbar style="height: 100%">
+                    <h6 style="display:inline-block; border-bottom: 2px solid #999">Exercises1</h6>
+                    <div style="padding-left:2%; border-bottom: 1px solid #ccc">
+                      <img src="../../assets/images/u558.png" alt="">
+                      <p style="display:inline-block">Which of the planets of the solar</p>
+                    </div>
+                  </el-scrollbar>
+                </div>&ndash;&gt;
+
+                &lt;!&ndash;<div class="rightexerc" :style="{width: '300px', height: '300px'}">
+                  <div id="bmyChart"></div>
+                </div>&ndash;&gt;
+                &lt;!&ndash;<div>
+                  <p style="display: inline-block;padding-left: 2%">Statistics Responses </p>
+                  <h3 style="color: #880000;display: inline-block">14</h3>/<span>16</span>
+                  &lt;!&ndash;<span class="el-icon-arrow-left"></span>&ndash;&gt;
+                  <el-button style="margin-left: 8%" type="primary" icon="el-icon-caret-left" circle></el-button>
+                  <el-button type="primary" icon="el-icon-caret-right" circle></el-button>
+                </div>&ndash;&gt;
+                <div style="float: left;width: 38%;height: 300px;margin: 1% 0%">
+                  &lt;!&ndash;<el-scrollbar style="height: 100%">
+                    <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%;">
+                      <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                      <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                      <p>
+                        <img src="../../assets/images/u558.png" alt="">
+                        than the famous Sirius, the</p>
+                    </div>
+                    <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
+                      <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                      <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                      <p>
+                        <img src="../../assets/images/u558.png" alt="">
+                        than the famous Sirius, the</p>
+                    </div>
+                    <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
+                      <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                      <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                      <p>
+                        <img src="../../assets/images/u558.png" alt="">
+                        than the famous Sirius, the</p>
+                    </div>
+                    <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
+                      <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                      <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                      <p>
+                        <img src="../../assets/images/u558.png" alt="">
+                        than the famous Sirius, the
+                      </p>
+                    </div>
+                    <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
+                      <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
+                      <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
+                      <p>
+                        <img src="../../assets/images/u558.png" alt="">
+                        than the famous Sirius, the
+                      </p>
+                    </div>
+                  </el-scrollbar>&ndash;&gt;
+
+                </div>
+              </div>-->
+            </el-tab-pane>
+          </el-tabs>
+              
+        </el-scrollbar>
+
+        <el-dialog
+          class="file-preview"
+          title="preview"
+          :visible.sync="filePreviewDialogVisible"
+          width="100%"
+          fullscreen>
+          <iframe :src="previewHtml" style="width: 100%; height: 100%">
+          </iframe>
+        </el-dialog>
+
+        <el-dialog
+          class="object-projection"
+          title="Object Projection"
+          :visible.sync="objectProjection.dialogVisible"
+          @close="objectProjectionClose"
+          width="100%"
+          fullscreen>
+
+          <div>
+            <div style="text-align: center;">
+              <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="1000" height="860">
+                <span>Your browser dose not support object projection</span>
+              </object>
             </div>
-          </el-tab-pane>
-          <el-tab-pane>
-          <span slot="label">
-            <img v-on:click="gobackk()" src="../../assets/images/u273.png" alt="">
-          </span>
-            <!--<p>Lesson： {{ lessonName }}</p>-->
-           <!-- <div class="exercise" style="width: 100%;margin-right: 2%">
-              &lt;!&ndash;<div class="leftexerc" style="height: 350px">
-                <el-scrollbar style="height: 100%">
-                  <h6 style="display:inline-block; border-bottom: 2px solid #999">Exercises1</h6>
-                  <div style="padding-left:2%; border-bottom: 1px solid #ccc">
-                    <img src="../../assets/images/u558.png" alt="">
-                    <p style="display:inline-block">Which of the planets of the solar</p>
-                  </div>
-                </el-scrollbar>
-              </div>&ndash;&gt;
-
-              &lt;!&ndash;<div class="rightexerc" :style="{width: '300px', height: '300px'}">
-                <div id="bmyChart"></div>
-              </div>&ndash;&gt;
-              &lt;!&ndash;<div>
-                <p style="display: inline-block;padding-left: 2%">Statistics Responses </p>
-                <h3 style="color: #880000;display: inline-block">14</h3>/<span>16</span>
-                &lt;!&ndash;<span class="el-icon-arrow-left"></span>&ndash;&gt;
-                <el-button style="margin-left: 8%" type="primary" icon="el-icon-caret-left" circle></el-button>
-                <el-button type="primary" icon="el-icon-caret-right" circle></el-button>
-              </div>&ndash;&gt;
-              <div style="float: left;width: 38%;height: 300px;margin: 1% 0%">
-                &lt;!&ndash;<el-scrollbar style="height: 100%">
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%;">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the</p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the
-                    </p>
-                  </div>
-                  <div style="border: 1px solid #ccc;border-radius: 4px;margin: 1% 4% 0px 2%">
-                    <p style="display: inline-block">Alexander</p><span>[201102099011]</span>
-                    <span style="display: inline-block;float: right">12:00:36  02/01/2017</span>
-                    <p>
-                      <img src="../../assets/images/u558.png" alt="">
-                      than the famous Sirius, the
-                    </p>
-                  </div>
-                </el-scrollbar>&ndash;&gt;
-
-              </div>
-            </div>-->
-          </el-tab-pane>
-        </el-tabs>
-            
-      </el-scrollbar>
-
-      <el-dialog
-        class="file-preview"
-        title="preview"
-        :visible.sync="filePreviewDialogVisible"
-        width="100%"
-        fullscreen>
-        <iframe :src="previewHtml" style="width: 100%; height: 100%">
-        </iframe>
-      </el-dialog>
-
-      <el-dialog
-        class="object-projection"
-        title="Object Projection"
-        :visible.sync="objectProjection.dialogVisible"
-        @close="objectProjectionClose"
-        width="100%"
-        fullscreen>
-
-        <div>
-          <div style="text-align: center;">
-            <object classid="clsid:49CBC347-34CD-4687-9D5C-C45E3D3314F0" id="JetionCapturer" width="1000" height="860">
-              <span>Your browser dose not support object projection</span>
-            </object>
           </div>
-        </div>
-        <!--<el-button @click="captureProjection" type="primary">Capture Screen</el-button>-->
-      </el-dialog>
+          <!--<el-button @click="captureProjection" type="primary">Capture Screen</el-button>-->
+        </el-dialog>
 
-      <el-dialog
-        class="student-presence"
-        title="Student presence"
-        :visible.sync="studentPresence.dialogVisible"
-        @close="studentPresenceDialogClose"
-        width="100%"
-        fullscreen>
+        <el-dialog
+          class="student-presence"
+          title="Student presence"
+          :visible.sync="studentPresence.dialogVisible"
+          @close="studentPresenceDialogClose"
+          width="100%"
+          fullscreen>
 
-        <div>
-          <div>Total attendance {{studentPresence.list.length}}</div>
-          <div style="width: 80%; margin: auto">
-            <el-tag class="presence-student" type="success" v-for="student in studentPresence.list"
-                    style="padding: 20px; margin-right: 40px; margin-bottom: 20px; height: auto; width: 150px; font-size: 18px; color: #666; background-color: #f8f8f8">
-              <span style="display: block; overflow: hidden;">
-                {{student.name}}
-              </span>
-              <span style="display: block; overflow: hidden;">
-                {{student.studentNo}}
-              </span>
-            </el-tag>
-            <!--<el-row :gutter="20">-->
-              <!--<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>-->
-            <!--</el-row>-->
-            <!--<ul>-->
-              <!--<li v-for="student in studentPresence.list">{{student.name}}</li>-->
-            <!--</ul>-->
+          <div>
+            <div>Total attendance {{studentPresence.list.length}}</div>
+            <div style="width: 80%; margin: auto">
+              <el-tag class="presence-student" type="success" v-for="student in studentPresence.list"
+                      style="padding: 20px; margin-right: 40px; margin-bottom: 20px; height: auto; width: 150px; font-size: 18px; color: #666; background-color: #f8f8f8">
+                <span style="display: block; overflow: hidden;">
+                  {{student.name}}
+                </span>
+                <span style="display: block; overflow: hidden;">
+                  {{student.studentNo}}
+                </span>
+              </el-tag>
+              <!--<el-row :gutter="20">-->
+                <!--<el-col :span="6"><div class="grid-content bg-purple"></div></el-col>-->
+              <!--</el-row>-->
+              <!--<ul>-->
+                <!--<li v-for="student in studentPresence.list">{{student.name}}</li>-->
+              <!--</ul>-->
+            </div>
           </div>
-        </div>
 
-      </el-dialog>
+        </el-dialog>
+      </div>
     </div>
-    </div>
-
   </div>
 </template>
 
@@ -425,6 +421,7 @@
   export default {
     data() {
       return {
+        lessonIsEnd: false,
         selectValue:'',
         options:[
           {
@@ -436,7 +433,7 @@
           }
         ],
         tabPosition: 'top',
-        centerDialogVisible: true,
+        centerDialogVisible: false,
         discussAnswers: [],
         checkedMaterialList: [],
         materialNumber: 0,
@@ -629,7 +626,11 @@
         console.log(this.$route.query.isShow);
         if (this.$route.query.isShow==undefined) {
           this.centerDialogVisible = true
+        } else {
+          this.lessonIsEnd = this.$route.query.isShow;
         }
+
+        console.log(this.lessonIsEnd)
       },
       drawLine() {
         // 基于准备好的dom，初始化echarts实例

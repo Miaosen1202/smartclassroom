@@ -15,7 +15,6 @@
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'studentManagement'}" @click="goTostudentManagement('studentManagement')">
-
         <P>
           <img src="../../../static/images/Student.png" alt="">
           studentManagement</P>
@@ -53,7 +52,7 @@
     data(){
       return{
         msg:"左部",
-        activeFlag:'prepare',
+        activeFlag:'teacherManagement',
         dialogVisible: false
       }
     },

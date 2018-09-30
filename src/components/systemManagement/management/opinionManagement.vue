@@ -331,6 +331,12 @@
   }
 </script>
 
+<style>
+  .el-tooltip__popper {
+    max-width: 400px;
+    line-height: 180%;
+  }
+</style>
 <style scoped="">
   .management {
     margin: 2%;

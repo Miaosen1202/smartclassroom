@@ -1,5 +1,6 @@
 
 export default {
+
   formatDateTime: function(date) {
     if (date == undefined || date === null || date === "") {
       return '';

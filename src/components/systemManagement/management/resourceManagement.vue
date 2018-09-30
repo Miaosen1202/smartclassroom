@@ -3,7 +3,7 @@
     资源管理
 
     <div>
-      <p style="display: inline-block">总数量</p>：<span>20</span>
+      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
       <el-input v-model="search.materialName" size="small" placeholder="请输入资源名称" style="width: 20%"></el-input>
       <el-select v-model="search.materialType" size="small" placeholder="请选择">
         <el-option
@@ -26,12 +26,20 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="materialName" label="File Name" min-width="50%"></el-table-column>
+        <el-table-column prop="materialName" label="File Name" min-width="50%">
+          <template slot-scope="scope">
+            <span @click="preview(scope.row.localPath)">{{scope.row.materialName}}</span>
+            <a :href="scope.row.materialUrl" :download="scope.row.materialName">
+              <i  style="cursor: pointer;">
+                <img src="../../../../static/images/UPLOAD.png" alt="">
+              </i>
+            </a>
+          </template>
+        </el-table-column>
         <el-table-column prop="createUserName" label="创建人" min-width="30%"></el-table-column>
         <el-table-column prop="fileType" label="资源分类" min-width="30%"></el-table-column>
         <el-table-column prop="fileSize" label="Size" min-width="30%"></el-table-column>
-        <el-table-column prop="updateTime" label="Update" min-width="50%"><template slot-scope="scope">{{ scope.row.updateTime }}</template>
-        </el-table-column>
+        <el-table-column prop="updateTime" :formatter="dateTimeFormatter" label="Update" min-width="50%"></el-table-column>
         <el-table-column prop="downloadCount" label="浏览次数" width="130"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -84,10 +92,22 @@
         <el-button type="primary" @click="batchUpload">保 存</el-button>
       </span>
     </el-dialog>
+
+    <el-dialog
+      class="file-preview"
+      title="preview"
+      :visible.sync="filePreview.dialogVisible"
+      width="100%"
+      fullscreen>
+      <iframe :src="filePreview.previewUrl" style="width: 100%; height: 100%">
+      </iframe>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+  import util from '@/utils/util'
+
   export default {
     data() {
       return {
@@ -96,6 +116,11 @@
         fileUploadPath: `${process.env.NODE_ENV}/file/upload`,
         fileList: [],
        addMaterials : [],
+
+        filePreview: {
+          dialogVisible: false,
+          previewUrl: ""
+        },
 
         page: {
           total: 0,
@@ -127,6 +152,31 @@
       this.resourceManagementQuery(this.pageIndex);
     },
     methods: {
+      dateTimeFormatter: function (row, col, date) {
+        return util.formatDateTime(date);
+      },
+
+      preview: function (filePath) {
+        this.filePreview.dialogVisible = true;
+        this.filePreview.previewUrl = "";
+
+        this.$http.get(`${process.env.NODE_ENV}/file/preview`, {params: {filePath: filePath}})
+          .then((res) => {
+            if (res.data.code == 200) {
+              this.filePreview.previewUrl = res.data.entity;
+            } else if (res.data.code == 300) {
+              this.$message.error(res.data.message);
+              this.$router.push("/");
+            } else {
+              console.error("preview fail", res.data.message);
+              this.$message.error(res.data.message);
+            }
+          }).catch((err) => {
+            console.error("preview fail", err);
+            this.$message.error("预览文件失败，请下载至本地查看");
+        });
+      },
+
       handleSelectionChange(val) {
         this.multipleSelection = val;
       },
@@ -261,6 +311,14 @@
   }
 </script>
 
+<style>
+  .file-preview .el-dialog.is-fullscreen {
+    width: 80% !important;
+  }
+  .file-preview .el-dialog.is-fullscreen .el-dialog__body {
+    height: 90%;
+  }
+</style>
 <style scoped="">
   .all {
     margin: 2%;

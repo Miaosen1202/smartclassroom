@@ -339,9 +339,9 @@
         this.$http.post(`${process.env.NODE_ENV}/user/resetPassword/edit`, {userIds: ids})
           .then((res) => {
             if (res.data.code == 200) {
-              this.$message.info("Reset user password success")
+              this.$message.info("Reset user's password success")
             } else {
-              this.$message.error("Reset user password fail: " + res.data.message);
+              this.$message.error("Reset user's password fail: " + res.data.message);
             }
           }).catch((err) => {
            this.$message.error(err);

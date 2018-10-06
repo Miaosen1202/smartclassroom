@@ -2,11 +2,11 @@
   <div class="management">
     <div>
       <p style="display: inline-block">Total</p>：<span>{{ page.total }}</span>
-      <el-input v-model="teacherNameSearch" size="small" placeholder="请输入内容" style="width: 20%;margin-left: 1%"></el-input>
+      <el-input v-model="teacherNameSearch" size="small" :placeholder="$t('message.pleaseenter')" style="width: 20%;margin-left: 1%"></el-input>
       <el-button @click="loadTeacherRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
-      <el-button @click="resetPassword" type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">Reset Password</el-button>
-      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">Import</el-button>
-      <el-button type="primary" @click="getImportTpl" size="mini" style="float: right;background-color: #0138b1">Download Template</el-button>
+      <el-button @click="resetPassword" type="primary" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">{{$t('message.ResetPassword')}}</el-button>
+      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">{{$t('message.Import')}}</el-button>
+      <el-button type="primary" @click="getImportTpl" size="mini" style="float: right;background-color: #0138b1">{{$t('message.Download')}}</el-button>
       <!--<el-upload
         class="upload-demo"
         :action="action"
@@ -26,22 +26,22 @@
         style="width: 98%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="teacherNo" label="账号" min-width="30%"></el-table-column>
-        <el-table-column prop="name" label="姓名" min-width="30%"></el-table-column>
-        <el-table-column prop="email" label="邮箱" min-width="40%"></el-table-column>
-        <el-table-column prop="cellPhoneNo" label="联系电话" min-width="40%"></el-table-column>
-        <el-table-column prop="subject" label="分类" min-width="30%"></el-table-column>
+        <el-table-column prop="teacherNo" :label="$t('message.Account')" min-width="30%"></el-table-column>
+        <el-table-column prop="name" :label="$t('message.Name')" min-width="30%"></el-table-column>
+        <el-table-column prop="email" :label="$t('message.EMail')" min-width="40%"></el-table-column>
+        <el-table-column prop="cellPhoneNo" :label="$t('message.Phone')" min-width="40%"></el-table-column>
+        <el-table-column prop="subject" :label="$t('message.Category')" min-width="30%"></el-table-column>
 
 
-        <el-table-column prop="updateTime" label="更新" min-width="30%">
+        <el-table-column prop="updateTime" :label="$t('message.updateTime')" min-width="30%">
            <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
 
         </el-table-column>
-        <el-table-column prop="status" label="状态" min-width="30%">
+        <el-table-column prop="status" :label="$t('message.Status')" min-width="30%">
           <template slot-scope="scope">{{ scope.row.status == 1 ? "Enable" : "Disable" }}</template>
         </el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
             <el-button style="border: none;color: #0138b1;"  size="mini" @click="editTeacher(scope.$index, scope.row)">{{ scope.row.status == 1 ? "Disable" : "Enable" }}</el-button>
             <el-button style="border: none;color: #0138b1;"  size="mini" @click="showStudentEditDialog(scope.$index, scope.row)" >| Edit |</el-button>

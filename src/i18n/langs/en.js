@@ -15,6 +15,22 @@ const en = {
     'Continue':'Continue',
     'giveup':'Give up',
     'quite':'You have a lesson being edited, continue or quit?',
+    /*admin*/
+    'Download':'Download Template',
+    'Import':'Import Data',
+    'ResetPassword':'Reset Password',
+    'Account':'Account',
+    'Name':'Name',
+    'EMail':'E-Mail',
+    'Phone':'Phone',
+    'Category':'Category',
+    'updateTime':'Update Time',
+    'Status':'Status',
+    'Operation':'Operation',
+
+
+
+
 
 
 

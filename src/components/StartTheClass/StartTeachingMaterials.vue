@@ -383,7 +383,7 @@
             <div>Total attendance {{studentPresence.list.length}}</div>
             <div style="width: 80%; margin: auto">
               <el-tag class="presence-student" type="success" v-for="student in studentPresence.list"
-                      style="padding: 20px; margin-right: 40px; margin-bottom: 20px; height: auto; width: 150px; font-size: 18px; color: #666; background-color: #f8f8f8">
+                      :key="index"    style="padding: 20px; margin-right: 40px; margin-bottom: 20px; height: auto; width: 150px; font-size: 18px; color: #666; background-color: #f8f8f8">
                 <span style="display: block; overflow: hidden;">
                   {{student.name}}
                 </span>

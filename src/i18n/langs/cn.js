@@ -15,6 +15,20 @@ const cn = {
     'Continue':'继续',
     'giveup':'放弃',
     'quite':'你有被编辑、继续或放弃吗？',
+    /*admin*/
+    'Download':'下载导入模板',
+    'Import':'导入老师数据',
+    'ResetPassword':'重置初始化密码',
+    'Account':'账号',
+    'Name':'姓名',
+    'EMail':'邮箱',
+    'Phone':'联系电话',
+    'Category':'分类',
+    'updateTime':'日期',
+    'Status':'状态',
+    'Operation':'操作',
+
+
 
 
 

@@ -27,6 +27,21 @@ const cn = {
     'updateTime':'日期',
     'Status':'状态',
     'Operation':'操作',
+    'Total':'总数量',
+    'plfrom':'请输入反馈人姓名查询',
+    'plStatus':'请选择状态检索',
+    'startdata':'开始日期',
+    'enddata':'结束日期',
+    'to':'至',
+    'batchdelete':'批量删除',
+    'feedback':'意见描述',
+    'from':'反馈人',
+    'fromdata':'反馈时间',
+    'Disposaltime':'处理时间',
+    'Studentname':'请输入学生姓名查询',
+    'importdata':'导入学生数据'
+
+
 
 
 

@@ -1,16 +1,16 @@
 <template>
   <div class="management">
-    {{$t('message.studentManagement')}}
+    <!--{{$t('message.studentManagement')}}-->
 
     <div>
-      <p style="display: inline-block"> {{$t('message.totalQuantity')}}</p>：<span>{{ page.total }}</span>
-      <el-input v-model="studentNameSearch" size="small" placeholder="请输入学生姓名查询" style="width: 20%"></el-input>
+      <p style="display: inline-block"> {{$t('message.Total')}}</p>：<span>{{ page.total }}</span>
+      <el-input v-model="studentNameSearch" size="small" :placeholder="$t('message.Studentname')" style="width: 20%"></el-input>
       <el-button type="primary" @click="loadStudentRecords(1)" size="small" icon="el-icon-search" style="background-color: #0138b1;color: #fff"></el-button>
-      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">批量删除</el-button>
-      <el-button type="primary" @click="resetPassword" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">重置初始化密码</el-button>
+      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">{{$t('message.batchdelete')}}</el-button>
+      <el-button type="primary" @click="resetPassword" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1">{{$t('message.ResetPassword')}}</el-button>
       <!--<el-button type="primary" @click="getImportModelFile" size="mini" style="float: right;">获取学生导入模板</el-button>-->
-      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">导入学生数据</el-button>
-      <el-button type="primary" @click="getImportTpl" size="mini" style="float: right;background-color: #0138b1">下载导入模板</el-button>
+      <el-button type="primary" @click="goImportStudent" size="mini" style="float: right;background-color: #0138b1">{{$t('message.importdata')}}</el-button>
+      <el-button type="primary" @click="getImportTpl" size="mini" style="float: right;background-color: #0138b1">{{$t('message.Download')}}</el-button>
 
     </div>
     <div>

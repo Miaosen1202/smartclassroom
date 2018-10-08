@@ -27,6 +27,20 @@ const en = {
     'updateTime':'Update Time',
     'Status':'Status',
     'Operation':'Operation',
+    'Total':'Total',
+    'plfrom':'From',
+    'plStatus':'Status',
+    'startdata':'Start Data',
+    'enddata':'End Data',
+    'to':'to',
+    'batchdelete':'Batch Delete',
+    'feedback':'Feedback',
+    'from':'From',
+    'fromdata':'Data&Time',
+    'Disposaltime':'Disposal Time',
+    'Studentname':'Input name to search',
+    'importdata':'Import Data'
+
 
 
 

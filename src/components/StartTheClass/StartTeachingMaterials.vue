@@ -222,11 +222,11 @@
                           <span>{{option.answerContent}}</span></li>
                       </ul>
 
-                      <div style="cursor: pointer" v-on:click="toggle()">
+                      <div style="cursor: pointer" v-on:click="execisesAnswerShowToggle()">
                         <i class="el-icon-arrow-down"></i>
                         <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
                       </div>
-                      <div v-show="isShow">
+                      <div v-show="execisesAnswerShow">
                         <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer :</i>
                         <div v-for="(option,index) in exercises.options">
                           <h4 v-if="option.isCorrect == 1">{{option.answerCode}}</h4>
@@ -449,6 +449,7 @@
         lessonId: this.$route.query.lessonId,
         checked: true,
         isShow: false,
+        execisesAnswerShow: false,
         discussAnswerIsShow: false,
         checkAll: false,
         checked1: '',
@@ -502,6 +503,10 @@
     },
     methods: {
       getLoginUser: util.getLoginUser,
+
+      execisesAnswerShowToggle: function() {
+        this.execisesAnswerShow = !this.execisesAnswerShow;
+      },
 
       studentPresenceDialogClose: function () {
 

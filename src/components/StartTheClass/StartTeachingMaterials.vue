@@ -481,7 +481,9 @@
         studentPresence: {
           dialogVisible: false,
           list: []
-        }
+        },
+
+        myChart: null
       }
     },
     created() {
@@ -493,7 +495,6 @@
     mounted() {
       this.centerDialogVisibleShow();
       this.loadFinishexercise();
-      this.drawLine();
       /*this.bdrawLine();*/
       this.getMaterialList();
       this.getLessonDetail();
@@ -632,21 +633,64 @@
 
         console.log(this.lessonIsEnd)
       },
-      drawLine() {
+      drawLine(data) {
         // 基于准备好的dom，初始化echarts实例
-        let myChart = this.$echarts.init(document.getElementById('myChart'))
-        // 绘制图表
-        myChart.setOption({
-          title: {text: 'Responses  14/50'},
+        if (this.myChart == null) {
+          this.myChart = this.$echarts.init(document.getElementById('myChart'))
+        }
+
+        let studentNumber = data.entity.studentNumber;
+        let answerRecordVos = data.entity.questionAnswerRecordVos;
+        let answerCount = [0, 0, 0, 0, 0, 0, 0, 0]
+        for (let i = 0; i < answerRecordVos.length; i++) {
+          let ans = answerRecordVos[i].answerContent;
+          if (ans != null) {
+            ans = ans.split(",")
+            for (let j = 0; j < ans.length; j++) {
+              let a = ans[j] || ans[j].toUpperCase();
+              switch (a) {
+                case "A":
+                  answerCount[0]++;
+                  break;
+                case "B":
+                  answerCount[1]++;
+                  break;
+                case "C":
+                  answerCount[2]++;
+                  break;
+                case "D":
+                  answerCount[3]++;
+                  break;
+                case "E":
+                  answerCount[4]++;
+                  break;
+                case "F":
+                  answerCount[5]++;
+                  break;
+                case "G":
+                  answerCount[6]++;
+                  break;
+                case "H":
+                  answerCount[7]++;
+                  break;
+                default:
+                  break;
+              }
+            }
+          }
+        }
+
+        this.myChart.setOption({
+          title: {text: 'Responses ' + answerRecordVos.length + '/' + studentNumber },
           tooltip: {},
           xAxis: {
-            data: ["A", "B", "C", "D", "E", "F"]
+            data: ["A", "B", "C", "D", "E", "F", "G", "H"]
           },
           yAxis: {},
           series: [{
             name: '数量',
             type: 'bar',
-            data: [5, 14, 10, 10, 5, 6],
+            data: answerCount,
             itemStyle: {
               normal: {
                 //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
@@ -664,7 +708,7 @@
             },
           }]
         });
-        window.onresize = myChart.resize
+        window.onresize = this.myChart.resize
       },
       bdrawLine() {
         // 基于准备好的dom，初始化echarts实例
@@ -915,10 +959,21 @@
                 (res.data.entity.total)/(res.data.entity.pageSize)+1;
               this.pageSize = res.data.entity.pageSize;
 
+              if (this.existExercisesList.length > 0) {
+                let param = {
+                  params: {
+                    questionId: this.existExercisesList[0].id,
+                    questionType: 1,
+                    lessonCode: this.lessonCode,
+                  }
+                };
 
-              for (let i = 0; i < this.existExercisesList.length; i++) {
-                let exercise = this.existExercisesList[i];
-                // this.$http.get(``)
+                this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
+                  .then((res) => {
+                    if (res.data.code === 200) {
+                      this.drawLine(res.data);
+                    }
+                  });
               }
             }
           }).catch((err) => {

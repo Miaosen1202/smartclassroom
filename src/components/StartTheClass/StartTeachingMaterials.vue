@@ -24,7 +24,7 @@
 
         <!--语言包引入-->
         <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
-          <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
+          <el-select v-show="false" v-model="selectValue" @change="langChange" placeholder="请选择" >
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -184,7 +184,7 @@
                     <div class="leftcolor" v-for="discussAnswer in discussAnswers">
                       <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
                       <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
-                      <p>{{discussAnswer.answerContent }}</p>
+                      <p style="word-break: break-all;">{{discussAnswer.answerContent }}</p>
                       <ul>
                         <li v-for="atth in discussAnswer.attachments" >
                           <!--<a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>-->
@@ -222,11 +222,11 @@
                           <span>{{option.answerContent}}</span></li>
                       </ul>
 
-                      <div style="cursor: pointer" v-on:click="toggle()">
+                      <div style="cursor: pointer" v-on:click="execisesAnswerShowToggle()">
                         <i class="el-icon-arrow-down"></i>
                         <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
                       </div>
-                      <div v-show="isShow">
+                      <div v-show="execisesAnswerShow">
                         <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer :</i>
                         <div v-for="(option,index) in exercises.options">
                           <h4 v-if="option.isCorrect == 1">{{option.answerCode}}</h4>
@@ -449,6 +449,7 @@
         lessonId: this.$route.query.lessonId,
         checked: true,
         isShow: false,
+        execisesAnswerShow: false,
         discussAnswerIsShow: false,
         checkAll: false,
         checked1: '',
@@ -481,7 +482,9 @@
         studentPresence: {
           dialogVisible: false,
           list: []
-        }
+        },
+
+        myChart: null
       }
     },
     created() {
@@ -493,7 +496,6 @@
     mounted() {
       this.centerDialogVisibleShow();
       this.loadFinishexercise();
-      this.drawLine();
       /*this.bdrawLine();*/
       this.getMaterialList();
       this.getLessonDetail();
@@ -501,6 +503,10 @@
     },
     methods: {
       getLoginUser: util.getLoginUser,
+
+      execisesAnswerShowToggle: function() {
+        this.execisesAnswerShow = !this.execisesAnswerShow;
+      },
 
       studentPresenceDialogClose: function () {
 
@@ -632,21 +638,64 @@
 
         console.log(this.lessonIsEnd)
       },
-      drawLine() {
+      drawLine(data) {
         // 基于准备好的dom，初始化echarts实例
-        let myChart = this.$echarts.init(document.getElementById('myChart'))
-        // 绘制图表
-        myChart.setOption({
-          title: {text: 'Responses  14/50'},
+        if (this.myChart == null) {
+          this.myChart = this.$echarts.init(document.getElementById('myChart'))
+        }
+
+        let studentNumber = data.entity.studentNumber;
+        let answerRecordVos = data.entity.questionAnswerRecordVos;
+        let answerCount = [0, 0, 0, 0, 0, 0, 0, 0]
+        for (let i = 0; i < answerRecordVos.length; i++) {
+          let ans = answerRecordVos[i].answerContent;
+          if (ans != null) {
+            ans = ans.split(",")
+            for (let j = 0; j < ans.length; j++) {
+              let a = ans[j] || ans[j].toUpperCase();
+              switch (a) {
+                case "A":
+                  answerCount[0]++;
+                  break;
+                case "B":
+                  answerCount[1]++;
+                  break;
+                case "C":
+                  answerCount[2]++;
+                  break;
+                case "D":
+                  answerCount[3]++;
+                  break;
+                case "E":
+                  answerCount[4]++;
+                  break;
+                case "F":
+                  answerCount[5]++;
+                  break;
+                case "G":
+                  answerCount[6]++;
+                  break;
+                case "H":
+                  answerCount[7]++;
+                  break;
+                default:
+                  break;
+              }
+            }
+          }
+        }
+
+        this.myChart.setOption({
+          title: {text: 'Responses ' + answerRecordVos.length + '/' + studentNumber },
           tooltip: {},
           xAxis: {
-            data: ["A", "B", "C", "D", "E", "F"]
+            data: ["A", "B", "C", "D", "E", "F", "G", "H"]
           },
           yAxis: {},
           series: [{
             name: '数量',
             type: 'bar',
-            data: [5, 14, 10, 10, 5, 6],
+            data: answerCount,
             itemStyle: {
               normal: {
                 //每个柱子的颜色即为colorList数组里的每一项，如果柱子数目多于colorList的长度，则柱子颜色循环使用该数组
@@ -664,7 +713,7 @@
             },
           }]
         });
-        window.onresize = myChart.resize
+        window.onresize = this.myChart.resize
       },
       bdrawLine() {
         // 基于准备好的dom，初始化echarts实例
@@ -810,7 +859,7 @@
         this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
           .then((res) => {
             if (res.data.code == 200) {
-              if (res.data.entity.questionAnswerRecordVos.length > 1) {
+              if (res.data.entity.questionAnswerRecordVos.length > 0) {
                 document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "";
                 this.discussAnswers = res.data.entity.questionAnswerRecordVos;
               }else{
@@ -914,6 +963,23 @@
                 (res.data.entity.total)/(res.data.entity.pageSize) :
                 (res.data.entity.total)/(res.data.entity.pageSize)+1;
               this.pageSize = res.data.entity.pageSize;
+
+              if (this.existExercisesList.length > 0) {
+                let param = {
+                  params: {
+                    questionId: this.existExercisesList[0].id,
+                    questionType: 1,
+                    lessonCode: this.lessonCode,
+                  }
+                };
+
+                this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
+                  .then((res) => {
+                    if (res.data.code === 200) {
+                      this.drawLine(res.data);
+                    }
+                  });
+              }
             }
           }).catch((err) => {
           console.log(err);

@@ -24,7 +24,7 @@
 
         <!--语言包引入-->
         <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
-          <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
+          <el-select v-show="false" v-model="selectValue" @change="langChange" placeholder="请选择" >
             <el-option
               v-for="item in options"
               :key="item.value"

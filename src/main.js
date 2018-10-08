@@ -16,11 +16,30 @@ import "babel-polyfill"
 Vue.prototype.$echarts = echarts;
 Vue.prototype.$md5 = md5;
 Vue.config.productionTip = false;
+
 var $http = axios.create({
   baseURL: process.env.BASE_API,
   timeout: 5000,
   withCredentials: true
 });
+
+// 拦截全局请求，处理未登录操作
+$http.interceptors.response.use(function (response) {
+  console.log("resp", response.data);
+  if (response.data.code === 300) {
+    Vue.prototype.$message.error(response.data.message);
+    router.push("/");
+  } else {
+    // if (response.data.code === 500) {
+    //   Vue.prototype.$message.error(response.data.message);
+    // }
+    return response;
+  }
+}, function (error) {
+  Vue.prototype.$message.error(error);
+  return Promise.reject(error);
+});
+
 Vue.prototype.$http = $http;
 
 Vue.use(ElementUI);

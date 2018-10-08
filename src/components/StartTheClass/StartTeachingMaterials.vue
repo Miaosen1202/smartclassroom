@@ -184,7 +184,7 @@
                     <div class="leftcolor" v-for="discussAnswer in discussAnswers">
                       <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
                       <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
-                      <p>{{discussAnswer.answerContent }}</p>
+                      <p style="word-break: break-all;">{{discussAnswer.answerContent }}</p>
                       <ul>
                         <li v-for="atth in discussAnswer.attachments" >
                           <!--<a :href="getFileDownloadPath(atth.fileUrl)" :download="atth.fileName">{{ atth.fileName }}</a>-->
@@ -810,7 +810,7 @@
         this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
           .then((res) => {
             if (res.data.code == 200) {
-              if (res.data.entity.questionAnswerRecordVos.length > 1) {
+              if (res.data.entity.questionAnswerRecordVos.length > 0) {
                 document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "";
                 this.discussAnswers = res.data.entity.questionAnswerRecordVos;
               }else{
@@ -914,6 +914,12 @@
                 (res.data.entity.total)/(res.data.entity.pageSize) :
                 (res.data.entity.total)/(res.data.entity.pageSize)+1;
               this.pageSize = res.data.entity.pageSize;
+
+
+              for (let i = 0; i < this.existExercisesList.length; i++) {
+                let exercise = this.existExercisesList[i];
+                // this.$http.get(``)
+              }
             }
           }).catch((err) => {
           console.log(err);

@@ -59,8 +59,8 @@
     methods: {
       download: function() {
         for (let i = 0; i < this.checkedMaterials.length; i++) {
-          console.log(`${process.env.NODE_ENV}/` + this.checkedMaterials[i].materialUrl)
-          window.open(`${process.env.NODE_ENV}/` + this.checkedMaterials[i].materialUrl);
+          console.log(`${process.env.NODE_ENV}` + this.checkedMaterials[i].materialUrl)
+          window.open(`${process.env.NODE_ENV}` + this.checkedMaterials[i].materialUrl);
         }
       },
 

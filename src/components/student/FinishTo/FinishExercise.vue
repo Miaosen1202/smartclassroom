@@ -135,9 +135,10 @@
           //提交问题答案
           submitQuestionAnswer(exercises){
             this.questionType = exercises.questionType;
-            var queryParam = {
+            let queryParam = {
               questionId:exercises.id,
-              questionType:exercises.questionType,
+              // todo
+              questionType: 1,
               answerContent:exercises.questionType == '1'? this.selectedAnswerCode : this.selectedMultiAnswerCode.join(","),
               lessonCode:this.lessonCode,
               isSubmit:this.isSubmit

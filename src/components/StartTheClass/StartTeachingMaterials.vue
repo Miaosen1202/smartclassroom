@@ -208,7 +208,7 @@
               <p>Lesson： {{ lessonName }}</p>
               <div class="exercise">
                 <div class="leftexerc" style="height: 350px">
-                  <el-scrollbar style="height: 100%">
+                  <el-scrollbar style="height: 90%;">
                     <div class="elbtn" style="float: right;padding-right: 2%">
                       <el-button style="background-color: #0e38b1" type="primary" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
                       <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
@@ -236,11 +236,9 @@
                           <h4 v-if="option.isCorrect == 1">{{option.answerCode}}</h4>
                         </div>
                         <i style="font-weight: 700;color: #5cb85c">Explanation :</i>
-                        <p>{{exercises.analysis}}
-                        </p>
+                        <p style="word-break: break-all;">{{exercises.analysis}}</p>
                       </div>
                     </div>
-
                   </el-scrollbar>
                 </div>
                 <div class="rightexerc">
@@ -489,7 +487,8 @@
           list: []
         },
 
-        myChart: null
+        myChart: null,
+        bmyChart: null
       }
     },
     created() {
@@ -501,7 +500,6 @@
     mounted() {
       this.centerDialogVisibleShow();
       this.loadFinishexercise();
-      /*this.bdrawLine();*/
       this.getMaterialList();
       this.getLessonDetail();
      /* this.getAssignmentListByLessonId();*/
@@ -721,10 +719,12 @@
         window.onresize = this.myChart.resize
       },
       bdrawLine() {
-        // 基于准备好的dom，初始化echarts实例
-        let bmyChart = this.$echarts.init(document.getElementById('bmyChart'))
+        if (this.bmyChart == null) {
+          this.bmyChart = this.$echarts.init(document.getElementById('bmyChart'))
+        }
+
         // 绘制图表
-        bmyChart.setOption({
+        this.bmyChart.setOption({
           title: {
             text: 'Responses  14/16',
             x: 'center'

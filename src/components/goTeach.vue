@@ -238,18 +238,6 @@
       deletecours: function (id) {
         let me = this;
         this._del("/course",[id], (data)=> me.getCourselist())
-        // this.$http.post(`${process.env.NODE_ENV}/course/deletes`, [id])
-        //   .then((res) => {
-        //     if (res.data.code == 200) {
-        //       this.$message({
-        //         message: 'Congratulations on your successful deletion!',
-        //         type: 'success'
-        //       });
-        //       this.getCourselist();
-        //     }
-        //   }).catch((err) => {
-        //   console.log(err);
-        // });
       },
       deletelesson: function (courseId,lessonId) {
         let me = this;

@@ -28,7 +28,21 @@
           </li>
         </ul>
       </div>
+      <div>
+        <div style="margin: 2% 0px" v-show="isSubmit == 0">
+          <div class="discussion" v-for="(submitHistory,index) in submitHistoryList" :key="index">
+            <P> <b>{{submitHistory.studentName}}</b> [{{submitHistory.studentId}}]  </P>
+            <P style="margin-left: 75%">{{dateTimeformat(submitHistory.createTime)}}</P>
+            <br>
+            <P>{{submitHistory.answerContent}}</P>
 
+            <ul v-for="(attachment,ind) in submitHistory.attachments" :key="ind">
+              <li >{{attachment.fileName}}</li>
+            </ul>
+            <!--上传文件-->
+          </div>
+        </div>
+      </div>
       <div v-show="isShow">
         <div style="margin: 2% 0px">
           <div class="discussion">
@@ -67,17 +81,7 @@
           </div>
         </div>
       </div>
-        <div>
-          <div style="margin: 2% 0px" v-show="isSubmit == 0">
-            <div class="discussion" v-for="(discussion,index) in discussionList" :key="index">
-              <P>{{discussion.answerContent}}</P>
-              <ul v-for="(attachment,ind) in discussion.attachments" :key="ind">
-                <li >{{attachment.fileName}}</li>
-              </ul>
-              <!--上传文件-->
-            </div>
-          </div>
-        </div>
+
     </el-scrollbar>
 
     <el-dialog
@@ -96,7 +100,7 @@
   export default {
     data() {
       return {
-        isShow: true,
+        isShow: false,
        /* assignmentName: '',*/
         fileList3: [],
         action: process.env.NODE_ENV + '/file/upload',
@@ -125,9 +129,25 @@
     },
     mounted() {
       this.loadFinishexercise();
-      this.getsubmitHistoryLessonId();
     },
     methods: {
+      dateTimeformat: function(d) {
+        var date = new Date(d);
+        var month = '' + (date.getMonth() + 1);
+        var day = '' + date.getDate();
+        var year = date.getFullYear();
+        var hour = '' + date.getHours();
+        var min = '' + date.getMinutes();
+        var sec = '' + date.getSeconds();
+
+        if (month.length < 2) month = '0' + month;
+        if (day.length < 2) day = '0' + day;
+        if (hour.length < 2) hour = '0' + hour;
+        min = min.length < 2 ? ('0' + min) : min;
+        sec = sec.length < 2 ? ('0' + sec) : sec;
+
+        return [year, month, day].join('-') + " " + [hour, min, sec].join(":");
+      },
       preview: function (filePath) {
         this.filePreviewDialogVisible = true;
         this.previewHtml = "";
@@ -156,6 +176,13 @@
         this.removedFileName = file.name;
       },
       removeFile(file, fileList) {
+        console.log(fileList);
+        /*this.attachments.forEach((e)=>{
+          if(e.fileName == this.removedFileName){
+subdiscussion
+          }
+
+        })*/
         for (let i = 0; i < this.attachments.length; i++) {
           if (this.attachments[i].fileName == this.removedFileName) {
             this.attachments.splice(i, 1);
@@ -214,6 +241,7 @@
               this.pageSize = res.data.entity.pageSize;
 
               this.fileList3 = [];
+              this.getsubmitHistoryLessonId();
             }
           }).catch((err) => {
           console.log(err);
@@ -262,24 +290,24 @@
           isSubmit:this.isSubmit,
           attachments: this.attachments,
         }
-
+        console.log(this.discussionList[0].id);
         this.$http.post(`${process.env.NODE_ENV}/questionAnswer/submit/edit`,queryParam )
           .then((res) => {
-            this.isSubmit = 0;
-            this.exercises = exercises;
-            this.$message({
-              message: 'Congratulations on your successful submission!',
-              type: 'success'
-            });
 
-            /* if (res.data.code == 200) {
+            if (res.data.code == 200) {
                this.isSubmit = 0;
                this.exercises = exercises;
+                this.getsubmitHistoryLessonId();
                this.$message({
                  message: 'Congratulations on your successful submission!',
                  type: 'success'
                });
-             }*/
+             }else{
+              this.$message({
+                message: res.data.message,
+                type: 'error'
+              });
+            }
           }).catch((err) => {
           console.log(err);
         });
@@ -287,15 +315,18 @@
       /*答题记录查询*/
       getsubmitHistoryLessonId(){
         /*debugger;*/
+        console.log(this.discussionList[0].id);
         var submitHistoryr = {
-          questionId: subdiscussion.id,
+          questionId: this.discussionList[0].id,
           questionType:5,
           lessonCode:this.lessonCode,
         };
-        this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`,submitHistoryr)
+        this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`,{params: submitHistoryr})
           .then((res) => {
             if (res.data.code == 200) {
-              this.submitHistoryList = res.entity;
+              this.isSubmit = 0;
+              console.log(res.data);
+              this.submitHistoryList = res.data.entity.questionAnswerRecordVos;
             }
           }).catch((err) => {
           console.log(err);

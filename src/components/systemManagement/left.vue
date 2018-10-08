@@ -11,24 +11,24 @@
 
           <p style="color: #c3c7d5;">
             <img src="../../../static/images/Teache.png" alt="">
-            teacherManagement</p>
+            {{$t('message.teacherManagement')}}</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'studentManagement'}" @click="goTostudentManagement('studentManagement')">
         <P>
           <img src="../../../static/images/Student.png" alt="">
-          studentManagement</P>
+          {{$t('message.studentManagement')}}</P>
       </li>
       <li :class="{active : activeFlag == 'resourceManagement'}" @click="goToresourceManagement('resourceManagement')">
 
         <P>
           <img src="../../../static/images/Resource.png" alt="">
-          resourceManagement</P>
+          {{$t('message.resourceManagement')}}</P>
       </li><li :class="{active : activeFlag == 'curriculumRecovery'}" @click="goTocurriculumRecovery('curriculumRecovery')">
 
       <P>
         <img src="../../../static/images/CurriculumRecovery.png" alt="">
-        curriculumRecovery</P>
+        {{$t('message.curriculumRecovery')}}</P>
    <!-- </li><li :class="{active : activeFlag == 'configurationManagement'}" @click="goToconfigurationManagement('configurationManagement')">
 
       <P>configurationManagement</P>-->
@@ -36,7 +36,7 @@
 
       <P>
         <img src="../../../static/images/OpinionManagement.png" alt="">
-        opinionManagement</P>
+        {{$t('message.opinionManagement')}}</P>
     </li>
     </ul>
     <!--<span>

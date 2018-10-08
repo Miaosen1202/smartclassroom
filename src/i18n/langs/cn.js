@@ -5,7 +5,6 @@ const cn = {
     'newlesson':'给新课建个名字',
     'mycourse':'我的课程',
     'TeacherManagement':'教师管理',
-    'studentManagement':'学生管理',
     'totalQuantity':'总数量',
     'step':'步骤',
     'addcourse':'将新课添加到现有课程中',
@@ -64,6 +63,11 @@ const cn = {
     'importStudentData': "导入学生数据",
     'overwriteExistsData': "覆盖已存在的数据",
 
+    'teacherManagement': '教师管理',
+    'studentManagement': '学生管理',
+    'resourceManagement': '资源管理',
+    'curriculumRecovery': '课程找回',
+    'opinionManagement': '意见管理',
 
     'disable': '禁用',
     'enable': '启用',

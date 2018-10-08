@@ -5,7 +5,6 @@ const en = {
     'newlesson':'Give your new lesson a name',
     'mycourse':'myCourse',
     'TeacherManagement':'Teacher management',
-    'studentManagement':'studentManagement',
     'totalQuantity':'Total quantity',
     'step':'step',
     'addcourse':'Add the new lesson to an existing course',
@@ -64,6 +63,11 @@ const en = {
     'importStudentData': "Import Student Data",
     'overwriteExistsData': "Overwrite existing data",
 
+    'teacherManagement': 'teacherManagement',
+    'studentManagement': 'studentManagement',
+    'resourceManagement': 'resourceManagement',
+    'curriculumRecovery': 'curriculumRecovery',
+    'opinionManagement': 'opinionManagement',
 
     'disable': 'Disable',
     'enable': 'Enable',

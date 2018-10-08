@@ -139,7 +139,8 @@
         <el-scrollbar>
           <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
 
-            <el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">
+            <!--<el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">-->
+            <el-tab-pane name="materialTab" :label="'Teaching Materials'">
               <p>Lesson： {{ lessonName }}</p>
               <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
               </el-checkbox>
@@ -158,7 +159,8 @@
               <el-button style="margin-bottom: 10%;background-color: #0e38b1;color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
             </el-tab-pane>
 
-            <el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'" style="margin-bottom: 10%;">
+            <!--<el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'" style="margin-bottom: 10%;">-->
+            <el-tab-pane name="discussTab" :label="'Discussion'" style="margin-bottom: 10%;">
               <p>Lesson： {{ lessonName }}</p>
               <div  v-for="(discussion, index) in discussionList" :key="discussion.id">
                 <div class="have">
@@ -201,7 +203,8 @@
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'" >
+            <!--<el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'" >-->
+            <el-tab-pane name="exercisesTab" :label="'Exercises'" >
               <p>Lesson： {{ lessonName }}</p>
               <div class="exercise">
                 <div class="leftexerc" style="height: 350px">
@@ -251,7 +254,8 @@
 
               </div>
             </el-tab-pane>
-            <el-tab-pane name="assignmentTab" :label="'Assignment(' + assignmentNumber + ')'" style="margin-bottom: 10%;">
+            <!--<el-tab-pane name="assignmentTab" :label="'Assignment(' + assignmentNumber + ')'" style="margin-bottom: 10%;">-->
+            <el-tab-pane name="assignmentTab" :label="'Assignment'" style="margin-bottom: 10%;">
               <div>
                 <h5>Lesson： {{ lessonName }}</h5>
                 <div class="have" v-for="assignment in assignmentList">
@@ -270,9 +274,9 @@
                 </div>
               </div>
             </el-tab-pane>
-            <el-tab-pane>
+            <el-tab-pane name="goback">
             <span slot="label">
-              <img v-on:click="gobackk()" src="../../assets/images/u273.png" alt="">
+              <img src="../../assets/images/u273.png" alt="">
             </span>
               <!--<p>Lesson： {{ lessonName }}</p>-->
              <!-- <div class="exercise" style="width: 100%;margin-right: 2%">
@@ -797,7 +801,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.materialList = res.data.entity;
-              this.materialNumber = res.data.entity.length;
+              // this.materialNumber = res.data.entity.length;
             } else {
               alert(res.data.message);
             }
@@ -810,7 +814,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.discussionList = res.data.entity;
-              this.discussNumber = res.data.entity.length;
+              // this.discussNumber = res.data.entity.length;
             } else {
               alert(res.data.message);
             }
@@ -826,7 +830,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.assignmentList = res.data.entity;
-              this.assignmentNumber = res.data.entity.length;
+              // this.assignmentNumber = res.data.entity.length;
             } else {
               alert(res.data.message);
             }
@@ -879,6 +883,8 @@
           this.getExercisesList();
         } else if (tab.name == "assignmentTab") {
           this.getAssignmentList();
+        }else if(tab.name=="goback"){
+          this.$router.push({path: "/homePage/goTeach"});
         }
       },
       handleCheckAllChange: function (val) {

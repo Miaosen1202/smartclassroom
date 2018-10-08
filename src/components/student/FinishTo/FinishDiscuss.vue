@@ -297,7 +297,10 @@ subdiscussion
             if (res.data.code == 200) {
                this.isSubmit = 0;
                this.exercises = exercises;
-                this.getsubmitHistoryLessonId();
+               this.toggle()
+               this.fileList3 = [];
+               this.attachments = [];
+               this.getsubmitHistoryLessonId();
                this.$message({
                  message: 'Congratulations on your successful submission!',
                  type: 'success'

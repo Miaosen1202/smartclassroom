@@ -4,10 +4,10 @@
       <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Select All
       </el-checkbox>
       <div style="display: inline-block">
-        <el-button  style="background-color: #0e38b1;color: #fff">Download Now</el-button>
+        <el-button @click="download" style="background-color: #0e38b1;color: #fff">Download Now</el-button>
       </div>
       <el-checkbox-group v-model="checkedMaterials" @change="handleCheckedCitiesChange">
-        <el-checkbox v-for="material in materialList" :key="index" :label="material"
+        <el-checkbox v-for="(material, index) in materialList" :key="index" :label="material"
                      style="display: block;padding-top: 2%">
           <!--<img src="../../../assets/images/u558.png" alt="">-->
           <!--<a :href="material.materialUrl" :download="material.materialName">{{ material.materialName }}</a>-->
@@ -57,6 +57,13 @@
     },
 
     methods: {
+      download: function() {
+        for (let i = 0; i < this.checkedMaterials.length; i++) {
+          console.log(`${process.env.NODE_ENV}/` + this.checkedMaterials[i].materialUrl)
+          window.open(`${process.env.NODE_ENV}/` + this.checkedMaterials[i].materialUrl);
+        }
+      },
+
       preview: function (filePath) {
         this.filePreviewDialogVisible = true;
         this.previewHtml = "";
@@ -79,14 +86,14 @@
       },
 
       handleCheckAllChange(val) {
-        this.checkedMaterials = val ? cityOptions : [];
+        this.checkedMaterials = val ? this.materialList : [];
         this.isIndeterminate = false;
       },
 
       handleCheckedCitiesChange(value) {
         let checkedCount = value.length;
-        this.checkAll = checkedCount === this.cities.length;
-        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+        this.checkAll = checkedCount === this.materialList.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.materialList.length;
       },
 
       getMaterialList: function (id) {

@@ -189,7 +189,7 @@
           </el-table>
         </template>
         <span slot="footer" class="dialog-footer">
-          <el-button size="medium" type="primary" @click="sure">OK</el-button>
+          <el-button size="medium" type="primary" @click="showExercisesDialogVisible = false">OK</el-button>
           <el-button size="medium" @click="showExercisesDialogVisible = false">Cancel</el-button>
         </span>
       </el-dialog>

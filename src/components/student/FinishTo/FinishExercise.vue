@@ -134,6 +134,18 @@
           },
           //提交问题答案
           submitQuestionAnswer(exercises){
+            let hasAnswer = false;
+            if (exercises.questionType == 1 && this.selectedAnswerCode.length > 0) {
+              hasAnswer = true;
+            } else if (this.selectedMultiAnswerCode.length > 0) {
+              hasAnswer = true;
+            }
+
+            if (!hasAnswer) {
+              this.$message.error("Please choose the answer first");
+              return;
+            }
+
             this.questionType = exercises.questionType;
             let queryParam = {
               questionId:exercises.id,

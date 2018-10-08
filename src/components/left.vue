@@ -6,20 +6,20 @@
       <li :class="{active : activeFlag == 'prepare'}" @click="goToFirst('prepare')">
         <el-button type="text" @click="dialogVisible = true">
         <img src="../../static/images/Preparealesson.png"  alt="">
-        <p style="color: #fff">Prepare a lesson</p>
+        <p style="color: #fff">New Lesson</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'second'}" @click="goToSecond('second')">
         <img src="../../static/images/Manangealllessons.png"  alt="">
-        <P>Manage all lessons</P>
+        <P>Course Management</P>
       </li>
       <li :class="{active : activeFlag == 'goTeach'}" @click="goTeach('goTeach')">
         <img src="../../static/images/toteach.png"  alt="">
-        <P>To Teach</P>
+        <P>Start A Class</P>
       </li>
       <li :class="{active : activeFlag == 'ViewHistory'}" @click="viewHistory('ViewHistory')">
         <img src="../../static/images/history.png"  alt="">
-        <P>View History</P>
+        <P>History</P>
       </li>
     </ul>
     <!--<span>

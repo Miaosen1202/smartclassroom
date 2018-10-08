@@ -54,7 +54,7 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button size="medium" @click="dialogFormVisible = false">{{$t('message.cancel')}}</el-button>
-        <el-button size="medium" style="background-color: #0138b1;color: #fff"  @click="updatepassword">$t('message.confirm')</el-button>
+        <el-button size="medium" style="background-color: #0138b1;color: #fff"  @click="updatepassword">{{$t('message.confirm')}}</el-button>
       </div>
       <!--</div>-->
     </el-dialog>

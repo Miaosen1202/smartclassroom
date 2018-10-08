@@ -73,11 +73,11 @@ const en = {
 
     // 管理端菜单
     // -------- start -----------
-    'teacherManagement': 'teacherManagement',
-    'studentManagement': 'studentManagement',
-    'resourceManagement': 'resourceManagement',
-    'curriculumRecovery': 'curriculumRecovery',
-    'opinionManagement': 'opinionManagement',
+    'teacherManagement': 'Teacher Management',
+    'studentManagement': 'Student Management',
+    'resourceManagement': 'Resource Management',
+    'curriculumRecovery': 'Lesson Recovery',
+    'opinionManagement': 'Feedback Management',
     // -------- end -----------
 
     // 通用按钮

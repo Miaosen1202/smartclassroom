@@ -2,7 +2,7 @@
   <div class="management">
     <!--{{$t('message.mycourse')}}-->
     <div>
-      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
+      <p style="display: inline-block">Total</p>：<span>{{ page.total }}</span>
       <el-input v-model="search.courseName" size="small" placeholder="Course Name" style="width: 14%"></el-input>
       <el-input v-model="search.lessonName" size="small" :placeholder="$t('message.lessonName')" style="width: 14%"></el-input>
 

@@ -7,7 +7,7 @@
         <el-button size="medium" style="border: 1px solid #f17e26;color: #f17e26">
           <p>
             <img src="../../../../static/images/Creat.png" alt="">
-            Create a Exercises
+            Create An Exercise
           </p>
         </el-button>
         <el-button  style="background-color: #26be96;color: #fff;border: 1px solid #26be96" v-bind:disabled="existExercisesList.length<1"  @click="showExercisesDialog" >
@@ -21,13 +21,13 @@
 
         <el-radio-group v-model="questionType">
           <el-radio :label="1">Single-choice</el-radio>
-          <el-radio :label="2">Multiple-choice</el-radio>
+          <el-radio :label="2">Multi-choice</el-radio>
           <!--<el-radio :label="3">Other</el-radio>-->
         </el-radio-group>
         <el-input
           type="textarea"
           autosize
-          placeholder="Type question stem here..."
+          placeholder="Type question here..."
           v-model="questionTitle" style="width: 70%;display: block;margin-bottom: 2%">
         </el-input>
         <!--选择题-->
@@ -162,10 +162,10 @@
         <!--<el-radio v-model="radio" :label="existExercises.id">{{existExercises.questionTitle}}</el-radio>-->
         <!--</div>-->
         <el-row>
-          <el-button type="text" size="mini" v-bind:disabled="moveTopBtn" @click="moveTopBtnHandler">置顶</el-button>
-          <el-button type="text" size="mini" v-bind:disabled="moveBoBtn" @click="moveBoBtnHandler">置底</el-button>
-          <el-button type="text" size="mini" v-bind:disabled="moveUpBtn" @click="moveUpBtnHandler">上移</el-button>
-          <el-button type="text" size="mini" v-bind:disabled="moveDownBtn" @click="moveDownBtnHandler">下移</el-button>
+          <el-button type="text" size="mini" v-bind:disabled="moveTopBtn" @click="moveTopBtnHandler">Top</el-button>
+          <el-button type="text" size="mini" v-bind:disabled="moveBoBtn" @click="moveBoBtnHandler">Bottom</el-button>
+          <el-button type="text" size="mini" v-bind:disabled="moveUpBtn" @click="moveUpBtnHandler">Up</el-button>
+          <el-button type="text" size="mini" v-bind:disabled="moveDownBtn" @click="moveDownBtnHandler">Down</el-button>
         </el-row>
 
         <template>
@@ -224,10 +224,6 @@
           {id: 5, name: "F"},
           {id: 6, name: "G"},
           {id: 7, name: "H"},
-          {id: 8, name: "I"},
-          {id: 9, name: "J"},
-          {id: 10, name: "K"},
-
         ],
         options: [
           {

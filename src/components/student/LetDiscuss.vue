@@ -21,6 +21,25 @@
         lessonCode:this.$route.query.lessonCode
       }
     },
+
+    mounted() {
+      let param = {
+        lessonId:this.lessonId,
+        pageIndex: 1,
+        pageSize: 1
+      };
+      this.$http.get(`${process.env.NODE_ENV}/classDiscuss/pageList`, {params:param})
+        .then((res) => {
+          if (res.data.code == 200) {
+            if (res.data.entity.list.length > 0) {
+              this.goToAddMaterials();
+            }
+          }
+        }).catch((err) => {
+        console.log(err);
+      });
+    },
+
     methods: {
       goToAddMaterials(){
         this.$router.push({path:"/LearningHomework/FinishDiscuss",query:{"lessonId":this.lessonId,"lessonCode":this.lessonCode}});

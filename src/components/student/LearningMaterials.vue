@@ -22,6 +22,22 @@
         lessonCode:this.$route.query.lessonCode
       }
     },
+
+    mounted() {
+      this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/list`, {params: {status: 1, lessonId: this.lessonId}})
+        .then((res) => {
+          if (res.data.code == 200) {
+            if (res.data.entity.length > 0) {
+              this.goToAddMaterials();
+            }
+          } else {
+            this.$message.error(res.data.message);
+          }
+        }).catch((err) => {
+        this.$message.error(err);
+      })
+    },
+
     methods: {
       goToAddMaterials(){
         this.$router.push({path:"/LearningHomework/FinishMaterials",query:{"lessonId":this.lessonId,"lessonCode":this.lessonCode}});

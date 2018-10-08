@@ -1,11 +1,10 @@
 <template>
   <div class="management">
-    意见管理
     <div>
-      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
+      <p style="display: inline-block">{{$t('message.Total')}}</p>：<span>{{ page.total }}</span>
       <!--<el-input v-model="input" size="small" placeholder="请输入意见内容查询" style="width: 14%"></el-input>-->
-      <el-input v-model="search.replyerName" size="small" placeholder="请输入反馈人姓名查询" style="width: 14%"></el-input>
-      <el-select v-model="search.replyStatus" size="small" clearable placeholder="请选择状态检索" style="width: 14%">
+      <el-input v-model="search.replyerName" size="small" :placeholder="$t('message.plfrom')" style="width: 14%"></el-input>
+      <el-select v-model="search.replyStatus" size="small" clearable :placeholder="$t('message.plStatus')" style="width: 14%">
         <el-option
           v-for="item in replyStatusOps"
           :key="item.value"
@@ -20,16 +19,16 @@
           size="small"
           v-model="searchTimeRange"
           type="datetimerange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期"
+          :range-separator="$t('message.to')"
+          :start-placeholder="$t('message.startdata')"
+          :end-placeholder="$t('message.enddata')"
           >
         </el-date-picker>
       </div>
 
       <el-button  @click="loadFeedbackRecord(1)"  style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
 
-      <el-button @click="batchDelete"  size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">批量删除</el-button>
+      <el-button @click="batchDelete"  size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">{{$t('message.batchdelete')}}</el-button>
     </div>
 
     <div class="mangementtable">
@@ -49,39 +48,39 @@
           data-placement="auto"
           :show-overflow-tooltip="true"
           prop="content"
-          label="意见描述"
+          :label="$t('message.feedback')"
           min-width="60%">
         </el-table-column>
 
         <el-table-column
           prop="replyerName"
-          label="反馈人"
+          :label="$t('message.from')"
           min-width="30%">
         </el-table-column>
 
         <el-table-column
           prop="createTime"
-          label="反馈时间"
+          :label="$t('message.fromdata')"
           min-width="50%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.createTime) }}</template>
         </el-table-column>
 
         <el-table-column
           prop="replyStatus"
-          label="状态"
+          :label="$t('message.Status')"
           min-width="30%">
           <template slot-scope="scope">{{ scope.row.replyStatus == 1 ? "已反馈" : "待反馈" }}</template>
         </el-table-column>
 
         <el-table-column
           prop="updateTime"
-          label="处理时间"
+          :label="$t('message.Disposaltime')"
           min-width="60%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
 
 
-        <el-table-column label="操作">
+        <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
             <el-button
               style="border: none;color: #0e38b1"

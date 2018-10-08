@@ -22,7 +22,7 @@
         </el-option>
       </el-select>-->
       <div class="select" v-show="false" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
-        <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
+        <el-select  v-model="selectValue" @change="langChange" :placeholder="$t('message.pleaseselect')" >
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -54,7 +54,7 @@
     created() {
       let that = this;
       console.log(localStorage.lang)
-      that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+      that.selectValue = localStorage.lang == undefined?'en':localStorage.lang
       this.langChange(that.selectValue)
     },
     methods: {

@@ -6,8 +6,7 @@
         <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
         <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
       </div>
-      <el-button v-on:click="toggle(exercises)"
-                 style="margin: 1% 0px 0px 1%;background-color: #0e38b1;color: white;font-weight: 700">
+      <el-button v-on:click="toggle(exercises)" style="margin: 1% 0px 0px 1%;background-color: #0e38b1;color: white;font-weight: 700">
         Reply
       </el-button>
       <div class="have" v-for="(discussion,index) in discussionList" :key="index">
@@ -129,10 +128,7 @@
       }
     },
     mounted() {
-
       this.loadFinishexercise();
-      //this.getDiscussionListByLessonId();
-
     },
     methods: {
       dateTimeformat: function(d) {
@@ -228,7 +224,7 @@ subdiscussion
 
 
       loadFinishexercise:function () {
-        var param = {
+        let param = {
           lessonId:this.lessonId,
           pageIndex: this.currentPage,
           pageSize: this.pageSize
@@ -243,6 +239,8 @@ subdiscussion
                 (res.data.entity.total)/(res.data.entity.pageSize) :
                 (res.data.entity.total)/(res.data.entity.pageSize)+1;
               this.pageSize = res.data.entity.pageSize;
+
+              this.fileList3 = [];
               this.getsubmitHistoryLessonId();
             }
           }).catch((err) => {

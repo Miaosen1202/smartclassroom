@@ -1,10 +1,8 @@
 <template>
   <div class="all">
-    资源管理
-
     <div>
-      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
-      <el-input v-model="search.materialName" size="small" placeholder="请输入文件名称查询" style="width: 20%"></el-input>
+      <p style="display: inline-block">Total</p>：<span>{{ page.total }}</span>
+      <el-input v-model="search.materialName" size="small" placeholder="Please input file name to search" style="width: 20%"></el-input>
 
       <el-button type="primary" @click="resourceManagementQuery(1)" size="small" icon="el-icon-search" style="background-color: #0138b1;color: #fff"></el-button>
       <!--<el-select v-model="value" size="small" placeholder="请选择">-->
@@ -15,8 +13,8 @@
           <!--:value="item.value">-->
         <!--</el-option>-->
       <!--</el-select>-->
-      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">批量删除</el-button>
-      <el-button type="primary" @click="goBatchUpload" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">上传文件</el-button>
+      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">Batch Delete</el-button>
+      <el-button type="primary" @click="goBatchUpload" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">Upload</el-button>
     </div>
     <div>
       <el-table
@@ -28,16 +26,16 @@
         <el-table-column type="selection" width="30"></el-table-column>
         <el-table-column prop="materialName" label="File Name" min-width="50%"></el-table-column>
         <!--<el-table-column prop="createUserName" label="创建人" min-width="30%"></el-table-column>-->
-        <el-table-column prop="materialTypeDesc" label="资源分类" min-width="30%"></el-table-column>
+        <el-table-column prop="materialTypeDesc" label="Category" min-width="30%"></el-table-column>
         <el-table-column prop="fileSize" label="Size" min-width="30%">
           <template slot-scope="scope">{{ fileSizeConvert(scope.row.fileSize) }}</template>
         </el-table-column>
-        <el-table-column prop="updateTime" label="Update" min-width="50%">
+        <el-table-column prop="updateTime" label="Date&Time" min-width="50%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
-        <el-table-column prop="viewCount" label="浏览次数" width="130">
+        <el-table-column prop="viewCount" label="Views" width="130">
         </el-table-column>
-        <el-table-column label="操作">
+        <el-table-column label="Operation">
           <template slot-scope="scope">
             <el-button
               style="border: none;color: #0e38b1"
@@ -66,7 +64,7 @@
 
     <!-- 批量上传面板 -->
     <el-dialog
-      title="批量上传"
+      title="Batch Upload"
       :visible.sync="batchUploadDialogVisible"
       width="30%"
       @close="batchUploadDialogClosed"
@@ -81,12 +79,12 @@
         :on-change="handleFileChange"
         :on-remove="removeFile"
         :on-success="handleFileUploadSuccess">
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="small" type="primary">Upload</el-button>
       </el-upload>
 
       <span slot="footer" class="dialog-footer">
-        <el-button @click="batchUploadDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="batchUpload">保 存</el-button>
+        <el-button @click="batchUploadDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="batchUpload">Save</el-button>
       </span>
     </el-dialog>
 

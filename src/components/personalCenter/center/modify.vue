@@ -4,12 +4,12 @@
       <div>
         <ul>
           <li>
-            <h4 style="color: #333333">name:</h4>
-            <el-input v-model="editMaterialBank.materialName"  size="small" placeholder="请输入资源名"></el-input>
+            <h4 style="color: #333333">Resource Name:</h4>
+            <el-input v-model="editMaterialBank.materialName"  size="small" placeholder="Please input resource name"></el-input>
           </li>
           <li style="margin-top: 4%">
-            <h4>classification:</h4>
-            <el-select v-model="editMaterialBank.materialType" size="small" placeholder="请选择" style="display: block">
+            <h4>Category:</h4>
+            <el-select v-model="editMaterialBank.materialType" size="small" placeholder="Please select category" style="display: block">
               <el-option
                 v-for="type in materialTypeList"
                 :key="type.id"
@@ -19,11 +19,11 @@
             </el-select>
           </li>
           <li style="margin-top: 4%">
-            <h4>describe:</h4>
+            <h4>Description:</h4>
             <el-input
               type="textarea"
               :autosize="{ minRows: 10, maxRows: 16}"
-              placeholder="请输入资源描述"
+              placeholder="Please input resource description"
               v-model="editMaterialBank.materialDesc">
             </el-input>
           </li>
@@ -33,7 +33,7 @@
     </div>
 
     <div class="replace">
-      <h4 style="margin-top: -4%;"> medin</h4>
+      <!--<h4 style="margin-top: -4%;">medin</h4>-->
       <div >
         <!--<el-upload-->
           <!--class="upload-demo"-->
@@ -49,7 +49,7 @@
       </div>
     </div>
 
-    <el-button type="primary" @click="updateMaterialBank" size="mini" style="float: left;margin-left: 70%;">更 新</el-button>
+    <el-button type="primary" @click="updateMaterialBank" size="mini" style="float: left;margin-left: 70%;">{{$t("message.update")}}</el-button>
   </div>
 </template>
 

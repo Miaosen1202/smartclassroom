@@ -56,6 +56,22 @@
         dialogVisible: false
       }
     },
+
+    mounted() {
+      let path = this.$route.path;
+      if (path.endsWith("teacherManagement")) {
+        this.activeFlag = "teacherManagement";
+      } else if (path.endsWith("studentManagement")) {
+        this.activeFlag = "studentManagement";
+      } else if (path.endsWith("resourceManagement")) {
+        this.activeFlag = "resourceManagement";
+      } else if (path.endsWith("curriculumRecovery")) {
+        this.activeFlag = "curriculumRecovery";
+      } else if (path.endsWith("opinionManagement")) {
+        this.activeFlag = "opinionManagement";
+      }
+    },
+
     methods:{
       goToteacherManagement(s){
         this.activeFlag = s;

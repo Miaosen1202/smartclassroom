@@ -39,18 +39,40 @@ const cn = {
     'fromdata':'反馈时间',
     'Disposaltime':'处理时间',
     'Studentname':'请输入学生姓名查询',
-    'importdata':'导入学生数据'
+    'importdata':'导入学生数据',
+    'major': '专业',
+    'class': '班级',
+    'teacherEdit': '老师信息编辑',
+    'batchUpload': '批量上传',
+    'createUser': '创建人',
+    'fileSize': '文件大小',
+    'fileName': '文件名',
+    'viewNumber': '浏览次数',
+    'upload': "上传",
+    'resourceName': "资源名称",
+    'resourceDesc': "资源描述",
+    'replaceFile': "替换文件",
+    'reply': "反馈",
+    'replied': "已反馈",
+    'notReplied': "待反馈",
+    'opinion': "意见反馈",
+    'reportedOn': "反馈于",
+    'lessonName': "课时名称",
+    'course': "课程",
+    'recovery': '恢复',
+    'importTeacherData': "导入教师数据",
+    'importStudentData': "导入学生数据",
+    'overwriteExistsData': "覆盖已存在的数据",
 
 
-
-
-
-
-
-
-
-
-
+    'disable': '禁用',
+    'enable': '启用',
+    'edit': '编辑',
+    'delete': '删除',
+    'add': '新增',
+    'confirm': '确定',
+    'cancel': '取消',
+    'save': "保存",
   },
   ...zhLocale
 }

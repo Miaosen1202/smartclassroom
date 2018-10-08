@@ -39,16 +39,40 @@ const en = {
     'fromdata':'Data&Time',
     'Disposaltime':'Disposal Time',
     'Studentname':'Input name to search',
-    'importdata':'Import Data'
+    'importdata':'Import Data',
+    'major': 'Major',
+    'class': 'Class',
+    'teacherEdit': 'Teacher edit',
+    'batchUpload': 'Batch upload',
+    'createUser': 'Author',
+    'fileSize': 'File Size',
+    'fileName': 'File Name',
+    'viewNumber': 'View Number',
+    'upload': "Upload",
+    'resourceName': "Resource name",
+    'resourceDesc': "Resource description",
+    'replaceFile': "Replace the file",
+    'reply': "Reply",
+    'replied': "Replied",
+    'notReplied': "Not Replied",
+    'opinion': "Feedback",
+    'reportedOn': "reported on",
+    'lessonName': "Lesson Name",
+    'course': "Course",
+    'recovery': 'Recovery',
+    'importTeacherData': "Import Teacher Data",
+    'importStudentData': "Import Student Data",
+    'overwriteExistsData': "Overwrite existing data",
 
 
-
-
-
-
-
-
-
+    'disable': 'Disable',
+    'enable': 'Enable',
+    'edit': 'Edit',
+    'delete': 'Delete',
+    'add': 'Add',
+    'confirm': 'Confirm',
+    'cancel': 'Cancel',
+    'save': "Save",
   },
   ...enLocale
 }

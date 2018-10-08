@@ -69,7 +69,7 @@
           prop="replyStatus"
           :label="$t('message.Status')"
           min-width="30%">
-          <template slot-scope="scope">{{ scope.row.replyStatus == 1 ? "已反馈" : "待反馈" }}</template>
+          <template slot-scope="scope">{{ scope.row.replyStatus == 1 ? $t('message.replied') : $t('message.notReplied') }}</template>
         </el-table-column>
 
         <el-table-column
@@ -85,11 +85,11 @@
             <el-button
               style="border: none;color: #0e38b1"
               size="mini"
-              @click="goReply(scope.$index, scope.row)">Feedback</el-button>
+              @click="goReply(scope.$index, scope.row)">{{$t('message.reply')}}</el-button>
             <el-button
               size="mini"
               style="border: none;color: #0e38b1"
-              @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+              @click="handleDelete(scope.$index, scope.row)">{{$t('message.delete')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -110,7 +110,7 @@
     <!--编辑反馈弹框-->
     <el-dialog
       @close="replyDialogClose"
-      title="意见反馈"
+      :title="$t('message.opinion')"
       :visible.sync="replyDialogVisible"
       height="400px"
       width="90%">
@@ -118,21 +118,21 @@
       <div class="projectile" style=" width: 100%;height: 400px;overflow: auto">
         <el-scrollbar style="height: 100%">
           <div style="padding:2% 6%;">
-        <span><i>{{ this.feedbackDetail.root.replyerName }}</i>反馈于</span>
+        <span><i>{{ this.feedbackDetail.root.replyerName }}</i> {{$t('message.reportedOn')}} </span>
         <span>{{ formatDateTime(this.feedbackDetail.root.createTime) }}</span>
         <div style="padding: 2%; margin: 2%; border: 1px solid black">{{ this.feedbackDetail.root.content }}</div>
         <div>
           <ul>
             <li v-for="fd in feedbackDetail.replyList">
               <span><h4 style="display: inline-block">{{ fd.replyerName }}</h4> {{ formatDateTime(fd.createTime) }}</span>
-              <p style="word-break:break-all;">Reply: {{ fd.content }}</p>
+              <p style="word-break:break-all;">{{$t('message.reply')}}: {{ fd.content }}</p>
             </li>
           </ul>
         </div>
         <el-input
           type="textarea"
           autosize
-          placeholder="请输入内容"
+          :placeholder="$t('message.pleaseenter')"
           v-model="reply.content">
         </el-input>
           </div>
@@ -140,8 +140,8 @@
       </div>
 
       <span slot="footer" class="dialog-footer" style="text-align: right">
-        <el-button  @click="cancelReply">Cancel</el-button>
-        <el-button style="background-color: #0e38b1;color: #fff" @click="addReply">Save</el-button>
+        <el-button  @click="cancelReply">{{$t('message.cancel')}}</el-button>
+        <el-button style="background-color: #0e38b1;color: #fff" @click="addReply">{{$t('message.save')}}</el-button>
       </span>
     </el-dialog>
   </div>

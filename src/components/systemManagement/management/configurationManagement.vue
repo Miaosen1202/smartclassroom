@@ -6,12 +6,12 @@
       <div>
         <ul>
           <li>
-            <h4 style="color: #333333">name:</h4>
-            <el-input v-model="input"  size="small" placeholder="请输入内容"></el-input>
+            <h4 style="color: #333333">{{$t('message.resourceName')}}:</h4>
+            <el-input v-model="input"  size="small" :placeholder="$t('message.pleaseenter')"></el-input>
           </li>
           <li style="margin-top: 4%">
-            <h4>classification:</h4>
-            <el-select v-model="value" size="small" placeholder="请选择" style="display: block">
+            <h4>{{$t('message.Category')}}:</h4>
+            <el-select v-model="value" size="small" :placeholder="$t('message.pleaseselect')" style="display: block">
               <el-option
                 v-for="item in options"
                 :key="item.value"
@@ -22,11 +22,11 @@
 
           </li>
           <li style="margin-top: 4%">
-            <h4>describe:</h4>
+            <h4>{{$t('message.resourceDesc')}}:</h4>
             <el-input
               type="textarea"
               :autosize="{ minRows: 10, maxRows: 16}"
-              placeholder="请输入内容"
+              placeholder=""
               v-model="textarea2">
             </el-input>
           </li>
@@ -58,12 +58,12 @@
           :file-list="fileList3"
           style="display: inline-block;margin: 18% 38%;">
           <img src="../../../../static/images/u550.png" alt="">
-          <el-button type="primary" size="mini" style="float: right;">Replace the file</el-button>
+          <el-button type="primary" size="mini" style="float: right;">{{$t('message.replaceFile')}}</el-button>
         </el-upload>
       </div>
 
     </div>
-    <el-button type="primary" size="mini" style="float: left;margin-left: 70%;">Renew</el-button>
+    <el-button type="primary" size="mini" style="float: left;margin-left: 70%;">{{$t('message.confirm')}}</el-button>
   </div>
 </template>
 

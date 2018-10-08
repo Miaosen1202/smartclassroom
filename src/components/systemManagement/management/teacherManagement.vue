@@ -38,14 +38,14 @@
 
         </el-table-column>
         <el-table-column prop="status" :label="$t('message.Status')" min-width="30%">
-          <template slot-scope="scope">{{ scope.row.status == 1 ? "Enable" : "Disable" }}</template>
+          <template slot-scope="scope">{{ scope.row.status == 1 ? $t("message.enable") : $t("message.disable") }}</template>
         </el-table-column>
 
         <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
-            <el-button style="border: none;color: #0138b1;"  size="mini" @click="editTeacher(scope.$index, scope.row)">{{ scope.row.status == 1 ? "Disable" : "Enable" }}</el-button>
-            <el-button style="border: none;color: #0138b1;"  size="mini" @click="showStudentEditDialog(scope.$index, scope.row)" >| Edit |</el-button>
-            <el-button style="border: none;color: #0138b1;"  size="mini"  @click="deleteStudent(scope.$index, scope.row)">Delete</el-button>
+            <el-button style="border: none;color: #0138b1;"  size="mini" @click="editTeacher(scope.$index, scope.row)">{{ scope.row.status == 1 ? $t("message.disable") : $t("message.enable") }}</el-button>
+            <el-button style="border: none;color: #0138b1;"  size="mini" @click="showStudentEditDialog(scope.$index, scope.row)" >| {{$t("message.edit")}} |</el-button>
+            <el-button style="border: none;color: #0138b1;"  size="mini"  @click="deleteStudent(scope.$index, scope.row)">{{$t("message.delete")}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -63,44 +63,44 @@
       </div>
       <!--编辑弹框-->
       <el-dialog
-        title="老师信息编辑"
+        :title="$t('message.teacherEdit')"
         :visible.sync="teacherEditDialogVisable"
         width="20%">
         <div class="projectile" style="padding-left: 10%">
           <ul>
             <li>
-              <span>老师编号：</span>
+              <span>{{$t('message.Account')}}：</span>
               <el-input disabled v-model="editStudent.teacherNo" size="small" placeholder="请输入老师编号" style="width: 60%"></el-input>
               <el-input disabled v-show="false" v-model="editStudent.id" size="small" placeholder="请输入老师编号" style="width: 60%"></el-input>
             </li>
             <li>
-              <sapn>老师姓名：</sapn>
+              <sapn>{{$t('message.Name')}}：</sapn>
               <el-input v-model="editStudent.name" size="small" placeholder="请输入老师姓名" style="width: 60%"></el-input>
             </li>
             <li>
-              <sapn>个人邮箱：</sapn>
+              <sapn>{{$t('message.EMail')}}：</sapn>
               <el-input v-model="editStudent.email" size="small" placeholder="请输入个人邮箱" style="width: 60%"></el-input>
             </li>
             <li>
-              <sapn>联系电话：</sapn>
+              <sapn>{{$t('message.Phone')}}：</sapn>
               <el-input v-model="editStudent.cellPhoneNo" size="small" placeholder="请输入联系电话" style="width: 60%"></el-input>
             </li>
             <li>
-              <span style="padding-right: 10%">状态：</span>
-              <el-radio v-model="editStudent.status" label="1">启用</el-radio>
-              <el-radio v-model="editStudent.status" label="0">禁用</el-radio>
+              <span style="padding-right: 10%">{{$t('message.Status')}}：</span>
+              <el-radio v-model="editStudent.status" label="1">{{$t('message.enable')}}</el-radio>
+              <el-radio v-model="editStudent.status" label="0">{{$t('message.disable')}}</el-radio>
             </li>
           </ul>
         </div>
         <span slot="footer" class="dialog-footer" style="text-align: right">
-    <el-button @click="hideTeacherEditDialog">取 消</el-button>
-    <el-button type="primary" @click="editTeacherModify">确 定</el-button>
+    <el-button @click="hideTeacherEditDialog">{{$t('message.cancel')}}</el-button>
+    <el-button type="primary" @click="editTeacherModify">{{$t('message.confirm')}}</el-button>
   </span>
       </el-dialog>
     </div>
-    <!-- 学生导入弹框 -->
+    <!-- 数据导入弹框 -->
     <el-dialog
-      title="Teacher Import"
+      :title="$t('message.importTeacherData')"
       :visible.sync="teacherImportDialogVisible"
       width="30%"
       @close="teacherImportDialogClose"
@@ -114,14 +114,14 @@
         :action="getUploadFilePath()"
         :on-change="handleUploadFileChange"
         :on-success="handleUploadFileSuccess">
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="small" type="primary">{{$t('message.upload')}}</el-button>
       </el-upload>
 
-      <el-checkbox v-model="overrideExistsTeacherNoData">是否覆盖已存在老师编号的数据</el-checkbox>
+      <el-checkbox v-model="overrideExistsTeacherNoData">{{$t('message.overwriteExistsData')}}</el-checkbox>
 
       <span slot="footer" class="dialog-footer">
-        <el-button @click="cancelImport">取 消</el-button>
-        <el-button type="primary" @click="confirmImport">确 定</el-button>
+        <el-button @click="cancelImport">{{$t('message.cancel')}}</el-button>
+        <el-button type="primary" @click="confirmImport">{{$t('message.confirm')}}</el-button>
       </span>
     </el-dialog>
 

@@ -1,11 +1,10 @@
 <template>
   <div class="curriculumRecovery">
-    课程找回
-
+    <!--课程找回-->
     <div>
-      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
-      <el-input v-model="search.lessonName" size="small" placeholder="请输入课程名称查询" style="width: 14%"></el-input>
-      <el-input v-model="search.createUserName" size="small" placeholder="请输入创建人姓名查询" style="width: 14%"></el-input>
+      <p style="display: inline-block">{{$t('message.Total')}}</p>：<span>{{ page.total }}</span>
+      <el-input v-model="search.lessonName" size="small" :placeholder="$t('message.lessonName')" style="width: 14%"></el-input>
+      <el-input v-model="search.createUserName" size="small" :placeholder="$t('message.createUser')" style="width: 14%"></el-input>
       <div class="block" style="width: 30%;display: inline-block" >
        <!-- {{value6}}-->
         <el-date-picker
@@ -13,14 +12,14 @@
           size="small"
           v-model="searchTimeRange"
           type="datetimerange"
-          range-separator="至"
-          start-placeholder="开始日期"
-          end-placeholder="结束日期">
+          :range-separator="$t('message.to')"
+          :start-placeholder="$t('message.startdata')"
+          :end-placeholder="$t('message.enddata')">
         </el-date-picker>
       </div>
 
       <el-button type="primary" @click="loadRecords(1)" size="small" icon="el-icon-search" style="background-color: #0138b1;color: #fff"></el-button>
-      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
+      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">{{$t("message.batchdelete")}}</el-button>
     </div>
 
     <div>
@@ -37,39 +36,39 @@
 
         <el-table-column
           prop="lessonName"
-          label="Lession"
+          :label="$t('message.lessonName')"
           min-width="30%">
         </el-table-column>
 
         <el-table-column
           prop="courseName"
-          label="Course"
+          :label="$t('message.course')"
           min-width="40%">
         </el-table-column>
 
         <el-table-column
           prop="createUserName"
-          label="创建人"
+          :label="$t('message.createUser')"
           min-width="30%">
         </el-table-column>
 
         <el-table-column
           prop="updateTime"
-          label="Update"
+          :label="$t('message.updateTime')"
           min-width="50%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
 
-        <el-table-column label="操作">
+        <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
             <el-button
               style="border: none;color: #0e38b1"
               size="mini"
-              @click="lessonRecovery(scope.$index, scope.row)">Recovery</el-button>
+              @click="lessonRecovery(scope.$index, scope.row)">{{$t('message.recovery')}}</el-button>
             <el-button
               size="mini"
               style="border: none;color: #0e38b1"
-              @click="lessonDelete(scope.$index, scope.row)">Delete</el-button>
+              @click="lessonDelete(scope.$index, scope.row)">{{$t('message.delete')}}</el-button>
           </template>
         </el-table-column>
       </el-table>

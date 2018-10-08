@@ -1,11 +1,10 @@
 <template>
   <div class="all">
-    资源管理
-
+    <!--资源管理-->
     <div>
-      <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
-      <el-input v-model="search.materialName" size="small" placeholder="请输入资源名称" style="width: 20%"></el-input>
-      <el-select v-model="search.materialType" clearable="" size="small" placeholder="请选择">
+      <p style="display: inline-block">{{$t('message.Total')}}</p>：<span>{{ page.total }}</span>
+      <el-input v-model="search.materialName" size="small" :placeholder="$t('message.resourceName')" style="width: 20%"></el-input>
+      <el-select v-model="search.materialType" clearable="" :placeholder="$t('message.pleaseselect')" size="small">
         <el-option
           v-for="item in options"
           :key="item.value"
@@ -14,8 +13,8 @@
         </el-option>
       </el-select>
       <el-button @click="resourceManagementQuery(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
-      <el-button type="primary" size="mini" @click="batchDelete" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
-      <el-button type="primary" size="mini" @click="goBatchUpload" style="float: right;margin-left: 1%;background-color: #0138b1;">上传文件</el-button>
+      <el-button type="primary" size="mini" @click="batchDelete" style="float: right;margin-left: 1%;background-color: #0138b1;">{{$t('message.batchdelete')}}</el-button>
+      <el-button type="primary" size="mini" @click="goBatchUpload" style="float: right;margin-left: 1%;background-color: #0138b1;">{{$t('message.batchUpload')}}</el-button>
     </div>
     <div>
       <el-table
@@ -26,7 +25,7 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column prop="materialName" label="File Name" min-width="50%">
+        <el-table-column prop="materialName" :label="$t('message.fileName')" min-width="50%">
           <template slot-scope="scope">
             <span @click="preview(scope.row.localPath)">{{scope.row.materialName}}</span>
             <a :href="scope.row.materialUrl" :download="scope.row.materialName">
@@ -36,22 +35,22 @@
             </a>
           </template>
         </el-table-column>
-        <el-table-column prop="createUserName" label="创建人" min-width="30%"></el-table-column>
-        <el-table-column prop="fileType" label="资源分类" min-width="30%"></el-table-column>
-        <el-table-column prop="fileSize" label="Size" min-width="30%"></el-table-column>
-        <el-table-column prop="updateTime" :formatter="dateTimeFormatter" label="Update" min-width="50%"></el-table-column>
-        <el-table-column prop="downloadCount" label="浏览次数" width="130"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column prop="createUserName" :label="$t('message.createUser')" min-width="30%"></el-table-column>
+        <el-table-column prop="fileType" :label="$t('message.Category')" min-width="30%"></el-table-column>
+        <el-table-column prop="fileSize" :label="$t('message.fileSize')" min-width="30%"></el-table-column>
+        <el-table-column prop="updateTime" :formatter="dateTimeFormatter" :label="$t('message.updateTime')" min-width="50%"></el-table-column>
+        <el-table-column prop="downloadCount" :label="$t('message.viewNumber')" width="130"></el-table-column>
+        <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
             <el-button
               style="border: none;color: #0e38b1"
               size="mini"
-              @click="modifyPageSkip">modify</el-button>
+              @click="modifyPageSkip">{{$t("message.edit")}}</el-button>
             <el-button
               style="border: none;color: #0e38b1"
               size="mini"
 
-              @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+              @click="handleDelete(scope.$index, scope.row)">{{$t("message.delete")}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -69,7 +68,7 @@
     </div>
     <!-- 批量上传面板 -->
     <el-dialog
-      title="批量上传"
+      :title="$t('message.batchUpload')"
       :visible.sync="batchUploadDialogVisible"
       width="30%"
       @close="batchUploadDialogClosed"
@@ -84,12 +83,12 @@
         :on-change="handleFileChange"
         :on-remove="removeFile"
         :on-success="handleFileUploadSuccess">
-        <el-button size="small" type="primary">点击上传</el-button>
+        <el-button size="small" type="primary">{{$t('message.upload')}}</el-button>
       </el-upload>
 
       <span slot="footer" class="dialog-footer">
-        <el-button @click="batchUploadDialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="batchUpload">保 存</el-button>
+        <el-button @click="batchUploadDialogVisible = false">{{$t('message.cancel')}}</el-button>
+        <el-button type="primary" @click="batchUpload">{{$t('message.save')}}</el-button>
       </span>
     </el-dialog>
 

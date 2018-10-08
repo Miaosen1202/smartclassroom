@@ -37,7 +37,14 @@
             <P>{{submitHistory.answerContent}}</P>
 
             <ul v-for="(attachment,ind) in submitHistory.attachments" :key="ind">
-              <li >{{attachment.fileName}}</li>
+              <a href="javascript:void(0)"><span @click="preview(attachment.fileLocalPath)">{{attachment.fileName}}</span></a>
+
+              <a :href="attachment.fileUrl" :download="attachment.fileName">
+                <!-- <i class="el-icon-download" style="cursor: pointer;"></i>-->
+                <i  style="cursor: pointer;">
+                  <img src="../../../../static/images/UPLOAD.png" alt="">
+                </i>
+              </a>
             </ul>
             <!--上传文件-->
           </div>
@@ -297,7 +304,10 @@ subdiscussion
             if (res.data.code == 200) {
                this.isSubmit = 0;
                this.exercises = exercises;
-                this.getsubmitHistoryLessonId();
+               this.toggle()
+               this.fileList3 = [];
+               this.attachments = [];
+               this.getsubmitHistoryLessonId();
                this.$message({
                  message: 'Congratulations on your successful submission!',
                  type: 'success'

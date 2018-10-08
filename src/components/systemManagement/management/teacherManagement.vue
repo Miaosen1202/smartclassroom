@@ -70,20 +70,20 @@
           <ul>
             <li>
               <span>{{$t('message.Account')}}：</span>
-              <el-input disabled v-model="editStudent.teacherNo" size="small" placeholder="请输入老师编号" style="width: 60%"></el-input>
-              <el-input disabled v-show="false" v-model="editStudent.id" size="small" placeholder="请输入老师编号" style="width: 60%"></el-input>
+              <el-input disabled v-model="editStudent.teacherNo" size="small" :placeholder="$t('message.Account')" style="width: 60%"></el-input>
+              <el-input disabled v-show="false" v-model="editStudent.id" size="small" style="width: 60%"></el-input>
             </li>
             <li>
-              <sapn>{{$t('message.Name')}}：</sapn>
-              <el-input v-model="editStudent.name" size="small" placeholder="请输入老师姓名" style="width: 60%"></el-input>
+              <span>{{$t('message.Name')}}：</span>
+              <el-input v-model="editStudent.name" size="small" :placeholder="$t('message.Name')" style="width: 60%"></el-input>
             </li>
             <li>
-              <sapn>{{$t('message.EMail')}}：</sapn>
-              <el-input v-model="editStudent.email" size="small" placeholder="请输入个人邮箱" style="width: 60%"></el-input>
+              <span>{{$t('message.EMail')}}：</span>
+              <el-input v-model="editStudent.email" size="small" :placeholder="$t('message.EMail')" style="width: 60%"></el-input>
             </li>
             <li>
-              <sapn>{{$t('message.Phone')}}：</sapn>
-              <el-input v-model="editStudent.cellPhoneNo" size="small" placeholder="请输入联系电话" style="width: 60%"></el-input>
+              <span>{{$t('message.Phone')}}：</span>
+              <el-input v-model="editStudent.cellPhoneNo" size="small" :placeholder="$t('message.Phone')" style="width: 60%"></el-input>
             </li>
             <li>
               <span style="padding-right: 10%">{{$t('message.Status')}}：</span>
@@ -113,6 +113,7 @@
         :file-list="teacherDataFileList"
         :action="getUploadFilePath()"
         :on-change="handleUploadFileChange"
+        :before-upload="beforeUpload"
         :on-success="handleUploadFileSuccess">
         <el-button size="small" type="primary">{{$t('message.upload')}}</el-button>
       </el-upload>
@@ -283,9 +284,24 @@
           this.$message.error(res.message);
         }
       },
+
       handleUploadFileChange: function (file, fileList) {
+        if (!file.name.endsWith(".xls") && !file.name.endsWith(".xlsx")) {
+          this.$message.error(this.$t("message.onlySupportFileType") + "xls, xlsx");
+          if (fileList.length > 1) {
+            this.teacherDataFileList = fileList.slice(0, 1);
+          }
+          return;
+        }
         this.teacherDataFileList = fileList.slice(-1);
       },
+      beforeUpload: function(file) {
+        if (!file.name.endsWith(".xls") && !file.name.endsWith(".xlsx")) {
+          return false;
+        }
+        return true;
+      },
+
       cancelImport: function () {
         this.teacherImportDialogVisible = false;
         this.teacherDataFileList = [];
@@ -307,7 +323,7 @@
               this.teacherImportDialogVisible = false;
               this.teacherDataFileList = [];
 
-              this.$message.info("Import student data success");
+              this.$message.info(this.$t("message.importDataSuccess"));
               this.loadTeacherRecords(1);
             } else {
               this.$message.error(res.data.message);

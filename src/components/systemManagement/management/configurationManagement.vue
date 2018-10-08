@@ -63,7 +63,7 @@
       </div>
 
     </div>
-    <el-button type="primary" size="mini" style="float: left;margin-left: 70%;">{{$t('message.confirm')}}</el-button>
+    <el-button type="primary" size="mini" style="float: left;margin-left: 70%;">{{$t('message.update')}}</el-button>
   </div>
 </template>
 

@@ -110,13 +110,13 @@
         <ul>
           <li>
             <span>{{$t('message.Account')}}：</span>
-            <el-input disabled v-model="editStudent.studentNo" size="small" placeholder="请输入学生编号" style="width: 60%"></el-input>
-            <el-input disabled v-show="false" v-model="editStudent.id" size="small" placeholder="请输入学生编号" style="width: 60%"></el-input>
+            <el-input disabled v-model="editStudent.studentNo" size="small" :placeholder="$t('message.Account')" style="width: 60%"></el-input>
+            <el-input disabled v-show="false" v-model="editStudent.id" size="small" style="width: 60%"></el-input>
           </li>
-          <li><span>{{$t('message.Name')}}：</span><el-input v-model="editStudent.name" size="small" placeholder="请输入学生姓名" style="width: 60%"></el-input></li>
-          <li><span>{{$t('message.EMail')}}：</span><el-input v-model="editStudent.email" size="small" placeholder="请输入个人邮箱" style="width: 60%"></el-input></li>
-          <li><span>{{$t('message.Phone')}}：</span><el-input v-model="editStudent.cellPhoneNo" size="small" placeholder="请输入联系电话" style="width: 60%"></el-input></li>
-          <li><span>{{$t('message.class')}}：</span><el-input v-model="editStudent.className" size="small" placeholder="请输入所在班级" style="width: 60%"></el-input></li>
+          <li><span>{{$t('message.Name')}}：</span><el-input v-model="editStudent.name" size="small" :placeholder="$t('message.Name')" style="width: 60%"></el-input></li>
+          <li><span>{{$t('message.EMail')}}：</span><el-input v-model="editStudent.email" size="small" :placeholder="$t('message.EMail')" style="width: 60%"></el-input></li>
+          <li><span>{{$t('message.Phone')}}：</span><el-input v-model="editStudent.cellPhoneNo" size="small" :placeholder="$t('message.Phone')" style="width: 60%"></el-input></li>
+          <li><span>{{$t('message.class')}}：</span><el-input v-model="editStudent.className" size="small" :placeholder="$t('message.class')" style="width: 60%"></el-input></li>
           <li><span>{{$t('message.major')}}：</span>
             <template>
               <el-select v-model="editStudent.major" :placeholder="$t('message.pleaseselect')">
@@ -156,6 +156,7 @@
         :file-list="studentDataFileList"
         :action="getUploadFilePath()"
         :on-change="handleUploadFileChange"
+        :before-upload="beforeUpload"
         :on-success="handleUploadFileSuccess">
         <el-button size="small" type="primary">{{$t('message.upload')}}</el-button>
       </el-upload>
@@ -371,6 +372,7 @@
         return util.fileUploadPath();
       },
 
+
       handleUploadFileSuccess: function (res, file, fileList) {
         console.log(res)
         if (res.code == 200) {
@@ -381,8 +383,23 @@
         }
       },
       handleUploadFileChange: function (file, fileList) {
+        if (!file.name.endsWith(".xls") && !file.name.endsWith(".xlsx")) {
+          this.$message.error(this.$t("message.onlySupportFileType") + "xls, xlsx");
+          if (fileList.length > 1) {
+            this.studentDataFileList = fileList.slice(0, 1);
+          }
+          return;
+        }
         this.studentDataFileList = fileList.slice(-1);
       },
+
+      beforeUpload: function(file) {
+        if (!file.name.endsWith(".xls") && !file.name.endsWith(".xlsx")) {
+          return false;
+        }
+        return true;
+      },
+
       cancelImport: function () {
         this.studentImportDialogVisible = false;
         this.studentDataFileList = [];

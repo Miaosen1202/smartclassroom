@@ -87,16 +87,16 @@ function _mythen(res, successCallback, errorCallback) {
 }
 
 Vue.prototype._del = function (path, param, successCallback, errorCallback) {
-  this.$confirm('确认删除?', '提示', {
-    confirmButtonText: '确定',
-    cancelButtonText: '取消',
+  this.$confirm(this.$t('message.confirmDelete'), this.$t('message.tip'), {
+    confirmButtonText: this.$t('message.confirm'),
+    cancelButtonText: this.$t('message.cancel'),
     type: 'warning'
   })
   // this.$confirm('确认删除？')
     .then(() => {
       this.post(path + "/deletes", param, (data)=>{
         successCallback(data);
-        this.$message.success("删除成功");
+        Vue.prototype.$message.success(this.$t("message.deleteSuccess"));
       }, errorCallback)
     })
     .catch(() => {

@@ -62,21 +62,34 @@ const cn = {
     'importTeacherData': "导入教师数据",
     'importStudentData': "导入学生数据",
     'overwriteExistsData': "覆盖已存在的数据",
+    'importDataSuccess': "导入数据成功",
 
+    'onlySupportFileType': '仅支持文件类型: ',
+
+    // 管理端菜单
+    // -------- start -----------
     'teacherManagement': '教师管理',
     'studentManagement': '学生管理',
     'resourceManagement': '资源管理',
     'curriculumRecovery': '课程找回',
     'opinionManagement': '意见管理',
+    // -------- end -----------
 
+    // 通用按钮
+    // -------- start -----------
     'disable': '禁用',
     'enable': '启用',
     'edit': '编辑',
+    'update': "更新",
     'delete': '删除',
     'add': '新增',
     'confirm': '确定',
     'cancel': '取消',
     'save': "保存",
+    'tip': "提示",
+    'confirmDelete': "确认删除?",
+    'deleteSuccess': "删除成功",
+    // -------- end -----------
   },
   ...zhLocale
 }

@@ -14,7 +14,7 @@
             <div style="padding: 4%;overflow: auto;">
               <el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"
                           placement="top" popper-class="test">
-                <a href="javascript:;">Forget your password?</a>
+                <a href="javascript:;">Forgot your password?</a>
               </el-tooltip>
             </div>
             <el-button  v-on:click="goToLogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
@@ -33,7 +33,7 @@
             <div style="padding: 4%;overflow: auto;">
               <el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"
                           placement="top" popper-class="test">
-                <a href="javascript:;">Forget your password?</a>
+                <a href="javascript:;">Forgot your password?</a>
               </el-tooltip>
             </div>
             <el-button v-on:click="studentslogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
@@ -46,19 +46,7 @@
             <div class="password">
               <input class="form-control" type="password" placeholder="Password" v-model="password">
             </div>
-
-            <!--<el-tooltip style="float: right" class="item admin" effect="dark" content="Please contact the system administrator"
-                        placement="top" popper-class="test">
-              <el-button type="text">Forget your password?</el-button>
-            </el-tooltip>-->
-            <el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
-
-            <!--<span v-on:click="goToadmin()" style="display: inline-block">Login</span>--> <!--@click="goToLogin"-->
-            <!--<el-tooltip class="item admin" effect="dark" content="Please contact the system administrator"-->
-                        <!--placement="top" popper-class="test">-->
-              <!--<el-button type="text">Forget your password?</el-button>-->
-            <!--</el-tooltip>-->
-
+            <el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>
           </el-tab-pane>
         </el-tabs>
       </div>

@@ -49,7 +49,7 @@ const en = {
     'viewNumber': 'View Number',
     'upload': "Upload",
     'resourceName': "Resource name",
-    'resourceDesc': "Resource description",
+    'resourceDesc': "Description",
     'replaceFile': "Replace the file",
     'reply': "Reply",
     'replied': "Replied",
@@ -62,21 +62,34 @@ const en = {
     'importTeacherData': "Import Teacher Data",
     'importStudentData': "Import Student Data",
     'overwriteExistsData': "Overwrite existing data",
+    'importDataSuccess': "Import Data Success",
 
+    'onlySupportFileType': 'Only support file types: ',
+
+    // 管理端菜单
+    // -------- start -----------
     'teacherManagement': 'teacherManagement',
     'studentManagement': 'studentManagement',
     'resourceManagement': 'resourceManagement',
     'curriculumRecovery': 'curriculumRecovery',
     'opinionManagement': 'opinionManagement',
+    // -------- end -----------
 
+    // 通用按钮
+    // -------- start -----------
     'disable': 'Disable',
     'enable': 'Enable',
     'edit': 'Edit',
+    'update': "Update",
     'delete': 'Delete',
     'add': 'Add',
     'confirm': 'Confirm',
     'cancel': 'Cancel',
     'save': "Save",
+    'tip': "Tip",
+    'confirmDelete': "Confirm Delete?",
+    'deleteSuccess': "Delete success",
+    // -------- end -----------
   },
   ...enLocale
 }

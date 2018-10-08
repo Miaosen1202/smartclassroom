@@ -31,7 +31,7 @@
         @selection-change="handleSelectionChange">
         <el-table-column
           type="selection"
-          width="30">
+          width="50">
         </el-table-column>
 
         <el-table-column
@@ -128,7 +128,7 @@
         this.$http.post(`${process.env.NODE_ENV}/lesson/recover/edit`, [row.id])
           .then((res) => {
              if (res.data.code == 200) {
-               this.$message.success("Recover lesson + '" + row.lessonName + "' success");
+               this.$message.success(this.$t("message.success"));
                this.loadRecords();
              } else if (res.data.code == 300) {
                this.$message.error(res.data.message);
@@ -143,7 +143,7 @@
 
       batchDelete: function () {
         if (this.multipleSelection.length == 0) {
-          this.$message.error("Please select at least one row of data");
+          this.$message.error(this.$t("message.pleaseSelectLeastOneRowOfData"));
           return;
         }
 
@@ -161,30 +161,8 @@
 
       doDelete: function (ids) {
         let me = this;
-        this.$confirm('此操作将永久删除课时, 是否继续?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.post("/lesson/deletes", ids, (data) => {
-            this.$message.success("Delete success");
-            me.loadRecords();
-          });
-          // this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, ids)
-          //   .then((res) => {
-          //     if (res.data.code == 200) {
-          //       this.$message.success("Delete success");
-          //       this.loadRecords();
-          //     } else if (res.data.code == 300) {
-          //       this.$message.error(res.data.message);
-          //       this.$router.push("/");
-          //     } else {
-          //       this.$message.error(res.data.message);
-          //     }
-          //   }).catch((err) => {
-          //   this.$message.error(err);
-          // });
-        }).catch(() => {
+        this.post("/lesson/deletes", ids, (data) => {
+          me.loadRecords();
         });
       },
 

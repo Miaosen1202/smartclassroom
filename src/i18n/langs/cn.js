@@ -64,6 +64,11 @@ const cn = {
     'overwriteExistsData': "覆盖已存在的数据",
     'importDataSuccess': "导入数据成功",
 
+    "logoutSuccess": "登出成功",
+    "logoutFail": "登出失败",
+
+    "pleaseSelectLeastOneRowOfData": "请至少选择一行数据",
+
     'onlySupportFileType': '仅支持文件类型: ',
 
     // 管理端菜单
@@ -89,6 +94,7 @@ const cn = {
     'tip': "提示",
     'confirmDelete': "确认删除?",
     'deleteSuccess': "删除成功",
+    "success": "成功"
     // -------- end -----------
   },
   ...zhLocale

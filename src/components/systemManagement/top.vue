@@ -22,7 +22,7 @@
             :value="item.value">
           </el-option>
         </el-select>-->
-        <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
+        <div class="select" v-show="false" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
           <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
             <el-option
               v-for="item in options"
@@ -68,10 +68,10 @@
       backlogin() {
         let that = this;
         this.post("/logout", null, function () {
-          that.$message.success("Logout Success");
+          that.$message.success(this.$t('message.logoutSuccess'));
           that.$router.push({path: "/"});
         }, undefined, function () {
-          that.$message.error("Logout error: " + err);
+          that.$message.error(this.$t('message.logoutFail') + ": " + err);
           that.$router.push({path: "/"});
         });
       },

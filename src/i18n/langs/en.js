@@ -64,6 +64,11 @@ const en = {
     'overwriteExistsData': "Overwrite existing data",
     'importDataSuccess': "Import Data Success",
 
+    "logoutSuccess": "Logout Success",
+    "logoutFail": "Logout Fail",
+
+    "pleaseSelectLeastOneRowOfData": "Please select at least one row of data",
+
     'onlySupportFileType': 'Only support file types: ',
 
     // 管理端菜单
@@ -89,6 +94,7 @@ const en = {
     'tip': "Tip",
     'confirmDelete': "Confirm Delete?",
     'deleteSuccess': "Delete success",
+    "success": "Success"
     // -------- end -----------
   },
   ...enLocale

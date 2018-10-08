@@ -181,7 +181,8 @@
                 </div>
                 <div>
                   <div class="discussion-answer-items" :data-id="discussion.id" v-show="false"><!--messageDisplay-->
-                    <div class="leftcolor" v-for="discussAnswer in discussAnswers">
+                    <span v-show="discussAnswers.length == 0" style="margin-bottom: 10px; display: inline-block; color: gray;">No answer records</span>
+                    <div v-show="discussAnswers.length > 0" class="leftcolor" v-for="discussAnswer in discussAnswers">
                       <span style="color: #999;display: inline-block">{{discussAnswer.studentName}}</span>
                       <span style="float: right;color: #999;padding-right: 2%">{{ formatDateTime(discussAnswer.updateTime) }}</span>
                       <p style="word-break: break-all;">{{discussAnswer.answerContent }}</p>
@@ -841,6 +842,7 @@
       },
       getDiscussAnswer: function (questionId) {
         if (document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display !== "none") {
+          document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "none";
           return;
         } else {
           let disAnswerItems = document.querySelectorAll(".discussion-answer-items") || [];
@@ -859,12 +861,8 @@
         this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, param)
           .then((res) => {
             if (res.data.code == 200) {
-              if (res.data.entity.questionAnswerRecordVos.length > 0) {
-                document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "";
-                this.discussAnswers = res.data.entity.questionAnswerRecordVos;
-              }else{
-                this.$message.info("not discussion")
-              }
+              document.querySelector(".discussion-answer-items[data-id='" + questionId + "']").style.display = "";
+              this.discussAnswers = res.data.entity.questionAnswerRecordVos;
             } else {
               this.$message.error(res.data.message);
             }

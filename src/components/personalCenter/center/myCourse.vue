@@ -1,14 +1,13 @@
 <template>
   <div class="management">
-    {{$t('message.mycourse')}}
+    <!--{{$t('message.mycourse')}}-->
     <div>
       <p style="display: inline-block">总数量</p>：<span>{{ page.total }}</span>
-      <el-input v-model="search.courseName" size="small" placeholder="请输入课程名称查询" style="width: 14%"></el-input>
-      <el-input v-model="search.lessonName" size="small" placeholder="请输入课时名称查询" style="width: 14%"></el-input>
+      <el-input v-model="search.courseName" size="small" placeholder="Course Name" style="width: 14%"></el-input>
+      <el-input v-model="search.lessonName" size="small" :placeholder="$t('message.lessonName')" style="width: 14%"></el-input>
 
-      <el-select v-model="search.status"
-                 clearable
-                 size="small" placeholder="请选择课程状态检索" style="width: 14%">
+      <el-select v-model="search.status" clearable
+                 size="small" placeholder="Status" style="width: 14%">
         <el-option
           v-for="stat in classRecordStatus"
           :key="stat.value"
@@ -24,15 +23,15 @@
           size="small"
           v-model="searchTimeRange"
           type="daterange"
-          range-separator="至"
-          start-placeholder="开始日期"
+          range-separator="To"
+          start-placeholder="Start Date"
           value-format="timestamp"
-          end-placeholder="结束日期">
+          end-placeholder="End Date">
         </el-date-picker>
       </div>
 
       <el-button type="primary" @click="loadLessonRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
-      <el-button type="primary" @click="batchDelete()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">批量删除</el-button>
+      <el-button type="primary" @click="batchDelete()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">Batch Delete</el-button>
     </div>
     <div>
       <el-table
@@ -61,29 +60,29 @@
 
         <el-table-column
           prop="teacherName"
-          label="作者"
+          label="Author"
           min-width="30%">
         </el-table-column>
 
         <el-table-column
           prop="startTime"
-          label="上课时间"
+          label="Date&Time"
           min-width="40%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.startTime) }}</template>
         </el-table-column>
 
         <el-table-column
           prop="status"
-          label="状态"
+          label="Status"
           min-width="30%">
           <template slot-scope="scope">
-            {{ scope.row.status === 0 ? "To be in class" : (scope.row.status === 1 ? "Have in hand" : "Finished") }}
+            {{ scope.row.status === 0 ? "Published" : (scope.row.status === 1 ? "Started" : (scope.row.status === 2 ? "Over" : "Unpublished")) }}
           </template>
         </el-table-column>
 
-        <el-table-column label="操作">
-          <template slot-scope="scope" v-if="scope.row.status>0">
-            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleInto(scope.$index, scope.row)">Get into</el-button>
+        <el-table-column label="Operation">
+          <template slot-scope="scope" v-if="scope.row.status != 0 && scope.row.status != 10">
+            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleInto(scope.$index, scope.row)">Enter</el-button>
             <el-button size="mini" style="border: none;color: #0e38b1" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
           </template>
         </el-table-column>

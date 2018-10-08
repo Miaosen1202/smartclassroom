@@ -23,12 +23,12 @@
        >
         <el-table-column prop="lessonName" label="Lesson" width="180"></el-table-column>
         <el-table-column prop="courseName" label="Course" width="180"></el-table-column>
-        <el-table-column prop="teacherName" label="教师" width="180"></el-table-column>
-        <el-table-column prop="time" label="上课时间" :formatter="formatter"></el-table-column>
-        <el-table-column label="操作">
+        <el-table-column prop="teacherName" label="Teacher" width="180"></el-table-column>
+        <el-table-column prop="time" label="Date&Time" :formatter="formatter"></el-table-column>
+        <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
-            <el-button size="mini" @click="goTeaching(scope.$index, scope.row)">进入</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            <el-button size="mini" @click="goTeaching(scope.$index, scope.row)">Enter</el-button>
+            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
           </template>
         </el-table-column>
       </el-table>

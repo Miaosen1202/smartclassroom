@@ -27,7 +27,7 @@
       </el-select>-->
       <!--语言包引入-->
       <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
-        <el-select v-show="false" v-model="selectValue" @change="langChange" placeholder="请选择" >
+        <el-select v-show="false" v-model="selectValue" @change="langChange" :placeholder="$t('message.pleaseselect')" >
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -53,8 +53,8 @@
       <el-input type="password" v-model="newPasswordConfirm" placeholder="Please enter"></el-input>
 
       <div slot="footer" class="dialog-footer">
-        <el-button size="medium" @click="dialogFormVisible = false">Cancel</el-button>
-        <el-button size="medium" style="background-color: #0138b1;color: #fff"  @click="updatepassword">Submit</el-button>
+        <el-button size="medium" @click="dialogFormVisible = false">{{$t('message.cancel')}}</el-button>
+        <el-button size="medium" style="background-color: #0138b1;color: #fff"  @click="updatepassword">$t('message.confirm')</el-button>
       </div>
       <!--</div>-->
     </el-dialog>
@@ -86,7 +86,7 @@
       created() {
         let that = this;
         console.log(localStorage.lang)
-        that.selectValue = localStorage.lang == undefined?'cn':localStorage.lang
+        that.selectValue = localStorage.lang == undefined?'en':localStorage.lang
         this.langChange(that.selectValue)
       },
         methods: {

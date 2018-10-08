@@ -10,20 +10,20 @@
         <el-button type="text" @click="dialogVisible = true">
           <p>
             <img src="../../../static/images/Teache.png" alt="">
-            myCourse</p>
+            My Course</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'myResources'}" @click="goToresourceManagement('myResources')">
 
         <P>
           <img src="../../../static/images/Resource.png" alt="">
-          myResources</P>
+          My Resources</P>
       </li>
       <li :class="{active : activeFlag == 'myOpinion'}" @click="goTostudentManagement('myOpinion')">
 
         <P>
           <img src="../../../static/images/Student.png" alt="">
-          myOpinion</P>
+          My Opinion</P>
       </li>
 
     </ul>
@@ -40,8 +40,18 @@
     data(){
       return{
         msg:"左部",
-        activeFlag:'prepare',
+        activeFlag:'myCourse',
         dialogVisible: false
+      }
+    },
+    mounted() {
+      let path = this.$route.path;
+      if (path.endsWith("myCourse")) {
+        this.activeFlag = "myCourse";
+      } else if (path.endsWith("myResources")) {
+        this.activeFlag = "myResources";
+      } else if (path.endsWith("myOpinion")) {
+        this.activeFlag = "myOpinion";
       }
     },
     methods:{

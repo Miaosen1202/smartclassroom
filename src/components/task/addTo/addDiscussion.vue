@@ -2,7 +2,7 @@
   <div style="height: 100%">
     <div class="no-discuss" v-show="!showDiscussListPanel">
       <p><img src="../../../assets/images/u674.png" alt=""></p>
-      <p>There is no discussion yet.</p>
+      <p>Empty</p>
       <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddDiscussion">
         <img src="../../../assets/images/u60.png" alt="">
       </el-button>

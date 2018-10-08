@@ -2,20 +2,11 @@
   <div class="teach">
     <div class="no-material" v-show="materialEmpty">
       <p><img src="../../assets/images/u768.png" alt=""></p>
-      <p>There are no teaching materials yet.</p>
+      <p>Empty</p>
       <el-button size="medium" type="primary" @click="goToAddMaterials">
         <img src="../../assets/images/u60.png" alt="">
       </el-button>
     </div>
-    <!--<div class="material-items" v-show="materialEmpty == false">-->
-      <!--<el-checkbox-group v-model="checkedMaterialList">-->
-        <!--<div class="list" v-for="material in materialList">-->
-          <!--<el-checkbox :label="material" >-->
-            <!--<a :href="material.materialUrl">{{material.materialName}}</a>-->
-          <!--</el-checkbox>-->
-        <!--</div>-->
-      <!--</el-checkbox-group>-->
-    <!--</div>-->
   </div>
 </template>
 

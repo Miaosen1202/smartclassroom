@@ -1,7 +1,7 @@
 <template>
   <div class="assignment">
-    <p><img src="../../assets/images/u1046.png" width="140" height="139" alt=""></p>
-    <p>There is no assignment yet</p>
+    <p><img src="../../assets/images/u674.png" width="140" height="139" alt=""></p>
+    <p>Empty</p>
     <el-button size="medium" type="primary" @click="goToAddAssignment">
       <img src="../../assets/images/u60.png" alt="">
     </el-button>

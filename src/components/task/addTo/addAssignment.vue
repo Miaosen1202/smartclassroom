@@ -2,7 +2,7 @@
   <div style="height: 100%;">
     <div class="no-record assignment" v-show="!showAssignmentListPanel">
       <p><img src="../../../assets/images/u1046.png" width="140" height="139" alt=""></p>
-      <p style="display: block;padding-top: 0px">There is no assignment yet</p>
+      <p style="display: block;padding-top: 0px">Empty</p>
       <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddAssignment">
         <img src="../../../assets/images/u60.png" alt="">
       </el-button>

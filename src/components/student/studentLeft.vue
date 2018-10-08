@@ -5,20 +5,20 @@
       <li :class="{active : activeFlag == 'LearningMaterials'}" @click="goToFirst('LearningMaterials')">
         <el-button type="text" @click="dialogVisible = true">
           <img src="../../../static/images/TeachingMaterials-white.png"  alt="">
-          <p>Learning Materials</p>
+          <p>Learning Material</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'LetDiscuss'}" @click="goToSecond('LetDiscuss')">
         <img src="../../../static/images/Discussion-white.png"  alt="">
-        <P>Let’s Discuss</P>
+        <P>Discussion</P>
       </li>
       <li :class="{active : activeFlag == 'TakeExercises'}" @click="goToThird('TakeExercises')">
         <img src="../../../static/images/Exericises-white.png"  alt="">
-        <P>Take exercises</P>
+        <P>Exercise</P>
       </li>
       <li :class="{active : activeFlag == 'MyAssignment'}" @click="goToFive('MyAssignment')">
         <img src="../../../static/images/Assignment-white.png"  alt="">
-        <P>My assignment</P>
+        <P>Assignment</P>
       </li>
 
     </ul>

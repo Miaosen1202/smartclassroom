@@ -8,9 +8,9 @@
         <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
       </div>
       <div class="have" v-for="(exercises,index) in existExercisesList">
-        <h5 style="display: inline-block">Exercises {{exercises.sort}}</h5>
+        <h5 style="display: inline-block">Exercise {{exercises.sort}}</h5>
         <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '1'">Single-choice</span>
-        <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '2'">Multiple-choice</span>
+        <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '2'">Multi-choice</span>
         <p class="pexer">{{exercises.questionTitle}}</p>
         <ul style="padding-left: 2%" v-for="(option,index) in exercises.options" :key="index">
           <li>
@@ -25,24 +25,28 @@
 
           </li>
         </ul>
-       <!-- <el-checkbox-group
-          v-model="selectedMultiAnswerCode" v-show="exercises.questionType == '2'">
-          <el-checkbox v-for="(option,index) in exercises.options" :label="option.answerCode" :key="index">
-            <span style="padding-right: 2%" >{{option.answerCode}}</span>
-            <span style="padding-left: 2%">{{option.answerContent}}</span>
-          </el-checkbox>
-        </el-checkbox-group>-->
+         <!-- <el-checkbox-group
+            v-model="selectedMultiAnswerCode" v-show="exercises.questionType == '2'">
+            <el-checkbox v-for="(option,index) in exercises.options" :label="option.answerCode" :key="index">
+              <span style="padding-right: 2%" >{{option.answerCode}}</span>
+              <span style="padding-left: 2%">{{option.answerContent}}</span>
+            </el-checkbox>
+          </el-checkbox-group>-->
 
       </div>
       <div class="submitt">
-        <el-button style="margin: 2%;background-color: #0e38b1;color: #fff"  round @click="submitQuestionAnswer(existExercisesList[0])">Submit</el-button>
+        <el-button style="margin: 2%;background-color: #0e38b1;color: #fff" :disabled="disableSubmit"  round @click="submitQuestionAnswer(existExercisesList[0])">Submit</el-button>
       </div>
-      <div class="answer" v-show="isSubmit == 0">
+
+      <div class="answer" v-for="exercises in existExercisesList" v-show="hasAnswerSubmit">
         <div v-for="(option,index) in exercises.options" :key="index">
          <p v-show="option.isCorrect == 1">Correct Answer ：<span>{{option.answerCode}}</span></p>
         </div>
-        <p v-show="questionType == '1'">Your Answer ：<span style="color: red">{{selectedAnswerCode}}</span></p>
-        <p v-show="questionType == '2'">Your Answer ：<span style="color: red">{{selectedMultiAnswerCode.join(',')}}</span></p>
+
+        <p v-show="questionType == '1'">Your Answer ：<span style="color: red">{{answer.answerContent}}</span></p>
+
+        <!--<p v-show="questionType == '1'">Your Answer ：<span style="color: red">{{selectedAnswerCode}}</span></p>-->
+        <!--<p v-show="questionType == '2'">Your Answer ：<span style="color: red">{{selectedMultiAnswerCode.join(',')}}</span></p>-->
         <P>Explanation</P>
         <span  style="width: 60%;display: inline-block">
           {{exercises.analysis}}
@@ -57,6 +61,7 @@
     export default {
         data() {
             return {
+              disableSubmit: true,
               isShow: false,
               existExercisesList:[],
               selectedAnswerCode:"",
@@ -69,7 +74,9 @@
               total:0,//总条数
               isSubmit:1,
               exercises:{},
-              questionType:'1'
+              questionType:'1',
+              answer: {},
+              hasAnswerSubmit: false
             }
         },
       mounted() {
@@ -80,7 +87,7 @@
             this.isShow = !this.isShow;
           },
           loadFinishexercise:function () {
-            var param = {
+            let param = {
               lessonId:this.lessonId,
               pageIndex: this.currentPage,
               pageSize: this.pageSize
@@ -95,11 +102,43 @@
                     (res.data.entity.total)/(res.data.entity.pageSize) :
                     (res.data.entity.total)/(res.data.entity.pageSize)+1;
                   this.pageSize = res.data.entity.pageSize;
+
+                  if (this.existExercisesList.length == 0) {
+                    return;
+                  }
+
+                  this.loadAnswer(this.existExercisesList[0].id);
                 }
               }).catch((err) => {
               console.log(err);
             });
           },
+
+          loadAnswer: function(questionId) {
+            // load answer
+            let ansParam = {
+              params: {
+                lessonCode: this.lessonCode,
+                questionId: questionId,
+                questionType: 1
+              }
+            };
+            this.$http.get(`${process.env.NODE_ENV}/questionAnswer/submitHistory/query`, ansParam)
+              .then((res) => {
+                if (res.data.code === 200) {
+                  if (res.data.entity.questionAnswerRecordVos.length > 0) {
+                    this.answer = res.data.entity.questionAnswerRecordVos[0];
+                    this.disableSubmit = true;
+                    this.hasAnswerSubmit = true;
+                  } else {
+                    this.answer = {};
+                    this.disableSubmit = false;
+                    this.hasAnswerSubmit = false;
+                  }
+                }
+              });
+          },
+
           //向下翻页
           toNextPage(){
             this.currentPage = this.currentPage+1;
@@ -148,7 +187,7 @@
 
             this.questionType = exercises.questionType;
             let queryParam = {
-              questionId:exercises.id,
+              questionId: exercises.id,
               // todo
               questionType: 1,
               answerContent:exercises.questionType == '1'? this.selectedAnswerCode : this.selectedMultiAnswerCode.join(","),
@@ -158,20 +197,18 @@
 
             this.$http.post(`${process.env.NODE_ENV}/questionAnswer/submit/edit`,queryParam )
               .then((res) => {
-                this.isSubmit = 0;
-                this.exercises = exercises;
-                this.$message({
-                  message: 'Congratulations on your successful submission!',
-                  type: 'success'
-                });
-               /* if (res.data.code == 200) {
+                if (res.data.code == 200) {
                   this.isSubmit = 0;
                   this.exercises = exercises;
                   this.$message({
-                    message: 'Congratulations on your successful submission!',
+                    message: 'Submit Success',
                     type: 'success'
                   });
-                }*/
+
+                  this.loadAnswer(exercises.id);
+                } else {
+                  this.$message.error(res.data.message);
+                }
               }).catch((err) => {
               console.log(err);
             });
@@ -236,7 +273,7 @@
     margin-bottom: 2%;
     border-radius: 0px 0px 4px 4px;
     display: inline-block;*/
-    float: right;
+    /*float: right;*/
     margin-top: 1%;
     margin-right: 4%;
   }

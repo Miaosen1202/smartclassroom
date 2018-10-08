@@ -1,7 +1,7 @@
 <template>
   <div class="discussion">
     <p><img src="../../assets/images/u674.png" alt=""></p>
-    <p>There is no discussion yet.</p>
+    <p>Empty</p>
     <el-button size="medium" type="primary" @click="goToAddDiscussion">
       <img src="../../assets/images/u60.png" alt="">
     </el-button>

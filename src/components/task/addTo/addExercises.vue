@@ -155,6 +155,7 @@
       </div>
       <el-dialog
         title="Order"
+        @close="cancel"
         :visible.sync="showExercisesDialogVisible"
 
         width="100%">
@@ -189,8 +190,8 @@
           </el-table>
         </template>
         <span slot="footer" class="dialog-footer">
-          <el-button size="medium" type="primary" @click="showExercisesDialogVisible = false">OK</el-button>
-          <el-button size="medium" @click="showExercisesDialogVisible = false">Cancel</el-button>
+          <el-button size="medium" type="primary" @click="resetSort">OK</el-button>
+          <el-button size="medium" @click="cancel">Cancel</el-button>
         </span>
       </el-dialog>
     </el-scrollbar>
@@ -214,6 +215,7 @@
         questionType: 1,
         lessonId: this.$route.query.lessonId,
         existExercisesList: [],
+        existExercisesListOrigin: [],
         exercisesList: [],
         codeObjList: [
           {id: 0, name: "A"},
@@ -278,26 +280,21 @@
       moveTopBtnHandler() {
         this.existExercisesList.splice(this.getIndex(), 1);
         this.existExercisesList.splice(0, 0, this.currentRow);
-        this.resetSort()
         this.handleCurrentChange(this.currentRow)
       },
       moveUpBtnHandler() {
         let index = this.getIndex();
-        console.log(index);
         this.swapArray(this.existExercisesList, index, index - 1)
-        this.resetSort()
         this.handleCurrentChange(this.currentRow)
       },
       moveBoBtnHandler() {
         this.existExercisesList.splice(this.getIndex(), 1);
         this.existExercisesList.splice(this.existExercisesList.length, 0, this.currentRow);
-        this.resetSort()
         this.handleCurrentChange(this.currentRow)
       },
       moveDownBtnHandler() {
         let index = this.getIndex();
         this.swapArray(this.existExercisesList, index, index + 1)
-        this.resetSort()
         this.handleCurrentChange(this.currentRow)
       },
       swapArray(arr, index1, index2) {
@@ -313,6 +310,12 @@
         }
         return currentRowIndex;
       },
+      cancel() {
+        console.log(this.existExercisesList);
+        console.log(this.existExercisesListOrigin);
+        this.existExercisesList = this.existExercisesListOrigin.slice(0);
+        this.showExercisesDialogVisible = false
+      },
       resetSort() {
         let params = {
           ids: []
@@ -323,8 +326,11 @@
         console.log(params.ids);
         this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/resetSort/edit`, params.ids)
           .then((res) => {
-            if (res.code == 200) {
-              this.existExercisesList = res.entity;
+            if (res.data.code == 200) {
+              // this.existExercisesList = res.entity;
+              console.log(this.showExercisesDialogVisible);
+              this.showExercisesDialogVisible = false;
+              console.log(this.showExercisesDialogVisible);
             }
           }).catch((err) => {
           console.log(err);
@@ -430,6 +436,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.existExercisesList = res.data.entity;
+              this.existExercisesListOrigin = res.data.entity.slice(0);
             }
           }).catch((err) => {
           console.log(err);

@@ -131,9 +131,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.existCourseList = res.data.entity;
-
             }
-
           }).catch((err) => {
           console.log(err);
         });
@@ -154,16 +152,31 @@
       },
 
       toggle: function () {
-        var postParam = {
-          "lessonName": this.lessonName,
-          "courseName": this.courseName,
-          "courseId": this.radio
+        let postParam = {
+          lessonName: this.lessonName.trim(),
+          courseId: this.submitCourseFlag === "1" ? this.radio : null,
+          courseName: this.submitCourseFlag === "2" ? this.courseName.trim() : null
         };
+
+        console.log(this.submitCourseFlag, postParam)
+        if (this.submitCourseFlag === "1" && postParam.courseId === "") {
+          this.$message.error("Please select a course first");
+          return;
+        }
+        if (this.submitCourseFlag === "2" && postParam.courseName === "") {
+          this.$message.error("Please input course name first");
+          return;
+        }
+
+        if (postParam.lessonName === "") {
+          this.$message.error("Please input lesson name first");
+          return;
+        }
 
         let me = this;
         this._add("/lesson",postParam,data=>{
           me.lessonId = data.entity;
-          this.$router.push({path: "/homePage/course", query: {"lessonId": this.lessonId}});
+          this.$router.push({path: "/homePage/course", query: {"lessonId": me.lessonId}});
         });
 
         // this.$http.post(`${process.env.NODE_ENV}/lesson/add`, postParam)

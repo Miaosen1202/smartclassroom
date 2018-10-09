@@ -4,11 +4,17 @@
     <div class="over">
       <p style="color: #999999">Revise your course name and lesson name.</p>
       <el-collapse accordion class="course-item" @change="courseCollapseChange">
-        <el-collapse-item v-for="course in courseList"
+        <el-collapse-item v-for="(course, courseIndex) in courseList"
                           :title="course.courseName" :name="course.id" :key="course.id" >
           <template slot="title">
             <img src="../../../static/images/course.png" alt="">
             <span class="course-name" :data-course-id="course.id">{{ course.courseName }}</span>
+            <el-button
+              size="mini"
+              style="border: none"
+              @click="courseDelete(course.id, courseIndex)">
+              <img src="../../../static/images/shanchu.png" alt="">
+            </el-button>
           </template>
 
           <el-table v-show="true"
@@ -89,16 +95,13 @@
             console.log("edit lesson, id=", row.id);
             this.$router.push({path: "/homePage/course/addMaterials", query: {"lessonId": row.id}});
           },
+          courseDelete(courseId, index) {
+            let me = this;
+            this._del("/course", [courseId], () => me.courseList.splice(index, 1));
+          },
           handleDelete(index, row) {
             let me = this;
             this._del("/lesson", [row.id], () => me.tableData.splice(index, 1));
-            // this.$http.post(`${process.env.NODE_ENV}/lesson/deletes`, [row.id])
-            //     .then((res) => {
-            //         this.tableData.splice(index, 1);
-            //         console.log("delete success, lessonId=" + res.data.entity);
-            //     }).catch((err) => {
-            //       console.error(err);
-            //     });
           }
         }
     }

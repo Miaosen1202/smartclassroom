@@ -17,7 +17,8 @@
                  :placeholder="$t('message.pleaseselect')"
                  v-model="existCourseName" readonly>
         </el-radio>
-        <el-button style="color: #fff" size="medium" class="list btn" type="text" @click="showCourseDialog">{{$t('message.list')}}</el-button>
+        <!--<el-button style="color: #fff" size="medium" class="list btn" type="text" @click="showCourseDialog">{{$t('message.list')}}</el-button>-->
+        <input style="color: #fff" type="submit" v-on:click="showCourseDialog()" class="list btn" :value="$t('message.list')">
       </div>
       <!--<h4 class="or">step 2:</h4>-->
       <p class="red">or, create a new course here.</p>

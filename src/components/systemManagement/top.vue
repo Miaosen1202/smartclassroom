@@ -68,10 +68,10 @@
       backlogin() {
         let that = this;
         this.post("/logout", null, function () {
-          that.$message.success(this.$t('message.logoutSuccess'));
+          that.$message.success(that.$t('message.logoutSuccess'));
           that.$router.push({path: "/"});
         }, undefined, function () {
-          that.$message.error(this.$t('message.logoutFail') + ": " + err);
+          that.$message.error(that.$t('message.logoutFail') + ": " + err);
           that.$router.push({path: "/"});
         });
       },

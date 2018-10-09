@@ -23,7 +23,23 @@ var $http = axios.create({
   withCredentials: true
 });
 
-// 拦截全局请求，处理未登录操作
+// 为请求增加动态随机数，防止浏览器缓存
+$http.interceptors.request.use(function (request) {
+
+  if (request.method.toUpperCase() === "GET") {
+    if (request.params) {
+      request.params["_str"] = new Date().getTime();
+    } else {
+      request.params = {
+        "_str": new Date().getTime(),
+      }
+    }
+  }
+
+  return request;
+});
+
+// 拦截全局响应，处理未登录操作
 $http.interceptors.response.use(function (response) {
   console.log("resp", response.data);
   if (response.data.code === 300) {

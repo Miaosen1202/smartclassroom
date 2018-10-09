@@ -47,7 +47,7 @@
           </el-upload>
           <!--按钮-->
           <span slot="footer" class="dialog-footer" style="margin-left: 40%">
-            <el-button style="margin-top: 2%;background-color: #0e38b1;color: #fff" size="medium"  v-on:click="sure()">Save</el-button>
+            <el-button style="margin-top: 2%;background-color: #0e38b1;color: #fff" size="medium"  v-on:click="sure">Save</el-button>
             <el-button size="medium" style="color: #333333" @click="cancelCreateDiscuss">Cancel</el-button>
           </span>
         </div>
@@ -160,12 +160,9 @@
           // this.$http.post(`${process.env.NODE_ENV}/classDiscuss/add`, discussion)
           //   .then((res) => {
           //     if (res.data.code == 200) {
-          //       this.discussContent = "",
-          //         this.fileList3 = [];
+          //       this.discussContent = "";
+          //       this.fileList3 = [];
           //       this.attachments = [];
-          //       /*this.discussionId = res.data.entity;
-          //       console.log("discussionId:"+this.discussionId);*/
-          //       /*this.showAttachments = JSON.parse(JSON.stringify(this.attachments));*/
           //       this.getDiscussionListByLessonId();
           //       this.createPanelShow = false;
           //     }

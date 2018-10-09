@@ -104,20 +104,20 @@ Vue.prototype._del = function (path, param, successCallback, errorCallback) {
 };
 
 Vue.prototype._add = function (path, param, successCallback, errorCallback) {
-  let el = event.currentTarget;
-  el.disabled = true;
+  // let el = event.currentTarget;
+  // el.disabled = true;
   this.post(path + "/add", param, (data) => {
     successCallback(data);
-    el.disabled = false;
+    // el.disabled = false;
   }, (res) => {
     if (errorCallback != undefined) {
       errorCallback(res);
     } else {
       this.$message.error(res.data.message)
     }
-    el.disabled = false;
+    // el.disabled = false;
   },(err)=>{
-    el.disabled = false;
+    // el.disabled = false;
   })
 };
 

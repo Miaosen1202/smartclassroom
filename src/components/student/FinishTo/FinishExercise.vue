@@ -39,14 +39,13 @@
       </div>
 
       <div class="answer" v-for="exercises in existExercisesList" v-show="hasAnswerSubmit">
-        <div v-for="(option,index) in exercises.options" :key="index">
-         <p v-show="option.isCorrect == 1">Correct Answer ：<span>{{option.answerCode}}</span></p>
+        <div>
+          <span>Correct Answer ：</span>
+          <span v-for="(option,index) in exercises.options" v-if="option.isCorrect == 1">{{option.answerCode}} </span>
         </div>
 
-        <p v-show="questionType == '1'">Your Answer ：<span style="color: red">{{answer.answerContent}}</span></p>
+        <p>Your Answer ：<span style="color: red">{{answer.answerContent}}</span></p>
 
-        <!--<p v-show="questionType == '1'">Your Answer ：<span style="color: red">{{selectedAnswerCode}}</span></p>-->
-        <!--<p v-show="questionType == '2'">Your Answer ：<span style="color: red">{{selectedMultiAnswerCode.join(',')}}</span></p>-->
         <P>Explanation</P>
         <span  style="width: 60%;display: inline-block">
           {{exercises.analysis}}
@@ -184,13 +183,21 @@
               this.$message.error("Please choose the answer first");
               return;
             }
+            let answer;
+            if (exercises.questionType == '1') {
+              answer = this.selectedAnswerCode;
+              this.selectedAnswerCode = "";
+            } else {
+              answer = this.selectedMultiAnswerCode.sort().join(",");
+              this.selectedMultiAnswerCode.splice(0)
+            }
 
             this.questionType = exercises.questionType;
             let queryParam = {
               questionId: exercises.id,
               // todo
               questionType: 1,
-              answerContent:exercises.questionType == '1'? this.selectedAnswerCode : this.selectedMultiAnswerCode.join(","),
+              answerContent: answer,
               lessonCode:this.lessonCode,
               isSubmit:this.isSubmit
             }

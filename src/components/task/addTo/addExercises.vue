@@ -191,7 +191,7 @@
         </template>
         <span slot="footer" class="dialog-footer">
           <el-button size="medium" type="primary" @click="resetSort">OK</el-button>
-          <el-button size="medium" @click="cancel">Cancel</el-button>
+          <el-button size="medium" @click="showExercisesDialogVisible = false">Cancel</el-button>
         </span>
       </el-dialog>
     </el-scrollbar>
@@ -311,10 +311,8 @@
         return currentRowIndex;
       },
       cancel() {
-        console.log(this.existExercisesList);
-        console.log(this.existExercisesListOrigin);
+          this.$refs.singleTable.setCurrentRow(null)
         this.existExercisesList = this.existExercisesListOrigin.slice(0);
-        this.showExercisesDialogVisible = false
       },
       resetSort() {
         let params = {
@@ -328,9 +326,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               // this.existExercisesList = res.entity;
-              console.log(this.showExercisesDialogVisible);
               this.showExercisesDialogVisible = false;
-              console.log(this.showExercisesDialogVisible);
             }
           }).catch((err) => {
           console.log(err);

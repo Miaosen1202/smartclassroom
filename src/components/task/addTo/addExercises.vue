@@ -379,34 +379,34 @@
         this.showExercisesDialogVisible = true;
       },
       sure: function () {
-        var queryOptions = JSON.parse(JSON.stringify(this.options));
-        if (this.questionType == 1) {//单选
-
+        let queryOptions = JSON.parse(JSON.stringify(this.options));
+        if (this.questionType == 1) { // 单选
           queryOptions.forEach((e) => {
-            if (this.selectItem == e.answerCode) {//若选中,isCorrect设置为1
-              e.isCorrect = 1;
-            } else {
-              e.isCorrect = 0;
-            }
-          })
-
-        } else if (this.questionType == 2) {//多选
-
+            e.isCorrect = this.selectItem == e.answerCode ? 1 : 0;
+          });
+        } else if (this.questionType == 2) {  // 多选
           queryOptions.forEach((e) => {
-            if (e.isCorrect == true) {
-              e.isCorrect = 1;
-            } else {
-              e.isCorrect = 0;
-            }
-          })
+            e.isCorrect = e.isCorrect ? 1 : 0;
+          });
         }
-        var exercises = {
+
+        let exercises = {
           lessonId: this.lessonId,
           questionTitle: this.questionTitle,
           questionType: this.questionType,
           analysis: this.analysis,
           options: queryOptions
         };
+
+        if (typeof this.questionTitle !== "string" || this.questionTitle.trim().length === 0) {
+          this.$message.error("The title must be not empty");
+          return;
+        }
+        if (queryOptions.length < 2 || queryOptions.length > 8) {
+          this.$message.error("The options must be greater than 1 and less than 9");
+          return;
+        }
+
         let me = this;
         this._add("/choiceQuestion", exercises, data => {
           me.questionType = 1;
@@ -422,26 +422,6 @@
           me.optionsShow=false;
           me.getAssignmentListByLessonId();
         });
-        // this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/add`, exercises)
-        //   .then((res) => {
-        //     if (res.data.code == 200) {
-        //       this.questionType = 1;
-        //       this.questionTitle = "";
-        //       this.analysis = "";
-        //       this.options = [
-        //         {
-        //           answerContent: "",
-        //           isCorrect: true,
-        //           answerCode: "A"
-        //         }
-        //       ];
-        //       this.optionsShow=false;
-        //       this.getAssignmentListByLessonId();
-        //     }
-        //   }).catch((err) => {
-        //   console.log(err);
-        // });
-
       },
 
       //选择题列表
@@ -459,14 +439,6 @@
       deleteExercises: function (id) {
         let me = this;
         this._del("/choiceQuestion", [id],()=> me.getAssignmentListByLessonId())
-        // this.$http.post(`${process.env.NODE_ENV}/choiceQuestion/deletes`, [id])
-        //   .then((res) => {
-        //     if (res.data.code == 200) {
-        //       this.getAssignmentListByLessonId();
-        //     }
-        //   }).catch((err) => {
-        //   console.log(err);
-        // });
       },
       /*获取选择题详情*/
       getExecisesDetail(id) {

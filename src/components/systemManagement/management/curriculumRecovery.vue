@@ -161,7 +161,11 @@
 
       doDelete: function (ids) {
         let me = this;
-        this.post("/lesson/deletes", ids, (data) => {
+        // this.post("/lesson/deletes", ids, (data) => {
+        //   me.loadRecords();
+        // });
+
+        this._del("/lesson", ids, (data) => {
           me.loadRecords();
         });
       },

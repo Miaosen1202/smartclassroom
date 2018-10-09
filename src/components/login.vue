@@ -48,6 +48,19 @@
             </div>
             <el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>
           </el-tab-pane>
+          <!--<el-tab-pane label="Admin" name="third">-->
+            <!--<el-form :model="user">-->
+              <!--<div class="account">-->
+                <!--<el-input class="form-control" placeholder="Account Name" v-model="user.userName">-->
+                <!--</el-input>-->
+              <!--</div>-->
+              <!--<div class="password">-->
+                <!--<el-input class="form-control" type="password" placeholder="Password" v-model="user.password">-->
+                <!--</el-input>-->
+              <!--</div>-->
+              <!--<el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>-->
+            <!--</el-form>-->
+          <!--</el-tab-pane>-->
         </el-tabs>
       </div>
     </div>
@@ -72,6 +85,11 @@
           manager: 1,
           teacher: 2,
           student: 3
+        },
+        user: {
+          userName: "",
+          password: "",
+          lessonCode: null
         }
       }
     },

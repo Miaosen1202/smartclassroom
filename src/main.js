@@ -25,7 +25,6 @@ var $http = axios.create({
 
 // 为请求增加动态随机数，防止浏览器缓存
 $http.interceptors.request.use(function (request) {
-
   if (request.method.toUpperCase() === "GET") {
     if (request.params) {
       request.params["_str"] = new Date().getTime();
@@ -41,7 +40,6 @@ $http.interceptors.request.use(function (request) {
 
 // 拦截全局响应，处理未登录操作
 $http.interceptors.response.use(function (response) {
-  console.log("resp", response.data);
   if (response.data.code === 300) {
     Vue.prototype.$message.error(response.data.message);
     router.push("/");
@@ -52,8 +50,11 @@ $http.interceptors.response.use(function (response) {
     return response;
   }
 }, function (error) {
-  Vue.prototype.$message.error(error);
-  return Promise.reject(error);
+  console.error("request error", error)
+  Vue.prototype.$message.error("An error occurred in request");
+  // 不调用 Promise.reject(error), 使用默认处理：提示一个错误
+  // return Promise.reject(error);
+  return error;
 });
 
 Vue.prototype.$http = $http;

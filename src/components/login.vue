@@ -190,7 +190,6 @@
           "password": this.$md5(this.password),
           "lessonCode":this.lessonCode
         };
-
         this.$http.post(`${process.env.NODE_ENV}/login`, login)
           .then((res) => {
             if (res.data.code == 200) {

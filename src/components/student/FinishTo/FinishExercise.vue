@@ -199,13 +199,13 @@
               questionType: 1,
               answerContent: answer,
               lessonCode:this.lessonCode,
-              isSubmit:this.isSubmit
+              isSubmit: 1
             }
 
             this.$http.post(`${process.env.NODE_ENV}/questionAnswer/submit/edit`,queryParam )
               .then((res) => {
                 if (res.data.code == 200) {
-                  this.isSubmit = 0;
+                  this.isSubmit = 1;
                   this.exercises = exercises;
                   this.$message({
                     message: 'Submit Success',

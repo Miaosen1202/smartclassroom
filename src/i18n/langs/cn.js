@@ -94,7 +94,8 @@ const cn = {
     'tip': "提示",
     'confirmDelete': "确认删除?",
     'deleteSuccess': "删除成功",
-    "success": "成功"
+    "success": "成功",
+    'enter':'进入',
     // -------- end -----------
   },
   ...zhLocale

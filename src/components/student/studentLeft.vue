@@ -79,7 +79,7 @@
     height: 40%;
   }
   img {
-    padding-left: 10%;
+    padding-left: 4%;
   }
  /* ul {
     height: 100%;

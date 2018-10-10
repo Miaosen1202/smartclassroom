@@ -891,11 +891,11 @@
         this.checkedMaterialList = val ? this.materialList : [];
         this.isIndeterminate = false;
       },
-      gobackk: function () {
+     /* gobackk: function () {
         this.$router.push({path: "/homePage/goTeach"});
-      },
+      },*/
       gobackLesson: function () {
-        this.$router.push({path: "/homePage/goTeach"});
+        this.$router.push({path: "/personalCenterManagement/myCourse"});
       },
       backlogin:function (){
         let that = this;

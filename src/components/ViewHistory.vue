@@ -27,8 +27,8 @@
         <el-table-column prop="time" label="Date&Time" :formatter="formatter"></el-table-column>
         <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
-            <el-button size="mini" @click="goTeaching(scope.$index, scope.row)">Enter</el-button>
-            <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            <el-button style="border: none;color: #0138b1;" size="mini" @click="goTeaching(scope.$index, scope.row)">{{$t('message.enter')}}</el-button>
+            <el-button style="border: none;color: #0138b1;" size="mini"  @click="handleDelete(scope.$index, scope.row)">{{$t('message.delete')}}</el-button>
           </template>
         </el-table-column>
       </el-table>

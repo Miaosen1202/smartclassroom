@@ -52,10 +52,12 @@
       }
     },
 
-    mounted: function () {
+    /*mounted: function () {
+      this.getMaterialList();
+    },*/
+    mounted() {
       this.getMaterialList();
     },
-
     methods: {
       download: function() {
         this.$message.warning("The function is being perfected");

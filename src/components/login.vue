@@ -4,101 +4,101 @@
       <p><img src="../assets/images/u2081.png" alt=""></p>
       <div class="mainmain">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <!--<el-tab-pane label="Teacher" name="first">-->
-            <!--<div class="account">-->
-              <!--<input class="form-control" type="text" placeholder="Account Name" v-model="userName">-->
-            <!--</div>-->
-            <!--<div class="password">-->
-              <!--<input class="form-control" type="password" placeholder="Password" v-model="password">-->
-            <!--</div>-->
-            <!--<div style="padding: 4%;overflow: auto;">-->
-              <!--<el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"-->
-                          <!--placement="top" popper-class="test">-->
-                <!--<a href="javascript:;">Forgot your password?</a>-->
-              <!--</el-tooltip>-->
-            <!--</div>-->
-            <!--<el-button  v-on:click="goToLogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> &lt;!&ndash;@click="goToLogin"&ndash;&gt;-->
-          <!--</el-tab-pane>-->
           <el-tab-pane label="Teacher" name="first">
-            <el-form>
-              <div class="account">
-                <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
-              </div>
-              <div class="password">
-                <input class="form-control" type="password" placeholder="Password" v-model="password">
-              </div>
-              <div style="padding: 4%;overflow: auto;">
-                <el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"
-                            placement="top" popper-class="test">
-                  <a href="javascript:;">Forgot your password?</a>
-                </el-tooltip>
-              </div>
-              <!--<el-button  v-on:click="goToLogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>-->
-              <input type="submit" @click="goToLogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff" value="Login"/>
-            </el-form>
+            <div class="account">
+              <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
+            </div>
+            <div class="password">
+              <input class="form-control" type="password" placeholder="Password" v-model="password">
+            </div>
+            <div style="padding: 4%;overflow: auto;">
+              <el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"
+                          placement="top" popper-class="test">
+                <a href="javascript:;">Forgot your password?</a>
+              </el-tooltip>
+            </div>
+            <el-button  v-on:click="goToLogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
           </el-tab-pane>
-
-          <!--<el-tab-pane label="Student" name="second">-->
-            <!--<div class="account">-->
-              <!--<input class="form-control" type="text" placeholder="Account Name" v-model="userName">-->
-            <!--</div>-->
-            <!--<div class="password">-->
-              <!--<input class="form-control" type="password" placeholder="Password" v-model="password">-->
-            <!--</div>-->
-            <!--<div class="password">-->
-              <!--<input class="form-control" type="text" placeholder="lessonCode" v-model="lessonCode">-->
-            <!--</div>-->
-            <!--<div style="padding: 4%;overflow: auto;">-->
-              <!--<el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"-->
-                          <!--placement="top" popper-class="test">-->
-                <!--<a href="javascript:;">Forgot your password?</a>-->
-              <!--</el-tooltip>-->
-            <!--</div>-->
-            <!--<el-button v-on:click="studentslogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> &lt;!&ndash;@click="goToLogin"&ndash;&gt;-->
+          <!--<el-tab-pane label="Teacher" name="first">-->
+            <!--<el-form>-->
+              <!--<div class="account">-->
+                <!--<input class="form-control" type="text" placeholder="Account Name" v-model="userName">-->
+              <!--</div>-->
+              <!--<div class="password">-->
+                <!--<input class="form-control" type="password" placeholder="Password" v-model="password">-->
+              <!--</div>-->
+              <!--<div style="padding: 4%;overflow: auto;">-->
+                <!--<el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"-->
+                            <!--placement="top" popper-class="test">-->
+                  <!--<a href="javascript:;">Forgot your password?</a>-->
+                <!--</el-tooltip>-->
+              <!--</div>-->
+              <!--&lt;!&ndash;<el-button  v-on:click="goToLogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>&ndash;&gt;-->
+              <!--<input type="submit" @click="goToLogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff" value="Login"/>-->
+            <!--</el-form>-->
           <!--</el-tab-pane>-->
+
           <el-tab-pane label="Student" name="second">
-            <el-form>
-              <div class="account">
-                <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
-              </div>
-              <div class="password">
-                <input class="form-control" type="password" placeholder="Password" v-model="password">
-              </div>
-              <div class="password">
-                <input class="form-control" type="text" placeholder="lessonCode" v-model="lessonCode">
-              </div>
-              <div style="padding: 4%;overflow: auto;">
-                <el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"
-                            placement="top" popper-class="test">
-                  <a href="javascript:;">Forgot your password?</a>
-                </el-tooltip>
-              </div>
-              <!--<el-button v-on:click="studentslogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>-->
-              <input type="submit" @click="studentslogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff" value="Login"/>
-            </el-form>
+            <div class="account">
+              <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
+            </div>
+            <div class="password">
+              <input class="form-control" type="password" placeholder="Password" v-model="password">
+            </div>
+            <div class="password">
+              <input class="form-control" type="text" placeholder="lessonCode" v-model="lessonCode">
+            </div>
+            <div style="padding: 4%;overflow: auto;">
+              <el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"
+                          placement="top" popper-class="test">
+                <a href="javascript:;">Forgot your password?</a>
+              </el-tooltip>
+            </div>
+            <el-button v-on:click="studentslogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button> <!--@click="goToLogin"-->
           </el-tab-pane>
-
-
-          <!--<el-tab-pane label="Admin" name="third">-->
-            <!--<div class="account">-->
-              <!--<input class="form-control" type="text" placeholder="Account Name" v-model="userName">-->
-            <!--</div>-->
-            <!--<div class="password">-->
-              <!--<input class="form-control" type="password" placeholder="Password" v-model="password">-->
-            <!--</div>-->
-            <!--<el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>-->
+          <!--<el-tab-pane label="Student" name="second">-->
+            <!--<el-form>-->
+              <!--<div class="account">-->
+                <!--<input class="form-control" type="text" placeholder="Account Name" v-model="userName">-->
+              <!--</div>-->
+              <!--<div class="password">-->
+                <!--<input class="form-control" type="password" placeholder="Password" v-model="password">-->
+              <!--</div>-->
+              <!--<div class="password">-->
+                <!--<input class="form-control" type="text" placeholder="lessonCode" v-model="lessonCode">-->
+              <!--</div>-->
+              <!--<div style="padding: 4%;overflow: auto;">-->
+                <!--<el-tooltip style="float: right" class="item forget-pwd-tip" effect="dark" content="Please contact the system administrator"-->
+                            <!--placement="top" popper-class="test">-->
+                  <!--<a href="javascript:;">Forgot your password?</a>-->
+                <!--</el-tooltip>-->
+              <!--</div>-->
+              <!--&lt;!&ndash;<el-button v-on:click="studentslogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>&ndash;&gt;-->
+              <!--<input type="submit" @click="studentslogin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff" value="Login"/>-->
+            <!--</el-form>-->
           <!--</el-tab-pane>-->
+
+
           <el-tab-pane label="Admin" name="third">
-            <el-form>
-              <div class="account">
-                <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
-              </div>
-              <div class="password">
-                <input class="form-control" type="password" placeholder="Password" v-model="password">
-              </div>
-              <input type="submit" @click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff" value="Login"/>
-            </el-form>
+            <div class="account">
+              <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
+            </div>
+            <div class="password">
+              <input class="form-control" type="password" placeholder="Password" v-model="password">
+            </div>
+            <el-button v-on:click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff">Login</el-button>
           </el-tab-pane>
+          <!--<el-tab-pane label="Admin" name="third">-->
+            <!--<el-form>-->
+              <!--<div class="account">-->
+                <!--<input class="form-control" type="text" placeholder="Account Name" v-model="userName">-->
+              <!--</div>-->
+              <!--<div class="password">-->
+                <!--<input class="form-control" type="password" placeholder="Password" v-model="password">-->
+              <!--</div>-->
+              <!--<input type="submit" @click="goToadmin()" style="width: 100%;background-color: #0e38b1;height: 40px;color: #fff" value="Login"/>-->
+            <!--</el-form>-->
+          <!--</el-tab-pane>-->
         </el-tabs>
       </div>
     </div>
@@ -201,7 +201,7 @@
               util.storeLoginUser(res.data.entity);
 
               this.entity = res.data.entity;
-              this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
+              this.$router.push({path: "/LearningHomework/FinishMaterials",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
             } else {
               this.$message.error(res.data.message)
             }

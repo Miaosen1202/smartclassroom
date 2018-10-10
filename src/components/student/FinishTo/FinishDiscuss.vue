@@ -294,7 +294,7 @@ subdiscussion
           questionType:5,
           answerContent:this.selectedAnswerCode,
           lessonCode:this.lessonCode,
-          isSubmit:this.isSubmit,
+          isSubmit: 1,
           attachments: this.attachments,
         }
         console.log(this.discussionList[0].id);
@@ -302,7 +302,7 @@ subdiscussion
           .then((res) => {
 
             if (res.data.code == 200) {
-               this.isSubmit = 0;
+               this.isSubmit = 1;
                this.exercises = exercises;
                this.toggle()
                this.fileList3 = [];

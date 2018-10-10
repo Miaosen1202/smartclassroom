@@ -26,7 +26,7 @@
       <el-button type="primary" @click="goReply()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">Reply</el-button>
       <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">Batch Delete</el-button>
     </div>
-    <div>
+    <div class="mangementtable">
       <el-table
         ref="multipleTable"
         :data="page.list"
@@ -40,6 +40,7 @@
         </el-table-column>
 
         <el-table-column
+          data-placement="auto"
           :show-overflow-tooltip="true"
           prop="content"
           label="Description"

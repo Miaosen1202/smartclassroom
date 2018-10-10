@@ -147,11 +147,11 @@
     },
     methods: {
       formatDateTime: function (row, column, cellVal, index) {
-        console.log("formatter time")
+       /* console.log("formatter time")*/
         return util.formatDateTime(cellVal);
       },
       rowSelectable: function(data) {
-        console.log("call row style", data)
+       /* console.log("call row style", data)*/
         if (data.columnIndex === 0 && (data.row.status === 0 || data.row.status === 10)) {
           return {visibility: "hidden"};
         }

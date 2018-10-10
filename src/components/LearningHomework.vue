@@ -161,7 +161,7 @@
   }
   p {
     display: inline-block;
-    /*padding-top: 1%;*/
+    padding-top: 1%;
     padding-left: 2%;
     margin: 0px !important;
   }

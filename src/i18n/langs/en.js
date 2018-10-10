@@ -94,7 +94,8 @@ const en = {
     'tip': "Tip",
     'confirmDelete': "Confirm Delete?",
     'deleteSuccess': "Delete success",
-    "success": "Success"
+    "success": "Success",
+    'enter':'Enter',
     // -------- end -----------
   },
   ...enLocale

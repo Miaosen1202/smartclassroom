@@ -41,7 +41,7 @@
           :on-change="handleChange"
           :on-success="handleFileUploadSuccess"
         >
-          <el-button size="small" type="primary" @click="addshowUplond" style="background-color: #26b196">
+          <el-button size="small" type="primary" style="background-color: #26b196">
             <img src="../../../../static/images/UPLOAD.png" height="15px" alt="">
             Upload
           </el-button>
@@ -142,27 +142,10 @@
                 if (res.data.code == 200) {
                   me.materialList.push(res.data.entity);
                 } else {
-                  alert(res.data.message);
+                  me.$message.error(res.data.message);
                 }
               })
           });
-          // this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/add`, newMaterial)
-          //   .then((res) => {
-          //     if (res.data.code == 200) {
-          //       this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/get?data=${res.data.entity}`)
-          //         .then((res) => {
-          //           if (res.data.code == 200) {
-          //             this.materialList.push(res.data.entity);
-          //           } else {
-          //             alert(res.data.message);
-          //           }
-          //         })
-          //     } else {
-          //       alert(res.data.message);
-          //     }
-          //   }).catch((err) => {
-          //   alert(err);
-          // });
         } else {
           alert("Upload file error: " + resp.message);
         }
@@ -198,57 +181,6 @@
           }
           me.showUpload = me.materialList.length > 0;
         })
-        // this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/deletes`, deleteMaterialIds)
-        //   .then((res) => {
-        //     if (res.data.code == 200) {
-        //       var delIdCache = {};
-        //       JSON.parse(res.data.entity).forEach(function (id) {
-        //         delIdCache[id] = true;
-        //       });
-        //
-        //       console.log("delete success, deletedIds:", delIdCache);
-        //       for (var i = this.checkedMaterialList.length - 1; i >= 0; i--) {
-        //         if (delIdCache[this.checkedMaterialList[i].id]) {
-        //           this.checkedMaterialList.splice(i, 1);
-        //         }
-        //       }
-        //       for (var i = this.materialList.length - 1; i >= 0; i--) {
-        //         if (delIdCache[this.materialList[i].id]) {
-        //           this.materialList.splice(i, 1);
-        //         }
-        //       }
-        //
-        //       this.showUpload = this.materialList.length > 0;
-        //     } else {
-        //       this.$message.error(res.data.message);
-        //     }
-        //   }).catch((err) => {
-        //     this.$message.error(err);
-        // });
-      },
-      addshowUplond() {
-        var addUplond = {
-          "materialName": this.materialName,
-          "fromWhere": this.fromWhere,
-          "lessonId": this.lessonId
-        };
-
-        let me = this;
-        this._add("/lessonMaterial", addUplond, data => {
-          me.materialName = data.entity;
-        });
-        // this.$http.post(`${process.env.NODE_ENV}/lessonMaterial/add`, addUplond)
-        //   .then((res) => {
-        //     if (res.data.code == 200) {
-        //       this.materialName = res.data.entity;
-        //
-        //     }
-        //
-        //   }).catch((err) => {
-        //   console.log(err);
-        // });
-
-
       },
       getMaterialList: function () {
         this.$http.get(`${process.env.NODE_ENV}/lessonMaterial/list`, {params: {status: 1, lessonId: this.lessonId}})

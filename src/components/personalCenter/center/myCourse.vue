@@ -39,6 +39,7 @@
         :data="page.list"
         tooltip-effect="dark"
         style="width: 100%"
+        :cell-style="rowSelectable"
         @selection-change="handleSelectionChange"
         @select-all="handleSelectAll">
         <el-table-column
@@ -146,6 +147,12 @@
     },
     methods: {
       formatDateTime: util.formatDateTime,
+      rowSelectable: function(data) {
+        console.log("call row style", data)
+        if (data.columnIndex === 0 && (data.row.status === 0 || data.row.status === 10)) {
+          return {visibility: "hidden"};
+        }
+      },
       handleSelectAll(selection) {
         this.$refs.multipleTable.clearSelection();
         for (let i = 0; i < selection.length; i++) {

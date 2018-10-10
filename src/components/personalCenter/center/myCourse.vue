@@ -4,7 +4,8 @@
     <div>
       <p style="display: inline-block">Total</p>：<span>{{ page.total }}</span>
       <el-input v-model="search.courseName" size="small" placeholder="Course Name" style="width: 14%"></el-input>
-      <el-input v-model="search.lessonName" size="small" :placeholder="$t('message.lessonName')" style="width: 14%"></el-input>
+      <el-input v-model="search.lessonName" size="small" :placeholder="$t('message.lessonName')"
+                style="width: 14%"></el-input>
 
       <el-select v-model="search.status" clearable
                  size="small" placeholder="Status" style="width: 14%">
@@ -16,7 +17,7 @@
         </el-option>
       </el-select>
 
-      <div class="block" style="width: 30%;display: inline-block" >
+      <div class="block" style="width: 30%;display: inline-block">
         <!-- {{value6}}-->
         <el-date-picker
           style="width: 100%"
@@ -30,8 +31,11 @@
         </el-date-picker>
       </div>
 
-      <el-button type="primary" @click="loadLessonRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
-      <el-button type="primary" @click="batchDelete()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">Batch Delete</el-button>
+      <el-button type="primary" @click="loadLessonRecords(1)" style="background-color: #0138b1;color: #fff" size="small"
+                 icon="el-icon-search"></el-button>
+      <el-button type="primary" @click="batchDelete()" size="mini"
+                 style="float: right;margin-left: 1%;background-color: #0138b1;">Batch Delete
+      </el-button>
     </div>
     <div>
       <el-table
@@ -40,6 +44,8 @@
         tooltip-effect="dark"
         style="width: 100%"
         @selection-change="handleSelectionChange"
+        @cell-mouse-enter="handleCellMouseEnter"
+        @cell-mouse-leave="handleCellMouseLeave"
         @select-all="handleSelectAll">
         <el-table-column
           type="selection"
@@ -76,14 +82,19 @@
           label="Status"
           min-width="30%">
           <template slot-scope="scope">
-            {{ scope.row.status === 0 ? "Published" : (scope.row.status === 1 ? "Started" : (scope.row.status === 2 ? "Over" : "Unpublished")) }}
+            {{ scope.row.status === 0 ? "Published" : (scope.row.status === 1 ? "Started" : (scope.row.status === 2 ?
+            "Over" : "Unpublished")) }}
           </template>
         </el-table-column>
 
         <el-table-column label="Operation">
           <template slot-scope="scope" v-if="scope.row.status != 0 && scope.row.status != 10">
-            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleInto(scope.$index, scope.row)">Enter</el-button>
-            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleInto(scope.$index, scope.row)">
+              Enter
+            </el-button>
+            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleDelete(scope.$index, scope.row)">
+              Delete
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -120,14 +131,14 @@
         value6: '',
 
         classRecordStatus: [{
-            label: "待上课",
-            value: 0
-          }, {
-            label: "进行中",
-            value: 1
-          }, {
-            label: "已结束",
-            value: 2
+          label: "待上课",
+          value: 0
+        }, {
+          label: "进行中",
+          value: 1
+        }, {
+          label: "已结束",
+          value: 2
         }],
 
         searchTimeRange: [],
@@ -146,6 +157,25 @@
     },
     methods: {
       formatDateTime: util.formatDateTime,
+      handleCellMouseLeave(row, column, cell, event) {
+        this.hide(row,cell,null)
+      },
+      handleCellMouseEnter(row, column, cell, event) {
+        this.hide(row,cell,"none")
+      },
+      hide(row,cell,display) {
+        if (row.status == 0 || row.status == 10) {
+          try {
+            if (cell.firstChild.firstChild.getAttribute("role") == "checkbox") {
+              cell.firstChild.firstChild.style.display = display;
+            }
+          }
+          catch (e) {
+
+          }
+
+        }
+      },
       handleSelectAll(selection) {
         this.$refs.multipleTable.clearSelection();
         for (let i = 0; i < selection.length; i++) {
@@ -181,7 +211,7 @@
               this.$message.error(res.data.message);
             }
           }).catch((err) => {
-            this.$message.error(err);
+          this.$message.error(err);
         });
       },
 
@@ -189,7 +219,10 @@
         this.multipleSelection = val;
       },
       handleInto(index, row) {
-        this.$router.push({path: "/StartTeachingMaterials", query: {lessonId:row.lessonId,lessonCode: row.lessonCode}});
+        this.$router.push({
+          path: "/StartTeachingMaterials",
+          query: {lessonId: row.lessonId, lessonCode: row.lessonCode}
+        });
       },
       handleDelete(index, row) {
         this.doDelete([row.id])
@@ -212,7 +245,7 @@
         }
         this.doDelete(ids);
       },
-      doDelete(ids){
+      doDelete(ids) {
         let me = this;
         this._del("/teacherClassRecord", ids, (data) => {
           me.loadLessonRecords()
@@ -238,6 +271,7 @@
     margin-top: 0px;
     padding-top: 2%;
   }
+
   .end-placeholder {
     margin-left: 6% !important;
   }

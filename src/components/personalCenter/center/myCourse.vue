@@ -68,8 +68,8 @@
         <el-table-column
           prop="startTime"
           label="Date&Time"
+          :formatter="formatDateTime"
           min-width="40%">
-          <template slot-scope="scope">{{ formatDateTime(scope.row.startTime) }}</template>
         </el-table-column>
 
         <el-table-column
@@ -146,7 +146,10 @@
       this.loadLessonRecords(1);
     },
     methods: {
-      formatDateTime: util.formatDateTime,
+      formatDateTime: function (row, column, cellVal, index) {
+        console.log("formatter time")
+        return util.formatDateTime(cellVal);
+      },
       rowSelectable: function(data) {
         console.log("call row style", data)
         if (data.columnIndex === 0 && (data.row.status === 0 || data.row.status === 10)) {

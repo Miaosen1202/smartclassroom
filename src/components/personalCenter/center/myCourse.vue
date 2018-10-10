@@ -196,7 +196,10 @@
         this.multipleSelection = val;
       },
       handleInto(index, row) {
-        this.$router.push({path: "/StartTeachingMaterials", query: {lessonId:row.lessonId,lessonCode: row.lessonCode}});
+        this.$router.push({
+          path: "/StartTeachingMaterials",
+          query: {lessonId: row.lessonId, lessonCode: row.lessonCode}
+        });
       },
       handleDelete(index, row) {
         this.doDelete([row.id])
@@ -219,7 +222,7 @@
         }
         this.doDelete(ids);
       },
-      doDelete(ids){
+      doDelete(ids) {
         let me = this;
         this._del("/teacherClassRecord", ids, (data) => {
           me.loadLessonRecords()
@@ -245,6 +248,7 @@
     margin-top: 0px;
     padding-top: 2%;
   }
+
   .end-placeholder {
     margin-left: 6% !important;
   }

@@ -201,7 +201,7 @@
               util.storeLoginUser(res.data.entity);
 
               this.entity = res.data.entity;
-              this.$router.push({path: "/LearningHomework",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
+              this.$router.push({path: "/LearningHomework/FinishMaterials",query:{lessonId:this.entity.lessonId,lessonCode:this.entity.lessonCode}});
             } else {
               this.$message.error(res.data.message)
             }

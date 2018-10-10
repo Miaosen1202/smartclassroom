@@ -41,10 +41,10 @@
       <div class="right-main">
         <div class="coursetop">
           <!--Lesson : Our Solar System and Life’s Emergence  v-for="lessonId in existCourseList"{{lessonId.courseName}}-->
-          <p>{{entity.lesson.lessonName}}<!--Emergence--><!--{{entity.lesson.lessonName}}-->
+          <p style="padding-top: 1%">{{entity.lesson.lessonName}}<!--Emergence--><!--{{entity.lesson.lessonName}}-->
             <!--<img src="../assets/images/u475.png" alt="">-->
           </p>
-          <p>
+          <p style="padding-top: 1%">
             <img src="../assets/images/u434.png" alt="">
             {{entity.course.courseName}}
            <!-- Course : Journey of the Universe: A Story for Our Times-->
@@ -151,7 +151,7 @@
     color: #0f0f0f;
   }
   .right-main{
-    width: 94%;
+    width: 98%;
     height: 96%;
     margin-top: 2%;
     margin-left: 2%;
@@ -161,7 +161,7 @@
   }
   p {
     display: inline-block;
-    padding-top: 1%;
+    /*padding-top: 1%;*/
     padding-left: 2%;
     margin: 0px !important;
   }

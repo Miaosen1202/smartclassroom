@@ -1090,7 +1090,7 @@
   }
 
   .top {
-    height: 10%;
+    height: 8%;
     /* background-color: #0066CC;*/
     background-color: rgba(248, 248, 248, 1);;
   }

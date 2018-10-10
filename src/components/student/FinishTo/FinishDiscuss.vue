@@ -59,7 +59,7 @@
             <el-input
               type="textarea"
               autosize
-              placeholder="请输入内容"
+              :placeholder="$t('message.pleaseEnter')"
               v-model="selectedAnswerCode">
             </el-input>
 
@@ -82,8 +82,8 @@
 
             <!--按钮-->
             <span slot="footer" class="dialog-footer">
-        <el-button style="margin-top: 1%;margin-left: 40%;margin-bottom: 1%;background-color: #0e38b1;" size="medium" type="primary" @click="submitQuestionAnswer(discussionList[0])">submit</el-button>
-        <el-button size="medium">Cancel</el-button>
+        <el-button style="margin-top: 1%;margin-left: 40%;margin-bottom: 1%;background-color: #0e38b1;" size="medium" type="primary" @click="submitQuestionAnswer(discussionList[0])">{{$t('message.submit')}}</el-button>
+        <el-button size="medium">{{$t('message.cancel')}}</el-button>
       </span>
           </div>
         </div>

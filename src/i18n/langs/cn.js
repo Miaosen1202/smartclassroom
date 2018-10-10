@@ -82,6 +82,7 @@ const cn = {
 
     // 通用按钮
     // -------- start -----------
+    'submit':'提交',
     'disable': '禁用',
     'enable': '启用',
     'edit': '编辑',
@@ -96,6 +97,10 @@ const cn = {
     'deleteSuccess': "删除成功",
     "success": "成功",
     'enter':'进入',
+    /*学生端*/
+    'download':'下载',
+    'pleaseEnter':'请输入内容',
+
     // -------- end -----------
   },
   ...zhLocale

@@ -82,6 +82,7 @@ const en = {
 
     // 通用按钮
     // -------- start -----------
+    'submit':'Submit',
     'disable': 'Disable',
     'enable': 'Enable',
     'edit': 'Edit',
@@ -96,6 +97,9 @@ const en = {
     'deleteSuccess': "Delete success",
     "success": "Success",
     'enter':'Enter',
+    /*下载*/
+    'download':'Download',
+    'pleaseEnter':'Please Enter',
     // -------- end -----------
   },
   ...enLocale

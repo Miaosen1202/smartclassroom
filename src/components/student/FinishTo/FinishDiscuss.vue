@@ -268,7 +268,6 @@ subdiscussion
           this.isSubmit = 1;
           this.loadFinishexercise();
         }
-
       },
       //向上翻页
       goBack(){
@@ -324,7 +323,6 @@ subdiscussion
       },
       /*答题记录查询*/
       getsubmitHistoryLessonId(){
-        /*debugger;*/
         console.log(this.discussionList[0].id);
         var submitHistoryr = {
           questionId: this.discussionList[0].id,

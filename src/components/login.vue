@@ -4,7 +4,7 @@
       <p><img src="../assets/images/u2081.png" alt=""></p>
       <div class="mainmain">
         <el-tabs v-model="activeName" @tab-click="handleClick">
-          <el-tab-pane label="Teacher" name="first">
+          <el-tab-pane label="Teacher" name="teacher">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
@@ -38,7 +38,7 @@
             <!--</el-form>-->
           <!--</el-tab-pane>-->
 
-          <el-tab-pane label="Student" name="second">
+          <el-tab-pane label="Student" name="student">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
@@ -79,7 +79,7 @@
           <!--</el-tab-pane>-->
 
 
-          <el-tab-pane label="Admin" name="third">
+          <el-tab-pane label="Admin" name="admin">
             <div class="account">
               <input class="form-control" type="text" placeholder="Account Name" v-model="userName">
             </div>
@@ -112,7 +112,7 @@
   export default {
     data() {
       return {
-        activeName: 'first',
+        activeName: 'teacher',
         toolTipClass: 'page-login-toolTipClass',
         userName: "",
        /* password: "e10adc3949ba59abbe56e057f20f883e",*/
@@ -131,11 +131,46 @@
         }
       }
     },
+    mounted() {
+      this.registerEnterLogin()
+    },
+
     methods: {
       handleClick(tab, event) {
         console.log(tab, event);
       },
+      registerEnterLogin() {
+        let me = this;
 
+        if (navigator.userAgent.indexOf("MSIE") > 0) {
+          //IE
+          document.onkeydown = function () {
+            if (13 == event.keyCode) {
+              me.login()
+            }
+          }
+        } else {
+          //非IE
+          window.onkeydown = function () {
+            if (13 == event.keyCode) {
+              me.login()
+            }
+
+          }
+        }
+      },
+
+      login() {
+        console.log(this.activeName);
+        switch (this.activeName) {
+          case "admin": this.goToadmin();
+            return;
+          case "teacher": this.goToLogin();
+            return;
+          case "student":this.studentslogin();
+            return;
+        }
+      },
       goToLogin: function () {
         var login = {
           "userName": this.userName,

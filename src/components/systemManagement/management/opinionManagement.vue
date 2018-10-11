@@ -155,10 +155,11 @@
         replyDialogVisible: false,
 
         replyStatusOps: [{
-          label: "待反馈",
+          /*label: "待反馈",*/
+          label:this.$t('message.notReplied'),
           value: 0
         }, {
-          label: "已反馈",
+          label: this.$t('message.replied'),
           value: 1
         }],
         // value: '',

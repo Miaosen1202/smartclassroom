@@ -18,10 +18,10 @@
                  v-model="existCourseName" readonly>
         </el-radio>
         <!--<el-button style="color: #fff" size="medium" class="list btn" type="text" @click="showCourseDialog">{{$t('message.list')}}</el-button>-->
-        <input style="color: #fff" type="submit" v-on:click="showCourseDialog()" class="list btn" :value="$t('message.list')">
+        <input style="color: #fff" type="submit" v-on:click="showCourseDialog()" class="list btn" :value="$t('message.Select')">
       </div>
       <!--<h4 class="or">step 2:</h4>-->
-      <p class="red">or, create a new course here.</p>
+      <p class="red">{{$t('message.orcreate')}}</p>
       <div class="here">
         <el-radio v-model="submitCourseFlag" label="2">
           <input class="form-control" type="text" id="firstinput3"
@@ -32,7 +32,7 @@
         <!--<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option1">-->
       </div>
     </div>
-    <input style="color: #fff" type="submit" v-on:click="toggle()" class="list btn tj" value="submit">
+    <input style="color: #fff" type="submit" v-on:click="toggle()" class="list btn tj" :value="$t('message.Next')">
 
     <el-dialog
       title="Tips"

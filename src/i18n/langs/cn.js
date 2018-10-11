@@ -8,12 +8,17 @@ const cn = {
     'totalQuantity':'总数量',
     'step':'步骤',
     'addcourse':'将新课添加到现有课程中',
+    'orcreate':'或者，在这里创建一个新的课程。',
     'pleaseselect':'请选择',
     'pleaseenter':'请输入',
     'list':'列表',
+    'Select':'列表',
+    'Next':'下一步',
     'Continue':'继续',
     'giveup':'放弃',
     'quite':'你有被编辑、继续或放弃吗？',
+    'Empty':'空的',
+    'SelectaLesson':'选择课时',
     /*admin*/
     'Download':'下载导入模板',
     'Import':'导入老师数据',
@@ -63,6 +68,25 @@ const cn = {
     'importStudentData': "导入学生数据",
     'overwriteExistsData': "覆盖已存在的数据",
     'importDataSuccess': "导入数据成功",
+    'classcode':'上课码',
+    'SendTo':'发送给学生',
+    'TeachingMaterials':'教材及辅导资料',
+    'Discussion':'讨论',
+    'Exercises':'练习',
+    'Assignment':'作业',
+    'lesson':'课时',
+    'Singlechoice':'单选',
+    'Multiplechoice':'多选',
+    'AnswerExplanation':'答案 & 解析',
+    'answer':'答案',
+    'Explanation':'解析',
+    'Responses':'回答',
+    'NewLesson':'备课',
+    'CourseManagement':'课程管理',
+    'StartAClass':'上课',
+    'History':'历史记录',
+
+
 
     "logoutSuccess": "登出成功",
     "logoutFail": "登出失败",
@@ -82,6 +106,10 @@ const cn = {
 
     // 通用按钮
     // -------- start -----------
+    'CopyTo':'复制到',
+    'OK':'确定',
+    'checkall':'全选',
+    'close':'关闭',
     'submit':'提交',
     'disable': '禁用',
     'enable': '启用',
@@ -100,6 +128,7 @@ const cn = {
     /*学生端*/
     'download':'下载',
     'pleaseEnter':'请输入内容',
+
 
     // -------- end -----------
   },

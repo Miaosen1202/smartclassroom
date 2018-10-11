@@ -6,20 +6,20 @@
       <li :class="{active : activeFlag == 'prepare'}" @click="goToFirst('prepare')">
         <el-button type="text" @click="dialogVisible = true">
         <img src="../../static/images/Preparealesson.png"  alt="">
-        <p style="color: #fff">New Lesson</p>
+        <p style="color: #fff">{{$t('message.NewLesson')}}</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'second'}" @click="goToSecond('second')">
         <img src="../../static/images/Manangealllessons.png"  alt="">
-        <P>Course Management</P>
+        <P>{{$t('message.CourseManagement')}}</P>
       </li>
       <li :class="{active : activeFlag == 'goTeach'}" @click="goTeach('goTeach')">
         <img src="../../static/images/toteach.png"  alt="">
-        <P>Start A Class</P>
+        <P>{{$t('message.StartAClass')}}</P>
       </li>
       <li :class="{active : activeFlag == 'ViewHistory'}" @click="viewHistory('ViewHistory')">
         <img src="../../static/images/history.png"  alt="">
-        <P>History</P>
+        <P>{{$t('message.History')}}</P>
       </li>
     </ul>
     <!--<span>

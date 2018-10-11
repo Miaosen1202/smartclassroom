@@ -4,7 +4,7 @@
     <div class="teach" v-show="!showUpload">
       <div class="no-material">
         <p><img src="../../../assets/images/u768.png" alt=""></p>
-        <p>Empty</p>
+        <p>{{$t('message.Empty')}}</p>
         <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddMaterials">
           <img src="../../../assets/images/u60.png" alt="">
         </el-button>
@@ -15,20 +15,20 @@
       <el-scrollbar>
 
         <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll"
-                     @change="handleCheckAllChange">All
+                     @change="handleCheckAllChange">{{$t('message.checkall')}}
         </el-checkbox>
 
         <div class="check">
           <el-button size="small" @click="handleMaterialRemove">
             <!-- <img src="../../../assets/images/u60.png" width="20" alt="" style="visibility:hidden;">-->
-            Delete
+            {{$t('message.delete')}}
           </el-button>
           <!--<el-button size="small" type="primary" @click="goViewMaterialBank">-->
           <!--<img src="../../../assets/images/u60.png" alt="">More-->
           <!--</el-button>-->
           <el-button size="small" type="primary" @click="copyToClike" style="background-color: #f17e26;border: none">
             <img src="../../../../static/images/COPYTO.png" alt="" width="20px" height="15px">
-            Copy To
+            {{$t('message.CopyTo')}}
           </el-button>
         </div>
 
@@ -43,7 +43,7 @@
         >
           <el-button size="small" type="primary" style="background-color: #26b196">
             <img src="../../../../static/images/UPLOAD.png" height="15px" alt="">
-            Upload
+            {{$t('message.upload')}}
           </el-button>
 
           <!--<div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>-->
@@ -65,7 +65,7 @@
         <!-- 拷贝课时资料 -->
         <el-dialog ref="copyToDialog"
                    id="copyToDialog"
-                   title="Select a Lesson"
+                   title="$t('message.SelectaLesson')"
                    :visible.sync="copyToDialogVisible"
                    @open="copyMaterialDialogOpen"
                    width="30%">
@@ -85,8 +85,8 @@
             </el-collapse>
           </div>
           <span slot="footer" class="dialog-footer">
-       <el-button type="primary" @click="copyMaterialToLesson">OK</el-button>
-       <el-button @click="copyToDialogVisible = false">Cancel</el-button>
+       <el-button type="primary" @click="copyMaterialToLesson">{{$t('message.OK')}}</el-button>
+       <el-button @click="copyToDialogVisible = false">{{$t('message.cancel')}}</el-button>
       </span>
         </el-dialog>
       </el-scrollbar>

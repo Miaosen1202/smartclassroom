@@ -2,14 +2,13 @@
   <div id="start">
 
     <div class="top">
-
       <div >
         <p  @click="goToFirst" style="display:inline-block;padding-left: 1%;vertical-align:middle;cursor: pointer">
           <img src="../../../static/images/logo.png" alt="">
         </p>
         <div style="margin: 0 auto;color: #2c6cae;cursor: pointer;display: inline-block;padding-left: 34%">
           <!--Class Code :{{lessonCode}}-->
-          <el-button type="text" @click="centerDialogVisible = true">Class Code :{{lessonCode}}</el-button>
+          <el-button type="text" @click="centerDialogVisible = true">{{$t('message.classcode')}} :{{lessonCode}}</el-button>
         </div>
        <!-- <span style="color: blue;margin-left: 8%">{{$t('message.text')}}</span>-->
         <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
@@ -24,7 +23,7 @@
 
         <!--语言包引入-->
         <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
-          <el-select v-show="false" v-model="selectValue" @change="langChange" placeholder="请选择" >
+          <el-select v-show="false" v-model="selectValue" @change="langChange" :placeholder="$t('message.pleaseselect')" >
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -44,7 +43,7 @@
 
       <!--提示弹框-->
       <el-dialog
-        title="This is Class Code :"
+        :title="$t('message.classcode')"
         :visible.sync="centerDialogVisible"
         width="30%"
         center>
@@ -52,7 +51,7 @@
         <span slot="footer" class="dialog-footer">
     <el-button @click="centerDialogVisible = false" style="background-color: #0e38b1;color: #fff">
       <!--<img src="../../assets/images/u231.png" alt="">-->
-      Close
+      {{$t('message.close')}}
     </el-button>
     <!--<el-button type="primary" @click="centerDialogVisible = false">确 定</el-button>-->
   </span>
@@ -140,9 +139,9 @@
           <el-tabs :tab-position="tabPosition" type="card" activeName="materialTab" @tab-click="tabChange" style="color: #0e38b1">
 
             <!--<el-tab-pane name="materialTab" :label="'Teaching Materials(' + materialNumber + ')'">-->
-            <el-tab-pane name="materialTab" :label="'Teaching Materials'">
-              <p>Lesson： {{ lessonName }}</p>
-              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">check all
+            <el-tab-pane name="materialTab" :label="$t('message.TeachingMaterials')">
+              <p>{{$t('message.lesson')}}： {{ lessonName }}</p>
+              <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">{{$t('message.checkall')}}
               </el-checkbox>
               <el-checkbox-group v-model="checkedMaterialList">
                 <div class="list" v-for="material in materialList">
@@ -151,20 +150,21 @@
 
                     <span @click="preview(material.localPath)">{{material.materialName}}</span>
                     <a :href="material.materialUrl" :download="material.materialName">
-                      <i class="el-icon-download" style="cursor: pointer;"></i>
+                      <!--<i class="el-icon-download" style="cursor: pointer;"></i>-->
+                      <img src="../../../static/images/UPLOAD.png" alt="" style="cursor: pointer;">
                     </a>
                   </el-checkbox>
                 </div>
               </el-checkbox-group>
-              <el-button style="margin-bottom: 10%;background-color: #0e38b1;color: #fff;margin-top: 1%"  @click="shareMaterial">Send To</el-button>
+              <el-button style="margin-bottom: 10%;background-color: #0e38b1;color: #fff;margin-top: 1%"  @click="shareMaterial">{{$t('message.SendTo')}}</el-button>
             </el-tab-pane>
 
             <!--<el-tab-pane name="discussTab" :label="'Discussion(' + discussNumber + ')'" style="margin-bottom: 10%;">-->
-            <el-tab-pane name="discussTab" :label="'Discussion'" style="margin-bottom: 10%;">
-              <p>Lesson： {{ lessonName }}</p>
+            <el-tab-pane name="discussTab" :label="$t('message.Discussion')" style="margin-bottom: 10%;">
+              <p>{{$t('message.lesson')}}： {{ lessonName }}</p>
               <div  v-for="(discussion, index) in discussionList" :key="discussion.id">
                 <div class="have">
-                <h5>Discussion {{discussion.sort}}</h5>
+                <h5>{{$t('message.Discussion')}} {{discussion.sort}}</h5>
                 <p>{{discussion.discussContent}}</p>
                 <ul>
                   <li v-for="atth in discussion.attachments" >
@@ -172,7 +172,8 @@
 
                     <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
                     <a :href="atth.fileUrl" :download="atth.fileName">
-                      <i class="el-icon-download" style="cursor: pointer;"></i>
+                      <!--<i class="el-icon-download" style="cursor: pointer;"></i>-->
+                      <img src="../../../static/images/UPLOAD.png" alt="" style="cursor: pointer;">
                     </a>
                   </li>
                 </ul>
@@ -194,7 +195,8 @@
 
                           <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
                           <a :href="atth.fileUrl" :download="atth.fileName">
-                            <i class="el-icon-download" style="cursor: pointer;"></i>
+                            <!--<i class="el-icon-download" style="cursor: pointer;"></i>-->
+                            <img src="../../../static/images/UPLOAD.png" alt="" style="cursor: pointer;">
                           </a>
                         </li>
                       </ul>
@@ -204,22 +206,22 @@
               </div>
             </el-tab-pane>
             <!--<el-tab-pane name="exercisesTab" :label="'Exercises(' + execisesNumber + ')'" >-->
-            <el-tab-pane name="exercisesTab" :label="'Exercises'" >
-              <p>Lesson： {{ lessonName }}</p>
+            <el-tab-pane name="exercisesTab" :label="$t('message.Exercises')" >
+              <p>{{$t('message.lesson')}}： {{ lessonName }}</p>
               <div class="exercise">
                 <div class="leftexerc" style="height: 350px">
                   <el-scrollbar style="height: 90%;">
                     <div class="elbtn" style="float: right;padding-right: 2%">
                       <el-button style="background-color: #0e38b1" type="primary" icon="el-icon-arrow-left" circle @click="goBack"></el-button>
                       <h4 style="display: inline-block">{{currentPage}}/{{pages}}</h4>
-                      <el-button tyle="background-color: #0e38b1" type="primary" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
+                      <el-button style="background-color: #0e38b1" type="primary" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
                     </div>
                     <div v-for="(exercises,index) in existExercisesList">
-                      <h4 style="display:inline-block; border-bottom: 2px solid #999">Exercises {{exercises.sort}}</h4>
+                      <h4 style="display:inline-block; border-bottom: 2px solid #999">{{$t('message.Exercises')}} {{exercises.sort}}</h4>
                       <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
-                            v-show="exercises.questionType == '1'">Single-choice</span>
+                            v-show="exercises.questionType == '1'">{{$t('message.Singlechoice')}}</span>
                       <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%"
-                            v-show="exercises.questionType == '2'">Multiple-choice</span>
+                            v-show="exercises.questionType == '2'">{{$t('message.Multiplechoice')}}</span>
                       <p>{{exercises.questionTitle}}</p>
                       <ul v-for="(option,index) in exercises.options" :key="index">
                         <li><h4 style="display: inline-block">{{option.answerCode}}:</h4>
@@ -228,14 +230,15 @@
 
                       <div style="cursor: pointer" v-on:click="execisesAnswerShowToggle()">
                         <i class="el-icon-arrow-down"></i>
-                        <div style="color: #5daf34;display: inline-block">Answer & Explanation</div>
+                        <!--<img src="../../../static/images/UPLOAD.png" alt="" style="cursor: pointer;">-->
+                        <div style="color: #5daf34;display: inline-block">{{$t('message.AnswerExplanation')}}</div>
                       </div>
                       <div v-show="execisesAnswerShow">
-                        <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">answer :</i>
+                        <i style="font-weight: 700;color: #5cb85c;margin-top: 2%">{{$t('message.answer')}} :</i>
                         <div v-for="(option,index) in exercises.options">
                           <h4 v-if="option.isCorrect == 1">{{option.answerCode}}</h4>
                         </div>
-                        <i style="font-weight: 700;color: #5cb85c">Explanation :</i>
+                        <i style="font-weight: 700;color: #5cb85c">{{$t('message.Explanation')}} :</i>
                         <p style="word-break: break-all;">{{exercises.analysis}}</p>
                       </div>
                     </div>
@@ -253,11 +256,11 @@
               </div>
             </el-tab-pane>
             <!--<el-tab-pane name="assignmentTab" :label="'Assignment(' + assignmentNumber + ')'" style="margin-bottom: 10%;">-->
-            <el-tab-pane name="assignmentTab" :label="'Assignment'" style="margin-bottom: 10%;">
+            <el-tab-pane name="assignmentTab" :label="$t('message.Assignment')" style="margin-bottom: 10%;">
               <div>
-                <h5>Lesson： {{ lessonName }}</h5>
+                <h5>{{$t('message.lesson')}}： {{ lessonName }}</h5>
                 <div class="have" v-for="assignment in assignmentList">
-                  <h5>Assignment {{assignment.sort}}</h5>
+                  <h5>{{$t('message.Assignment')}} {{assignment.sort}}</h5>
                   <p>{{assignment.assignmentName}}</p>
                   <ul>
                     <li v-for="atth in assignment.attachments">
@@ -265,7 +268,8 @@
 
                       <span @click="preview(atth.fileLocalPath)">{{atth.fileName}}</span>
                       <a :href="atth.fileUrl" :download="atth.fileName">
-                        <i class="el-icon-download" style="cursor: pointer;"></i>
+                        <!--<i class="el-icon-download" style="cursor: pointer;"></i>-->
+                        <img src="../../../static/images/UPLOAD.png" alt="" style="cursor: pointer;">
                       </a>
                     </li>
                   </ul>
@@ -381,7 +385,6 @@
           @close="studentPresenceDialogClose"
           width="100%"
           fullscreen>
-
           <div>
             <div>Total attendance {{studentPresence.list.length}}</div>
             <div style="width: 80%; margin: auto">
@@ -481,12 +484,10 @@
           dialogVisible: false,
           support: true,
         },
-
         studentPresence: {
           dialogVisible: false,
           list: []
         },
-
         myChart: null,
         bmyChart: null
       }
@@ -556,7 +557,6 @@
           this.$message.error("Capture projection fail");
           return;
         }
-
         captureImg = captureImg.replace(/\r|\n/g, "");
 
         let that = this;
@@ -578,7 +578,6 @@
           // });
         });
       },
-
       draw() {
         /*debugger;*/
         var oC = document.getElementById('c1');
@@ -590,21 +589,17 @@
           var ev = ev || window.event;
           oCG.moveTo(ev.clientX-oC.offsetLeft,ev.clientY-oC.offsetTop);
           //ev.clientX-oC.offsetLeft,ev.clientY-oC.offsetTop鼠标在当前画布上X,Y坐标
-
           document.onmousemove = function(ev) {
             var ev = ev || window.event;//获取event对象
             oCG.lineTo(ev.clientX-oC.offsetLeft,ev.clientY-oC.offsetTop);
             oCG.stroke();
           };
-
           oC.onmouseup = function() {
             document.onmousemove = null;
             document.onmouseup = null;
           };
-
         };
       },
-
       preview: function (filePath) {
         this.filePreviewDialogVisible = true;
         this.previewHtml = "";
@@ -689,7 +684,7 @@
         }
 
         this.myChart.setOption({
-          title: {text: 'Responses ' + answerRecordVos.length + '/' + studentNumber },
+          title: {text:this.$t('message.Responses') + answerRecordVos.length + '/' + studentNumber },
           tooltip: {},
           xAxis: {
             data: ["A", "B", "C", "D", "E", "F", "G", "H"]

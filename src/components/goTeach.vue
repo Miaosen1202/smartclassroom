@@ -48,8 +48,8 @@
     <el-scrollbar style="height: 100%">
       <div class="teachmain">
         <p style="padding-left: 2%;margin-top: 2%;color: #999999">
-          <i class="el-icon-warning"></i>
-          Please choose a lesson.
+          <i class="el-icon-warning"></i><!--Please select a  lesson to start-->
+          {{$t('message.pleasestart')}}<!--Please choose a lesson.-->
         </p>
         <div class="lessonteach">
           <div class="have" v-for="(course,index) in courselist" :key="index">
@@ -71,7 +71,7 @@
                   <!--<i v-on:click="deletelesson(course.id,lesson.id)" class="el-icon-delete" style="color: red;cursor: pointer"></i>-->
                 </span>
                 <p v-on:click="goTeaching(lesson.id)" style="float: right;padding-right: 20%">
-                  {{ lesson.teachingStatus == 1 ? "Go on to class" : "Start the class" }}
+                  {{ lesson.teachingStatus == 1 ? $t('message.continue') : $t('message.start') }}
                 </p>
 
               </div>
@@ -83,7 +83,7 @@
 
     </el-scrollbar>
 
-    <el-dialog title="Modify Password"
+    <el-dialog :title="$t('message.ModifyPassword')"
                :visible.sync="dialogFormVisible"
                @close="modifyPasswordDialogClose"
                style="width: 50%;height: 100%">

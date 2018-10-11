@@ -2,7 +2,7 @@
   <div style="height: 100%;">
     <div class="no-record assignment" v-show="!showAssignmentListPanel">
       <p><img src="../../../assets/images/u1046.png" width="140" height="139" alt=""></p>
-      <p style="display: block;padding-top: 0px">Empty</p>
+      <p style="display: block;padding-top: 0px">{{$t('message.Empty')}}</p>
       <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddAssignment">
         <img src="../../../assets/images/u60.png" alt="">
       </el-button>
@@ -13,16 +13,16 @@
           <el-button  size="medium"  style="border: 1px solid #f17e26;color: #f17e26">
             <p>
               <img src="../../../../static/images/Creat.png" alt="">
-              Create an Assignment
+              {{$t('message.CreateanAssignment')}}
             </p>
           </el-button>
         </div>
         <div class="discussion" v-show="createPanelShow">
-          <h5>New Assignment</h5>
+          <h5>{{$t('message.NewAssignment')}}</h5>
           <el-input
             type="textarea"
             autosize
-            placeholder="Put in your discussion theme and further detais here"
+            :placeholder="$t('message.pleaseenter')"
             v-model="assignmentName">
           </el-input>
           <!-- <div style="margin: 20px 0;"></div>-->
@@ -38,17 +38,17 @@
             <el-button size="mini" style="background-color: #0e38b1">
               <img src="../../../assets/images/u166.png" alt="">
             </el-button>
-            <div slot="tip" class="el-upload__tip">Add Attachments</div>
+            <div slot="tip" class="el-upload__tip">{{$t('message.AddAttachments')}}</div>
           </el-upload>
 
           <span slot="footer" class="dialog-footer" style="margin-left: 40%">
-        <el-button style="margin-top: 2%;background-color: #0e38b1;color: #fff;" size="medium" type="primary" v-on:click="addOrUpdateAssignment()">Save</el-button>
-        <el-button size="medium" style="color: #333333" @click="cancelAddOrUpdate">Cancel</el-button>
+        <el-button style="margin-top: 2%;background-color: #0e38b1;color: #fff;" size="medium" type="primary" v-on:click="addOrUpdateAssignment()">{{$t('message.save')}}</el-button>
+        <el-button size="medium" style="color: #333333" @click="cancelAddOrUpdate">{{$t('message.cancel')}}</el-button>
       </span>
         </div>
 
         <div class="have" v-for="(assignment,index) in assignmentList" :key="index">
-          <h5>Assignment {{assignment.sort}}</h5>
+          <h5>{{$t('message.Assignment')}} {{assignment.sort}}</h5>
           <el-button v-on:click="deleteAssignment(assignment.id, index)" type="text" icon="el-icon-delete">
           </el-button>
           <el-button v-on:click="goEditAssignment(assignment.id, index)" type="text" icon="el-icon-edit">

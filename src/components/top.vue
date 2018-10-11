@@ -5,7 +5,7 @@
         <img src="../../static/images/logo.png" alt="">
       </p>
       <span style="color: blue;margin-left: 8%">{{$t('message.text')}}</span>
-      <span @click="dialogFormVisible = true" class="password" style="padding-top: 1%;margin-left: 2%;cursor: pointer">Modify Password</span>
+      <span @click="dialogFormVisible = true" class="password" style="padding-top: 1%;margin-left: 2%;cursor: pointer">{{$t('message.ModifyPassword')}}</span>
       <p v-on:click="backlogin" style="float: right;margin-top:1.6%;padding-right: 2%;cursor: pointer;vertical-align:middle">
         <img src="../../static/images/u118.png" alt="">
       </p>
@@ -38,19 +38,19 @@
       </div>
 
     </div>
-    <el-dialog title="Modify Password"
+    <el-dialog :title="$t('message.ModifyPassword')"
                :visible.sync="dialogFormVisible"
                @close="modifyPasswordDialogClose"
                style="width: 50%;height: 100%">
       <!-- <div v-for="(password,index) in oldpasswordlist" :key="index">-->
-      <p>oldPassword</p>
-      <el-input type="password" v-model="oldPassword" placeholder="Please enter"></el-input>
+      <p>{{$t('message.Password')}}</p>
+      <el-input type="password" v-model="oldPassword" :placeholder="$t('message.pleaseenter')"></el-input>
 
-      <p style="color: #009900">New Password</p>
-      <el-input type="password" v-model="newPassword" placeholder="Please enter"></el-input>
+      <p style="color: #009900">{{$t('message.NewPassword')}}</p>
+      <el-input type="password" v-model="newPassword" :placeholder="$t('message.pleaseenter')"></el-input>
 
-      <p style="color: #009900">Confirm Password</p>
-      <el-input type="password" v-model="newPasswordConfirm" placeholder="Please enter"></el-input>
+      <p style="color: #009900">{{$t('message.ConfirmPassword')}}</p>
+      <el-input type="password" v-model="newPasswordConfirm" :placeholder="$t('message.pleaseenter')"></el-input>
 
       <div slot="footer" class="dialog-footer">
         <el-button size="medium" @click="dialogFormVisible = false">{{$t('message.cancel')}}</el-button>
@@ -121,19 +121,19 @@
           },
           updatepassword: function () {
             if ((this.oldPassword == "" || this.oldPassword.trim() == "")) {
-              this.$message.error("Please enter old password");
+              this.$message.error(this.$t('message.Pleaseenteroldpassword'));/*"Please enter old password"*/
               return;
             }
             if ((this.newPassword == "" || this.newPassword.trim() == "")) {
-              this.$message.error("Please enter new password");
+              this.$message.error(this.$t('message.Pleaseenternewpassword'));/*"Please enter new password"*/
               return;
             }
             if ((this.newPasswordConfirm == "" || this.newPasswordConfirm.trim() == "")) {
-              this.$message.error("Please enter new password again");
+              this.$message.error(this.$t('message.Pleaseenternewpasswordagain'));/*"Please enter new password again"*/
               return;
             }
             if (this.newPassword !== this.newPasswordConfirm) {
-              this.$message.error("New password not match the confirm password");
+              this.$message.error(this.$t('message.Newpasswordnotmatchtheconfirmpassword'));/*"New password not match the confirm password"*/
               return;
             }
 
@@ -147,7 +147,7 @@
                   /* this.oldpasswordlist = res.data.entity;*/
 
                   this.$message({
-                    message: 'Password modification succeeded!',
+                    message: this.$t('Passwordmodificationsucceeded!'),/*Password modification succeeded!*/
                     type: 'success'
                   });
                   this.oldPassword="",

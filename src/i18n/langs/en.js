@@ -19,6 +19,62 @@ const en = {
     'quite':'You have a lesson being edited, continue or quit?',
     'Empty':'Empty',
     'SelectaLesson':'Select a Lesson',
+    'pleaseinformation':'Please select class hour information first.',
+    'Pleaseselectalesson':'Please select a lesson',
+    'Pleaseselectmaterial':'Please select material',
+    'CopySuccess':'Copy Success',
+    'CreateaDiscussion':'Create a Discussion',
+    'NewDiscussion':'New Discussion',
+    'Enterdiscussion':'Enter discussion content here.',
+    'AddAttachments':'Add Attachments',
+    'CreateAnExercise':'Create An Exercise',
+    'Order':'Order',
+    'Typequestion':'Type question here...',
+    'Option':'Option',
+    'Pleasetick':'Please tick the correct answer.',
+    'Explanations':'Type explanation here...',
+    'CreateanAssignment':'Create an Assignment',
+    'NewAssignment':'New Assignment',
+    'Pleasemodify':'Please select to modify course lesson.',
+    'pleasestart':'Please select a  lesson to start.',
+    'continue':'Continue',
+    'start':'Start',
+    'ModifyPassword':'Modify Password',
+    'Password':'Password',
+    'NewPassword':'New Password',
+    'ConfirmPassword':'Confirm Password',
+    'Pleaseenteroldpassword':'Please enter old password',
+    'Pleaseenternewpassword':'Please enter new password',
+    'Pleaseenternewpasswordagain':'Please enter new password again',
+    'Newpasswordnotmatchtheconfirmpassword':'New password not match the confirm password',
+    'Passwordmodificationsucceeded':'Password modification succeeded!',
+    'Lesson':'Lesson',
+    'Course':'Course',
+    'Teacher':'Teacher',
+    'DateTime':'Date&Time',
+
+    /*teacher center*/
+    'Author':'Author',
+    'Tobeinclass':'To be in class',
+    'Haveinhand':'Have in hand',
+    'Finished':'Finished',
+    'Pleaseinputfilenametosearch':'Please input file name to search',
+    'Uploads':'Upload',
+    'Categorys':'Category',
+    'Size':'Size',
+    'Views':'Views',
+    'Modify':'Modify',
+    'Pleaseselectatleastonerowofdata':'Please select at least one row of data',
+    'Description':'Description',
+    'TimeofDisposal':'Time of Disposal',
+    'reportedon':'reported on',
+    'Replied':'Replied',
+    'Pleaseinputreplycontent':'Please input reply content',
+
+
+
+
+
     /*admin*/
     'Download':'Download Template',
     'Import':'Import Data',
@@ -37,7 +93,6 @@ const en = {
     'startdata':'Start Data',
     'enddata':'End Data',
     'to':'to',
-    'batchdelete':'Batch Delete',
     'feedback':'Feedback',
     'from':'From',
     'fromdata':'Data&Time',
@@ -61,6 +116,7 @@ const en = {
     'notReplied': "Not Replied",
     'opinion': "Feedback",
     'reportedOn': "reported on",
+    'CourseName':'Course Name',
     'lessonName': "Lesson Name",
     'course': "Course",
     'recovery': 'Recovery',
@@ -78,7 +134,7 @@ const en = {
     'Singlechoice':'Single-choice',
     'Multiplechoice':'Multi-choice',
     'AnswerExplanation':'Answer & Explanation',
-    'answer':'answer',
+    'answer':'Answer',
     'Explanation':'Explanation',
     'Responses':'Responses',
     'NewLesson':'New Lesson',
@@ -105,6 +161,7 @@ const en = {
 
     // 通用按钮
     // -------- start -----------
+    'batchdelete':'Batch Delete',
     'OK':'OK',
     'CopyTo':'Copy To',
     'checkall':'check all',
@@ -127,6 +184,7 @@ const en = {
     /*下载*/
     'download':'Download',
     'pleaseEnter':'Please Enter',
+
     // -------- end -----------
   },
   ...enLocale

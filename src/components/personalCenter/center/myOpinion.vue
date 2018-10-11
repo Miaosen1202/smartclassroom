@@ -1,8 +1,8 @@
 <template>
   <div class="management">
     <div>
-      <p style="display: inline-block">Total</p>：<span>{{ page.total }}</span>
-      <el-select v-model="search.replyStatus" size="small" clearable placeholder="Status" style="width: 14%">
+      <p style="display: inline-block">{{$t('message.Total')}}</p>：<span>{{ page.total }}</span>
+      <el-select v-model="search.replyStatus" size="small" clearable :placeholder="$t('message.Status')" style="width: 14%">
         <el-option
           v-for="stat in replyStatusOps"
           :key="stat.value"
@@ -16,15 +16,15 @@
           size="small"
           v-model="searchTimeRange"
           type="datetimerange"
-          range-separator="To"
-          start-placeholder="Start Time"
-          end-placeholder="End Time">
+          :range-separator="$t('message.to')"
+          :start-placeholder="$t('message.startdata')"
+          :end-placeholder="$t('message.enddata')">
         </el-date-picker>
       </div>
       <el-button type="primary" @click="loadFeedbackRecord(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
 
-      <el-button type="primary" @click="goReply()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">Reply</el-button>
-      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">Batch Delete</el-button>
+      <el-button type="primary" @click="goReply()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">{{$t('message.reply')}}</el-button>
+      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff">{{$t('message.batchdelete')}}</el-button>
     </div>
     <div class="mangementtable">
       <el-table
@@ -43,41 +43,41 @@
           data-placement="auto"
           :show-overflow-tooltip="true"
           prop="content"
-          label="Description"
+          :label="$t('message.Description')"
           min-width="60%">
         </el-table-column>
 
         <el-table-column
           prop="startTime"
-          label="Date&Time"
+          :label="$t('message.DateTime')"
           min-width="50%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.createTime) }}</template>
         </el-table-column>
 
         <el-table-column
           prop="replyStatus"
-          label="Status"
+          :label="$t('message.Status')"
           min-width="30%">
           <template slot-scope="scope">{{ scope.row.replyStatus == 1 ? "Replied" : "Not Replied" }}</template>
         </el-table-column>
 
         <el-table-column
           prop="endTime"
-          label="Time of Disposal"
+          :label="$t('message.TimeofDisposal')"
           min-width="60%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
 
-        <el-table-column label="Operation">
+        <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
 
             <el-button style="border: none;color: #0e38b1" size="mini" :disabled="scope.row.replyStatus == 0"
-              @click="goReply(scope.row)">Reply</el-button>
+              @click="goReply(scope.row)"> {{$t('message.reply')}}</el-button>
 
             <el-button
               size="mini"
               style="border: none;color: #0e38b1"
-              @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+              @click="handleDelete(scope.$index, scope.row)">{{$t('message.delete')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -98,14 +98,14 @@
     <!--编辑反馈弹框-->
     <el-dialog
       @close="replyDialogClose"
-      title="Feedback"
+      :title="$t('message.feedback')"
       :visible.sync="replyDialogVisible"
       width="50%">
       <div class="projectile" style=" width: 100%;height: 400px;overflow: auto">
         <el-scrollbar style="height: 100%">
           <div style="padding:2% 6%;">
         <div class="root-reply" v-show="this.feedbackDetail.root.id != null">
-          <span><i>{{ this.feedbackDetail.root.replyerName }}</i> reported on </span>
+          <span><i>{{ this.feedbackDetail.root.replyerName }}</i>{{$t('message.reportedon')}}</span>
           <span>{{ formatDateTime(this.feedbackDetail.root.createTime) }}</span>
           <div style="padding: 2%; margin: 2%; border: 1px solid black">{{ this.feedbackDetail.root.content }}</div>
         </div>
@@ -121,22 +121,22 @@
           <ul>
             <li v-for="fd in feedbackDetail.replyList">
               <span><h4 style="display: inline-block">{{ fd.replyerName }}</h4> {{ formatDateTime(fd.createTime) }}</span>
-              <p style="word-break:break-all;">Replied: {{ fd.content }}</p>
+              <p style="word-break:break-all;">{{$t('message.Replied')}}: {{ fd.content }}</p>
             </li>
           </ul>
         </div>
         <el-input
           type="textarea"
           autosize
-          placeholder="Please enter..."
+          :placeholder="$t('message.pleaseEnter')"
           v-model="reply.content">
         </el-input>
       </div>
         </el-scrollbar>
       </div>
       <span slot="footer" class="dialog-footer" style="text-align: right">
-        <el-button @click="cancelReply">Cancel</el-button>
-        <el-button type="primary" @click="addReply">Reply</el-button>
+        <el-button @click="cancelReply">{{$t('message.cancel')}}</el-button>
+        <el-button type="primary" @click="addReply">{{$t('message.reply')}}</el-button>
       </span>
     </el-dialog>
   </div>
@@ -157,10 +157,10 @@
         },
 
         replyStatusOps: [{
-          label: "Not Replied",
+          label: this.$t('message.notReplied'),
           value: 0
         }, {
-          label: "Replied",
+          label: this.$t('message.replied'),
           value: 1
         }],
 
@@ -224,7 +224,7 @@
 
       batchDelete: function () {
         if (this.multipleSelection.length == 0) {
-          this.$message.error("Please select at least one row of data");
+          this.$message.error(this.$t('message.Pleaseselectatleastonerowofdata'));/* "Please select at least one row of data"*/
           return;
         }
 
@@ -276,7 +276,7 @@
         };
 
         if (reply.content === null || reply.content === '' || reply.content.trim() === "") {
-          this.$message.error("Please input reply content");
+          this.$message.error(this.$t('message.Pleaseinputreplycontent'));/* Please input reply content*/
           return;
         }
 

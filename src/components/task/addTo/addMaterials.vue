@@ -65,7 +65,7 @@
         <!-- 拷贝课时资料 -->
         <el-dialog ref="copyToDialog"
                    id="copyToDialog"
-                   title="$t('message.SelectaLesson')"
+                   :title="$t('message.SelectaLesson')"
                    :visible.sync="copyToDialogVisible"
                    @open="copyMaterialDialogOpen"
                    width="30%">
@@ -160,7 +160,7 @@
         });
 
         if (deleteMaterialIds.length == 0) {
-          this.$message.error("请先选择课时资料");
+          this.$message.error(this.$t('message.pleaseinformation'));//Please select class hour information first.
           return;
         }
         let me = this;
@@ -201,7 +201,7 @@
       },
       copyToClike: function () {
         if (this.checkedMaterialList.length == 0) {
-          this.$message.error("请先选择课时资料");
+          this.$message.error(this.$t('message.pleaseinformation'));//Please select class hour information first.
           return;
         }
         this.copyToDialogVisible = true;
@@ -242,11 +242,11 @@
       },
       copyMaterialToLesson: function () {
         if (typeof this.copyToLessonRadio == "undefined") {
-          this.$message.error("Please select a lesson");
+          this.$message.error(this.$t('message.Pleaseselectalesson'));//"Please select a lesson"
           return;
         }
         if (this.checkedMaterialList.length == 0) {
-          this.$message.error("Please select material");
+          this.$message.error(this.$t('message.Pleaseselectmaterial'));//"Please select material"
           return;
         }
 
@@ -263,7 +263,7 @@
           .then((res) => {
             if (res.data.code == 200) {
               this.copyToDialogVisible = false;
-              this.$message.info("Copy Success");
+              this.$message.info(this.$t('message.CopySuccess'));//"Copy Success"
             } else {
               this.$message.error(res.data.message);
             }

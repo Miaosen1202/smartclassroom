@@ -7,41 +7,41 @@
         <el-button size="medium" style="border: 1px solid #f17e26;color: #f17e26">
           <p>
             <img src="../../../../static/images/Creat.png" alt="">
-            Create An Exercise
+            {{$t('message.CreateAnExercise')}}
           </p>
         </el-button>
         <el-button  style="background-color: #26be96;color: #fff;border: 1px solid #26be96" v-bind:disabled="existExercisesList.length<1"  @click="showExercisesDialog" >
           <img src="../../../../static/images/Order.png" alt="">
-         <p>Order</p>
+         <p>{{$t('message.Order')}}</p>
         </el-button>
       </div>
       <!--新增exercises开始-->
       <div class="exercises" v-show="showAdd">
-        <h5>Exercises1</h5>
+        <h5>{{$t('message.Exercises')}}1</h5>
 
         <el-radio-group v-model="questionType">
-          <el-radio :label="1">Single-choice</el-radio>
-          <el-radio :label="2">Multi-choice</el-radio>
+          <el-radio :label="1">{{$t('message.Singlechoice')}}</el-radio>
+          <el-radio :label="2">{{$t('message.Multiplechoice')}}</el-radio>
           <!--<el-radio :label="3">Other</el-radio>-->
         </el-radio-group>
         <el-input
           type="textarea"
           autosize
-          placeholder="Type question here..."
+          :placeholder="$t('message.Typequestion')"
           v-model="questionTitle" style="width: 70%;display: block;margin-bottom: 2%">
-        </el-input>
+        </el-input><!--Type question here...-->
         <!--选择题-->
         <div v-for="(option,index) in options" :key="index" v-if="questionType == 1">
           <el-radio v-model="selectItem" :label="option.answerCode" style="display: inline-block;width: 90%;">
             {{option.answerCode}}
-            <el-input v-model="option.answerContent" placeholder="Please enter"
+            <el-input v-model="option.answerContent" :placeholder="$t('message.pleaseenter')"
                       style="width: 60%;display: inline-block"></el-input>
             <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
           </el-radio>
         </div>
         <div v-for="(option,index) in options" :key="index" v-if="questionType == 2" style="width: 100%">
           <el-checkbox v-model="option.isCorrect" style="display: inline-block;width: 90%;">{{option.answerCode}}
-            <el-input v-model="option.answerContent" placeholder="Please enter"
+            <el-input v-model="option.answerContent" :placeholder="$t('message.pleaseenter')"
                       style="width: 100%;display: inline-block"></el-input>
             <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
           </el-checkbox>
@@ -49,50 +49,50 @@
 
 
         <div class="option">
-          <el-button size="mini" style="display: inline-block;background-color: #f17e26;color: #fff" v-bind:disabled="optionsShow" @click="addSelectItems">+Options</el-button>
+          <el-button size="mini" style="display: inline-block;background-color: #f17e26;color: #fff" v-bind:disabled="optionsShow" @click="addSelectItems">+{{$t('message.Option')}}</el-button>
           <div style="display: inline-block;width: 50%">
             <p style="color: #ff6699;padding-left: 2%">
               <i class="el-icon-warning"></i>
-              Please set the answer for your question.</p>
+              {{$t('message.Pleasetick')}}</p>
           </div>
 
         </div>
         <div style="margin-top: 2%">
-          <i style="color: #5daf34;font-weight: 700;">Explanation</i>
+          <i style="color: #5daf34;font-weight: 700;">{{$t('message.Explanation')}}</i>
         </div>
         <el-input
           type="textarea"
           autosize
-          placeholder="Explanation"
+          :placeholder="$t('message.Explanations')"
           v-model="analysis" style="width: 70%;display: block;margin-top: 2%">
         </el-input>
         <span slot="footer" class="dialog-footer" style="margin-left: 40%">
-        <el-button size="medium" type="primary" style="margin-top: 2%;background-color: #0e38b1;color: #fff" v-on:click="sure()">Save</el-button>
-        <el-button size="medium" style="color: #333333">Cancel</el-button>
+        <el-button size="medium" type="primary" style="margin-top: 2%;background-color: #0e38b1;color: #fff" v-on:click="sure()">{{$t('message.save')}}</el-button>
+        <el-button size="medium" style="color: #333333">{{$t('message.cancel')}}</el-button>
       </span>
       </div>
       <!--新增exercises结束-->
 
       <!--修改exercises开始-->
       <div class="exercises" v-show="!showAdd">
-        <h5>Exercises {{exerciseEntity.sort}}</h5>
+        <h5>{{$t('message.Exercises')}} {{exerciseEntity.sort}}</h5>
 
         <el-radio-group v-model="exerciseEntity.questionType">
-          <el-radio :label="'1'">Single-choice</el-radio>
-          <el-radio :label="'2'">Multiple-choice</el-radio>
+          <el-radio :label="'1'">{{$t('message.Singlechoice')}}</el-radio>
+          <el-radio :label="'2'">{{$t('message.Multiplechoice')}}</el-radio>
           <!--<el-radio :label="'3'">Other</el-radio>-->
         </el-radio-group>
         <el-input
           type="textarea"
           autosize
-          placeholder="Type question stem here..."
+          :placeholder="$t('message.Typequestion')"
           v-model="exerciseEntity.questionTitle" style="width: 70%;display: block;margin-bottom: 2%">
         </el-input>
         <!--选择题-->
         <div v-for="(option,index) in exerciseEntity.options" :key="index" v-if="exerciseEntity.questionType == 1">
           <el-radio v-model="selectEditItem" :label="option.answerCode" style="display: inline-block;width: 90%;">
             {{option.answerCode}}
-            <el-input v-model="option.answerContent" placeholder="Please enter"
+            <el-input v-model="option.answerContent" :placeholder="$t('message.pleaseenter')"
                       style="width: 60%;display: inline-block"></el-input>
             <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
           </el-radio>
@@ -100,7 +100,7 @@
         <div v-for="(option,index) in exerciseEntity.options" :key="index" v-if="exerciseEntity.questionType == 2"
              style="width: 100%">
           <el-checkbox v-model="option.isCorrect" style="display: inline-block;width: 90%;">{{option.answerCode}}
-            <el-input v-model="option.answerContent" placeholder="Please enter"
+            <el-input v-model="option.answerContent" :placeholder="$t('message.pleaseenter')"
                       style="width: 100%;display: inline-block"></el-input>
             <el-button type="text" icon="el-icon-delete" @click="deleteSelectItems(index)"></el-button>
           </el-checkbox>
@@ -108,34 +108,34 @@
 
 
         <div class="option">
-          <el-button size="mini" style="display: inline-block;background-color: #f17e26;color: #fff" v-bind:disabled="optionsShow" @click="addSelectItems">+Options</el-button>
+          <el-button size="mini" style="display: inline-block;background-color: #f17e26;color: #fff" v-bind:disabled="optionsShow" @click="addSelectItems">+{{$t('message.Option')}}</el-button>
           <div style="display: inline-block;width: 50%">
             <p style="color: #ff6699;padding-left: 2%">
               <i class="el-icon-warning"></i>
-              Please set the answer for your question.</p>
-          </div>
+              {{$t('message.Pleasetick')}}</p>
+          </div><!--Please set the answer for your question.-->
 
         </div>
         <div style="margin-top: 2%">
-          <i style="color: #5daf34;font-weight: 700;">Explanation</i>
+          <i style="color: #5daf34;font-weight: 700;">{{$t('message.Explanation')}}</i>
         </div>
         <el-input
           type="textarea"
           autosize
-          placeholder="Explanation"
+          :placeholder="$t('message.Explanations')"
           v-model="exerciseEntity.analysis" style="width: 70%;display: block;margin-top: 2%">
         </el-input>
         <span slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary" style="margin-top: 2%" v-on:click="edit()">Save</el-button>
-        <el-button size="medium">Cancel</el-button>
+        <el-button size="medium" type="primary" style="margin-top: 2%" v-on:click="edit()">{{$t('message.save')}}</el-button>
+        <el-button size="medium">{{$t('message.cancel')}}</el-button>
       </span>
       </div>
       <!--修改exercises结束-->
 
       <div class="have" v-for="(exercises,index) in existExercisesList" :key="index">
-        <h5>Exercises {{index+1}}</h5>
-        <span v-show="exercises.questionType == '1'">Single-choice</span>
-        <span v-show="exercises.questionType == '2'">Multiple-choice</span>
+        <h5>{{$t('message.Exercises')}} {{index+1}}</h5>
+        <span v-show="exercises.questionType == '1'">{{$t('message.Singlechoice')}}</span>
+        <span v-show="exercises.questionType == '2'">{{$t('message.Multiplechoice')}}</span>
         <el-button v-on:click="deleteExercises(exercises.id)" type="text" icon="el-icon-delete">
         </el-button>
         <el-button type="text" icon="el-icon-edit" @click="getExecisesDetail(exercises.id)">
@@ -145,16 +145,16 @@
           <li style="color: #000" :key="index"><P style="padding-right: 2%">{{option.answerCode}}</P><span>{{option.answerContent}}</span>
           </li>
         </ul>
-        <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic;display: inline-block">Answer :</p>
+        <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic;display: inline-block">{{$t('message.answer')}} :</p>
         <div v-for="(option,index) in exercises.options">
           <div v-if="option.isCorrect == 1">{{option.answerCode}}</div>
         </div>
 
-        <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">Explanation :</p>
+        <p style="font-weight: 700;color: rgb(0, 204, 0);font-style: italic">{{$t('message.Explanation')}} :</p>
         <p style="word-wrap: break-word; word-break: normal;width: 90% ">{{exercises.analysis}}</p>
       </div>
       <el-dialog
-        title="Order"
+        :title="$t('message.Order')"
         @close="cancel"
         :visible.sync="showExercisesDialogVisible"
 
@@ -190,8 +190,8 @@
           </el-table>
         </template>
         <span slot="footer" class="dialog-footer">
-          <el-button size="medium" type="primary" @click="resetSort">OK</el-button>
-          <el-button size="medium" @click="showExercisesDialogVisible = false">Cancel</el-button>
+          <el-button size="medium" type="primary" @click="resetSort">{{$t('message.OK')}}</el-button>
+          <el-button size="medium" @click="showExercisesDialogVisible = false">{{$t('message.cancel')}}</el-button>
         </span>
       </el-dialog>
     </el-scrollbar>

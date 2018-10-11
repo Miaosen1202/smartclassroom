@@ -1,8 +1,8 @@
 <template>
   <div class="all">
     <div>
-      <p style="display: inline-block">Total</p>：<span>{{ page.total }}</span>
-      <el-input v-model="search.materialName" size="small" placeholder="Please input file name to search" style="width: 20%"></el-input>
+      <p style="display: inline-block">{{$t('message.Total')}}</p>：<span>{{ page.total }}</span>
+      <el-input v-model="search.materialName" size="small" :placeholder="$t('message.Pleaseinputfilenametosearch')" style="width: 20%"></el-input>
 
       <el-button type="primary" @click="resourceManagementQuery(1)" size="small" icon="el-icon-search" style="background-color: #0138b1;color: #fff"></el-button>
       <!--<el-select v-model="value" size="small" placeholder="请选择">-->
@@ -13,8 +13,8 @@
           <!--:value="item.value">-->
         <!--</el-option>-->
       <!--</el-select>-->
-      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">Batch Delete</el-button>
-      <el-button type="primary" @click="goBatchUpload" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">Upload</el-button>
+      <el-button type="primary" @click="batchDelete" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">{{$t('message.batchdelete')}}</el-button>
+      <el-button type="primary" @click="goBatchUpload" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;color: #fff;">{{$t('message.Uploads')}}</el-button>
     </div>
     <div>
       <el-table
@@ -24,27 +24,27 @@
         style="width: 100%"
         @selection-change="handleSelectionChange">
         <el-table-column type="selection" width="30"></el-table-column>
-        <el-table-column prop="materialName" label="File Name" min-width="50%"></el-table-column>
+        <el-table-column prop="materialName" :label="$t('message.fileName')" min-width="50%"></el-table-column>
         <!--<el-table-column prop="createUserName" label="创建人" min-width="30%"></el-table-column>-->
-        <el-table-column prop="materialTypeDesc" label="Category" min-width="30%"></el-table-column>
-        <el-table-column prop="fileSize" label="Size" min-width="30%">
+        <el-table-column prop="materialTypeDesc" :label="$t('message.Categorys')" min-width="30%"></el-table-column>
+        <el-table-column prop="fileSize" :label="$t('message.Size')" min-width="30%">
           <template slot-scope="scope">{{ fileSizeConvert(scope.row.fileSize) }}</template>
         </el-table-column>
-        <el-table-column prop="updateTime" label="Date&Time" min-width="50%">
+        <el-table-column prop="updateTime" :label="$t('message.DateTime')" min-width="50%">
           <template slot-scope="scope">{{ formatDateTime(scope.row.updateTime) }}</template>
         </el-table-column>
-        <el-table-column prop="viewCount" label="Views" width="130">
+        <el-table-column prop="viewCount" :label="$t('message.Views')" width="130">
         </el-table-column>
-        <el-table-column label="Operation">
+        <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
             <el-button
               style="border: none;color: #0e38b1"
               size="mini"
-              @click="modifyPageSkip(scope.row)">Modify</el-button>
+              @click="modifyPageSkip(scope.row)">{{$t('message.Modify')}}</el-button>
             <el-button
               size="mini"
               style="border: none;color: #0e38b1"
-              @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+              @click="handleDelete(scope.$index, scope.row)">{{$t('message.delete')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -64,12 +64,11 @@
 
     <!-- 批量上传面板 -->
     <el-dialog
-      title="Batch Upload"
+      :title="$t('message.batchUpload')"
       :visible.sync="batchUploadDialogVisible"
       width="30%"
       @close="batchUploadDialogClosed"
       >
-
       <el-upload
         class="material-batch-upload"
         name="file"
@@ -79,12 +78,12 @@
         :on-change="handleFileChange"
         :on-remove="removeFile"
         :on-success="handleFileUploadSuccess">
-        <el-button size="small" type="primary">Upload</el-button>
+        <el-button size="small" type="primary">{{$t('message.upload')}}</el-button>
       </el-upload>
 
       <span slot="footer" class="dialog-footer">
-        <el-button @click="batchUploadDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="batchUpload">Save</el-button>
+        <el-button @click="batchUploadDialogVisible = false">{{$t('message.cancel')}}</el-button>
+        <el-button type="primary" @click="batchUpload">{{$t('message.save')}}</el-button>
       </span>
     </el-dialog>
 
@@ -174,7 +173,7 @@
 
       batchDelete: function () {
         if (this.multipleSelection.length == 0) {
-          this.$message.error("Please select at least one row of data");
+          this.$message.error(this.$t('message.Pleaseselectatleastonerowofdata'));/*"Please select at least one row of data"*/
           return;
         }
 

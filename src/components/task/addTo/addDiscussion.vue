@@ -2,7 +2,7 @@
   <div style="height: 100%">
     <div class="no-discuss" v-show="!showDiscussListPanel">
       <p><img src="../../../assets/images/u674.png" alt=""></p>
-      <p>Empty</p>
+      <p>{{$t('message.Empty')}}</p>
       <el-button style="background-color: #0e38b1" size="medium" type="primary" @click="goToAddDiscussion">
         <img src="../../../assets/images/u60.png" alt="">
       </el-button>
@@ -15,20 +15,20 @@
           <el-button size="medium" style="border: 1px solid #f17e26;color: #f17e26">
             <p>
               <img src="../../../../static/images/Creat.png" alt="">
-              Create a Discussion
+              {{$t('message.CreateaDiscussion')}}
             </p>
           </el-button>
         </div>
         <div class="discussion" v-show="createPanelShow">
-          <h5>New Discussion</h5>
+          <h5>{{$t('message.NewDiscussion')}}</h5>
           <!--v-model="lessonName"-->
           <!--输入框输入内容-->
           <el-input
             type="textarea"
             autosize
-            placeholder="Enter discussion content here."
+            :placeholder="$t('message.Enterdiscussion')"
             v-model="discussContent">
-          </el-input>
+          </el-input><!-- //Enter discussion content here.-->
 
           <!--上传文件-->
           <el-upload
@@ -43,17 +43,17 @@
             <el-button size="mini"  style="background-color: #0e38b1">
               <img src="../../../assets/images/u166.png" alt="">
             </el-button>
-            <div slot="tip" class="el-upload__tip">Add Attachments</div>
+            <div slot="tip" class="el-upload__tip">{{$t('message.AddAttachments')}}</div>
           </el-upload>
           <!--按钮-->
           <span slot="footer" class="dialog-footer" style="margin-left: 40%">
-            <el-button style="margin-top: 2%;background-color: #0e38b1;color: #fff" size="medium"  v-on:click="sure">Save</el-button>
-            <el-button size="medium" style="color: #333333" @click="cancelCreateDiscuss">Cancel</el-button>
+            <el-button style="margin-top: 2%;background-color: #0e38b1;color: #fff" size="medium"  v-on:click="sure">{{$t('message.save')}}</el-button>
+            <el-button size="medium" style="color: #333333" @click="cancelCreateDiscuss">{{$t('message.cancel')}}</el-button>
           </span>
         </div>
 
         <div class="have" v-for="(discussion,index) in discussionList" :key="index">
-          <h5>Discussion {{discussion.sort}}</h5>
+          <h5>{{$t('message.Discussion')}} {{discussion.sort}}</h5>
           <el-button v-on:click="deleteDiscussion(discussion.id)" type="text" icon="el-icon-delete"><!--错误符号-->
           </el-button>
           <el-button v-on:click="goEditDiscuss(discussion.id, index)" type="text" icon="el-icon-edit">

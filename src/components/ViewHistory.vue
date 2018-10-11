@@ -21,10 +21,10 @@
         stripe
         :default-sort="{prop: 'date', order: 'descending'}"
        >
-        <el-table-column prop="lessonName" label="Lesson" width="180"></el-table-column>
-        <el-table-column prop="courseName" label="Course" width="180"></el-table-column>
-        <el-table-column prop="teacherName" label="Teacher" width="180"></el-table-column>
-        <el-table-column prop="time" label="Date&Time" :formatter="formatter"></el-table-column>
+        <el-table-column prop="lessonName" :label="$t('message.Lesson')" width="180"></el-table-column>
+        <el-table-column prop="courseName" :label="$t('message.Course')" width="180"></el-table-column>
+        <el-table-column prop="teacherName" :label="$t('message.Teacher')" width="180"></el-table-column>
+        <el-table-column prop="time" :label="$t('message.DateTime')" :formatter="formatter"></el-table-column>
         <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope">
             <el-button style="border: none;color: #0138b1;" size="mini" @click="goTeaching(scope.$index, scope.row)">{{$t('message.enter')}}</el-button>

@@ -2,12 +2,12 @@
   <div class="management">
     <!--{{$t('message.mycourse')}}-->
     <div>
-      <p style="display: inline-block">Total</p>：<span>{{ page.total }}</span>
-      <el-input v-model="search.courseName" size="small" placeholder="Course Name" style="width: 14%"></el-input>
+      <p style="display: inline-block">{{$t('message.Total')}}</p>：<span>{{ page.total }}</span>
+      <el-input v-model="search.courseName" size="small" :placeholder="$t('message.CourseName')" style="width: 14%"></el-input>
       <el-input v-model="search.lessonName" size="small" :placeholder="$t('message.lessonName')" style="width: 14%"></el-input>
 
       <el-select v-model="search.status" clearable
-                 size="small" placeholder="Status" style="width: 14%">
+                 size="small" :placeholder="$t('message.Status')" style="width: 14%">
         <el-option
           v-for="stat in classRecordStatus"
           :key="stat.value"
@@ -23,15 +23,15 @@
           size="small"
           v-model="searchTimeRange"
           type="daterange"
-          range-separator="To"
-          start-placeholder="Start Date"
+          :range-separator="$t('message.to')"
+          :start-placeholder="$t('message.startdata')"
           value-format="timestamp"
-          end-placeholder="End Date">
+          :end-placeholder="$t('message.enddata')">
         </el-date-picker>
       </div>
 
       <el-button type="primary" @click="loadLessonRecords(1)" style="background-color: #0138b1;color: #fff" size="small" icon="el-icon-search"></el-button>
-      <el-button type="primary" @click="batchDelete()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">Batch Delete</el-button>
+      <el-button type="primary" @click="batchDelete()" size="mini" style="float: right;margin-left: 1%;background-color: #0138b1;">{{$t('message.batchdelete')}}</el-button>
     </div>
     <div>
       <el-table
@@ -49,42 +49,42 @@
 
         <el-table-column
           prop="lessonName"
-          label="Lesson"
+          :label="$t('message.Lesson')"
           min-width="60%">
         </el-table-column>
 
         <el-table-column
           prop="courseName"
-          label="Course"
+          :label="$t('message.Course')"
           min-width="50%">
         </el-table-column>
 
         <el-table-column
           prop="teacherName"
-          label="Author"
+          :label="$t('message.Author')"
           min-width="30%">
         </el-table-column>
 
         <el-table-column
           prop="startTime"
-          label="Date&Time"
+          :label="$t('message.DateTime')"
           :formatter="formatDateTime"
           min-width="40%">
         </el-table-column>
 
         <el-table-column
           prop="status"
-          label="Status"
+          :label="$t('message.Status')"
           min-width="30%">
           <template slot-scope="scope">
             {{ scope.row.status === 0 ? "Published" : (scope.row.status === 1 ? "Started" : (scope.row.status === 2 ? "Over" : "Unpublished")) }}
           </template>
         </el-table-column>
 
-        <el-table-column label="Operation">
+        <el-table-column :label="$t('message.Operation')">
           <template slot-scope="scope" v-if="scope.row.status != 0 && scope.row.status != 10">
-            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleInto(scope.$index, scope.row)">Enter</el-button>
-            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleInto(scope.$index, scope.row)">{{$t('message.enter')}}</el-button>
+            <el-button size="mini" style="border: none;color: #0e38b1" @click="handleDelete(scope.$index, scope.row)">{{$t('message.delete')}}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -121,13 +121,13 @@
         value6: '',
 
         classRecordStatus: [{
-            label: "待上课",
+            label: this.$t('message.Tobeinclass'),
             value: 0
           }, {
-            label: "进行中",
+            label: this.$t('message.Haveinhand'),/*Have in hand*/
             value: 1
           }, {
-            label: "已结束",
+            label: this.$t('message.Finished'),/*Finished*/
             value: 2
         }],
 

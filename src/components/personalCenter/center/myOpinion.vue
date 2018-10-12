@@ -58,7 +58,7 @@
           prop="replyStatus"
           :label="$t('message.Status')"
           min-width="30%">
-          <template slot-scope="scope">{{ scope.row.replyStatus == 1 ? "Replied" : "Not Replied" }}</template>
+          <template slot-scope="scope">{{ scope.row.replyStatus == 1 ? $t('message.replied') : $t('message.notReplied') }}</template>
         </el-table-column>
 
         <el-table-column

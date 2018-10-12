@@ -27,7 +27,7 @@
       </el-select>-->
       <!--语言包引入-->
       <div class="select" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
-        <el-select v-show="false" v-model="selectValue" @change="langChange" :placeholder="$t('message.pleaseselect')" >
+        <el-select v-show="true" v-model="selectValue" @change="langChange" :placeholder="$t('message.pleaseselect')" >
           <el-option
             v-for="item in options"
             :key="item.value"

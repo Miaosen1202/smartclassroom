@@ -5,7 +5,7 @@
         <img src="../../static/images/logo.png" alt="">
       </p>
       <p style="font-weight: 700;display: inline-block;">
-        Welcome {{ getLoginUser().name }} !
+        {{$t('message.Welcome')}} {{ getLoginUser().name }} ! <!--text-->
       </p>
       <!--<p style="float: right;padding-right: 3%;cursor: pointer"><img v-on:click="goback()" src="../assets/images/u4.png" alt=""></p>-->
       <p v-on:click="goback()" style="float: right;padding-right: 3%;padding-top:1%;cursor: pointer">
@@ -16,7 +16,7 @@
           {{ getLoginUser().name }}
         </span>
 
-      <div class="select" v-show="false" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
+      <div class="select" v-show="true" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
         <el-select  v-model="selectValue" @change="langChange" placeholder="请选择" >
           <el-option
             v-for="item in options"

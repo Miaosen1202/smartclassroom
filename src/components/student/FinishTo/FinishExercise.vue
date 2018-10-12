@@ -8,9 +8,9 @@
         <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
       </div>
       <div class="have" v-for="(exercises,index) in existExercisesList">
-        <h5 style="display: inline-block">Exercise {{exercises.sort}}</h5>
-        <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '1'">Single-choice</span>
-        <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '2'">Multi-choice</span>
+        <h5 style="display: inline-block">{{$t('message.Exercises')}} {{exercises.sort}}</h5>
+        <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '1'">{{$t('message.Singlechoice')}}</span>
+        <span style="border: 1px solid #ccc;padding: 1px;margin-left: 1%" v-show="exercises.questionType == '2'">{{$t('message.Multiplechoice')}}</span>
         <p class="pexer">{{exercises.questionTitle}}</p>
         <ul style="padding-left: 2%" v-for="(option,index) in exercises.options" :key="index">
           <li>
@@ -35,18 +35,18 @@
 
       </div>
       <div class="submitt">
-        <el-button style="margin: 2%;background-color: #0e38b1;color: #fff" :disabled="disableSubmit"  round @click="submitQuestionAnswer(existExercisesList[0])">Submit</el-button>
+        <el-button style="margin: 2%;background-color: #0e38b1;color: #fff" :disabled="disableSubmit"  round @click="submitQuestionAnswer(existExercisesList[0])">{{$t('message.submit')}}</el-button>
       </div>
 
       <div class="answer" v-for="exercises in existExercisesList" v-show="hasAnswerSubmit">
         <div>
-          <span>Correct Answer ：</span>
+          <span>{{$t('message.CorrectAnswer')}} ：</span>
           <span v-for="(option,index) in exercises.options" v-if="option.isCorrect == 1">{{option.answerCode}} </span>
         </div>
 
-        <p>Your Answer ：<span style="color: red">{{answer.answerContent}}</span></p>
+        <p>{{$t('message.YourAnswer')}} ：<span style="color: red">{{answer.answerContent}}</span></p>
 
-        <P>Explanation</P>
+        <P>{{$t('message.Explanation')}}</P>
         <span  style="width: 60%;display: inline-block">
           {{exercises.analysis}}
         </span>
@@ -143,7 +143,7 @@
             this.currentPage = this.currentPage+1;
             if(this.currentPage > this.pages){
               this.$message({
-                message: 'sorry,this is the last page!',
+                message: this.$t('message.lastpage'),/* sorry,this is the last page!*/
                 type: 'warning'
               });
               this.currentPage--;
@@ -159,7 +159,7 @@
             this.currentPage = this.currentPage-1;
             if(this.currentPage == 0){
               this.$message({
-                message: 'sorry,this is the first page!',
+                message: this.$t('message.firstpage'),/*sorry,this is the first page!*/
                 type: 'warning'
               });
               this.currentPage++;
@@ -180,7 +180,7 @@
             }
 
             if (!hasAnswer) {
-              this.$message.error("Please choose the answer first");
+              this.$message.error(this.$t('message.Pleasetick'));/*Pleasetick*/
               return;
             }
             let answer;
@@ -208,7 +208,7 @@
                   this.isSubmit = 1;
                   this.exercises = exercises;
                   this.$message({
-                    message: 'Submit Success',
+                    message: this.$t('message.SubmitSuccess'),/*'Submit Success'*/
                     type: 'success'
                   });
 

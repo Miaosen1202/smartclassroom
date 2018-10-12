@@ -4,12 +4,12 @@
       <div>
         <ul>
           <li>
-            <h4 style="color: #333333">Resource Name:</h4>
-            <el-input v-model="editMaterialBank.materialName"  size="small" placeholder="Please input resource name"></el-input>
+            <h4 style="color: #333333">{{$t('message.ResourceName')}}:</h4>
+            <el-input v-model="editMaterialBank.materialName"  size="small" :placeholder="$t('message.Pleaseinputresourcename')"></el-input>
           </li>
           <li style="margin-top: 4%">
-            <h4>Category:</h4>
-            <el-select v-model="editMaterialBank.materialType" size="small" placeholder="Please select category" style="display: block">
+            <h4>{{$t('message.Category')}}:</h4>
+            <el-select v-model="editMaterialBank.materialType" size="small" :placeholder="$t('message.Pleaseselectcategory')" style="display: block">
               <el-option
                 v-for="type in materialTypeList"
                 :key="type.id"
@@ -19,11 +19,11 @@
             </el-select>
           </li>
           <li style="margin-top: 4%">
-            <h4>Description:</h4>
+            <h4>{{$t('message.Description')}}:</h4>
             <el-input
               type="textarea"
               :autosize="{ minRows: 10, maxRows: 16}"
-              placeholder="Please input resource description"
+              :placeholder="$t('message.Pleaseinputresourcedescription')"
               v-model="editMaterialBank.materialDesc">
             </el-input>
           </li>

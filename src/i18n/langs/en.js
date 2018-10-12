@@ -1,6 +1,7 @@
 import enLocale from 'element-ui/lib/locale/lang/en' //引入element语言包
 const en = {
   message: {
+    'Welcome':'Welcome',
     'text': 'Welcome to login !',
     'newlesson':'Inpuut the lesson name',
     'mycourse':'myCourse',
@@ -52,8 +53,13 @@ const en = {
     'Course':'Course',
     'Teacher':'Teacher',
     'DateTime':'Date&Time',
+    'Publish':'Publish',
 
     /*teacher center*/
+
+    'Published':'Published',
+    'Started':'Started',
+    'Over':'Over',
     'Author':'Author',
     'Tobeinclass':'To be in class',
     'Haveinhand':'Have in hand',
@@ -70,8 +76,32 @@ const en = {
     'reportedon':'reported on',
     'Replied':'Replied',
     'Pleaseinputreplycontent':'Please input reply content',
+    'Pleaseuploadfilefirst':'Please upload file first',
+    'Pleaseinputresourcename':'Please input resource name',
+    'ResourceName':'Resource Name',
+    'Pleaseselectcategory':'Please select category',
+    'Pleaseinputresourcedescription':'Please input resource description',
 
 
+
+
+    // -------- end -----------
+
+
+    /*student*/
+    'preview':'preview',
+    'Thefunctionisbeingperfected':'The function is being perfected',
+    'ThepreviewfilefailedPleasedownloadittoviewitlocally':'The preview file failed. Please download it to view it locally.',
+    'CorrectAnswer':'Correct Answer',
+    'YourAnswer':'Your Answer',
+    'lastpage':'sorry,this is the last page!',
+    'firstpage':'sorry,this is the first page!',
+    'SubmitSuccess':'Submit Success',
+    'submission':'Congratulations on your successful submission!',
+    'SelectAll':'Select All',
+    'download':'Download',
+    'pleaseEnter':'Please Enter',
+    // -------- end -----------
 
 
 
@@ -157,6 +187,9 @@ const en = {
     'resourceManagement': 'Resource Management',
     'curriculumRecovery': 'Lesson Recovery',
     'opinionManagement': 'Feedback Management',
+    'MyCourse':'My Course',
+    'MyResources':'My Resources',
+    'MyOpinion':'My Opinion',
     // -------- end -----------
 
     // 通用按钮
@@ -181,9 +214,7 @@ const en = {
     'deleteSuccess': "Delete success",
     "success": "Success",
     'enter':'Enter',
-    /*下载*/
-    'download':'Download',
-    'pleaseEnter':'Please Enter',
+
 
     // -------- end -----------
   },

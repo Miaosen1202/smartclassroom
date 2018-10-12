@@ -244,7 +244,7 @@
 
       batchUpload: function () {
         if (this.addMaterials.length <= 0) {
-          this.$message.error("Please upload file first");
+          this.$message.error(this.$t('message.Pleaseuploadfilefirst'));/*"Please upload file first"*/
           return;
         }
 

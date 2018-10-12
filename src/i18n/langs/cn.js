@@ -1,6 +1,7 @@
 import zhLocale from 'element-ui/lib/locale/lang/zh-CN' //引入element语言包
 const cn = {
   message: {
+    'Welcome':'欢迎',
     'text': '欢迎登陆！',
     'newlesson':'给新课建个名字',
     'mycourse':'我的课程',
@@ -52,9 +53,14 @@ const cn = {
     'Course':'课程',
     'Teacher':'老师',
     'DateTime':'日期时间',
+    'Publish':'发表',
 
     /*teacher center*/
+
     'Author':'作者',
+    'Published':'发布',
+    'Started':'开始',
+    'Over':'结束',
     'Tobeinclass':'待上课',
     'Haveinhand':'进行中',
     'Finished':'已结束',
@@ -70,6 +76,27 @@ const cn = {
     'reportedon':'报道',
     'Replied':'回答',
     'Pleaseinputreplycontent':'请输入回复内容',
+    'Pleaseuploadfilefirst':'请先上传文件',
+    'Pleaseinputresourcename':'请输入资源名称',
+    'ResourceName':'资源名称',
+    'Pleaseselectcategory':'请选择类别',
+    'Pleaseinputresourcedescription':'请输入资源描述',
+
+
+
+
+    /*student*/
+    'preview':'预览',
+    'Thefunctionisbeingperfected':'功能正在完善',
+    'ThepreviewfilefailedPleasedownloadittoviewitlocally':'预览文件失败，请下载至本地查看',
+    'CorrectAnswer':'正确答案',
+    'YourAnswer':'你的答案',
+    'lastpage':'抱歉，这是最后一页!',
+    'firstpage':'抱歉，这是第一页!',
+    'SubmitSuccess':'提交成功',
+    'submission':'答题成功!',
+    'download':'下载',
+    'pleaseEnter':'请输入内容',
 
 
 
@@ -156,10 +183,14 @@ const cn = {
     'resourceManagement': '资源管理',
     'curriculumRecovery': '课程找回',
     'opinionManagement': '意见管理',
+    'MyCourse':'我的课程',
+    'MyResources':'我的资源',
+    'MyOpinion':'我的意见',
     // -------- end -----------
 
     // 通用按钮
     // -------- start -----------
+    'SelectAll':'选择全部',
     'batchdelete':'批量删除',
     'CopyTo':'复制到',
     'OK':'确定',
@@ -180,9 +211,7 @@ const cn = {
     'deleteSuccess': "删除成功",
     "success": "成功",
     'enter':'进入',
-    /*学生端*/
-    'download':'下载',
-    'pleaseEnter':'请输入内容',
+
 
 
     // -------- end -----------

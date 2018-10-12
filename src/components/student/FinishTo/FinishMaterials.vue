@@ -1,7 +1,7 @@
 <template>
   <div class="all">
     <el-scrollbar style="height: 100%">
-      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">Select All
+      <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">{{$t('message.SelectAll')}}
       </el-checkbox>
       <div style="display: inline-block">
         <el-button @click="download" style="background-color: #0e38b1;color: #fff">{{$t('message.download')}}</el-button>
@@ -27,7 +27,7 @@
 
     <el-dialog
       class="file-preview"
-      title="preview"
+      :title="$t('message.preview')"
       :visible.sync="filePreviewDialogVisible"
       width="100%"
       fullscreen>
@@ -60,7 +60,7 @@
     },
     methods: {
       download: function() {
-        this.$message.warning("The function is being perfected");
+        this.$message.warning(this.$t('message.Thefunctionisbeingperfected'));/*"The function is being perfected"*/
         return;
       },
 
@@ -77,11 +77,11 @@
               this.$router.push("/");
             } else {
               console.error("preview fail", res.data.message);
-              this.$message.error("预览文件失败，请下载至本地查看");
+              this.$message.error(this.$t('message.ThepreviewfilefailedPleasedownloadittoviewitlocally.'));/*预览文件失败，请下载至本地查看*/
             }
           }).catch((err) => {
           console.error("preview fail", err);
-          this.$message.error("预览文件失败，请下载至本地查看");
+          this.$message.error(this.$t('message.ThepreviewfilefailedPleasedownloadittoviewitlocally.'));
         });
       },
 

@@ -11,7 +11,7 @@
       <div style="float: right;padding-right: 1%;margin-top: 1%;cursor: pointer;">
         <span >
         <img src="../../../static/images/admintx.png" width="34" height="34" alt="">
-        Teacher</span>
+        {{$t('message.Teacher')}}</span>
       </div>
       <!--<el-select v-model="value" placeholder="admin" style="border: none">
         <el-option
@@ -21,7 +21,7 @@
           :value="item.value">
         </el-option>
       </el-select>-->
-      <div class="select" v-show="false" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
+      <div class="select" v-show="true" style="float: right;margin-right: 2%;width: 10%;margin-top: 0.5%">
         <el-select  v-model="selectValue" @change="langChange" :placeholder="$t('message.pleaseselect')" >
           <el-option
             v-for="item in options"

@@ -13,11 +13,11 @@
 
       <el-tooltip class="item" effect="dark" content="Submit the lesson and you can find it in “Manage all lessons”"
                   placement="bottom-end">
-        <el-button style="background-color: #0e38b1;border: 1px solid #0e38b1;color: #fff" size="small"  @click="lessonPublish">Publish</el-button>
+        <el-button style="background-color: #0e38b1;border: 1px solid #0e38b1;color: #fff" size="small"  @click="lessonPublish">{{$t('message.Publish')}}</el-button>
       </el-tooltip>
       <el-tooltip class="item" effect="dark" content="Delete the lesson and all the data under this lesson."
                   placement="bottom-start">
-        <el-button size="small" @click="lessonDelete">Delete</el-button>
+        <el-button size="small" @click="lessonDelete">{{$t('message.delete')}}</el-button>
       </el-tooltip>
     </div>
     <div class="left">
@@ -27,22 +27,22 @@
     <div class="right">
       <ul>
         <li :class="{active1 : activeFlag == 'teaching'}" @click="showContent('teaching')" style="background-color: #fff4e3;color:#f17e26">
-          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">Teaching Materials</p>
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">{{$t('message.TeachingMaterials')}}</p>
           <p style="display: inline-block;margin-top: 25%"><img src="../../../static/images/Materials.png" alt=""></p>
           <!--<h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{materialNumber}}</h2>-->
         </li>
         <li :class="{active2 : activeFlag == 'discussion'}" @click="showContent('discussion')" style="background-color: #d8fff5;color:#26be96">
-          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">Discussion</p>
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width: 76%">{{$t('message.Discussion')}}</p>
           <p style="display: inline-block;margin-top: 25%"><img src="../../../static/images/Discussion.png" alt=""></p>
           <!--<h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{discussNumber}}</h2>-->
         </li>
         <li :class="{active3 : activeFlag == 'exercises'}" @click="showContent('exercises')" style="background-color: #d6e1ff;color:#0138b1">
-          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width:76%">Exercises</p>
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width:76%">{{$t('message.Exercises')}}</p>
           <p style="display: inline-block;margin-top: 25%"><img src="../../../static/images/Exericises.png" alt=""></p>
           <!--<h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{exercisesNumber}}</h2>-->
         </li>
         <li :class="{active4 : activeFlag == 'assignment'}" @click="showContent('assignment')" style="background-color: #f2dafc;color:#b10eab">
-          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width:76%">Assignment</p>
+          <p style="display: inline-block;padding-left: 1%;color: #898989;font-weight: 700;width:76%">{{$t('message.Assignment')}}</p>
           <p style="display: inline-block;margin-top: 25%"><img src="../../../static/images/Assignment.png" alt=""></p>
           <!--<h2 style="display: inline-block;margin-top: 0px;padding-left: 4%">{{assignmentNumber}}</h2>-->
 

@@ -77,7 +77,7 @@
           :label="$t('message.Status')"
           min-width="30%">
           <template slot-scope="scope">
-            {{ scope.row.status === 0 ? "Published" : (scope.row.status === 1 ? "Started" : (scope.row.status === 2 ? "Over" : "Unpublished")) }}
+            {{ scope.row.status === 0 ? $t('message.Published'): (scope.row.status === 1 ? $t('message.Started') : (scope.row.status === 2 ? $t('message.Over') : $t('message.Unpublished'))) }}
           </template>
         </el-table-column>
 
@@ -214,7 +214,7 @@
       },
       batchDelete: function () {
         if (this.multipleSelection.length == 0) {
-          this.$message.error("Please select at least one row of data");
+          this.$message.error(this.$t('message.Pleaseselectatleastonerowofdata'));/* Please select at least one row of data*/
           return;
         }
 

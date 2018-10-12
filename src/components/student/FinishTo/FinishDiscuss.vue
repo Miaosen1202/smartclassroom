@@ -7,10 +7,10 @@
         <el-button type="success" icon="el-icon-arrow-right" circle @click="toNextPage"></el-button>
       </div>
       <el-button v-on:click="toggle(exercises)" style="margin: 1% 0px 0px 1%;background-color: #0e38b1;color: white;font-weight: 700">
-        Reply
+        {{$t('message.reply')}}
       </el-button>
       <div class="have" v-for="(discussion,index) in discussionList" :key="index">
-        <h5>Discussion {{discussion.sort}}</h5>
+        <h5>{{$t('message.Discussion')}} {{discussion.sort}}</h5>
 
         <p style="display: block;padding-bottom: 1%; margin: 0;padding-left: 2%">{{discussion.discussContent}}</p>
         <ul style="padding-left: 2%">
@@ -53,7 +53,7 @@
       <div v-show="isShow">
         <div style="margin: 2% 0px">
           <div class="discussion">
-            <h5 style="font-weight: 700">Reply</h5>
+            <h5 style="font-weight: 700">{{$t('message.reply')}}</h5>
             <!--v-model="lessonName"-->
             <!--输入框输入内容-->
             <el-input
@@ -77,7 +77,7 @@
                 <img src="../../../assets/images/u166.png" alt="">
               </el-button>
 
-              <div slot="tip" class="el-upload__tip">Add Attachments</div>
+              <div slot="tip" class="el-upload__tip">{{$t('message.AddAttachments')}}</div>
             </el-upload>
 
             <!--按钮-->
@@ -93,7 +93,7 @@
 
     <el-dialog
       class="file-preview"
-      title="preview"
+      :title="$t('message.preview')"
       :visible.sync="filePreviewDialogVisible"
       width="100%"
       fullscreen>
@@ -168,11 +168,11 @@
               this.$router.push("/");
             } else {
               console.error("preview fail", res.data.message);
-              this.$message.error("预览文件失败，请下载至本地查看");
+              this.$message.error(this.$t('message.ThepreviewfilefailedPleasedownloadittoviewitlocally'));/*ThepreviewfilefailedPleasedownloadittoviewitlocally*/
             }
           }).catch((err) => {
             console.error("preview fail", err);
-            this.$message.error("预览文件失败，请下载至本地查看");
+          this.$message.error(this.$t('message.ThepreviewfilefailedPleasedownloadittoviewitlocally'));
         });
       },
 
@@ -259,7 +259,7 @@ subdiscussion
         this.currentPage = this.currentPage+1;
         if(this.currentPage > this.pages){
           this.$message({
-            message: 'sorry,this is the last page!',
+            message: this.$t('message.lastpage'),
             type: 'warning'
           });
           this.currentPage--;
@@ -274,7 +274,7 @@ subdiscussion
         this.currentPage = this.currentPage-1;
         if(this.currentPage == 0){
           this.$message({
-            message: 'sorry,this is the first page!',
+            message: this.$t('message.firstpage'),
             type: 'warning'
           });
           this.currentPage++;
@@ -308,7 +308,7 @@ subdiscussion
                this.attachments = [];
                this.getsubmitHistoryLessonId();
                this.$message({
-                 message: 'Congratulations on your successful submission!',
+                 message:this.$t('message.submission'),/*'Congratulations on your successful submission!'*/
                  type: 'success'
                });
              }else{

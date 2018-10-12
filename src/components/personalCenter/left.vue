@@ -10,20 +10,20 @@
         <el-button type="text" @click="dialogVisible = true">
           <p>
             <img src="../../../static/images/Teache.png" alt="">
-            My Course</p>
+             {{$t('message.MyCourse')}}</p>
         </el-button>
       </li>
       <li :class="{active : activeFlag == 'myResources'}" @click="goToresourceManagement('myResources')">
 
         <P>
           <img src="../../../static/images/Resource.png" alt="">
-          My Resources</P>
+          {{$t('message.MyResources')}}</P>
       </li>
       <li :class="{active : activeFlag == 'myOpinion'}" @click="goTostudentManagement('myOpinion')">
 
         <P>
           <img src="../../../static/images/Student.png" alt="">
-          My Opinion</P>
+          {{$t('message.MyOpinion')}}</P>
       </li>
 
     </ul>
